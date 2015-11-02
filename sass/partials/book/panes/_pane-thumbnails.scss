@@ -1,0 +1,124 @@
+#thumbnails {
+  background: $dark-background;
+  position: fixed;
+  bottom: 0;
+  z-index: 999999;
+  height: auto;
+  width: inherit;
+  
+  #book-navbar {
+    height: 40px;
+    background-color: #333;
+    border-top: 1px solid #212121;
+    
+    a, a:link {
+      text-decoration: none;
+    }
+    
+    div.pager {
+      float: right;
+      margin-right: 1em;
+      background-color: #333;
+      height: 40px;
+      .pager-list {
+        display: none;
+        visibility: hidden;
+      }      
+    }
+  }
+  .view-book-thumbnails {    
+    .loaderHolder {
+      img {
+        height: auto;
+      }
+    }
+    .thumbHolder {
+      position: relative;
+      top: 0;
+      img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border: none;
+      }      
+    }    
+    .views-row {
+      position: relative;
+      float: left;
+      width: 8%;
+      height: auto;
+      min-height:250px;
+      margin: .5%;
+       
+      &:first-child {
+        margin: .5% .5% .5% 5.5%;
+      }
+       
+      &:last-child {
+        margin: .5% 5.5% .5% .5%;
+      }
+    }     
+    a {
+      display: block;
+      img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      &:hover {
+         box-shadow: 0px 0px 0px 3px white;
+         + .page-number {
+           background: rgba(0, 0, 0, 0.7);
+           color: white;
+           }
+         }
+    }
+    .page-number {
+      padding: 3% 6%;
+      font-weight: bold;
+      background: rgba(0, 0, 0, 0.33);
+      display: block;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+  }
+}
+
+.rtl {
+  .thumbnails-container {
+    .pager-first,
+    .pager-previous {
+      float: right;
+    }
+    .pager-last,
+    .pager-next {
+      float: right;
+    }
+    .pager-next a:before {
+      content: "\e013" !important;
+    }
+    .pager-previous a:before {
+      content: "\e012" !important;
+    }
+    .pager-last a:before {
+      content: "\e010";
+    }
+    .pager-first a:before {
+      content: "\e011";
+    }
+  }  
+  .view-book-thumbnails {
+    .views-row {
+      direction: rtl;
+      float: right;
+      &:first-child {
+        margin: .5% 5.5% .5% .5%;
+      }
+      &:last-child {
+        margin: .5% .5% .5% 5.5%;
+      }
+    }
+  }
+  
+}

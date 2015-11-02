@@ -1,0 +1,420 @@
+<?php
+
+/**
+ * Include wildcard loaders
+ */
+include_once 'inc/loaders.inc' ;
+
+function dlts_book_api_init() {
+  drupal_add_http_header('Access-Control-Allow-Origin', "*");
+}
+
+/**
+ * Implements hook_custom_theme().
+ * http://api.drupal.org/api/drupal/modules--system--system.api.php/function/hook_custom_theme/7
+ */
+function dlts_book_api_custom_theme ( ) {
+  if ( arg ( 0 ) == 'books' ) return 'tao' ;
+}
+
+/**
+ * Implementation of hook_theme().
+ * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_theme/7
+ */
+function dlts_book_api_theme ( ) {
+  return array (
+    'dlts_book_api_pager_button' => array (
+      'variables' => array (),
+      'file' => 'inc/themes.inc',
+    ),
+    'dlts_book_api_openlayers_image' => array (
+      'variables' => array (),
+      'file' => 'inc/themes.inc',
+    ),
+    'dlts_book_api_seadragon_image' => array (
+      'variables' => array(),
+      'file' => 'inc/themes.inc',    
+    ),
+    'dlts_book_api_navbar_item' => array (
+      'variables' => array () ,
+      'file' => 'inc/themes.inc',
+    ),
+    'dlts_book_loading' => array (
+      'template' => 'templates/components/component--loading',
+      'variables' => array (
+        'sequence_number' => 0
+      ),
+    ),
+    'dlts_book_slider' => array (
+      'template' => 'templates/components/component--slider',
+        'variables' => array (
+        'slider_id' => 'slider',
+        'uri' => base_path(),
+        'lang_dir' => 'rtl' ,
+        'sequence_number' => 0,
+        'sequence_count' => 0
+      ),
+    ),
+    'dlts_book_navbar' => array (
+      'template' => 'templates/components/component--navbar',
+      'variables' => array ( ),
+    ),
+    'dlts_book_thumbnails' => array (
+      'template' => 'templates/components/component--thumbnails',
+      'variables' => array (),
+    ),
+    'dlts_book_controlpanel' => array(
+      'template' => 'templates/components/component--control_panel',
+      'variables' => NULL,
+    ),
+    'book_page' => array(
+      'template' => 'templates/components/component--bookpage',
+      'variables' => array (),
+    ),
+    'dlts_book_oembed' => array (
+      'template' => 'templates/components/component--oembed',
+      'variables' => array ( ),
+    ),
+    'dlts_book_top' => array(
+      'template' => 'templates/components/component--top',
+      'variables' => array (),
+    ),
+    'html__books' => array (
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/html',
+    ),
+    'html__books_pjax' => array (
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/html.pjax',
+    ),
+    'page__books' => array (
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/page',
+    ),
+    'page__books_pjax' => array (
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/page.pjax',
+    ),
+    'node__dlts_book' => array (
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/node',
+    ),
+    'node__dlts_book_pjax' => array (
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/node.pjax',
+    ),
+    'block__content' => array (
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/block',
+    ),
+    'region__content' => array (
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/region',
+    ),
+  ) ;
+}
+
+/**
+ * Implements hook_menu().
+ * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_menu/7
+ */
+function dlts_book_api_menu ( ) {
+  return array (
+    /**
+     * Convinient way to edit a Book object
+     * e.g., http://{{HOST}}/{{SITE}}/books/{{IDENTIFIER}}/edit
+     */
+    'books/%dlts_book/edit' => array (
+      'title' => 'Edit book',
+      'access arguments' => array ('edit any dlts_book content'),
+      'page callback' => '_dlts_book_api_book_edit_redirect',
+      'page arguments' => array ( 1 ),
+      'file' => 'inc/book.inc',
+      'type' => MENU_CALLBACK,
+    ),
+    /**
+     * Render thumbnails for book pages
+     * No need to load the Book object % instead of %dlts_book
+     * request accept ?page=INT (mimic Drupal's pager) and ?limit=INT
+     */
+    'books/%/thumbnails' => array (
+      'title' => 'Book page',
+      'access arguments' => array('access content'),
+      'page callback' => 'dlts_book_api_dispatch_thumbnails',
+      'page arguments' => array ( 1 ),
+      'delivery callback' => 'drupal_deliver_html_page',
+      'file' => 'inc/book.inc',
+      'type' => MENU_CALLBACK,
+    ),
+    /**
+     * Render book pages
+     */
+    'books/%dlts_book/%dlts_book_page' => array (
+      'title' => 'Book page',
+      'access arguments' => array('access content'),
+      'page callback' => 'dlts_book_api_dispatcher',
+      'page arguments' => array ( 1 , 2 ),
+      'delivery callback' => 'drupal_deliver_html_page',
+      'file' => 'inc/book.inc',
+      'type' => MENU_CALLBACK,
+    ),
+    /**
+     * Admin page to administer the fileServer and theh fileServer stream wrapper
+     */
+    'admin/config/media/fileserver' => array (
+      'title' => t('FileServer'),
+      'description' => t('Configure fileServer.'),
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('dlts_book_api_admin_fileserver'),
+      'access arguments' => array('administer fileserver'),
+      'file' => 'inc/admin.inc',
+    ),
+    'books.json' => array(
+      'title' => 'All books in JSON format',
+      'access arguments' => array('access content'),
+      'page callback' => 'dlts_book_api_books',
+      'delivery callback' => 'dlts_book_api_deliver_json',
+      'file' => 'inc/endpoints.inc',
+    ),
+  ) ;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function dlts_book_api_permission ( ) {
+  return array (
+    'administer fileserver' => array (
+      'title' => t('administer fileserver'),
+      'description' => t('Administer the settings for the fileServer.'),
+    ),
+  ) ;
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_entity_info_alter/7
+ */
+function dlts_book_api_entity_info_alter ( &$entity_info ) {
+  $entity_info['node']['view modes']['metadata'] = array (
+    'label' => t('Metadata List'),
+    'custom settings' => TRUE,
+  ) ;
+}
+
+/**
+ * Implements template_preprocess_html
+ * https://api.drupal.org/api/drupal/includes%21theme.inc/function/template_preprocess_html/7
+ */
+function dlts_book_api_preprocess_html ( &$vars ) {
+  $vars['language_dir'] = dlts_book_api_viewer_language ( $vars ) ;
+  if ( dlts_book_api_is_pjax() ) {
+    $vars['theme_hook_suggestions'][] =  'html__books_pjax' ;
+  }
+}
+
+function dlts_book_api_node_view( $node, $view_mode, $langcode ) {
+  // dpm ( ddebug_backtrace() ) ;
+}
+
+/**
+ * Implements template_preprocess_node().
+ * https://api.drupal.org/api/drupal/modules%21node%21node.module/function/template_preprocess_node/7
+ */
+function dlts_book_api_preprocess_node ( &$vars ) {
+  
+  /** We don't render a DLTS Book object, redirect to a "Book page" */
+  if ( $vars['view_mode'] == 'full' && $vars['type'] == 'dlts_book' ) {
+    $wrapper = entity_metadata_wrapper ('node', $vars['node']);
+    $identifier = $wrapper->field_identifier->value();
+    drupal_goto ( 'books/' . $identifier . '/1') ;
+  }
+  
+  $vars['language_dir'] = dlts_book_api_viewer_language ( $vars ) ;
+  if ( dlts_book_api_is_pjax() ) {
+    $vars['theme_hook_suggestions'][] =  'node__books_pjax' ;
+  }  
+  
+}
+
+/**
+ * Implements template_preprocess_page
+ * https://api.drupal.org/api/drupal/includes%21theme.inc/function/template_preprocess_page/7
+ */
+function dlts_book_api_preprocess_page ( &$vars ) {
+  $vars['language_dir'] = dlts_book_api_viewer_language ( $vars ) ;
+  if ( dlts_book_api_is_pjax() ) {
+    $vars['theme_hook_suggestions'][] =  'page__books_pjax' ;
+  }
+}
+
+/**
+ * Implements template_process_page().
+ * https://api.drupal.org/api/drupal/includes%21theme.inc/function/template_process_page/7
+ */
+function dlts_book_api_process_page ( &$vars ) {
+  $vars['is_embed'] = FALSE ; // check if this is a embed request. Don't show title if is embeded
+  if ( ! $vars['is_embed'] ) {
+    $vars['top'] = theme('dlts_book_top' , array (
+        'is_admin' => $vars['is_admin'] ,
+        'tabs' => render ( $vars['tabs'] ) ,
+        'messages' => $vars['messages'] ,
+        'title' => $vars['title'] ,
+        'action_links' => render ( $vars['action_links'] ) ,
+        'title_prefix' => render ( $vars['title_prefix'] ) ,
+        'title_suffix' => render ( $vars['title_suffix'] ) ,
+        'help' => render ( $vars['page']['help'] ) ,
+      )
+    ) ;
+  }
+}
+
+/**
+ * Implements hook_stream_wrappers().
+ *
+ * hook_stream_wrappers() is Drupal's way of exposing the class that PHP will
+ * use to provide a new stream wrapper class. In this case, we'll expose the
+ * 'fileserver' scheme, e.g., "fileserver://example/example.txt"
+ *
+ * @see FileFilesServerStreamWrapper
+ */
+function dlts_book_api_stream_wrappers ( ) {
+  $wrappers = array (
+    'fileserver' => array (
+      'name' => t('Fileserver StreamWrapper'),
+      'class' => 'FileFilesServerStreamWrapper',
+      'description' => t('Access file from the FileServer.'),
+      'type' => STREAM_WRAPPERS_WRITE_VISIBLE,
+    ),
+  ) ;
+  return $wrappers ;
+}
+
+/**
+ * Package and send page callback as JSON/JSONP.
+ * See: http://api.drupal.org/api/drupal/includes--common.inc/function/drupal_deliver_html_page/7
+ *
+ * @param $page_callback_result
+ * A keyed array to be converted into JSON
+ */
+function dlts_book_api_deliver_json($page_callback_result) {  
+
+  /** Send appropriate HTTP-Header for browsers and search engines. */
+  global $language;
+  drupal_add_http_header('Content-Language', $language->language);
+
+  /** Menu status constants are integers; page content is a string or array. */ 
+  if (is_int($page_callback_result)) {
+    switch ($page_callback_result) {
+
+      /*
+       * Send a 404 response.
+       */
+      case MENU_NOT_FOUND:
+        drupal_add_http_header('Status', 'HTTP/1.1 404 Not Found');
+        watchdog('Request not found', check_plain($_GET['q']), NULL, WATCHDOG_WARNING);        
+        
+        $page_callback_result = array(
+          'msg' => t('404 Not Found'),
+          'code' => 404,
+        );        
+        break;
+        
+      /*
+       * Send a 403 response.
+       */        
+      case MENU_ACCESS_DENIED:
+        drupal_add_http_header('Status', 'HTTP/1.1 403 Forbidden');
+        watchdog('dlts_utilities', check_plain($_GET['q']), NULL, WATCHDOG_WARNING);
+        
+        $page_callback_result = array(
+          'msg' => t('403 Forbidden'),
+          'code' => 403,
+        );                
+        break;
+        
+      /*
+       * Send a 503 response.
+       */        
+      case MENU_SITE_OFFLINE:
+        drupal_add_http_header('Status', 'HTTP/1.1 503 Service unavailable');
+        $page_callback_result = array(
+          'msg' => t('503 Service unavailable.') . filter_xss_admin(variable_get('site_offline_message', t(' @site is currently under maintenance. We should be back shortly. Thank you for your patience.', array('@site' => variable_get('site_name', 'Drupal'))))),
+          'code' => 503,
+        );
+        break;
+    }
+  }
+
+  // Only add Content-Length if we actually have any content. Some non-standard
+  // servers get confused by Content-Length in at least HEAD/GET requests
+  // $content_length = strlen($data);
+  // if ($content_length > 0 || $method == 'POST' || $method == 'PUT') {
+  //  $defaults['Content-Length'] = 'Content-Length: '. $content_length;
+  // }
+  
+  if (isset($page_callback_result)) {
+    if (array_key_exists('callback', $_GET)) {
+      drupal_add_http_header('Content-Type', 'text/javascript; charset=utf-8');
+      echo sprintf('%s(%s);', filter_xss($_GET['callback'], array()), drupal_json_encode($page_callback_result));
+    } else {
+      drupal_add_http_header('Content-Type', 'application/json; charset=utf-8');
+      echo drupal_json_encode($page_callback_result);
+    }
+  }
+}
+
+function dlts_book_api_is_pjax ( ) {
+  $is_pjax = &drupal_static('is_pjax');
+  if ( !isset($is_pjax) && function_exists('getallheaders') ) {
+    $headers = getallheaders();
+    if ( isset ( $headers['X-Pjax'] ) || isset (  $headers['X-PJAX'] ) ) {
+      drupal_add_http_header('uri', request_uri());
+      $is_pjax = TRUE;
+    }
+    else {
+      $params = drupal_get_query_parameters();
+      if ( isset( $params['pjax'] ) && $params['pjax'] == 1 ) {
+        drupal_add_http_header('uri', base_path() . $_SERVER['REQUEST_URI']);
+        $is_pjax = TRUE;
+      }
+      else {
+        $is_pjax = FALSE;
+      }
+    }
+  }
+  return $is_pjax;
+}
+
+function dlts_book_api_viewer_language ( $vars = array () ) {
+  $viewer_language = &drupal_static('viewer_language') ;
+  if ( ! isset ( $viewer_language ) ) {
+    if ( ! empty ( $vars ) && isset ( $vars['type'] )  ) {
+      $obj_language = $vars['language'] ;
+      if ( $obj_language === LANGUAGE_NONE ) {
+        $viewer_language = 'ltr' ;
+      }
+      else {
+        $enabled_languages = array_pop ( language_list('enabled') ) ;
+        if ( isset ( $enabled_languages[$obj_language] ) ) {
+          $viewer_language = ( $enabled_languages[$obj_language]->direction ) ? 'rtl' : 'ltr' ;
+        }
+        else {
+          $viewer_language = 'rtl' ;
+        }
+      }
+    }
+    else {
+      $viewer_language = 'ltr' ;
+    }
+  }
+  return $viewer_language ;
+}

@@ -1,0 +1,4 @@
+.pane-shadow {
+  background-color: $pane-background;
+  @include bv-box-shadow($pane-box-shadow);
+}

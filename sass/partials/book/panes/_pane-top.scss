@@ -1,0 +1,12 @@
+#titlebar {
+  background-color: darken($special-titlebar-color, 15%);
+  overflow: hidden;
+  #page-title {
+    @include bv-text-shadow(embossed-text-shadow-dark-background);
+    letter-spacing: .05em;
+    color: $titlebar-color;
+    line-height: 1.8em;
+    font-size: 1.6em;
+    margin-left: .6rem;
+  }
+}
