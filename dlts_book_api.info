@@ -9,3 +9,4 @@ files[] = inc/streams.inc
 
 dependencies[] = file
 dependencies[] = entity
+dependencies[] = dlts_book_features
