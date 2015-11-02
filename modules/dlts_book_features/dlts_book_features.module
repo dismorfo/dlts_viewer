@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the DLTS Books feature.
+ */
+
+include_once('dlts_book_features.features.inc');
