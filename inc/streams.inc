@@ -25,7 +25,7 @@
  * scheme they want to. This module adds the fileserver:// scheme, which allows
  * reading (later on writting) files from the FileServer.
  *
- * @ingroup dlts_book_api
+ * @ingroup dlts_viewer
  */
 class FileFilesServerStreamWrapper extends DrupalPublicStreamWrapper {
 
@@ -33,7 +33,7 @@ class FileFilesServerStreamWrapper extends DrupalPublicStreamWrapper {
   
     $base_url = $GLOBALS['base_url'] . '/' . variable_get('file_public_path', conf_path() . '/files') ;
 
-    return variable_get('dlts_book_api_fileserver_host', $base_url ) ;
+    return variable_get('dlts_viewer_fileserver_host', $base_url ) ;
     
   }
 

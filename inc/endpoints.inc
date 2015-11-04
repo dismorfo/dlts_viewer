@@ -1,6 +1,6 @@
 <?php
 
-function dlts_book_api_content_types ( ) {
+function dlts_viewer_content_types ( ) {
 
   $fields = $out = array();
 
@@ -62,13 +62,13 @@ function dlts_book_api_content_types ( ) {
 
 }
 
-function dlts_book_api_book( $node, $listPages = TRUE) {
+function dlts_viewer_book( $node, $listPages = TRUE) {
 
-	$book = dlts_book_api_book_metadata( $node );
+	$book = dlts_viewer_book_metadata( $node );
 
 	if ( $listPages ) {
 
-		$book =  array_merge( (array) $book, (array) dlts_book_api_book_pages( $node ) ) ;
+		$book =  array_merge( (array) $book, (array) dlts_viewer_book_pages( $node ) ) ;
 
 	}
 
@@ -76,7 +76,7 @@ function dlts_book_api_book( $node, $listPages = TRUE) {
 
 }
 
-function dlts_book_api_books ( $start = 0, $length = 25 ) {
+function dlts_viewer_books ( $start = 0, $length = 25 ) {
 
 	global $language;
 
@@ -121,14 +121,14 @@ function dlts_book_api_books ( $start = 0, $length = 25 ) {
 	);
 
 	foreach ( (array) $nodes as $node) {
-		$response['response']['docs'][] = dlts_book_api_book( $node, FALSE);
+		$response['response']['docs'][] = dlts_viewer_book( $node, FALSE);
 	}
 
 	return $response;
 
 }
 
-function dlts_book_api_content_by_field ( $field_name ) {
+function dlts_viewer_content_by_field ( $field_name ) {
 
 	$out = array();
 
@@ -196,7 +196,7 @@ function dlts_book_api_content_by_field ( $field_name ) {
 
 }
 
-function dlts_book_api_discovery_enviorment ( $field_name ) {
+function dlts_viewer_discovery_enviorment ( $field_name ) {
 
 	$discovery = array();
 
@@ -226,7 +226,7 @@ function dlts_book_api_discovery_enviorment ( $field_name ) {
  * A keyed array to be converted into JSON
  *
  */
-function dlts_book_api_book_metadata ( $book ) {
+function dlts_viewer_book_metadata ( $book ) {
 
 	module_load_include('inc', 'dlts_utilities', 'inc/dlts_utilities.book');
 	module_load_include('inc', 'dlts_utilities', 'inc/dlts_utilities.book_page');
@@ -340,7 +340,7 @@ function dlts_book_sequence_lookup ( $sequence, $type ) {
 	if ( isset($sequences[0]) && !empty($sequences[0]) ) {
 		$sequence = (int) $sequences[0];
 	} else {
-		watchdog('dlts_book_api', 'Bad Request: Error finding book by sequence page.');
+		watchdog('dlts_viewer', 'Bad Request: Error finding book by sequence page.');
 		return $sequence;
 	}
 

@@ -3,9 +3,9 @@
 /**
  * Themes functions
  */
-function theme_dlts_book_api_pager_button  ( $arguments ) {
+function theme_dlts_viewer_pager_button  ( $arguments ) {
 
-  $isPJAX = dlts_book_api_is_pjax() ;
+  $isPJAX = dlts_viewer_is_pjax() ;
 
   $pjax = $isPJAX ? 'pjax' : '' ;
 
@@ -30,7 +30,7 @@ function theme_dlts_book_api_pager_button  ( $arguments ) {
 
 }
 
-function theme_dlts_book_api_navbar_item ( $variables = array ( ) ) {
+function theme_dlts_viewer_navbar_item ( $variables = array ( ) ) {
 
   $parts = array( 'html' => TRUE ) ;
 
@@ -61,7 +61,7 @@ function theme_dlts_book_api_navbar_item ( $variables = array ( ) ) {
  *
  * @ingroup themable
  */
-function theme_dlts_book_api_openlayers_image ( $variables ) {
+function theme_dlts_viewer_openlayers_image ( $variables ) {
 
 	$file = $variables['file'];
 
@@ -135,7 +135,7 @@ function theme_dlts_book_api_openlayers_image ( $variables ) {
  *
  * @ingroup themable
  */
-function theme_dlts_book_api_seadragon_image ( $variables ) {
+function theme_dlts_viewer_seadragon_image ( $variables ) {
 
 	$file = $variables['file'];
 
@@ -149,10 +149,10 @@ function theme_dlts_book_api_seadragon_image ( $variables ) {
 	// drupal_add_js( variable_get('dlts_image_openlayers_source', 'sites/all/libraries/openlayers/lib/OpenLayers.js'), array('group' => JS_LIBRARY ) ) ;
 	// drupal_add_css('sites/all/libraries/openlayers/theme/default/style.css') ;
 
-	drupal_add_js( drupal_get_path('module', 'dlts_book_api') . '/js/DjatokaSeadragon/OpenSeadragon.debug.js' , array('group' => JS_LIBRARY ) ) ;
-	drupal_add_js( drupal_get_path('module', 'dlts_book_api') . '/js/DjatokaSeadragon/hack.js' , array('group' => JS_LIBRARY ) ) ;
+	drupal_add_js( drupal_get_path('module', 'dlts_viewer') . '/js/DjatokaSeadragon/OpenSeadragon.debug.js' , array('group' => JS_LIBRARY ) ) ;
+	drupal_add_js( drupal_get_path('module', 'dlts_viewer') . '/js/DjatokaSeadragon/hack.js' , array('group' => JS_LIBRARY ) ) ;
 
-	$a = 'http://dev-dl-pa.home.nyu.edu/viewer/' . drupal_get_path('module', 'dlts_book_api') . '/js/DjatokaSeadragon' ;
+	$a = 'http://dev-dl-pa.home.nyu.edu/viewer/' . drupal_get_path('module', 'dlts_viewer') . '/js/DjatokaSeadragon' ;
 
 	if (!isset($file['djakota_width'])) {
 		$djatoka = dlts_image_djatoka_request($file);

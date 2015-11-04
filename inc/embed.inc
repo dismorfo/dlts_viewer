@@ -3,14 +3,14 @@
 /**
  * Supports the REST style embed
  */
-function dlts_book_api_embed_using_id( $dlts_book ) {
+function dlts_viewer_embed_using_id( $dlts_book ) {
   if ( is_object ( $dlts_book ) ) {
     $bnode = $dlts_book ;
   }
   else {
     return MENU_NOT_FOUND;
   }
-  return dlts_book_api_embed_response( $bnode );
+  return dlts_viewer_embed_response( $bnode );
 }
 
 /**
@@ -21,7 +21,7 @@ function dlts_book_api_embed_using_id( $dlts_book ) {
  *
  * @todo Test oembed_node for whether it's actually a node
  */
-function dlts_book_api_embed_response ( $dlts_book, $pre_response = array() ) {
+function dlts_viewer_embed_response ( $dlts_book, $pre_response = array() ) {
 
   /*
    * Invoke the URL that was passed as if it was its own request.
@@ -29,7 +29,7 @@ function dlts_book_api_embed_response ( $dlts_book, $pre_response = array() ) {
   $node = $dlts_book;
 
   if ( !$node ) {
-    watchdog('dlts_book_api', 'An Unexpected Error Has Occurred. The given path: :path does not exist.', array(':path' => $pre_response['node_path']), WATCHDOG_ERROR);
+    watchdog('dlts_viewer', 'An Unexpected Error Has Occurred. The given path: :path does not exist.', array(':path' => $pre_response['node_path']), WATCHDOG_ERROR);
     return array(
         'code' => MENU_NOT_FOUND,
         'msg' => t('An Unexpected Error Has Occurred. The given path does not exist.' ),
@@ -127,7 +127,7 @@ function dlts_book_api_embed_response ( $dlts_book, $pre_response = array() ) {
   );
 
   if ( $arguments['iframe'] ) {
-    $response['html'] = theme('dlts_book_api_oembed', array(
+    $response['html'] = theme('dlts_viewer_oembed', array(
         'url' => $url,
         'width' => $arguments['width'],
         'height' => $arguments['height'],

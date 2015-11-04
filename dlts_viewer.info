@@ -1,5 +1,5 @@
-name = DLTS Book API
-description = DLTS Book API implementation
+name = DLTS Viewer
+description = DLTS Viewer
 package = DLTS
 
 core = 7.x
@@ -9,4 +9,5 @@ files[] = inc/streams.inc
 
 dependencies[] = file
 dependencies[] = entity
-dependencies[] = dlts_book_features
+dependencies[] = mongodb
+dependencies[] = dlts_image

@@ -4,7 +4,7 @@
  * @file
  * Admin page.
  */
-function dlts_book_api_admin_fileserver ( $form, &$form_state ) {
+function dlts_viewer_admin_fileserver ( $form, &$form_state ) {
 
   $form['fileServer'] = array(
     '#type' => 'fieldset',
@@ -15,17 +15,17 @@ function dlts_book_api_admin_fileserver ( $form, &$form_state ) {
 
   $base_url = $GLOBALS['base_url'] . '/' . variable_get('file_public_path', conf_path() . '/files') ;
 
-  $form['fileServer']['dlts_book_api_fileserver_host'] = array(
+  $form['fileServer']['dlts_viewer_fileserver_host'] = array(
     '#type' => 'textfield',
     '#title' => t('Service path'),
-    '#default_value' => variable_get('dlts_book_api_fileserver_host', $base_url ) ,
+    '#default_value' => variable_get('dlts_viewer_fileserver_host', $base_url ) ,
     '#size' => 60,
     '#maxlength' => 256,
     '#description' => t("Set host name. <acronym title=\"for example\">e.g.</acronym>, http://dev-dl-pa.home.nyu.edu/files"),
     '#required' => TRUE,
   );
 
-  // $form['#submit'][] = 'dlts_book_api_admin_fileserver_submit';
+  // $form['#submit'][] = 'dlts_viewer_admin_fileserver_submit';
 
   return system_settings_form ( $form ) ;
 
@@ -34,4 +34,4 @@ function dlts_book_api_admin_fileserver ( $form, &$form_state ) {
 /**
  * Form submit handler for Admin fileServer settings form.
  */
-// function dlts_book_api_admin_fileserver_submit ( $form, &$form_state) { }
+// function dlts_viewer_admin_fileserver_submit ( $form, &$form_state) { }

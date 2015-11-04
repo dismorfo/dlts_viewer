@@ -1,6 +1,6 @@
 <?php
 
-function dlts_book_api_dispatch_thumbnails ( $identifier ) {
+function dlts_viewer_dispatch_thumbnails ( $identifier ) {
 	
   $page = 0 ;
   
@@ -37,7 +37,7 @@ function dlts_book_api_dispatch_thumbnails ( $identifier ) {
   
     $image_server_service = variable_get('dlts_image_djatoka_service', 'http://localhost:8080/adore-djatoka') ;
   
-    $placeholder = url ( drupal_get_path('module', 'dlts_book_api') . '/images/loadhold.png' , array ( 'absolute' => TRUE ) );  
+    $placeholder = url ( drupal_get_path('module', 'dlts_viewer') . '/images/loadhold.png' , array ( 'absolute' => TRUE ) );  
 
     // iterate through the results
     foreach ( $cursor as $result ) {
@@ -77,32 +77,32 @@ function dlts_book_api_dispatch_thumbnails ( $identifier ) {
 
 }
 
-function dlts_book_api_full_book_view ( &$entity ) {
+function dlts_viewer_full_book_view ( &$entity ) {
 
   $js_common_config = array('type' => 'file', 'scope' => 'footer') ;
 
   $css_common_config = array( 'group' => CSS_DEFAULT, 'every_page' => TRUE ) ;
 
-  drupal_add_css ( drupal_get_path('module', 'dlts_book_api') . '/css/dlts_book_api.css', array ( 'group' => CSS_DEFAULT, 'every_page' => FALSE ) ) ;
+  drupal_add_css ( drupal_get_path('module', 'dlts_viewer') . '/css/dlts_viewer.css', array ( 'group' => CSS_DEFAULT, 'every_page' => FALSE ) ) ;
 
   /** Add YUI Library from YUI Open CDN; should we add this as a setting in the theme form? */
   drupal_add_js('http://yui.yahooapis.com/3.18.1/build/yui/yui-min.js', 'external', array('group' => JS_LIBRARY, 'weight' => -100 ) ) ;
 
-  drupal_add_js ( drupal_get_path('module', 'dlts_book_api') . '/js/crossframe.js', $js_common_config );
+  drupal_add_js ( drupal_get_path('module', 'dlts_viewer') . '/js/crossframe.js', $js_common_config );
 
-  drupal_add_js ( drupal_get_path('module', 'dlts_book_api') . '/js/ui.crossframe.js', $js_common_config );
+  drupal_add_js ( drupal_get_path('module', 'dlts_viewer') . '/js/ui.crossframe.js', $js_common_config );
 
-  drupal_add_js ( drupal_get_path('module', 'dlts_book_api') . '/js/modules/slider-base.js', $js_common_config );
+  drupal_add_js ( drupal_get_path('module', 'dlts_viewer') . '/js/modules/slider-base.js', $js_common_config );
 
-  // drupal_add_js ( drupal_get_path('module', 'dlts_book_api') . '/js/ui.keyboard.yui.js', $js_common_config );
+  // drupal_add_js ( drupal_get_path('module', 'dlts_viewer') . '/js/ui.keyboard.yui.js', $js_common_config );
 
-  drupal_add_js ( drupal_get_path('module', 'dlts_book_api') . '/js/ui.components.yui.js', $js_common_config );
+  drupal_add_js ( drupal_get_path('module', 'dlts_viewer') . '/js/ui.components.yui.js', $js_common_config );
 
   return node_view ( $entity , 'metadata', $entity->language ) ;
 
 }
 
-function dlts_book_api_pjax_book_view ( &$entity ) {
+function dlts_viewer_pjax_book_view ( &$entity ) {
 
   $vars = array (
     'fid' => $entity->book_page_data['fid'] ,
@@ -126,9 +126,9 @@ function dlts_book_api_pjax_book_view ( &$entity ) {
 }
 
 
-function dlts_book_api_dispatcher ( $entity , $arg ) {
+function dlts_viewer_dispatcher ( $entity , $arg ) {
 	
-  $is_pjax = dlts_book_api_is_pjax() ;
+  $is_pjax = dlts_viewer_is_pjax() ;
   
   $query_parameters = drupal_get_query_parameters ();  
 
@@ -200,7 +200,7 @@ function dlts_book_api_dispatcher ( $entity , $arg ) {
   if ( $next_page >= $sequence_count ) $next_page_active = FALSE ;
 
   /** next page */
-  $button_next = theme ( 'dlts_book_api_pager_button' , array (
+  $button_next = theme ( 'dlts_viewer_pager_button' , array (
       'id' => 'next-page', // next-page, last-page, previous-page, first-page, toggle-page
       'active' => $next_page_active, // TRUE, FALSE
       'text' => t('Go to next page'), // string
@@ -210,7 +210,7 @@ function dlts_book_api_dispatcher ( $entity , $arg ) {
   ) ;
 
   /** prev page */
-  $button_previous = theme ( 'dlts_book_api_pager_button' , array (
+  $button_previous = theme ( 'dlts_viewer_pager_button' , array (
       'id' => 'previous-page', // next-page, last-page, previous-page, first-page, toggle-page
       'active' => $previous_page_active, // TRUE, FALSE
       'type' => 'dlts_book_page', // page-double, page-single
@@ -221,7 +221,7 @@ function dlts_book_api_dispatcher ( $entity , $arg ) {
   ) ;
 
   /** Toggle between Single and Double page button */
-  $button_togglepage = theme ( 'dlts_book_api_pager_button' , array (
+  $button_togglepage = theme ( 'dlts_viewer_pager_button' , array (
   	  'id' => 'toggle-page', // next-page, last-page, previous-page, first-page, toggle-page
   	  'active' => TRUE, // TRUE, FALSE
   	  'type' => 'dlts_book_page', // page-double, page-single ... I need this?
@@ -232,7 +232,7 @@ function dlts_book_api_dispatcher ( $entity , $arg ) {
   );
   
   /** Metadata button */
-  $button_metadata = theme('dlts_book_api_navbar_item', array (
+  $button_metadata = theme('dlts_viewer_navbar_item', array (
       'title' => t('Metadata'),
       'path' => 'node/' . $entity->nid,
       'attributes' => array (
@@ -246,7 +246,7 @@ function dlts_book_api_dispatcher ( $entity , $arg ) {
   ) ;
 
   /** fullscreen button */
-  $button_fullscreen = theme('dlts_book_api_navbar_item', array (
+  $button_fullscreen = theme('dlts_viewer_navbar_item', array (
       'title' => t('Toggle fullscreen'),
       'path' => 'node/' . $entity->nid,
       'attributes' => array(
@@ -260,7 +260,7 @@ function dlts_book_api_dispatcher ( $entity , $arg ) {
   ) ;
 
   /** thumbnails button */
-  $button_thumbnails = theme('dlts_book_api_navbar_item', array (
+  $button_thumbnails = theme('dlts_viewer_navbar_item', array (
   		'title' => t('Pages'),
   		'path' => 'node/' . $entity->nid,
   		'attributes' => array (
@@ -306,7 +306,7 @@ function dlts_book_api_dispatcher ( $entity , $arg ) {
   /** YUI! 3 Slider container */
   $entity->slider = theme( 'dlts_book_slider' , array ( 'slider_id' => 'slider', 'uri' => $book_url, 'lang_dir' => $entity->read_order, 'sequence_number' => $page, 'sequence_count' => $sequence_count ) ) ;
 
-  $entity->book_page = theme('dlts_book_api_openlayers_image' , array ( 'file' => $arg ) ) ;
+  $entity->book_page = theme('dlts_viewer_openlayers_image' , array ( 'file' => $arg ) ) ;
 
   $entity->book_title = $book_title ;
 
@@ -324,9 +324,9 @@ function dlts_book_api_dispatcher ( $entity , $arg ) {
 
   $entity->button_next = $button_next ;
 
-  if ( ! $is_pjax ) return dlts_book_api_full_book_view ( $entity ) ;
+  if ( ! $is_pjax ) return dlts_viewer_full_book_view ( $entity ) ;
 
-  else return dlts_book_api_pjax_book_view ( $entity ) ;
+  else return dlts_viewer_pjax_book_view ( $entity ) ;
 
 }
 
@@ -334,7 +334,7 @@ function dlts_book_api_dispatcher ( $entity , $arg ) {
  * Route callback for books edit page
  * http://{site}/books/{identifier}/edit
  */
-function _dlts_book_api_book_edit_redirect ( $node ) {
+function _dlts_viewer_book_edit_redirect ( $node ) {
 
   if ( is_object ( $node ) ) {
 
@@ -353,6 +353,6 @@ function _dlts_book_api_book_edit_redirect ( $node ) {
 
 }
 
-function dlts_book_api_book_metadata_display ( $node ) {
+function dlts_viewer_book_metadata_display ( $node ) {
   return node_view ( $node , 'metadata' , $book->language ) ;
 }

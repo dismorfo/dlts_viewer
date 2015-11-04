@@ -536,13 +536,13 @@ function dlts_book_features_strongarm() {
     'language' => 'en',
     'name' => 'English',
     'native' => 'English',
-    'direction' => '0',
-    'enabled' => '1',
-    'plurals' => '0',
+    'direction' => 0,
+    'enabled' => 1,
+    'plurals' => 0,
     'formula' => '',
     'domain' => '',
     'prefix' => '',
-    'weight' => '0',
+    'weight' => 0,
     'javascript' => '',
   );
   $export['language_default'] = $strongarm;
@@ -1389,7 +1389,9 @@ function dlts_book_features_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'path_alias_whitelist';
-  $strongarm->value = array();
+  $strongarm->value = array(
+    'user' => TRUE,
+  );
   $export['path_alias_whitelist'] = $strongarm;
 
   return $export;

@@ -5,7 +5,7 @@
  */
 include_once 'inc/loaders.inc' ;
 
-function dlts_book_api_init() {
+function dlts_viewer_init() {
   drupal_add_http_header('Access-Control-Allow-Origin', "*");
 }
 
@@ -13,7 +13,7 @@ function dlts_book_api_init() {
  * Implements hook_custom_theme().
  * http://api.drupal.org/api/drupal/modules--system--system.api.php/function/hook_custom_theme/7
  */
-function dlts_book_api_custom_theme ( ) {
+function dlts_viewer_custom_theme ( ) {
   if ( arg ( 0 ) == 'books' ) return 'tao' ;
 }
 
@@ -21,21 +21,21 @@ function dlts_book_api_custom_theme ( ) {
  * Implementation of hook_theme().
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_theme/7
  */
-function dlts_book_api_theme ( ) {
+function dlts_viewer_theme ( ) {
   return array (
-    'dlts_book_api_pager_button' => array (
+    'dlts_viewer_pager_button' => array (
       'variables' => array (),
       'file' => 'inc/themes.inc',
     ),
-    'dlts_book_api_openlayers_image' => array (
+    'dlts_viewer_openlayers_image' => array (
       'variables' => array (),
       'file' => 'inc/themes.inc',
     ),
-    'dlts_book_api_seadragon_image' => array (
+    'dlts_viewer_seadragon_image' => array (
       'variables' => array(),
       'file' => 'inc/themes.inc',    
     ),
-    'dlts_book_api_navbar_item' => array (
+    'dlts_viewer_navbar_item' => array (
       'variables' => array () ,
       'file' => 'inc/themes.inc',
     ),
@@ -126,7 +126,7 @@ function dlts_book_api_theme ( ) {
  * Implements hook_menu().
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_menu/7
  */
-function dlts_book_api_menu ( ) {
+function dlts_viewer_menu ( ) {
   return array (
     /**
      * Convinient way to edit a Book object
@@ -135,7 +135,7 @@ function dlts_book_api_menu ( ) {
     'books/%dlts_book/edit' => array (
       'title' => 'Edit book',
       'access arguments' => array ('edit any dlts_book content'),
-      'page callback' => '_dlts_book_api_book_edit_redirect',
+      'page callback' => '_dlts_viewer_book_edit_redirect',
       'page arguments' => array ( 1 ),
       'file' => 'inc/book.inc',
       'type' => MENU_CALLBACK,
@@ -148,7 +148,7 @@ function dlts_book_api_menu ( ) {
     'books/%/thumbnails' => array (
       'title' => 'Book page',
       'access arguments' => array('access content'),
-      'page callback' => 'dlts_book_api_dispatch_thumbnails',
+      'page callback' => 'dlts_viewer_dispatch_thumbnails',
       'page arguments' => array ( 1 ),
       'delivery callback' => 'drupal_deliver_html_page',
       'file' => 'inc/book.inc',
@@ -160,7 +160,7 @@ function dlts_book_api_menu ( ) {
     'books/%dlts_book/%dlts_book_page' => array (
       'title' => 'Book page',
       'access arguments' => array('access content'),
-      'page callback' => 'dlts_book_api_dispatcher',
+      'page callback' => 'dlts_viewer_dispatcher',
       'page arguments' => array ( 1 , 2 ),
       'delivery callback' => 'drupal_deliver_html_page',
       'file' => 'inc/book.inc',
@@ -173,15 +173,15 @@ function dlts_book_api_menu ( ) {
       'title' => t('FileServer'),
       'description' => t('Configure fileServer.'),
       'page callback' => 'drupal_get_form',
-      'page arguments' => array('dlts_book_api_admin_fileserver'),
+      'page arguments' => array('dlts_viewer_admin_fileserver'),
       'access arguments' => array('administer fileserver'),
       'file' => 'inc/admin.inc',
     ),
     'books.json' => array(
       'title' => 'All books in JSON format',
       'access arguments' => array('access content'),
-      'page callback' => 'dlts_book_api_books',
-      'delivery callback' => 'dlts_book_api_deliver_json',
+      'page callback' => 'dlts_viewer_books',
+      'delivery callback' => 'dlts_viewer_deliver_json',
       'file' => 'inc/endpoints.inc',
     ),
   ) ;
@@ -190,7 +190,7 @@ function dlts_book_api_menu ( ) {
 /**
  * Implements hook_permission().
  */
-function dlts_book_api_permission ( ) {
+function dlts_viewer_permission ( ) {
   return array (
     'administer fileserver' => array (
       'title' => t('administer fileserver'),
@@ -203,7 +203,7 @@ function dlts_book_api_permission ( ) {
  * Implements hook_entity_info_alter().
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_entity_info_alter/7
  */
-function dlts_book_api_entity_info_alter ( &$entity_info ) {
+function dlts_viewer_entity_info_alter ( &$entity_info ) {
   $entity_info['node']['view modes']['metadata'] = array (
     'label' => t('Metadata List'),
     'custom settings' => TRUE,
@@ -214,14 +214,14 @@ function dlts_book_api_entity_info_alter ( &$entity_info ) {
  * Implements template_preprocess_html
  * https://api.drupal.org/api/drupal/includes%21theme.inc/function/template_preprocess_html/7
  */
-function dlts_book_api_preprocess_html ( &$vars ) {
-  $vars['language_dir'] = dlts_book_api_viewer_language ( $vars ) ;
-  if ( dlts_book_api_is_pjax() ) {
+function dlts_viewer_preprocess_html ( &$vars ) {
+  $vars['language_dir'] = dlts_viewer_viewer_language ( $vars ) ;
+  if ( dlts_viewer_is_pjax() ) {
     $vars['theme_hook_suggestions'][] =  'html__books_pjax' ;
   }
 }
 
-function dlts_book_api_node_view( $node, $view_mode, $langcode ) {
+function dlts_viewer_node_view( $node, $view_mode, $langcode ) {
   // dpm ( ddebug_backtrace() ) ;
 }
 
@@ -229,7 +229,7 @@ function dlts_book_api_node_view( $node, $view_mode, $langcode ) {
  * Implements template_preprocess_node().
  * https://api.drupal.org/api/drupal/modules%21node%21node.module/function/template_preprocess_node/7
  */
-function dlts_book_api_preprocess_node ( &$vars ) {
+function dlts_viewer_preprocess_node ( &$vars ) {
   
   /** We don't render a DLTS Book object, redirect to a "Book page" */
   if ( $vars['view_mode'] == 'full' && $vars['type'] == 'dlts_book' ) {
@@ -238,8 +238,8 @@ function dlts_book_api_preprocess_node ( &$vars ) {
     drupal_goto ( 'books/' . $identifier . '/1') ;
   }
   
-  $vars['language_dir'] = dlts_book_api_viewer_language ( $vars ) ;
-  if ( dlts_book_api_is_pjax() ) {
+  $vars['language_dir'] = dlts_viewer_viewer_language ( $vars ) ;
+  if ( dlts_viewer_is_pjax() ) {
     $vars['theme_hook_suggestions'][] =  'node__books_pjax' ;
   }  
   
@@ -249,9 +249,9 @@ function dlts_book_api_preprocess_node ( &$vars ) {
  * Implements template_preprocess_page
  * https://api.drupal.org/api/drupal/includes%21theme.inc/function/template_preprocess_page/7
  */
-function dlts_book_api_preprocess_page ( &$vars ) {
-  $vars['language_dir'] = dlts_book_api_viewer_language ( $vars ) ;
-  if ( dlts_book_api_is_pjax() ) {
+function dlts_viewer_preprocess_page ( &$vars ) {
+  $vars['language_dir'] = dlts_viewer_viewer_language ( $vars ) ;
+  if ( dlts_viewer_is_pjax() ) {
     $vars['theme_hook_suggestions'][] =  'page__books_pjax' ;
   }
 }
@@ -260,7 +260,7 @@ function dlts_book_api_preprocess_page ( &$vars ) {
  * Implements template_process_page().
  * https://api.drupal.org/api/drupal/includes%21theme.inc/function/template_process_page/7
  */
-function dlts_book_api_process_page ( &$vars ) {
+function dlts_viewer_process_page ( &$vars ) {
   $vars['is_embed'] = FALSE ; // check if this is a embed request. Don't show title if is embeded
   if ( ! $vars['is_embed'] ) {
     $vars['top'] = theme('dlts_book_top' , array (
@@ -286,7 +286,7 @@ function dlts_book_api_process_page ( &$vars ) {
  *
  * @see FileFilesServerStreamWrapper
  */
-function dlts_book_api_stream_wrappers ( ) {
+function dlts_viewer_stream_wrappers ( ) {
   $wrappers = array (
     'fileserver' => array (
       'name' => t('Fileserver StreamWrapper'),
@@ -305,7 +305,7 @@ function dlts_book_api_stream_wrappers ( ) {
  * @param $page_callback_result
  * A keyed array to be converted into JSON
  */
-function dlts_book_api_deliver_json($page_callback_result) {  
+function dlts_viewer_deliver_json($page_callback_result) {  
 
   /** Send appropriate HTTP-Header for browsers and search engines. */
   global $language;
@@ -372,7 +372,7 @@ function dlts_book_api_deliver_json($page_callback_result) {
   }
 }
 
-function dlts_book_api_is_pjax ( ) {
+function dlts_viewer_is_pjax ( ) {
   $is_pjax = &drupal_static('is_pjax');
   if ( !isset($is_pjax) && function_exists('getallheaders') ) {
     $headers = getallheaders();
@@ -394,7 +394,7 @@ function dlts_book_api_is_pjax ( ) {
   return $is_pjax;
 }
 
-function dlts_book_api_viewer_language ( $vars = array () ) {
+function dlts_viewer_viewer_language ( $vars = array () ) {
   $viewer_language = &drupal_static('viewer_language') ;
   if ( ! isset ( $viewer_language ) ) {
     if ( ! empty ( $vars ) && isset ( $vars['type'] )  ) {
