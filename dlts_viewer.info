@@ -10,4 +10,3 @@ files[] = inc/streams.inc
 dependencies[] = file
 dependencies[] = entity
 dependencies[] = mongodb
-dependencies[] = dlts_image

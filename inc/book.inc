@@ -1,21 +1,21 @@
 <?php
 
 function dlts_viewer_dispatch_thumbnails ( $identifier ) {
-	
+
   $page = 0 ;
-  
+
   $per_page = 10;
-  
+
   $query_parameters = drupal_get_query_parameters ();
 
   if ( isset ( $query_parameters['page'] ) ) {
     $page = filter_xss ( $query_parameters['page'] );
   }
-  
+
   if ( isset ( $query_parameters['rows'] ) ) {
   	$per_page = filter_xss ( $query_parameters['rows'] );
   }
-	
+
   /** We assume single page view */
   $isSinglePage = TRUE;
 
@@ -28,16 +28,16 @@ function dlts_viewer_dispatch_thumbnails ( $identifier ) {
   $count = $cursor->count();
 
   if ( $count ) {
-  	
+
   	$cursor->limit( $per_page );
-  	
+
   	$cursor = $cursor->skip( $per_page * $page );
-  	
+
     $items = array ( );
-  
+
     $image_server_service = variable_get('dlts_image_djatoka_service', 'http://localhost:8080/adore-djatoka') ;
-  
-    $placeholder = url ( drupal_get_path('module', 'dlts_viewer') . '/images/loadhold.png' , array ( 'absolute' => TRUE ) );  
+
+    $placeholder = url ( drupal_get_path('module', 'dlts_viewer') . '/images/loadhold.png' , array ( 'absolute' => TRUE ) );
 
     // iterate through the results
     foreach ( $cursor as $result ) {
@@ -60,17 +60,17 @@ function dlts_viewer_dispatch_thumbnails ( $identifier ) {
       $items[] = $result ;
 
     }
-  
+
     // Initialise the pager
     $current_page = pager_default_initialize( $count , $per_page);
-  
+
     // Pager
     $pager = theme( 'pager', array ( 'quantity', $count ) );
-  
+
     return theme('dlts_book_thumbnails' ,  array ( 'items' => $items , 'placeholder' => $placeholder , 'pager' => $pager ) ) ;
-  
+
   }
-  
+
   else {
   	drupal_not_found() ;
   }
@@ -127,37 +127,33 @@ function dlts_viewer_pjax_book_view ( &$entity ) {
 
 
 function dlts_viewer_dispatcher ( $entity , $arg ) {
-	
+
   $is_pjax = dlts_viewer_is_pjax() ;
-  
-  $query_parameters = drupal_get_query_parameters ();  
+
+  $query_parameters = drupal_get_query_parameters ();
 
   /** We assume single page view */
   $isSinglePage = TRUE;
-  
+
   $thumbnails_rows_per_page = 10;
-  
+
   if ( isset ( $query_parameters['rows'] ) ) {
   	$thumbnails_rows_per_page = filter_xss ( $query_parameters['rows'] );
   }
-  
+
+
+
+
+  /** get the first page of the requested sequence */
+  $page = min ( $arg['sequence'] ) ;
+
+  $sequenceMax = max ( $arg['sequence'] ) ;
+
+  $sequenceMin = min ( $arg['sequence'] ) ;
+
   /** check if this is a double page view */
-  if ( is_array ( $arg['sequence'] ) ) {
-
-  	/** get the first page of the requested sequence */
-  	$page = min ( $arg['sequence'] ) ;
-
-  	$sequenceMax = max ( $arg['sequence'] ) ;
-
-  	$sequenceMin = min ( $arg['sequence'] ) ;
-
-  	/** If sequence is array; then is a double page view */
+  if ( count ( $arg['sequence'] ) > 1 ) {
     $isSinglePage = FALSE ;
-
-  }
-
-  else {
-    $sequenceMin = $sequenceMax = $page = $arg['sequence'] ;
   }
 
   /** do we really want this as the page title? */
@@ -186,16 +182,14 @@ function dlts_viewer_dispatcher ( $entity , $arg ) {
   $previous_page_active = TRUE ;
 
   $next_page_active = TRUE ;
-  
+
   if ( $previous_page < 1 ) $previous_page = 1 ;
 
   if ( $next_page > $sequence_count ) $next_page = $sequence_count ;
 
-  if ( $previous_page < 2 ) $previous_page_active = FALSE ;
-
   if ( $next_page >= $sequence_count ) $next_page_active = FALSE ;
 
-  if ( $previous_page < 2 ) $previous_page_active = FALSE ;
+  if ( $sequenceMax == 1 ) $previous_page_active = FALSE ;
 
   if ( $next_page >= $sequence_count ) $next_page_active = FALSE ;
 
@@ -227,10 +221,10 @@ function dlts_viewer_dispatcher ( $entity , $arg ) {
   	  'type' => 'dlts_book_page', // page-double, page-single ... I need this?
   	  'text' => t('Toggle between single or double page'),
   	  'url' => $book_url . '/' . $sequenceMin . ( ( $isSinglePage ) ? '?page_view=double' : '' ), // ur
-  	  'operation' => ( $isSinglePage ) ? ' page-double' : ' page-single' , 
+  	  'operation' => ( $isSinglePage ) ? ' page-double' : ' page-single' ,
     )
   );
-  
+
   /** Metadata button */
   $button_metadata = theme('dlts_viewer_navbar_item', array (
       'title' => t('Metadata'),
@@ -278,16 +272,16 @@ function dlts_viewer_dispatcher ( $entity , $arg ) {
   $entity->book_page_sequence_number = $page ;
 
   $entity->navbar = theme('dlts_book_navbar' , array (
-  	'nav_buttons_left' => array ( $button_metadata , '<li class="navbar-item">' . $button_togglepage . '</li>' , $button_thumbnails , ) , // must fix this ... 
+  	'nav_buttons_left' => array ( $button_metadata , '<li class="navbar-item">' . $button_togglepage . '</li>' , $button_thumbnails , ) , // must fix this ...
   	'nav_buttons_right' => array ( $button_fullscreen , ) ,
   	'nav_buttons_arrows' => array ( $button_previous, $button_next ) ,
   	'control_panel' => theme('dlts_book_controlpanel') , /** Zoom in and out buttons */
   ) ) ;
 
   $entity->url = $book_url;
-  
+
   $entity->thumbnailsURL = $book_url . '/thumbnails';
-  
+
   $entity->thumbnailsRows = $thumbnails_rows_per_page;
 
   $entity->identifier = $identifier;
@@ -296,9 +290,9 @@ function dlts_viewer_dispatcher ( $entity , $arg ) {
   $entity->sequence_count = $sequence_count;
 
   $entity->sequence = $page;
-  
+
   $entity->thumbnailsPage = ceil ( ( $page / $thumbnails_rows_per_page ) ) - 1 ;
-  
+
   $entity->pane_metadata_hidden = FALSE;
 
   $entity->loading = theme('dlts_book_loading', array ( 'sequence_number' => $page ) ) ;
@@ -313,7 +307,7 @@ function dlts_viewer_dispatcher ( $entity , $arg ) {
   $entity->button_metadata = $button_metadata  ;
 
   $entity->button_togglepage = $button_togglepage;
-  
+
   $entity->button_previous = $button_previous  ;
 
   $entity->book_page_data = $arg ;
