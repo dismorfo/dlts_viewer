@@ -6,6 +6,8 @@
  */
 function dlts_viewer_admin ( $form, &$form_state ) {
 
+	include_once 'djatoka.inc' ;
+
 	$djatoka = dlts_viewer_djatoka_request(array('uri' => 'http://memory.loc.gov/gmd/gmd433/g4330/g4330/np000066.jp2'));
 
 	$form['fileServer'] = array(
@@ -58,13 +60,6 @@ function dlts_viewer_admin ( $form, &$form_state ) {
 			'#maxlength' => 256,
 			'#description' => t("Set host name. <acronym title=\"for example\">e.g.</acronym>, http://myhost.bobst.nyu.edu:8080/adore-djatoka"),
 			'#required' => TRUE,
-	);
-
-	$form['djatoka']['dlts_viewer_image_service_preview'] = array(
-			'#type' => 'item',
-			'#title' => t('Preview'),
-			'#markup' => $preview,
-			'#weight' => 10,
 	);
 
 	$form['djatoka']['dlts_viewer_djatoka_service'] = array(

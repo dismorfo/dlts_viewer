@@ -170,8 +170,8 @@ function dlts_viewer_menu ( ) {
      * Admin page to administer the fileServer and theh fileServer stream wrapper
      */
     'admin/config/media/viewer' => array (
-      'title' => t('Administer and configure Viewer'),
-      'description' => t('Administer and configure Viewer.'),
+      'title' => t('Administer and configure viewer'),
+      'description' => t('Administer and configure viewer.'),
       'page callback' => 'drupal_get_form',
       'page arguments' => array('dlts_viewer_admin'),
       'access arguments' => array('administer fileserver'),

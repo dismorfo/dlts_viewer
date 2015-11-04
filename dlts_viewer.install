@@ -9,16 +9,16 @@
  * Implementation of hook_enable().
  */
 function dlts_viewer_enable() {
-  variable_set('dlts_image_openlayers_source', 'sites/all/libraries/openlayers/lib/OpenLayers.js');
+  variable_set('dlts_viewer_openlayers_source', 'sites/all/libraries/openlayers/build/OpenLayers.js');
   variable_set('dlts_viewer_fileserver_host', 'http://dev-dl-pa.home.nyu.edu/files');
-  variable_set('dlts_image_djatoka_service_host', 'http://dl-imgdev.home.nyu.edu/adore-djatoka');
+  variable_set('dlts_viewer_djatoka_service_host', 'http://dl-imgdev.home.nyu.edu/adore-djatoka');
 }
 
 /**
  * Implementation of hook_uninstall().
  */
 function dlts_viewer_uninstall() {
-  variable_del('dlts_image_djatoka_service');
-  variable_del('dlts_image_openlayers_source');
+  variable_del('dlts_viewer_djatoka_service');
+  variable_del('dlts_viewer_openlayers_source');
   variable_del('dlts_viewer_fileserver_host');
 }
