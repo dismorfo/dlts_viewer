@@ -9,8 +9,8 @@ function dlts_viewer_admin ( $form, &$form_state ) {
 	include_once 'djatoka.inc' ;
 
 	$djatoka = dlts_viewer_djatoka_request(array('uri' => 'http://memory.loc.gov/gmd/gmd433/g4330/g4330/np000066.jp2'));
-	
-	if ( isset ( $djatoka['error'] ) {
+
+	if ( isset ( $djatoka['error'] ) ) {
 		 drupal_set_message ( t('Djatoka: Unable to request metadata from Djakota Jpeg 2000 Image Server. See: @message (code: @code)', array( '@message' => $djatoka['message'], '@code' => $djatoka['code'] ) ), 'error' ) ;
 	}
 
@@ -20,7 +20,7 @@ function dlts_viewer_admin ( $form, &$form_state ) {
 			'#collapsed' => FALSE,
 			'#collapsible' => TRUE,
 	);
-	
+
 	$form['fileServer']['dlts_viewer_fileserver_host'] = array(
 			'#type' => 'textfield',
 			'#title' => t('Service path'),
@@ -85,7 +85,7 @@ function dlts_viewer_admin ( $form, &$form_state ) {
 function dlts_viewer_image_service_admin_settings_submit( $form, &$form_state) {
 
 	$form_state['values']['dlts_viewer_djatoka_service'] = rtrim( $form_state['values']['dlts_viewer_djatoka_service'], '/' );
-	
-	$form_state['values']['dlts_viewer_fileserver_host'] = rtrim( $form_state['values']['dlts_viewer_fileserver_host'], '/' );	
+
+	$form_state['values']['dlts_viewer_fileserver_host'] = rtrim( $form_state['values']['dlts_viewer_fileserver_host'], '/' );
 
 }
