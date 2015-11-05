@@ -9,6 +9,10 @@ function dlts_viewer_admin ( $form, &$form_state ) {
 	include_once 'djatoka.inc' ;
 
 	$djatoka = dlts_viewer_djatoka_request(array('uri' => 'http://memory.loc.gov/gmd/gmd433/g4330/g4330/np000066.jp2'));
+	
+	if ( isset ( $djatoka['error'] ) {
+		 drupal_set_message ( t('Djatoka: Unable to request metadata from Djakota Jpeg 2000 Image Server. See: @message (code: @code)', array( '@message' => $djatoka['message'], '@code' => $djatoka['code'] ) ), 'error' ) ;
+	}
 
 	$form['fileServer'] = array(
 			'#type' => 'fieldset',
@@ -16,34 +20,16 @@ function dlts_viewer_admin ( $form, &$form_state ) {
 			'#collapsed' => FALSE,
 			'#collapsible' => TRUE,
 	);
-
-	$base_url = $GLOBALS['base_url'] . '/' . variable_get('file_public_path', conf_path() . '/files') ;
-
+	
 	$form['fileServer']['dlts_viewer_fileserver_host'] = array(
 			'#type' => 'textfield',
 			'#title' => t('Service path'),
-			'#default_value' => variable_get('dlts_viewer_fileserver_host', $base_url ) ,
+			'#default_value' => variable_get('dlts_viewer_fileserver_host', 'http://dl-imgdev.home.nyu.edu/adore-djatoka' ) ,
 			'#size' => 60,
 			'#maxlength' => 256,
 			'#description' => t("Set host name. <acronym title=\"for example\">e.g.</acronym>, http://dev-dl-pa.home.nyu.edu/files"),
 			'#required' => TRUE,
 	);
-
-	if (!isset($djatoka['error'])) {
-		$preview = theme('dlts_viewer_hires', array('file' => array(
-				'fid' => 'djatoka-test',
-				'uri' => $djatoka['identifier'],
-				'djakota_width' => $djatoka['width'],
-				'djakota_height' => $djatoka['height'],
-				'djakota_dwtLevels' => $djatoka['dwtLevels'],
-				'djakota_levels' => $djatoka['levels'],
-				'djakota_compositingLayerCount' => $djatoka['compositingLayerCount'],
-				'zoom' => 1,
-		)));
-	}
-	else {
-		$preview = '<div class="messages error"><h2 class="element-invisible">error</h2>'. t('Djatoka: Unable to request metadata from Djakota Jpeg 2000 Image Server. See: @message (code: @code)', array( '@message' => $djatoka['message'], '@code' => $djatoka['code'] )) . '</div>';
-	}
 
 	$form['djatoka'] = array(
 			'#type' => 'fieldset',
@@ -52,19 +38,14 @@ function dlts_viewer_admin ( $form, &$form_state ) {
 			'#collapsible' => TRUE,
 	);
 
-	$form['djatoka']['dlts_viewer_djatoka_service_host'] = array(
+	$form['djatoka']['dlts_viewer_djatoka_service'] = array(
 			'#type' => 'textfield',
 			'#title' => t('Service path'),
-			'#default_value' => variable_get('dlts_viewer_djatoka_service_host', (isset($_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : '' )),
+			'#default_value' => variable_get('dlts_viewer_djatoka_service', 'http://dl-imgdev.home.nyu.edu/adore-djatoka'),
 			'#size' => 60,
 			'#maxlength' => 256,
 			'#description' => t("Set host name. <acronym title=\"for example\">e.g.</acronym>, http://myhost.bobst.nyu.edu:8080/adore-djatoka"),
 			'#required' => TRUE,
-	);
-
-	$form['djatoka']['dlts_viewer_djatoka_service'] = array(
-			'#type' => 'hidden',
-			'#value' => variable_get('dlts_viewer_djatoka_service', 'http://localhost:8080/adore-djatoka'),
 	);
 
 	$form['openlayers'] = array(
@@ -103,14 +84,8 @@ function dlts_viewer_admin ( $form, &$form_state ) {
  */
 function dlts_viewer_image_service_admin_settings_submit( $form, &$form_state) {
 
-	/** Ensure no trailing slash */
-	$service = rtrim( $form_state['values']['dlts_viewer_djatoka_service_host'], '/' );
-
-	$form_state['values']['dlts_viewer_djatoka_service'] = $service;
+	$form_state['values']['dlts_viewer_djatoka_service'] = rtrim( $form_state['values']['dlts_viewer_djatoka_service'], '/' );
+	
+	$form_state['values']['dlts_viewer_fileserver_host'] = rtrim( $form_state['values']['dlts_viewer_fileserver_host'], '/' );	
 
 }
-
-/**
- * Form submit handler for Admin fileServer settings form.
- */
-// function dlts_viewer_admin_fileserver_submit ( $form, &$form_state) { }
