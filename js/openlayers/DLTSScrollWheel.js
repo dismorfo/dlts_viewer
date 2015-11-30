@@ -11,15 +11,15 @@
  *  - <OpenLayers.Control>
  */
 
-OpenLayers.Control.DLTSScrollWheel = OpenLayers.Class( OpenLayers.Control, {
+OpenLayers.Control.DLTSScrollWheel = OpenLayers.Class(OpenLayers.Control, {
 
   /** 
    * Property: type
    * {OpenLayers.Control.TYPES}
    */
-	
+  
   type: OpenLayers.Control.TYPE_TOOL,
-	
+  
   /**
    * APIProperty: autoActivate
    * {Boolean} Activate the control when it is added to a map.
@@ -42,11 +42,11 @@ OpenLayers.Control.DLTSScrollWheel = OpenLayers.Class( OpenLayers.Control, {
    */
   slideFactor: 0.75,  
   
-  initialize: function ( options ) {
+  initialize: function(options) {
     
-	OpenLayers.Control.prototype.initialize.apply( this, arguments );
+  OpenLayers.Control.prototype.initialize.apply(this, arguments);
 
-    this.handler = new OpenLayers.Handler.DLTSMouseWheel( this, {
+    this.handler = new OpenLayers.Handler.DLTSMouseWheel(this, {
       'up': this.onWheelUp,
       'down': this.onWheelDown
     });
@@ -54,14 +54,14 @@ OpenLayers.Control.DLTSScrollWheel = OpenLayers.Class( OpenLayers.Control, {
  
   onWheelUp : function() {
     var size = this.map.getSize();
-    this.map.pan( 0, -this.slideFactor*size.h );
+    this.map.pan(0, -this.slideFactor*size.h);
   },
   
   onWheelDown : function() {
-	var size = this.map.getSize();
+  var size = this.map.getSize();
     this.map.pan(0, this.slideFactor*size.h);
   },
   
   CLASS_NAME: "OpenLayers.Control.DLTSScrollWheel"
-	  
+    
 });

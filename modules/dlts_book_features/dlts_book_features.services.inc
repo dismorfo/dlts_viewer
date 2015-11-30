@@ -18,7 +18,7 @@ function dlts_book_features_default_services_endpoint() {
   $endpoint->path = 'xmlrpc';
   $endpoint->authentication = array(
     'services' => 'services',
-  );
+ );
   $endpoint->server_settings = array();
   $endpoint->resources = array(
     'comment' => array(
@@ -222,7 +222,7 @@ function dlts_book_features_default_services_endpoint() {
         ),
       ),
     ),
-  );
+ );
   $endpoint->debug = 0;
   $export['xmlrpc'] = $endpoint;
 

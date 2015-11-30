@@ -1,4 +1,4 @@
-/* Copyright (c) UNC Chapel Hill University Library, created by Hugh A. Cayless
+/* Copyright(c) UNC Chapel Hill University Library, created by Hugh A. Cayless
  * and revised by J. Clifford Dyer.  Published under the Clear BSD licence.  
  * See http://svn.openlayers.org/trunk/openlayers/license.txt for the full 
  * text of the license. 
@@ -39,7 +39,7 @@ OpenLayers.Layer.OpenURL = OpenLayers.Class(OpenLayers.Layer.Grid, {
     minDjatokaLevelDimension: 48,
     djatokaURL: '/resolver',
     transitionEffect: 'resize',
-	
+  
     /**
      * Constructor: OpenLayers.Layer.OpenURL
      * 
@@ -70,7 +70,7 @@ OpenLayers.Layer.OpenURL = OpenLayers.Class(OpenLayers.Layer.Grid, {
         
         // Get image metadata if it hasn't been set
         if (!options.imgMetadata) {
-          this.imgMetadata = this.requestToJSON( OpenLayers.Request.issue({url: options.metadataUrl, async: false }) );
+          this.imgMetadata = this.requestToJSON(OpenLayers.Request.issue({url: options.metadataUrl, async: false }));
         } else {
           this.imgMetadata = options.imgMetadata;
         }
@@ -80,7 +80,7 @@ OpenLayers.Layer.OpenURL = OpenLayers.Class(OpenLayers.Layer.Grid, {
         // viewerLevel is the smallest useful zoom level: i.e., it is the largest level that fits entirely 
         // within the bounds of the viewer div.
         
-        viewerLevel = Math.ceil(Math.min(minLevel, Math.max((Math.log(this.imgMetadata.width) - Math.log(this.viewerWidth)), (Math.log(this.imgMetadata.height) - Math.log(this.viewerHeight))) / Math.log(2)));
+        viewerLevel = Math.ceil(Math.min(minLevel, Math.max((Math.log(this.imgMetadata.width) - Math.log(this.viewerWidth)),(Math.log(this.imgMetadata.height) - Math.log(this.viewerHeight))) / Math.log(2)));
         this.zoomOffset = minLevel - viewerLevel;
 
         // width at level viewerLevel
@@ -91,7 +91,7 @@ OpenLayers.Layer.OpenURL = OpenLayers.Class(OpenLayers.Layer.Grid, {
 
         this.resolutions = [];
 
-        for (i = viewerLevel; i >= 0; i--) {
+        for(i = viewerLevel; i >= 0; i--) {
           this.resolutions.push(Math.pow(2, i));
         }
         this.tileSize = new OpenLayers.Size(Math.ceil(width), Math.ceil(height));
@@ -116,7 +116,7 @@ OpenLayers.Layer.OpenURL = OpenLayers.Class(OpenLayers.Layer.Grid, {
      * Returns:
      * {<OpenLayers.Layer.OpenURL>} An exact clone of this <OpenLayers.Layer.OpenURL>
      */
-    clone: function (obj) {
+    clone: function(obj) {
       if (obj == null) {
           obj = new OpenLayers.Layer.OpenURL(this.name, this.url, this.options);
       }
@@ -140,7 +140,7 @@ OpenLayers.Layer.OpenURL = OpenLayers.Class(OpenLayers.Layer.Grid, {
      *          passed-in bounds and appropriate tile size specified as 
      *          parameters
      */
-    getURL: function (bounds) {
+    getURL: function(bounds) {
       var url, z, path;
       bounds = this.adjustBounds(bounds);
       this.calculatePositionAndSize(bounds);
@@ -172,7 +172,7 @@ OpenLayers.Layer.OpenURL = OpenLayers.Class(OpenLayers.Layer.Grid, {
     /** 
      * APIMethod: setMap
      * When the layer is added to a map, then we can fetch our origin 
-     *    (if we don't have one.) 
+     *   (if we don't have one.) 
      * 
      * Parameters:
      * map - {<OpenLayers.Map>}
@@ -186,29 +186,29 @@ OpenLayers.Layer.OpenURL = OpenLayers.Class(OpenLayers.Layer.Grid, {
     },
     
     calculatePositionAndSize: function(bounds) {
-      // Have to recalculate x and y (instead of using bounds and resolution), because resolution will be off.
+      // Have to recalculate x and y(instead of using bounds and resolution), because resolution will be off.
       // Get number of tiles in image
       
       var max = this.map.getMaxExtent(),
-          xtiles = Math.round( 1 / (this.tileSize.w / max.getWidth())),
+          xtiles = Math.round(1 /(this.tileSize.w / max.getWidth())),
           xpos = Math.round((bounds.left / max.getWidth()) * xtiles), // Find out which tile we're on      
-          x = xpos * (this.tileSize.w + 1), // Set x
+          x = xpos *(this.tileSize.w + 1), // Set x
           xExtent = max.getWidth() / this.map.getResolution(),
-          ytiles = Math.round( 1 / (this.tileSize.h / max.getHeight())),     
+          ytiles = Math.round(1 /(this.tileSize.h / max.getHeight())),     
           y = max.getHeight() - bounds.top, // Djatoka's coordinate system is top-down, not bottom-up, so invert for y
           y = y < 0? 0 : y,
           ypos = Math.round((y / max.getHeight()) * ytiles),
-          y = ypos * (this.tileSize.h + 1),
+          y = ypos *(this.tileSize.h + 1),
           yExtent = max.getHeight() / this.map.getResolution(),          
           w = this.tileSize.w,
           h = this.tileSize.h,
           minustile =  xtiles - 1;
 
       if (xpos === minustile) {
-        w = xExtent % (this.tileSize.w + 1);
+        w = xExtent %(this.tileSize.w + 1);
       }
       if (ypos === minustile) {
-        h = yExtent % (this.tileSize.h + 1);
+        h = yExtent %(this.tileSize.h + 1);
       }
       this.tilePos = new OpenLayers.LonLat(x,y);
       this.imageSize = new OpenLayers.Size(w,h);
@@ -249,9 +249,9 @@ OpenLayers.Layer.OpenURL = OpenLayers.Class(OpenLayers.Layer.Grid, {
         return Math.min(levelsInImg, levelsToDjatokaMin);
     },
     
-    requestToJSON: function( request ) {
-      if ( request.status === 200 ) {    	  
-        return new OpenLayers.Format.JSON().read( request.responseText );
+    requestToJSON: function(request) {
+      if (request.status === 200) {        
+        return new OpenLayers.Format.JSON().read(request.responseText);
       }
       else {
         return null;

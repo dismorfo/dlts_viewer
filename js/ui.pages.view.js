@@ -29,7 +29,7 @@ YUI({
 
     paneOffsetWidth = Y.one('body').get('offsetWidth'),
 
-    imagesRows = (Y.UA.ipad) ? 4 : ( (Y.UA.iphone) ? 2 : 6 ),
+    imagesRows =(Y.UA.ipad) ? 4 :((Y.UA.iphone) ? 2 : 6 ),
 
     padding = 8,
 
@@ -43,18 +43,18 @@ YUI({
     
     function handleSuccessJSONP(e) {
 
-        var items = (Y.Lang.isObject(e.response.results)) ? e.response.results : {}, 
-        	l = items.length, 
-        	elm;
+        var items =(Y.Lang.isObject(e.response.results)) ? e.response.results : {}, 
+          l = items.length, 
+          elm;
 
         Y.Object.each(items, function(item, key) {
-        	
+          
             // calculate the height of the images
-        	  if (key == 0) {
+            if (key == 0) {
                 Y.log(item.thumbnail.height);
             }
 
-            if (parseInt(key / imagesRows) == (key / imagesRows)) {
+            if (parseInt(key / imagesRows) ==(key / imagesRows)) {
                 panes.thumbnails.append(templates.container({ id: key }));
                 elm = Y.one('#g' + key);
             }

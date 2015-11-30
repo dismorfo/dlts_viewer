@@ -37,7 +37,7 @@ function dlts_book_features_node_info() {
     'dlts_book' => array(
       'name' => t('Book'),
       'base' => 'node_content',
-      'description' => t('Anything derived from either a bound set of pages designed to be read (books, pamphlets, etc.), or an electronic format such as ePub or PDF that uses virtual sections or pages, or both. Examples include: AWDL; NYUP; Morgan Claypool'),
+      'description' => t('Anything derived from either a bound set of pages designed to be read(books, pamphlets, etc.), or an electronic format such as ePub or PDF that uses virtual sections or pages, or both. Examples include: AWDL; NYUP; Morgan Claypool'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
@@ -108,7 +108,7 @@ In early NYUP documentation, this was called \'_chapter\' - section is replacing
       'title_label' => t('Title'),
       'help' => '',
     ),
-  );
+ );
   drupal_alter('node_info', $items);
   return $items;
 }

@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Wildcard loaders
+ */
+
+/**
  * A wildcard loader for dlts_book nodes, using the book identifier.
  *
  * @parameter $identifier
@@ -18,14 +23,14 @@
  * checked, adding a check here might save an entity_load if the user's not
  * going to have access anyway, at the cost of an extra JOIN here.
  */
-function dlts_book_load ( $identifier ) {
+function dlts_book_load($identifier) {
 
   $language = LANGUAGE_NONE ;
 
-  $query_parameters = drupal_get_query_parameters () ;
+  $query_parameters = drupal_get_query_parameters() ;
 
-  if ( isset ( $query_parameters['lang'] ) ) {
-    $language = filter_xss ( $query_parameters['lang'] ) ;
+  if (isset($query_parameters['lang'] )) {
+    $language = filter_xss($query_parameters['lang'] ) ;
   }
 
   $query = new EntityFieldQuery;
@@ -39,13 +44,13 @@ function dlts_book_load ( $identifier ) {
                   ->fieldCondition('field_identifier', 'value', $identifier, '=')
                   ->execute();
 
-  if ( ! empty ( $result['node'] ) ) {
+  if (! empty($result['node'] )) {
 
-    $keys = array_keys ( $result['node'] ) ;
+    $keys = array_keys($result['node'] ) ;
 
-    $nid = array_pop ( $keys ) ;
+    $nid = array_pop($keys ) ;
 
-    return node_load ( $nid ) ;
+    return node_load($nid ) ;
 
   }
 
@@ -65,31 +70,31 @@ function dlts_book_load ( $identifier ) {
  * @return multitype:unknown number
  *  xxx
  */
-function dlts_book_page_load ( $sequence ) {
+function dlts_book_page_load($sequence) {
 
-  $identifier = arg ( 1 ) ;
+  $identifier = arg(1 ) ;
 
-  $collections = array ( 'single' => 'dlts_book_page' , 'double' => 'dlts_book_stitched_page' ) ;
+  $collections = array('single' => 'dlts_book_page' , 'double' => 'dlts_book_stitched_page' ) ;
 
-  $query_parameters = drupal_get_query_parameters () ;
+  $query_parameters = drupal_get_query_parameters() ;
 
   $collection_name = 'dlts_book_page';
 
-  if ( isset ( $query_parameters['page_view'] ) ) {
-  	if ( array_key_exists ( $query_parameters['page_view'] , $collections ) ) {
-  	  $collection_name = $collections[$query_parameters['page_view']];
-  	}
+  if (isset($query_parameters['page_view'] )) {
+    if (array_key_exists($query_parameters['page_view'] , $collections )) {
+      $collection_name = $collections[$query_parameters['page_view']];
+    }
   }
 
-  $query = (object) array ( 'isPartOf' => $identifier , 'sequence' => $sequence ) ;
+  $query =(object) array('isPartOf' => $identifier , 'sequence' => $sequence ) ;
 
-  $result = mongodb_collection ( $collection_name )->findOne( $query ) ;
+  $result = mongodb_collection($collection_name )->findOne($query ) ;
 
-  if ( ! $result ) return FALSE ;
+  if (! $result ) return FALSE ;
 
-  $cm_uri = file_create_url ( $result['cm']['uri'] ) ;
+  $cm_uri = file_create_url($result['cm']['uri'] ) ;
 
-  return array (
+  return array(
     'fid' => (string) $result['_id'] ,
     'sequence' => $result['sequence'] ,
     'uri' => $cm_uri ,

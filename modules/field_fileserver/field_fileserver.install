@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the text module.
+ */
+
+/**
+ * Implements hook_field_schema().
+ */
+function field_fileserver_schema($field) {
+  return array(
+    'columns' => array(
+      'value' => array(
+        'description' => 'The {file_managed}.fid being referenced in this field.',
+        'type' => 'varchar',
+        'length' => 60,        
+        'not null' => FALSE,
+        'unsigned' => TRUE,
+      ),
+      'format' => array(
+        'description' => 'The {file_managed}.fid being referenced in this field.',
+        'type' => 'varchar',
+        'length' => 60,        
+        'not null' => FALSE,
+        'unsigned' => TRUE,
+      ),      
+    ),
+    'indexes' => array(
+      'value' => array('value'),
+    ),
+ );
+}

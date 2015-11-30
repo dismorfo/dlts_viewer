@@ -2,7 +2,7 @@
     OpenLayers/Handler/DLTSMouseWheel.js
    ====================================================================== */
 
-/* Copyright (c) 2006-2011 by OpenLayers Contributors (see authors.txt for
+/* Copyright(c) 2006-2011 by OpenLayers Contributors(see authors.txt for
  * full list of contributors). Published under the Clear BSD license.
  * See http://svn.openlayers.org/trunk/openlayers/license.txt for the
  * full text of the license. */
@@ -36,7 +36,7 @@ OpenLayers.Handler.DLTSMouseWheel = OpenLayers.Class(OpenLayers.Handler, {
 
     /**
      * Property: interval
-     * {Integer} In order to increase server performance, an interval (in
+     * {Integer} In order to increase server performance, an interval(in
      *     milliseconds) can be set to reduce the number of up/down events
      *     called. If set, a new up/down event will not be set until the
      *     interval has passed.
@@ -55,7 +55,7 @@ OpenLayers.Handler.DLTSMouseWheel = OpenLayers.Class(OpenLayers.Handler, {
     /**
      * Property: cumulative
      * {Boolean} When interval is set: true to collect all the mousewheel
-     *     z-deltas, false to only record the delta direction (positive or
+     *     z-deltas, false to only record the delta direction(positive or
      *     negative)
      */
     cumulative: true,
@@ -75,7 +75,7 @@ OpenLayers.Handler.DLTSMouseWheel = OpenLayers.Class(OpenLayers.Handler, {
         OpenLayers.Handler.prototype.initialize.apply(this, arguments);
         this.wheelListener = OpenLayers.Function.bindAsEventListener(
             this.onWheelEvent, this
-        );
+       );
     },
 
     /**
@@ -115,7 +115,7 @@ OpenLayers.Handler.DLTSMouseWheel = OpenLayers.Class(OpenLayers.Handler, {
         var overMapDiv = false;
 
         var elem = OpenLayers.Event.element(e);
-        while ((elem != null) && !overMapDiv && !overScrollableDiv) {
+        while((elem != null) && !overMapDiv && !overScrollableDiv) {
 
             if (!overScrollableDiv) {
                 try {
@@ -126,19 +126,19 @@ OpenLayers.Handler.DLTSMouseWheel = OpenLayers.Class(OpenLayers.Handler, {
                             document.defaultView.getComputedStyle(elem, null);
                         var overflow = style.getPropertyValue('overflow');
                     }
-                    overScrollableDiv = (overflow &&
-                        (overflow == 'auto') || (overflow == 'scroll'));
-                } catch (err) {
+                    overScrollableDiv =(overflow &&
+                       (overflow == 'auto') ||(overflow == 'scroll'));
+                } catch(err) {
                     //sometimes when scrolling in a popup, this causes
                     // obscure browser error
                 }
             }
 
             if (!overLayerDiv) {
-                for (var i = 0, len = this.map.layers.length; i < len; i++) {
+                for(var i = 0, len = this.map.layers.length; i < len; i++) {
                     // Are we in the layer div? Note that we have two cases
                     // here: one is to catch EventPane layers, which have a
-                    // pane above the layer (layer.pane)
+                    // pane above the layer(layer.pane)
                     if (elem == this.map.layers[i].div
                         || elem == this.map.layers[i].pane) {
                         overLayerDiv = true;
@@ -146,7 +146,7 @@ OpenLayers.Handler.DLTSMouseWheel = OpenLayers.Class(OpenLayers.Handler, {
                     }
                 }
             }
-            overMapDiv = (elem == this.map.div);
+            overMapDiv =(elem == this.map.div);
 
             elem = elem.parentNode;
         }
@@ -154,18 +154,18 @@ OpenLayers.Handler.DLTSMouseWheel = OpenLayers.Class(OpenLayers.Handler, {
         // Logic below is the following:
         //
         // If we are over a scrollable div or not over the map div:
-        //  * do nothing (let the browser handle scrolling)
+        //  * do nothing(let the browser handle scrolling)
         //
         //    otherwise
         //
         //    If we are over the map div:
         //     * zoom/in out
         //     then
-        //     * kill event (so as not to also scroll the page after zooming)
+        //     * kill event(so as not to also scroll the page after zooming)
         //
         //       otherwise
         //
-        //       Kill the event (dont scroll the page if we wheel over the
+        //       Kill the event(dont scroll the page if we wheel over the
         //        layerswitcher or the pan/zoom control)
         //
 
@@ -191,7 +191,7 @@ OpenLayers.Handler.DLTSMouseWheel = OpenLayers.Class(OpenLayers.Handler, {
                             this.wheelZoom(e);
                         }, this),
                         this.interval
-                    );
+                   );
                 } else {
                     this.wheelZoom(e);
                 }
@@ -213,7 +213,7 @@ OpenLayers.Handler.DLTSMouseWheel = OpenLayers.Class(OpenLayers.Handler, {
 
         if (delta) {
             // add the mouse position to the event because mozilla has
-            // a bug with clientX and clientY (see
+            // a bug with clientX and clientY(see
             // https://bugzilla.mozilla.org/show_bug.cgi?id=352179)
             // getLonLatFromViewPortPx(e) returns wrong values
             if (this.mousePosition) {
@@ -221,13 +221,13 @@ OpenLayers.Handler.DLTSMouseWheel = OpenLayers.Class(OpenLayers.Handler, {
             }
             if (!e.xy) {
                 // If the mouse hasn't moved over the map yet, then
-                // we don't have a mouse position (in FF), so we just
+                // we don't have a mouse position(in FF), so we just
                 // act as if the mouse was at the center of the map.
                 // Note that we can tell we are in the map -- and
                 // this.map is ensured to be true above.
                 e.xy = this.map.getPixelFromLonLat(
                     this.map.getCenter()
-                );
+               );
             }
             if (delta < 0) {
                 this.callback('down', [e, this.cumulative ? delta : -1]);

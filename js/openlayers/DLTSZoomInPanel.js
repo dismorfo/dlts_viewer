@@ -1,4 +1,4 @@
-/* Copyright (c) 2006-2011 by OpenLayers Contributors (see authors.txt for 
+/* Copyright(c) 2006-2011 by OpenLayers Contributors(see authors.txt for 
  * full list of contributors). Published under the Clear BSD license.  
  * See http://svn.openlayers.org/trunk/openlayers/license.txt for the
  * full text of the license. */
@@ -18,11 +18,11 @@
  * it to look nice in ie6, you should add the following, conditionally
  * added css stylesheet to your HTML file:
  * 
- * (code)
+ *(code)
  * <!--[if lte IE 6]>
  *   <link rel="stylesheet" href="../theme/default/ie6-style.css" type="text/css" />
  * <![endif]-->
- * (end)
+ *(end)
  * 
  * Inherits from:
  *  - <OpenLayers.Control.Panel>

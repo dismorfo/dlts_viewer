@@ -17,7 +17,7 @@ templates.
 **/
 
 // This code was heavily inspired by Underscore.js's _.template() method
-// (written by Jeremy Ashkenas), which was in turn inspired by John Resig's
+//(written by Jeremy Ashkenas), which was in turn inspired by John Resig's
 // micro-templating implementation.
 
 var Micro = Y.namespace('Template.Micro');
@@ -51,7 +51,7 @@ Compiles a template string into a JavaScript function. Pass a data object to the
 function to render the template using the given data and get back a rendered
 string.
 
-Within a template, use `<%= ... %>` to output the value of an expression (where
+Within a template, use `<%= ... %>` to output the value of an expression(where
 `...` is the JavaScript expression or data variable to evaluate). The output
 will be HTML-escaped by default. To output a raw value without escaping, use
 `<%== ... %>`, but be careful not to do this with untrusted user input.
@@ -69,9 +69,9 @@ property using `<%= data.message %>`.
 
 @example
 
-    YUI().use('template-micro', function (Y) {
+    YUI().use('template-micro', function(Y) {
         var template = '<ul class="<%= data.classNames.list %>">' +
-                           '<% Y.Array.each(data.items, function (item) { %>' +
+                           '<% Y.Array.each(data.items, function(item) { %>' +
                                '<li><%= item %></li>' +
                            '<% }); %>' +
                        '</ul>';
@@ -95,7 +95,7 @@ property using `<%= data.message %>`.
     a data object to render the template with the given data.
 @static
 **/
-Micro.compile = function (text, options) {
+Micro.compile = function(text, options) {
     var blocks     = [],
         tokenClose = "\uffff",
         tokenOpen  = "\ufffe",
@@ -110,28 +110,28 @@ Micro.compile = function (text, options) {
 
         // U+FFFE and U+FFFF are guaranteed to represent non-characters, so no
         // valid UTF-8 string should ever contain them. That means we can freely
-        // strip them out of the input text (just to be safe) and then use them
+        // strip them out of the input text(just to be safe) and then use them
         // for our own nefarious purposes as token placeholders!
         //
         // See http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters#Noncharacters
         text.replace(/\ufffe|\uffff/g, '')
 
-        .replace(options.rawOutput, function (match, code) {
-            return tokenOpen + (blocks.push("'+\n(" + code + ")+\n'") - 1) + tokenClose;
+        .replace(options.rawOutput, function(match, code) {
+            return tokenOpen +(blocks.push("'+\n(" + code + ")+\n'") - 1) + tokenClose;
         })
 
-        .replace(options.escapedOutput, function (match, code) {
-            return tokenOpen + (blocks.push("'+\n$e(" + code + ")+\n'") - 1) + tokenClose;
+        .replace(options.escapedOutput, function(match, code) {
+            return tokenOpen +(blocks.push("'+\n$e(" + code + ")+\n'") - 1) + tokenClose;
         })
 
-        .replace(options.code, function (match, code) {
-            return tokenOpen + (blocks.push("';\n" + code + "\n$t+='") - 1) + tokenClose;
+        .replace(options.code, function(match, code) {
+            return tokenOpen +(blocks.push("';\n" + code + "\n$t+='") - 1) + tokenClose;
         })
 
         .replace(options.stringEscape, "\\$&")
 
         // Replace the token placeholders with code.
-        .replace(/\ufffe(\d+)\uffff/g, function (match, index) {
+        .replace(/\ufffe(\d+)\uffff/g, function(match, index) {
             return blocks[parseInt(index, 10)];
         })
 
@@ -142,7 +142,7 @@ Micro.compile = function (text, options) {
 
     // If compile() was called from precompile(), return precompiled source.
     if (options.precompile) {
-        return "function (Y, $e, data) {\n" + source + "\n}";
+        return "function(Y, $e, data) {\n" + source + "\n}";
     }
 
     // Otherwise, return an executable function.
@@ -151,7 +151,7 @@ Micro.compile = function (text, options) {
 
 /**
 Precompiles the given template text into a string of JavaScript source code that
-can be evaluated later in another context (or on another machine) to render the
+can be evaluated later in another context(or on another machine) to render the
 template.
 
 A common use case is to precompile templates at build time or on the server,
@@ -166,8 +166,8 @@ to revive and render the template, avoiding the work of the compilation step.
 @return {String} Source code for the precompiled template.
 @static
 **/
-Micro.precompile = function (text, options) {
-    options || (options = {});
+Micro.precompile = function(text, options) {
+    options ||(options = {});
     options.precompile = true;
 
     return this.compile(text, options);
@@ -189,7 +189,7 @@ then simply call the compiled function multiple times to avoid recompiling.
 @return {String} Rendered result.
 @static
 **/
-Micro.render = function (text, data, options) {
+Micro.render = function(text, data, options) {
     return this.compile(text, options)(data);
 };
 
@@ -204,9 +204,9 @@ have been evaluated to a function -- you can't pass raw JavaScript code to
 @return {Function} Revived template function, ready to be rendered.
 @static
 **/
-Micro.revive = function (precompiled) {
-    return function (data) {
-        data || (data = {});
+Micro.revive = function(precompiled) {
+    return function(data) {
+        data ||(data = {});
         return precompiled.call(data, Y, Y.Escape.html, data);
     };
 };

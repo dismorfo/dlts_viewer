@@ -1,11 +1,11 @@
-YUI.add('dlts-pjax', function (Y, NAME) {
-	
+YUI.add('dlts-pjax', function(Y, NAME) {
+  
 Y.HistoryBase.html5 = 'true';
 
 /**
-Provides seamless, gracefully degrading Pjax (pushState + Ajax) functionality,
+Provides seamless, gracefully degrading Pjax(pushState + Ajax) functionality,
 which makes it easy to progressively enhance standard links on the page so that
-they can be loaded normally in old browsers, or via Ajax (with HTML5 history
+they can be loaded normally in old browsers, or via Ajax(with HTML5 history
 support) in newer browsers.
 
 @module pjax
@@ -60,9 +60,9 @@ Fired when a URL is successfully loaded via Ajax.
 EVT_LOAD = 'load';
 
 /**
-Provides seamless, gracefully degrading Pjax (pushState + Ajax) functionality,
+Provides seamless, gracefully degrading Pjax(pushState + Ajax) functionality,
 which makes it easy to progressively enhance standard links on the page so that
-they can be loaded normally in old browsers, or via Ajax (with HTML5 history
+they can be loaded normally in old browsers, or via Ajax(with HTML5 history
 support) in newer browsers.
 
 @class Pjax
@@ -75,7 +75,7 @@ support) in newer browsers.
 **/
 Y.Pjax = Y.Base.create('pjax', Y.Router, [Y.PjaxBase, Y.PjaxContent], {
     // -- Lifecycle Methods ----------------------------------------------------
-    initializer: function () {
+    initializer: function() {
         this.publish(EVT_ERROR, {defaultFn: this._defCompleteFn});
         this.publish(EVT_LOAD,  {defaultFn: this._defCompleteFn});
     },
@@ -97,7 +97,7 @@ Y.Pjax = Y.Base.create('pjax', Y.Router, [Y.PjaxBase, Y.PjaxContent], {
     @since 3.5.0
     @see Y.Pjax.defaultRoute
     **/
-    _defaultRoute: function (req, res, next) {
+    _defaultRoute: function(req, res, next) {
         var ioResponse = res.ioResponse,
             status     = ioResponse.status,
             event      = status >= 200 && status < 300 ? EVT_LOAD : EVT_ERROR;
@@ -124,7 +124,7 @@ Y.Pjax = Y.Base.create('pjax', Y.Router, [Y.PjaxBase, Y.PjaxContent], {
     @protected
     @since 3.5.0
     **/
-    _defCompleteFn: function (e) {
+    _defCompleteFn: function(e) {
         var container = this.get('container'),
             content   = e.content;
 
@@ -157,7 +157,7 @@ Y.Pjax = Y.Base.create('pjax', Y.Router, [Y.PjaxBase, Y.PjaxContent], {
         },
         
         //html5: {
-        	//value: '_initHtml5'
+          //value: '_initHtml5'
         //},        
 
         // Inherited from Router and already documented there.

@@ -1,5 +1,5 @@
 /* jshint laxcomma: true, laxbreak: true, unused: false */
-YUI().use (
+YUI().use(
     'node'
   , 'event'
   , 'event-custom'
@@ -8,7 +8,7 @@ YUI().use (
   , 'pjax'
   , 'gallery-soon'
   , 'widget-anim'
-  , function (Y) {
+  , function(Y) {
     
     'use strict';
     
@@ -25,7 +25,7 @@ YUI().use (
     
     var pagemeta = Y.one('.pane.pagemeta');
 
-    var display = Y.one( '#display');
+    var display = Y.one('#display');
     
     var displayData = display.getData();
 
@@ -33,30 +33,30 @@ YUI().use (
 
     var bookUrl = displayData['url'];
 
-    var sequenceCount = parseInt ( displayData['sequence-count'] , 10);
+    var sequenceCount = parseInt(displayData['sequence-count'] , 10);
 
-    var sequence = parseInt ( displayData['sequence'] , 10);
+    var sequence = parseInt(displayData['sequence'] , 10);
 
     var slider_datasource = Y.one('#slider_value');
     
     /** slider object */
-    var slider = new Y.Slider ( {
+    var slider = new Y.Slider({
       axis: 'x', 
       min: 1,
       dir: land_dir, 
       clickableRail: false, 
       max: sequenceCount, 
       value: sequence, 
-      length: ( Y.one('#pager').get('offsetWidth') - 120 ) + 'px' 
-    } );
+      length:(Y.one('#pager').get('offsetWidth') - 120 ) + 'px' 
+    });
     
     /** nodes */
 
-    function resizePageMeta ( ) {
-      slider.set ( 'length' , ( Y.one('#pager').get('offsetWidth') - 120 ) );
+    function resizePageMeta() {
+      slider.set('length' ,(Y.one('#pager').get('offsetWidth') - 120 ));
     }
 
-    function on_toggle_language ( e ) {
+    function on_toggle_language(e) {
 
       var current_target = e.currentTarget;
 
@@ -70,8 +70,9 @@ YUI().use (
 
           complete: function(id, e) {
 
-            var node = Y.one('#pagemeta'),
-              dir;
+            var node = Y.one('#pagemeta');
+            
+            var dir;
 
             node.set('innerHTML', e.response);
 
@@ -90,7 +91,7 @@ YUI().use (
 
     }
 
-    function on_button_click ( e ) {
+    function on_button_click(e) {
     
       e.preventDefault();
 
@@ -142,7 +143,7 @@ YUI().use (
         Y.fire(event_prefix + ':off', e);
       } else {
         self.addClass('on');
-        if ( Y.Lang.isObject(node_target) ) {
+        if (Y.Lang.isObject(node_target)) {
           node_target.each(function(node) {
             node.addClass('on');
           });
@@ -154,8 +155,8 @@ YUI().use (
     }
 
     /** TODO: I don't like this, find a more elegant solution */
-    function pager_form ( e ) {
-    	
+    function pager_form(e) {
+      
       e.preventDefault();
 
       var value = this.get('value');
@@ -164,20 +165,20 @@ YUI().use (
       
       var css_class;
 
-      if ( value.match(/\D/) ) {
+      if (value.match(/\D/)) {
         css_class = 'error';
       } 
       
       else {
-    	  
+        
         value = parseInt(value, 10);
 
-        if ( value !== current && ( value > 0 && value <= sequenceCount ) ) {
+        if (value !== current &&(value > 0 && value <= sequenceCount )) {
           css_class = 'ok';
-          pjax.navigate( bookUrl + '/' +  value);
+          pjax.navigate(bookUrl + '/' +  value);
         } 
         else {
-          if ( value !== current ) {
+          if (value !== current) {
             css_class = 'error';
           } 
           else {
@@ -196,10 +197,10 @@ YUI().use (
     };
 
     /** callback for changes in the value of the slider */
-    function slide_value_change ( e ) {
+    function slide_value_change(e) {
 
       /** slider event */
-      if ( ! Y.Lang.isValue ( slider.triggerBy ) ) {
+      if (! Y.Lang.isValue(slider.triggerBy )) {
         slider_datasource.set('value', e.newVal);
       }
 
@@ -210,16 +211,16 @@ YUI().use (
     }
 
     /** callback for the slide end event */
-    function slide_end ( e ) {
+    function slide_end(e) {
 
       e.preventDefault();
       
-      if ( ! Y.Lang.isValue ( slider.triggerBy ) ) {
+      if (! Y.Lang.isValue(slider.triggerBy )) {
 
-        pjax.navigate ( bookUrl + '/' + e.target.getValue() );
+        pjax.navigate(bookUrl + '/' + e.target.getValue());
 
         /** slider set focus to the slider rail, blur as soon as possible so that user can use the keyboard to read the book */
-        Y.soon( function() { slider.thumb.blur() } );
+        Y.soon(function() { slider.thumb.blur() });
 
       }
 
@@ -229,11 +230,11 @@ YUI().use (
       }
     }
 
-    function pjax_navigate ( e ) {
+    function pjax_navigate(e) {
 
-      var msg = e.url.replace ( bookUrl, '' ).replace ( '/' , '' );
+      var msg = e.url.replace(bookUrl, '' ).replace('/' , '');
 
-      if ( /(^[\d]+$){1}/.test ( msg ) || /(^[\d]+-[\d]+$){1}/.test(msg) ) {
+      if (/(^[\d]+$){1}/.test(msg ) || /(^[\d]+-[\d]+$){1}/.test(msg)) {
         this.one('.current_page').set('text', msg);
       } 
 
@@ -247,14 +248,14 @@ YUI().use (
      * pjax callback can be call by clicking a pjax 
      * enable link or by reference with data-url 
      */
-    function pjax_callback ( e ) {
-    	
+    function pjax_callback(e) {
+      
       var url;
 
       e.preventDefault();
       
       /** test if the target is not active */
-      if ( e.currentTarget.hasClass('inactive') ) return false;
+      if (e.currentTarget.hasClass('inactive') ) return false;
 
       /** if event has referenceTarget, then event was trigger by reference */
       if (Y.Lang.isObject(e.referenceTarget, true)) {
@@ -271,7 +272,7 @@ YUI().use (
 
     }
     
-    function PjaxException ( value ) {
+    function PjaxException(value) {
       this.value = value;
       this.message = "does not conform to the expected format for a PJAX request";
       this.toString = function() {
@@ -279,15 +280,15 @@ YUI().use (
       };
     }    
 
-    function pjax_load ( e ) {
+    function pjax_load(e) {
       
       try {
-    	  
+        
         var node = e.content.node;
         
-    	var map = node.one('.dlts_image_map');
-    	
-    	if ( map ) {
+      var map = node.one('.dlts_image_map');
+      
+      if (map) {
 
           var config = {};
           
@@ -297,16 +298,16 @@ YUI().use (
           
           var previous = Y.one('#navbar .previous');
       
-          if ( toogle ) {
-            toogle.replace( node.one('.toogle').cloneNode(true) );
+          if (toogle) {
+            toogle.replace(node.one('.toogle').cloneNode(true));
           }
 
-          if ( next ) {
-            next.replace( node.one('.next').cloneNode(true) );
+          if (next) {
+            next.replace(node.one('.next').cloneNode(true));
           }
           
-          if ( previous ) {
-    	    previous.replace( node.one('.previous').cloneNode(true) );
+          if (previous) {
+          previous.replace(node.one('.previous').cloneNode(true));
           }
 
           /** Configuration for the new book page */
@@ -330,23 +331,23 @@ YUI().use (
           
           Y.fire('pjax:load:available', config);
           
-    	}
-    	else {
-    	  throw new PjaxException ( e.url );
-    	}
+      }
+      else {
+        throw new PjaxException(e.url);
+      }
       } 
-      catch ( e ) {
-        if ( e instanceof PjaxException ) {
+      catch(e) {
+        if (e instanceof PjaxException) {
           return PJAX_INVALID;
         } 
         else {
           return PJAX_UNKNOWN_ERROR;
-        }    	  
+        }        
       }
 
     }
     
-    function fullscreenOn ( e ) {
+    function fullscreenOn(e) {
 
       var docElm = document.documentElement;
 
@@ -354,34 +355,34 @@ YUI().use (
       
       var top = Y.one('.top');
       
-      if ( docElm.requestFullscreen ) {
+      if (docElm.requestFullscreen) {
         docElm.requestFullscreen();
       }
       
-      else if ( docElm.msRequestFullscreen ) {
+      else if (docElm.msRequestFullscreen) {
         docElm.msRequestFullscreen();
       }
             
-      else if ( docElm.mozRequestFullScreen ) {
+      else if (docElm.mozRequestFullScreen) {
         docElm.mozRequestFullScreen();
       }
       
-      else if ( docElm.webkitRequestFullScreen ) {
+      else if (docElm.webkitRequestFullScreen) {
         docElm.webkitRequestFullScreen();
       }      
 
-      if ( top ) {
-    	top.addClass('hidden');      
+      if (top) {
+      top.addClass('hidden');      
       }
       
-      if ( metadata ) {
-    	metadata.removeClass('on');      
+      if (metadata) {
+      metadata.removeClass('on');      
       }
       
     }
     
-    function fullscreenOff ( e ) {
-    	
+    function fullscreenOff(e) {
+      
       var fullscreenButton = Y.one('a.fullscreen');
         
       var top = Y.one('.top');
@@ -402,17 +403,17 @@ YUI().use (
         document.webkitCancelFullScreen();
       }
       
-      if ( fullscreenButton ) {
+      if (fullscreenButton) {
         fullscreenButton.blur();
       }
       
-      if ( top ) {
-      	top.removeClass('hidden');      
+      if (top) {
+        top.removeClass('hidden');      
       }      
       
     }    
 
-    function change_page ( config ) {
+    function change_page(config) {
       
       var map;
       
@@ -421,8 +422,8 @@ YUI().use (
       var zoom;
       
       var open_layers_dlts = OpenLayers.DLTS;
-
-      if ( Y.Lang.isObject (open_layers_dlts.pages[0], true ) ) {
+      
+      if (Y.Lang.isObject(open_layers_dlts.pages[0], true )) {
         map = open_layers_dlts.pages[0];
         service = map.baseLayer.url;
         zoom = map.getZoom();
@@ -448,31 +449,31 @@ YUI().use (
 
     }
     
-    function onButtonMetadataOn ( e ) {
+    function onButtonMetadataOn(e) {
       this.removeClass('hidden');
       this.ancestor('.pane-body').removeClass('pagemeta-hidden');
     }
     
-    function onButtonMetadataOff ( e ) {
+    function onButtonMetadataOff(e) {
       this.addClass('hidden');
       this.ancestor('.pane-body').addClass('pagemeta-hidden');    
     }    
     
-    function openLayersTilesLoading ( ) {
-      if ( Y.one('body').hasClass( 'openlayers-loading' ) ) {
-        Y.later( 500, Y.one('.pane.load'), openLayersTilesLoading );
+    function openLayersTilesLoading() {
+      if (Y.one('body').hasClass('openlayers-loading' )) {
+        Y.later(500, Y.one('.pane.load'), openLayersTilesLoading);
       }
       else {
         Y.one('.pane.load').hide();
       }
     }
 
-    function onPjaxLoadAvailable ( conf ) {
-    	
+    function onPjaxLoadAvailable(conf) {
+      
       var page_title = Y.one('#page-title') ;
       
-      if ( page_title ) {
-    	page_title.set('text', conf.title);
+      if (page_title) {
+      page_title.set('text', conf.title);
       }
 
       slider.triggerBy = 'pjax:load:available';
@@ -483,40 +484,43 @@ YUI().use (
           
     }
     
-    function onButtonThumbnailsOnIOStart ( e ) {
+    function onButtonThumbnailsOnIOStart(e) {
       var thumbnails = Y.one('#thumbnails');
           thumbnails.removeClass('hidden');
     }
 
-    function onButtonThumbnailsOn ( e ) {
+    function onButtonThumbnailsOn(e) {
+      Y.log('onButtonThumbnailsOn');
       var thumbnails = Y.one('#thumbnails');
-      if ( thumbnails ) {
-        var data = thumbnails.getData();
-        
-        Y.io ( data.url + '?page=' + data.page + '&rows=' + data.rows, { on: { start: onButtonThumbnailsOnIOStart , complete: onThumbnailsOnSuccess } });
+      var data = {};
+      if (thumbnails) {
+        data = thumbnails.getData();
+        Y.io(data.url + '?page=' + data.page + '&rows=' + data.rows, { on: { start: onButtonThumbnailsOnIOStart , complete: onThumbnailsOnSuccess } });
       }
     }
     
-    function onButtonThumbnailsOff ( e ) {
+    function onButtonThumbnailsOff(e) {
       var thumbnails = Y.one('#thumbnails');
-      if ( thumbnails ) {
-    	thumbnails.addClass('hidden');   	  
+      if (thumbnails) {
+      thumbnails.addClass('hidden');       
       }
     }
 
-    function onThumbnailsContainerPagerClick ( e ) {
+    function onThumbnailsContainerPagerClick(e) {
       e.preventDefault();
-      Y.io(e.currentTarget.get('href'));
+      pjax.navigate(e.currentTarget.get('href'));
     }
     
-    function onThumbnailsPagePagerClick ( e ) {
-
+    function onThumbnailsPagePagerClick(e) {
+      
       var url;
-
+      
       e.preventDefault();
 
       /** test if the target is not active */
-      if (e.currentTarget.hasClass('inactive')) return false;
+      if (e.currentTarget.hasClass('inactive')) { 
+        return false;
+      }
 
       /** if event has referenceTarget, then event was trigger by reference */
       if (Y.Lang.isObject(e.referenceTarget, true)) {
@@ -529,17 +533,16 @@ YUI().use (
       }
 
       /** request new page */
-      Y.io(url, {
-        on: {
-          start: onThumbnailsPageStart,
-          end: onThumbnailsPageEnd,
-          complete: onThumbnailsPageComplete,
-          success: onThumbnailsPageSuccess,
-          failure: onThumbnailsPageFailure
+      Y.io(url, { on : 
+        {
+          start: onThumbnailsPageStart, 
+        end: onThumbnailsPageEnd, 
+        complete: onThumbnailsPageComplete, 
+          success: onThumbnailsPageSuccess, 
+        failure: onThumbnailsPageFailure 
         }
       });
-
-    }    
+    }
     
     // remove content
     function onThumbnailsPageComplete(id, response, args) {
@@ -547,26 +550,26 @@ YUI().use (
     }
 
     // add loading effect
-    function onThumbnailsPageStart () {
+    function onThumbnailsPageStart() {
       Y.one('.thumbnails-container').addClass('io-loading');
     }
 
     // remove loading effect        
-    function onThumbnailsPageEnd () {
+    function onThumbnailsPageEnd() {
       Y.one('.thumbnails-container').removeClass('io-loading');
     }
 
-    function onThumbnailsPageSuccess ( id, response) {
+    function onThumbnailsPageSuccess(id, response) {
       Y.one('.thumbnails-container').set('innerHTML', response.response);
     }
 
-    function onThumbnailsPageFailure ()  {
+    function onThumbnailsPageFailure(id, request)  {
       Y.log('failure');
     }    
 
-    function onThumbnailsOnSuccess ( id, request ) {
+    function onThumbnailsOnSuccess(id, request) {
       var node = Y.one('#thumbnails');
-      if ( node ) {
+      if (node) {
         node.set('innerHTML', request.response);
         node.addClass('active');
       }
@@ -578,7 +581,7 @@ YUI().use (
     
     slider.render('#slider');
 
-    slider.after('valueChange', slide_value_change );
+    slider.after('valueChange', slide_value_change);
 
     slider.after('slideEnd', slide_end, slider);
 
@@ -590,7 +593,7 @@ YUI().use (
      * Pjax object to request new book pages; the content from 
      * successful requests will be appended to "display" pane 
      */
-    var pjax = new Y.Pjax( { container: '.pane.display' } );
+    var pjax = new Y.Pjax({ container: '.pane.display' });
 
     pjax.on('load', pjax_load);
 
@@ -620,10 +623,8 @@ YUI().use (
 
     Y.on('button:button-thumbnails:off', onButtonThumbnailsOff);
 
-    // Y.delegate('click', onThumbnailsContainerPagerClick , 'body', '.thumbnails-container .pager a');
+    Y.delegate('click', onThumbnailsContainerPagerClick , 'body', '.thumbnails .views-row a');
     
-    // Y.one('body').delegate('click', onThumbnailsPagePagerClick , '#thumbnails .pager a');
+    Y.one('body').delegate('click', onThumbnailsPagePagerClick , '#thumbnails .pager a');
 
-    // Y.one('body').delegate('click', pjax_callback, '.view-book-thumbnails a');    
-
-} );
+});

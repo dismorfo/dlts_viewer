@@ -51,7 +51,7 @@ body.openlayers-loading {
 // Sassified by DLTS 
 // Relies on libraries/compass-animate/_animations & libraries/compass-animate/_keyframes from https://github.com/ZeeAgency/compass-animation
 
-// Creates the animation ID ($loading-name in variables)
+// Creates the animation ID($loading-name in variables)
 ##{$loading-name} {
   position: relative;
   width: $loading-segments-total-width;

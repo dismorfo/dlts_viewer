@@ -1,10 +1,15 @@
 <?php
 
-function create_dlts_partner( $node ) {
+/**
+ * @file
+ * DLTS Viewer drush
+ */
+
+function create_dlts_partner($node) {
 
   global $user;
 
-  $node = (array) $node;
+  $node =(array) $node;
 
   $exists = partner_nid($node['identifier']);
 
@@ -29,7 +34,7 @@ function create_dlts_partner( $node ) {
       'comment' => 0,
       'promote' => 0,
       'language' => LANGUAGE_NONE, // make sure we only translate the book object
-    );
+   );
 
     $entity = entity_create('node', $values);
 
@@ -42,28 +47,28 @@ function create_dlts_partner( $node ) {
 
   $entity->exists = $exists;
 
-  $uniqid = (string) uniqid();
+  $uniqid =(string) uniqid();
 
-  if ( isset( $node['title'] ) ) {
-    $ewrapper->title->set( $node['title'] );
+  if (isset($node['title'] )) {
+    $ewrapper->title->set($node['title']);
   }
   else {
-    $ewrapper->title->set( 'partner ' . $uniqid );
+    $ewrapper->title->set('partner ' . $uniqid);
   }
 
-  if ( isset( $node['identifier'] ) ) {
-    $ewrapper->field_identifier->set( $node['identifier'] );
+  if (isset($node['identifier'] )) {
+    $ewrapper->field_identifier->set($node['identifier']);
   }
   else {
-    $ewrapper->field_identifier->set( $uniqid );
+    $ewrapper->field_identifier->set($uniqid);
   }
 
-  if ( isset( $node['code'] ) ) {
-    $ewrapper->field_code->set( $node['code'] );
+  if (isset($node['code'] )) {
+    $ewrapper->field_code->set($node['code']);
   }
 
-  if ( isset( $node['name'] ) ) {
-    $ewrapper->field_name->set( $node['name'] );
+  if (isset($node['name'] )) {
+    $ewrapper->field_name->set($node['name']);
   }
 
   $ewrapper->save();

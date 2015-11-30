@@ -21,7 +21,7 @@
  following classes and build profile to their corresponding paths.
 
   ---------------------------------------------------------------------------------------------------------
- | File                                          |  Path (~/tools/libraries/)                              |
+ | File                                          |  Path(~/tools/libraries/)                              |
  |-----------------------------------------------|---------------------------------------------------------|
  | dlts_image/js/openlayers/books.cfg            | ./openlayers/build/books.cfg                            |
  |-----------------------------------------------|---------------------------------------------------------|
@@ -48,7 +48,7 @@
  3.3 Build
  
  When building a file, you can choose to build with several different compression options 
- with the python-based build.py script. We use Google Closure (see step 2). Tested with
+ with the python-based build.py script. We use Google Closure(see step 2). Tested with
  Python 2.7.2
 
  Build OpenLayers.js with build.py using books.cfg file.
@@ -63,7 +63,7 @@
 
  DLTS Image add Libraries API dependency. See: http://drupal.org/project/libraries 
 
-  Copy the resulting file (from step 3.3) to sites/all/libraries/openlayers
+  Copy the resulting file(from step 3.3) to sites/all/libraries/openlayers
   folder.
 
   e.g., sites/all/libraries/openlayers/OpenLayers.js

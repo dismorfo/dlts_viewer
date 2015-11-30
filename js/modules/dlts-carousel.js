@@ -50,7 +50,7 @@ YUI.add('dlts-carousel', function(Y) {
          * @param {Number} index The index to be scrolled to
          * @public
          */
-        scrollTo: function (index) {
+        scrollTo: function(index) {
           
             var self, isCircular, numItems, numVisible, attr, cb, first, offset, number_page;
                 

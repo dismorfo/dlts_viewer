@@ -62,7 +62,7 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
     /*
     Use flexbox when possible to avoid `letter-spacing` side-effects.
 
-    NOTE: Firefox (as of 25) does not currently support flex-wrap, so the
+    NOTE: Firefox(as of 25) does not currently support flex-wrap, so the
     `-moz-` prefix version is omitted.
     */
 
@@ -75,8 +75,8 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
     
     /* Prevents distributing space between rows */
     -ms-align-content: flex-start;
-	-webkit-align-content: flex-start;
-	align-content: flex-start;
+  -webkit-align-content: flex-start;
+  align-content: flex-start;
 }
 
 /* Opera as of 12 on Windows needs word-spacing.

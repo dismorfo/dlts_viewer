@@ -1,12 +1,17 @@
 <?php
 
-function create_dlts_collection ( $node ) {
+/**
+ * @file
+ * DLTS Viewer drush
+ */
+
+function create_dlts_collection($node) {
 
   global $user;
 
-  $exists = collection_nid( $node['identifier'] );
+  $exists = collection_nid($node['identifier']);
 
-  if ( $exists ) {
+  if ($exists) {
 
     // Load the node by NID
     $entity = node_load($exists);
@@ -27,7 +32,7 @@ function create_dlts_collection ( $node ) {
       'comment' => 0,
       'promote' => 0,
       'language' => LANGUAGE_NONE, // make sure we only translate the book object
-    );
+   );
 
     $entity = entity_create('node', $values);
 
@@ -40,40 +45,40 @@ function create_dlts_collection ( $node ) {
 
   $entity->exists = $exists;
 
-  $uniqid = (string) uniqid();
+  $uniqid =(string) uniqid();
 
-  if ( isset( $node['title'] ) ) {
-    $ewrapper->title->set( $node['title'] );
+  if (isset($node['title'] )) {
+    $ewrapper->title->set($node['title']);
   }
   else {
-    $ewrapper->title->set( 'collection ' . $uniqid );
+    $ewrapper->title->set('collection ' . $uniqid);
   }
 
-  if ( isset( $node['identifier'] ) ) {
-    $ewrapper->field_identifier->set( $node['identifier'] );
+  if (isset($node['identifier'] )) {
+    $ewrapper->field_identifier->set($node['identifier']);
   }
   else {
-    $ewrapper->title->set( 'collection ' . $uniqid );
+    $ewrapper->title->set('collection ' . $uniqid);
   }
 
-  if ( isset( $node['code'] ) ) {
-    $ewrapper->field_code->set( $node['code'] );
+  if (isset($node['code'] )) {
+    $ewrapper->field_code->set($node['code']);
   }
 
-  if ( isset( $node['name'] ) ) {
-    $ewrapper->field_name->set( $node['name'] );
+  if (isset($node['name'] )) {
+    $ewrapper->field_name->set($node['name']);
   }
 
-  if ( isset( $node['partner'] ) ) {
+  if (isset($node['partner'] )) {
     $partner_nid = partner_nid($node['partner']->identifier);
     if ($partner_nid) {
-      $ewrapper->field_partner->set( array( $partner_nid ));
+      $ewrapper->field_partner->set(array($partner_nid ));
     }
     else {
-    	$partner_nid = create_dlts_partner( $node['partner'] );
-    	if ($partner_nid) {
-    		$ewrapper->field_partner->set( array( $partner_nid ));
-    	}
+      $partner_nid = create_dlts_partner($node['partner']);
+      if ($partner_nid) {
+        $ewrapper->field_partner->set(array($partner_nid ));
+      }
     }
   }
 

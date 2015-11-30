@@ -80,7 +80,7 @@ function dlts_book_features_strongarm() {
         ),
       ),
     ),
-  );
+ );
   $export['field_bundle_settings_node__dlts_book'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -100,7 +100,7 @@ function dlts_book_features_strongarm() {
       ),
       'display' => array(),
     ),
-  );
+ );
   $export['field_bundle_settings_node__dlts_collection'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -151,7 +151,7 @@ function dlts_book_features_strongarm() {
       ),
       'display' => array(),
     ),
-  );
+ );
   $export['field_bundle_settings_node__dlts_map'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -171,7 +171,7 @@ function dlts_book_features_strongarm() {
       ),
       'display' => array(),
     ),
-  );
+ );
   $export['field_bundle_settings_node__dlts_multivol'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -219,7 +219,7 @@ function dlts_book_features_strongarm() {
       ),
       'display' => array(),
     ),
-  );
+ );
   $export['field_bundle_settings_node__dlts_multivol_book'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -239,7 +239,7 @@ function dlts_book_features_strongarm() {
       ),
       'display' => array(),
     ),
-  );
+ );
   $export['field_bundle_settings_node__dlts_partner'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -259,7 +259,7 @@ function dlts_book_features_strongarm() {
       ),
       'display' => array(),
     ),
-  );
+ );
   $export['field_bundle_settings_node__dlts_series'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -279,7 +279,7 @@ function dlts_book_features_strongarm() {
       ),
       'display' => array(),
     ),
-  );
+ );
   $export['field_bundle_settings_node__dlts_series_book'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -337,7 +337,7 @@ function dlts_book_features_strongarm() {
   $strongarm->name = 'i18n_node_options_dlts_book';
   $strongarm->value = array(
     0 => 'current',
-  );
+ );
   $export['i18n_node_options_dlts_book'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -418,7 +418,7 @@ function dlts_book_features_strongarm() {
     'plain_text' => 'plain_text',
     'filtered_html' => 0,
     'full_html' => 0,
-  );
+ );
   $export['i18n_string_allowed_formats'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -469,7 +469,7 @@ function dlts_book_features_strongarm() {
     33 => 'field_volume',
     34 => 'field_publication_date_text',
     35 => 'field_partner',
-  );
+ );
   $export['i18n_sync_node_type_dlts_book'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -532,7 +532,7 @@ function dlts_book_features_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'language_default';
-  $strongarm->value = (object) array(
+  $strongarm->value =(object) array(
     'language' => 'en',
     'name' => 'English',
     'native' => 'English',
@@ -544,7 +544,7 @@ function dlts_book_features_strongarm() {
     'prefix' => '',
     'weight' => 0,
     'javascript' => '',
-  );
+ );
   $export['language_default'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -580,7 +580,7 @@ function dlts_book_features_strongarm() {
       ),
       'file' => 'includes/locale.inc',
     ),
-  );
+ );
   $export['language_negotiation_language_url'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -591,7 +591,7 @@ function dlts_book_features_strongarm() {
     'language' => TRUE,
     'language_content' => TRUE,
     'language_url' => FALSE,
-  );
+ );
   $export['language_types'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -618,7 +618,7 @@ function dlts_book_features_strongarm() {
     'locale-user' => '-4',
     'locale-browser' => '-2',
     'language-default' => '10',
-  );
+ );
   $export['locale_language_providers_weight_language'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -632,7 +632,7 @@ function dlts_book_features_strongarm() {
     'locale-browser' => '-2',
     'locale-interface' => '8',
     'language-default' => '10',
-  );
+ );
   $export['locale_language_providers_weight_language_content'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -641,7 +641,7 @@ function dlts_book_features_strongarm() {
   $strongarm->name = 'menu_options_dlts_book';
   $strongarm->value = array(
     0 => 'main-menu',
-  );
+ );
   $export['menu_options_dlts_book'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -650,7 +650,7 @@ function dlts_book_features_strongarm() {
   $strongarm->name = 'menu_options_dlts_collection';
   $strongarm->value = array(
     0 => 'main-menu',
-  );
+ );
   $export['menu_options_dlts_collection'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -659,7 +659,7 @@ function dlts_book_features_strongarm() {
   $strongarm->name = 'menu_options_dlts_map';
   $strongarm->value = array(
     0 => 'main-menu',
-  );
+ );
   $export['menu_options_dlts_map'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -668,7 +668,7 @@ function dlts_book_features_strongarm() {
   $strongarm->name = 'menu_options_dlts_multivol';
   $strongarm->value = array(
     0 => 'main-menu',
-  );
+ );
   $export['menu_options_dlts_multivol'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -677,7 +677,7 @@ function dlts_book_features_strongarm() {
   $strongarm->name = 'menu_options_dlts_multivol_book';
   $strongarm->value = array(
     0 => 'main-menu',
-  );
+ );
   $export['menu_options_dlts_multivol_book'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -686,7 +686,7 @@ function dlts_book_features_strongarm() {
   $strongarm->name = 'menu_options_dlts_partner';
   $strongarm->value = array(
     0 => 'main-menu',
-  );
+ );
   $export['menu_options_dlts_partner'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -695,7 +695,7 @@ function dlts_book_features_strongarm() {
   $strongarm->name = 'menu_options_dlts_series';
   $strongarm->value = array(
     0 => 'main-menu',
-  );
+ );
   $export['menu_options_dlts_series'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -704,7 +704,7 @@ function dlts_book_features_strongarm() {
   $strongarm->name = 'menu_options_dlts_series_book';
   $strongarm->value = array(
     0 => 'main-menu',
-  );
+ );
   $export['menu_options_dlts_series_book'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -776,7 +776,7 @@ function dlts_book_features_strongarm() {
   $strongarm->name = 'node_options_dlts_book';
   $strongarm->value = array(
     0 => 'status',
-  );
+ );
   $export['node_options_dlts_book'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -786,7 +786,7 @@ function dlts_book_features_strongarm() {
   $strongarm->value = array(
     0 => 'status',
     1 => 'promote',
-  );
+ );
   $export['node_options_dlts_collection'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -795,7 +795,7 @@ function dlts_book_features_strongarm() {
   $strongarm->name = 'node_options_dlts_map';
   $strongarm->value = array(
     0 => 'status',
-  );
+ );
   $export['node_options_dlts_map'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -805,7 +805,7 @@ function dlts_book_features_strongarm() {
   $strongarm->value = array(
     0 => 'status',
     1 => 'promote',
-  );
+ );
   $export['node_options_dlts_multivol'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -815,7 +815,7 @@ function dlts_book_features_strongarm() {
   $strongarm->value = array(
     0 => 'status',
     1 => 'promote',
-  );
+ );
   $export['node_options_dlts_multivol_book'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -825,7 +825,7 @@ function dlts_book_features_strongarm() {
   $strongarm->value = array(
     0 => 'status',
     1 => 'promote',
-  );
+ );
   $export['node_options_dlts_partner'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -834,7 +834,7 @@ function dlts_book_features_strongarm() {
   $strongarm->name = 'node_options_dlts_series';
   $strongarm->value = array(
     0 => 'status',
-  );
+ );
   $export['node_options_dlts_series'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -843,7 +843,7 @@ function dlts_book_features_strongarm() {
   $strongarm->name = 'node_options_dlts_series_book';
   $strongarm->value = array(
     0 => 'status',
-  );
+ );
   $export['node_options_dlts_series_book'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -1391,7 +1391,7 @@ function dlts_book_features_strongarm() {
   $strongarm->name = 'path_alias_whitelist';
   $strongarm->value = array(
     'user' => TRUE,
-  );
+ );
   $export['path_alias_whitelist'] = $strongarm;
 
   return $export;

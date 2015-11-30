@@ -1,13 +1,13 @@
 // http://yuilibrary.com/yui/docs/event/synth-example.html
 // http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
-Y.use('node', 'event-synthetic', 'event-custom', function (Y) {
+Y.use('node', 'event-synthetic', 'event-custom', function(Y) {
   
   Y.Event.define("arrow", {
     // Webkit and IE repeat keydown when you hold down arrow keys.
     // Opera links keypress to page scroll; others keydown.
     // Firefox prevents page scroll via preventDefault() on either
     // keydown or keypress.
-    _event: (Y.UA.webkit || Y.UA.ie) ? 'keydown' : 'keypress',
+    _event:(Y.UA.webkit || Y.UA.ie) ? 'keydown' : 'keypress',
 
     _keys: {
         37: true,
@@ -23,7 +23,7 @@ Y.use('node', 'event-synthetic', 'event-custom', function (Y) {
         '40': 's'
     },
 
-    _keydown: function (e) {
+    _keydown: function(e) {
         if (this._keys[e.keyCode]) {
             var node = e.currentTarget,
                 input = node.getData('-yui3-arrow-dir');
@@ -41,7 +41,7 @@ Y.use('node', 'event-synthetic', 'event-custom', function (Y) {
         }
     },
 
-    _notify: function (e, notifier) {
+    _notify: function(e, notifier) {
         if (this._keys[e.keyCode]) {
             var node = e.currentTarget,
                 input  = node.getData('-yui3-arrow-dir'),
@@ -49,7 +49,7 @@ Y.use('node', 'event-synthetic', 'event-custom', function (Y) {
                 direction = [e.keyCode],
                 i;
 
-            for (i = input.length - 1; i >= 0; --i) {
+            for(i = input.length - 1; i >= 0; --i) {
                 if ((e.keyCode - input[i]) % 2) {
                     direction.push(input[i]);
                     break;
@@ -60,14 +60,14 @@ Y.use('node', 'event-synthetic', 'event-custom', function (Y) {
         }
     },
 
-    _keyup: function (e) {
+    _keyup: function(e) {
         if (this._keys[e.keyCode]) {
             var node = e.currentTarget,
                 input = node.getData('-yui3-arrow-dir'),
                 i;
 
             if (input) {
-                for (i = input.length - 1; i >= 0; --i) {
+                for(i = input.length - 1; i >= 0; --i) {
                     if (input[i] === e.keyCode) {
                         input.splice(i, 1);
                         break;
@@ -77,8 +77,8 @@ Y.use('node', 'event-synthetic', 'event-custom', function (Y) {
         }
     },
 
-    on: function (node, sub, notifier, filter) {
-        var method = (filter) ? 'delegate' : 'on';
+    on: function(node, sub, notifier, filter) {
+        var method =(filter) ? 'delegate' : 'on';
         sub._handle = new Y.EventHandle([
             node[method]('keydown', Y.rbind(this._keydown, this), filter),
             node[method](this._event, Y.rbind(this._notify, this, notifier), filter),            
@@ -86,15 +86,15 @@ Y.use('node', 'event-synthetic', 'event-custom', function (Y) {
         ]);
     },
 
-    detach: function (node, sub, notifier) {
+    detach: function(node, sub, notifier) {
         sub._handle.detach();
     },
 
-    delegate: function () {
+    delegate: function() {
         this.on.apply(this, arguments);
     },
 
-    detachDelegate: function () {
+    detachDelegate: function() {
         this.detach.apply(this, arguments);
     }
 
@@ -104,7 +104,7 @@ Y.use('node', 'event-synthetic', 'event-custom', function (Y) {
     e.preventDefault();
     var map = OpenLayers.DLTS.pages[0], size, handled = true, slideFactor = 75;
     if (!e.shiftKey) {
-      switch (e.direction) {
+      switch(e.direction) {
         case 'n':
           map.pan(0, -slideFactor);
           break;
@@ -126,7 +126,7 @@ Y.use('node', 'event-synthetic', 'event-custom', function (Y) {
     // Shift opptions
     else {
       
-      switch (e.direction) {
+      switch(e.direction) {
         case 'e':
           Y.fire('openlayers:next', e);
           

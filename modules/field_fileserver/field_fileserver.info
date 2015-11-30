@@ -1,0 +1,7 @@
+name = Field File Server
+description = Defines File Server field.
+package = DLTS
+version = VERSION
+core = 7.x
+dependencies[] = field
+

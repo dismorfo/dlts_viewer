@@ -1,16 +1,21 @@
 <?php
 
 /**
+ * @file
+ * Embed
+ */
+
+/**
  * Supports the REST style embed
  */
-function dlts_viewer_embed_using_id( $dlts_book ) {
-  if ( is_object ( $dlts_book ) ) {
+function dlts_viewer_embed_using_id($dlts_book) {
+  if (is_object($dlts_book )) {
     $bnode = $dlts_book ;
   }
   else {
     return MENU_NOT_FOUND;
   }
-  return dlts_viewer_embed_response( $bnode );
+  return dlts_viewer_embed_response($bnode);
 }
 
 /**
@@ -21,19 +26,19 @@ function dlts_viewer_embed_using_id( $dlts_book ) {
  *
  * @todo Test oembed_node for whether it's actually a node
  */
-function dlts_viewer_embed_response ( $dlts_book, $pre_response = array() ) {
+function dlts_viewer_embed_response($dlts_book, $pre_response = array()) {
 
   /*
    * Invoke the URL that was passed as if it was its own request.
   */
   $node = $dlts_book;
 
-  if ( !$node ) {
+  if (!$node) {
     watchdog('dlts_viewer', 'An Unexpected Error Has Occurred. The given path: :path does not exist.', array(':path' => $pre_response['node_path']), WATCHDOG_ERROR);
     return array(
         'code' => MENU_NOT_FOUND,
         'msg' => t('An Unexpected Error Has Occurred. The given path does not exist.' ),
-    );
+   );
   }
 
   switch ($node->type) {
@@ -48,7 +53,7 @@ function dlts_viewer_embed_response ( $dlts_book, $pre_response = array() ) {
       /*
        * TODO: Fix assumption that all pages have a relationship with a book.
       */
-      $field_book = field_get_items( 'node', $page, 'field_book' );
+      $field_book = field_get_items('node', $page, 'field_book');
       $book = node_load($field_book[0]['nid']);
       break;
   }
@@ -60,7 +65,7 @@ function dlts_viewer_embed_response ( $dlts_book, $pre_response = array() ) {
       'callback' => '',
       'iframe' => TRUE,
       'mode' => 'single_page',
-  );
+ );
 
   $arguments = array_merge($argument_defaults, $pre_response);
 
@@ -69,7 +74,7 @@ function dlts_viewer_embed_response ( $dlts_book, $pre_response = array() ) {
   * field is required
   */
 
-  $field_title = field_get_items( 'node', $book, 'field_title' );
+  $field_title = field_get_items('node', $book, 'field_title');
   $title = $field_title[0]['safe_value'];
 
   /*
@@ -78,15 +83,18 @@ function dlts_viewer_embed_response ( $dlts_book, $pre_response = array() ) {
   */
 
   $authors = array();
+
   $author  = '';
 
-  foreach ( (array) field_get_items( 'node', $book, 'field_author' ) as $author) {
-    if ( isset($author['safe_value']) ) {
+  foreach ((array) field_get_items('node', $book, 'field_author' ) as $author) {
+    if (isset($author['safe_value'])) {
       $authors[] = $author['safe_value'];
     }
-  } if ( !empty( $authors ) ) {
+  }
+  if (!empty($authors )) {
     $author = implode(', ', $authors);
-  } else {
+  }
+  else {
     $author = t('undefined');
   }
 
@@ -99,15 +107,15 @@ function dlts_viewer_embed_response ( $dlts_book, $pre_response = array() ) {
    * Get book representitive image
   */
 
-  $field_representitive_image = field_get_items( 'node', $book, 'field_representative_image' );
-  $thumbnail_url = file_create_url( $field_representitive_image[0]['uri'] );
+  $field_representitive_image = field_get_items('node', $book, 'field_representative_image');
+  $thumbnail_url = file_create_url($field_representitive_image[0]['uri']);
 
 
-  if ( !empty($arguments['uri']['modified']) ) {
-    $url = url( $arguments['uri']['modified'], array('query' => array ('oembed' => 'true'), 'absolute' => TRUE));
-  } 
+  if (!empty($arguments['uri']['modified'])) {
+    $url = url($arguments['uri']['modified'], array('query' => array('oembed' => 'true'), 'absolute' => TRUE));
+  }
   else {
-    $url = url( $arguments['uri']['request'], array('query' => array ('oembed' => 'true')));
+    $url = url($arguments['uri']['request'], array('query' => array('oembed' => 'true')));
   }
 
   $response = array(
@@ -124,9 +132,9 @@ function dlts_viewer_embed_response ( $dlts_book, $pre_response = array() ) {
       'thumbnail_height' => 154,
       'width' => (int) $arguments['width'],
       'height' => (int) $arguments['height'],
-  );
+ );
 
-  if ( $arguments['iframe'] ) {
+  if ($arguments['iframe']) {
     $response['html'] = theme('dlts_viewer_oembed', array(
         'url' => $url,
         'width' => $arguments['width'],

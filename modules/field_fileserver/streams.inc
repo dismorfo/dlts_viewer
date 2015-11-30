@@ -30,8 +30,11 @@
 class FileFilesServerStreamWrapper extends DrupalPublicStreamWrapper {
 
   function getFileServerUrl() {
+  
     $base_url = $GLOBALS['base_url'] . '/' . variable_get('file_public_path', conf_path() . '/files') ;
-    return variable_get('dlts_viewer_fileserver_host', $base_url);  
+
+    return variable_get('dlts_viewer_fileserver_host', $base_url ) ;
+    
   }
 
   /**
@@ -40,8 +43,11 @@ class FileFilesServerStreamWrapper extends DrupalPublicStreamWrapper {
    * Return the HTML URI of a public file.
    */
   function getExternalUrl() {
-    $path = str_replace('\\', '/', $this->getTarget());
+
+    $path = str_replace('\\', '/', $this->getTarget()) ;
+    
     // the books part here its just here while I fix the entry in MongoDB
-    return self::getFileServerUrl() . '/' . drupal_encode_path($path);
+    return self::getFileServerUrl()  . '/' . drupal_encode_path($path) ;
+
   }
 }

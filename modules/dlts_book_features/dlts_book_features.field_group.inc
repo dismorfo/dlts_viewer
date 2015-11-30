@@ -56,7 +56,7 @@ function dlts_book_features_field_group_info() {
         'required_fields' => 1,
       ),
     ),
-  );
+ );
   $export['group_descriptive_metadata|node|dlts_book|form'] = $field_group;
 
   $field_group = new stdClass();
@@ -103,7 +103,7 @@ function dlts_book_features_field_group_info() {
       ),
       'formatter' => 'open',
     ),
-  );
+ );
   $export['group_descriptive_metadata|node|dlts_book|metadata'] = $field_group;
 
   $field_group = new stdClass();
@@ -131,7 +131,7 @@ function dlts_book_features_field_group_info() {
         'required_fields' => 1,
       ),
     ),
-  );
+ );
   $export['group_essence|node|dlts_book|form'] = $field_group;
 
   $field_group = new stdClass();
@@ -157,7 +157,7 @@ function dlts_book_features_field_group_info() {
         'required_fields' => 1,
       ),
     ),
-  );
+ );
   $export['group_essence|node|dlts_book|metadata'] = $field_group;
 
   $field_group = new stdClass();
@@ -185,7 +185,7 @@ function dlts_book_features_field_group_info() {
         'required_fields' => 1,
       ),
     ),
-  );
+ );
   $export['group_structural_metadata|node|dlts_book|form'] = $field_group;
 
   $field_group = new stdClass();
@@ -213,7 +213,7 @@ function dlts_book_features_field_group_info() {
         'required_fields' => 1,
       ),
     ),
-  );
+ );
   $export['group_structural_metadata|node|dlts_book|metadata'] = $field_group;
 
   $field_group = new stdClass();
@@ -240,7 +240,7 @@ function dlts_book_features_field_group_info() {
         'required_fields' => 1,
       ),
     ),
-  );
+ );
   $export['group_technical_metadata|node|dlts_book|form'] = $field_group;
 
   $field_group = new stdClass();
@@ -264,7 +264,7 @@ function dlts_book_features_field_group_info() {
       'formatter' => '',
       'instance_settings' => array(),
     ),
-  );
+ );
   $export['group_technical_metadata|node|dlts_book|metadata'] = $field_group;
 
   return $export;

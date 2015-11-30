@@ -43,8 +43,8 @@ Y.use(
         if (Y.Array.indexOf(transactions, href) < 0 && !body.hasClass('io-loading')) {
           if (
             body.scrollInfo.getScrollInfo().atBottom ||
-            (Y.IdleTimer.isIdle() && pager.get('region').top - fold < body.get('winHeight'))
-          ) {
+           (Y.IdleTimer.isIdle() && pager.get('region').top - fold < body.get('winHeight'))
+         ) {
             page = unescape(href.replace(new RegExp("^(?:.*[&\\?]" + escape('page').replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
             Y.io.queue(requestURI + page);
           }

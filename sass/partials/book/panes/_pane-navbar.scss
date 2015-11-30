@@ -158,7 +158,7 @@ $break-large: 1200px;
   }  
 }
 
-@media screen and (max-width: $break-medium) {
+@media screen and(max-width: $break-medium) {
   .navbar-left, .navbar-middle, .navbar-arrows {
     padding: 0;
   }
@@ -167,7 +167,7 @@ $break-large: 1200px;
   }
 }
 
-@media screen and (max-width: $break-small) {
+@media screen and(max-width: $break-small) {
   .navbar-fullscreen .navbar-item, .navbar-item {
     margin: 0 .2em;
   }

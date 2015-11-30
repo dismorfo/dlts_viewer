@@ -1,8 +1,8 @@
-Y.use('overlay', 'event', 'event-delegate', 'widget-anim', function (Y) {
-	'use strict';
-	
-	// http://yuilibrary.com/yui/docs/overlay/overlay-tooltip.html
-	
+Y.use('overlay', 'event', 'event-delegate', 'widget-anim', function(Y) {
+  'use strict';
+  
+  // http://yuilibrary.com/yui/docs/overlay/overlay-tooltip.html
+  
     var waitingToShow = false;
         
     var tooltip = new Y.Overlay({
@@ -15,7 +15,7 @@ Y.use('overlay', 'event', 'event-delegate', 'widget-anim', function (Y) {
     tooltip.render();
 
     // handler that positions and shows the tooltip 
-    var onMousemove = function (e) {
+    var onMousemove = function(e) {
         var i, currentTarget, text;
         
         currentTarget = e.currentTarget;
@@ -23,7 +23,7 @@ Y.use('overlay', 'event', 'event-delegate', 'widget-anim', function (Y) {
         if (tooltip.get('visible') === false) {
             // while it's still hidden, move the tooltip adjacent to the cursor
             Y.one('.tooltip').setStyle('opacity', '0');
-            tooltip.move([(e.pageX + 10), (e.pageY + 20)]);
+            tooltip.move([(e.pageX + 10),(e.pageY + 20)]);
         }
         
         if (waitingToShow === false) {
@@ -40,15 +40,15 @@ Y.use('overlay', 'event', 'event-delegate', 'widget-anim', function (Y) {
             text = currentTarget.getAttribute('data-title');
             
             if (text) {
-                tooltip.setStdModContent('body', text);	
+                tooltip.setStdModContent('body', text);  
             }
         }
     }
 
     // handler that hides the tooltip
-    var onMouseleave = function (e) {
+    var onMouseleave = function(e) {
         // this check prevents hiding the tooltip when the cursor moves over the tooltip itself
-        if ((e.relatedTarget) && (e.relatedTarget.hasClass('yui3-widget-bd') === false)) {
+        if ((e.relatedTarget) &&(e.relatedTarget.hasClass('yui3-widget-bd') === false)) {
             tooltip.hide();
             waitingToShow = false;            
         }

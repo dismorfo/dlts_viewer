@@ -17,10 +17,10 @@
  *   - block-[module]: The module generating the block. For example, the user module
  *     is responsible for handling the default user navigation block. In that case
  *     the class would be "block-user".
- * - $title_prefix (array): An array containing additional output populated by
+ * - $title_prefix(array): An array containing additional output populated by
  *   modules, intended to be displayed in front of the main title tag that
  *   appears in the template.
- * - $title_suffix (array): An array containing additional output populated by
+ * - $title_suffix(array): An array containing additional output populated by
  *   modules, intended to be displayed after the main title tag that appears in
  *   the template.
  *

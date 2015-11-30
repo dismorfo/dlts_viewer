@@ -25,7 +25,7 @@ function dlts_book_features_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
-  );
+ );
   $export['node|dlts_book|metadata'] = $ds_fieldsetting;
 
   $ds_fieldsetting = new stdClass();
@@ -42,7 +42,7 @@ function dlts_book_features_ds_field_settings_info() {
         ),
       ),
     ),
-  );
+ );
   $export['node|dlts_map|metadata'] = $ds_fieldsetting;
 
   return $export;
@@ -61,12 +61,12 @@ function dlts_book_features_ds_custom_fields_info() {
   $ds_field->field_type = 6;
   $ds_field->entities = array(
     'node' => 'node',
-  );
+ );
   $ds_field->ui_limit = '';
   $ds_field->properties = array(
     'block' => 'views|ff662681e3c55e01c76472b14059f973',
     'block_render' => '3',
-  );
+ );
   $export['multivolume_by_identifier_select'] = $ds_field;
 
   $ds_field = new stdClass();
@@ -76,12 +76,12 @@ function dlts_book_features_ds_custom_fields_info() {
   $ds_field->field_type = 6;
   $ds_field->entities = array(
     'node' => 'node',
-  );
+ );
   $ds_field->ui_limit = '';
   $ds_field->properties = array(
     'block' => 'views|65adcdd84849d7419640ca9bef8a6b82',
     'block_render' => '3',
-  );
+ );
   $export['multivolume_select'] = $ds_field;
 
   $ds_field = new stdClass();
@@ -91,12 +91,12 @@ function dlts_book_features_ds_custom_fields_info() {
   $ds_field->field_type = 6;
   $ds_field->entities = array(
     'node' => 'node',
-  );
+ );
   $ds_field->ui_limit = '*|*';
   $ds_field->properties = array(
     'block' => 'views|series_for_a_book-block',
     'block_render' => '3',
-  );
+ );
   $export['series_for_this_book'] = $ds_field;
 
   return $export;

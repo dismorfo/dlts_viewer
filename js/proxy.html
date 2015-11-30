@@ -8,7 +8,7 @@
 /*jslint evil:true */
 /*
  * This file is for the browsers which does not implement HTML 5 web messaging.
- * Currently (2010-10) that would be Internet Explorer 6 and 7.
+ * Currently(2010-10) that would be Internet Explorer 6 and 7.
  *
  * You need to place this file under same domain that message posts to.
  * For example, you want to send message from a.com to iframe of b.com, you need to place this in b.com.
@@ -21,7 +21,7 @@
 
 console.log('dlts book proxy.html')
 
-(function () {
+(function() {
 
     var _data,
         targetWindow,
@@ -45,7 +45,7 @@ console.log('dlts book proxy.html')
      * @param hash {String} URL fragment identifier
      * @return {Object} hash information in object literal format
      */
-    _parseQueryString = function (hash) {
+    _parseQueryString = function(hash) {
         var data,
             i,
             j,
@@ -54,7 +54,7 @@ console.log('dlts book proxy.html')
 
         data = {};
         items = hash.split("&");
-        for (i = 0, j = items.length; i < j; i = i + 1) {
+        for(i = 0, j = items.length; i < j; i = i + 1) {
             item = items[i].split("=");
             if (item.length === 2 && item[0].length > 0) {
                 data[item[0]] = decodeURIComponent(item[1]);
@@ -75,7 +75,7 @@ console.log('dlts book proxy.html')
         !_data.hasOwnProperty("tid") ||
         !_data.hasOwnProperty("message") ||
         !_data.hasOwnProperty("target")
-    ) {
+   ) {
         return;
     }
 
@@ -101,7 +101,7 @@ console.log('dlts book proxy.html')
     }
 
     // FIXME: IE8 using opener stops execution here with unknown reason.
-    targetWindow.YUI().use("event-custom", "crossframe", function (Y) {
+    targetWindow.YUI().use("event-custom", "crossframe", function(Y) {
 
         // Add window.opener hack support.
         if (!_data.useProxy) {
@@ -134,7 +134,7 @@ console.log('dlts book proxy.html')
         if (decodeURIComponent(message) === Y.CrossFrame.SUCCESS_MESSAGE) {
             try {
                 targetWindow[tid](_data);
-            } catch (e) {
+            } catch(e) {
                 Y.log(e.message, "error", MODULE_ID);
             }
             return;
@@ -151,7 +151,7 @@ console.log('dlts book proxy.html')
             "ports"       : ports
         };
 
-        callback = function (o) {
+        callback = function(o) {
             if (!reverseProxy) {
                 callback = null;
                 return;
@@ -161,7 +161,7 @@ console.log('dlts book proxy.html')
 
             // Change attribute object to query string.
             query = [];
-            for (i in o) {
+            for(i in o) {
                 if (o.hasOwnProperty(i)) {
                     // Avoid overwrite.
                     if (i === "url" || i === "target" || i === "tid" || i === "message") {

@@ -14,7 +14,7 @@ YUI.use(
             fire: 'button:button-metadata:on',
             data: {}
           })
-        );
+       );
     });
 
     Y.on('button:button-metadata:off', function(e) {
@@ -22,7 +22,7 @@ YUI.use(
             fire: 'button:button-metadata:off',
             data: {}
           })
-        );
+       );
     });
 
     Y.on('button:button-fullscreen:on', function(e) {
@@ -30,7 +30,7 @@ YUI.use(
             fire: 'button:button-fullscreen:on',
             data: {}
           })
-        );
+       );
     });
 
     Y.on('button:button-fullscreen:off', function(e) {
@@ -38,7 +38,7 @@ YUI.use(
             fire: 'button:button-fullscreen:off',
             data: {}
           })
-        );
+       );
     });
 
     Y.on('openlayers:change', function(e) {
@@ -49,16 +49,16 @@ YUI.use(
               title: e.title
             }
           })
-        );
+       );
     });
 
-    Y.Global.on('crossframe:css', function (e, data, callback) { 
-        Y.Get.css(data.message, function (err) {
+    Y.Global.on('crossframe:css', function(e, data, callback) { 
+        Y.Get.css(data.message, function(err) {
             if (err) {
                 Y.log('Error loading CSS: ' + err[0].error, 'error');
                 return;
             }
-            callback( {"info": "some information from receiver. (" + parseInt(new Date().getTime()) + ")"} );
+            callback({"info": "some information from receiver.(" + parseInt(new Date().getTime()) + ")"});
         });      
     });
 

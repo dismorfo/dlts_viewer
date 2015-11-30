@@ -24,7 +24,7 @@ OpenLayers.DLTS.pages = OpenLayers.DLTS.pages || [];
  * Page Init function
  */
 
-OpenLayers.DLTS.Page = function ( container, url, config, callback ) {
+OpenLayers.DLTS.Page = function(container, url, config, callback) {
 
   var params = {
     url_ver: "Z39.88-2004",
@@ -36,7 +36,7 @@ OpenLayers.DLTS.Page = function ( container, url, config, callback ) {
     zoom: config.zoom || 0,
     service: config.service || null
   },
-	
+  
   OUlayer = new OpenLayers.Layer.OpenURL('Page', params.service, { 
     layername: params.layername, 
     format: params.format, 
@@ -48,7 +48,7 @@ OpenLayers.DLTS.Page = function ( container, url, config, callback ) {
   metadata = OUlayer.getImageMetadata(),
 
   options = {
-    center: new OpenLayers.LonLat( metadata.width / 2, metadata.height / 2),
+    center: new OpenLayers.LonLat(metadata.width / 2, metadata.height / 2),
     zoom: config.zoom,
     layers: [ OUlayer ],
     theme: null,
@@ -57,7 +57,7 @@ OpenLayers.DLTS.Page = function ( container, url, config, callback ) {
     tileSize: OUlayer.getTileSize(), 
     controls: []
   },
-	        
+          
   controls = [
     new OpenLayers.Control.DLTSZoomInPanel({div: OpenLayers.Util.getElement("control-zoom-in") }),
     new OpenLayers.Control.DLTSZoomOutPanel({div: OpenLayers.Util.getElement("control-zoom-out") }),            
@@ -89,7 +89,7 @@ OpenLayers.DLTS.Page = function ( container, url, config, callback ) {
 
   map.addControls(controls);
   
-  map.pan(0, (((map.getSize().h - (map.getTileSize().h * map.resolutions[(map.resolutions.length - (map.getZoom() + 1))])) / 2) - 5));
+  map.pan(0,(((map.getSize().h -(map.getTileSize().h * map.resolutions[(map.resolutions.length -(map.getZoom() + 1))])) / 2) - 5));
   
   OpenLayers.DLTS.pages.push(map);
   

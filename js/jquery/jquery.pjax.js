@@ -21,8 +21,8 @@
 //
 // container - Where to stick the response body. Usually a String selector.
 //             $(container).html(xhr.responseBody)
-//             (default: current jquery context)
-//      push - Whether to pushState the URL. Defaults to true (of course).
+//            (default: current jquery context)
+//      push - Whether to pushState the URL. Defaults to true(of course).
 //   replace - Want to use replaceState instead? That's cool.
 //
 // For convenience the second parameter can be either the container or
@@ -68,15 +68,15 @@ function handleClick(event, container, options) {
 
   // Middle click, cmd click, and ctrl click should open
   // links in a new tab as normal.
-  if ( event.which > 1 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey )
+  if (event.which > 1 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey )
     return
 
   // Ignore cross origin links
-  if ( location.protocol !== link.protocol || location.hostname !== link.hostname )
+  if (location.protocol !== link.protocol || location.hostname !== link.hostname )
     return
 
   // Ignore case when a hash is being tacked on the current URL
-  if ( link.href.indexOf('#') > -1 && stripHash(link) == stripHash(location) )
+  if (link.href.indexOf('#') > -1 && stripHash(link) == stripHash(location) )
     return
 
   // Ignore event with default prevented
@@ -153,19 +153,19 @@ function handleSubmit(event, container, options) {
 // then pushState()'s the loaded URL.
 //
 // Works just like $.ajax in that it accepts a jQuery ajax
-// settings object (with keys like url, type, data, etc).
+// settings object(with keys like url, type, data, etc).
 //
 // Accepts these extra keys:
 //
 // container - Where to stick the response body.
 //             $(container).html(xhr.responseBody)
-//      push - Whether to pushState the URL. Defaults to true (of course).
+//      push - Whether to pushState the URL. Defaults to true(of course).
 //   replace - Want to use replaceState instead? That's cool.
 //
 // Use it just like $.ajax:
 //
 //   var xhr = $.pjax({ url: this.href, container: '#main' })
-//   console.log( xhr.readyState )
+//   console.log(xhr.readyState )
 //
 // Returns whatever $.ajax returns.
 function pjax(options) {
@@ -253,7 +253,7 @@ function pjax(options) {
 
     // If $.pjax.defaults.version is a function, invoke it first.
     // Otherwise it can be a static string.
-    var currentVersion = (typeof $.pjax.defaults.version === 'function') ?
+    var currentVersion =(typeof $.pjax.defaults.version === 'function') ?
       $.pjax.defaults.version() :
       $.pjax.defaults.version
 
@@ -295,7 +295,7 @@ function pjax(options) {
     // Clear out any focused controls before inserting new page contents.
     try {
       document.activeElement.blur()
-    } catch (e) { }
+    } catch(e) { }
 
     if (container.title) document.title = container.title
 
@@ -528,7 +528,7 @@ function fallbackPjax(options) {
     })
   } else if (typeof data === 'object') {
     var key
-    for (key in data)
+    for(key in data)
       form.append($('<input>', {type: 'hidden', name: key, value: data[key]}))
   }
 
@@ -539,7 +539,7 @@ function fallbackPjax(options) {
 // Internal: Abort an XmlHttpRequest if it hasn't been completed,
 // also removing its event handlers.
 function abortXHR(xhr) {
-  if ( xhr && xhr.readyState < 4) {
+  if (xhr && xhr.readyState < 4) {
     xhr.onreadystatechange = $.noop
     xhr.abort()
   }
@@ -552,7 +552,7 @@ function abortXHR(xhr) {
 //
 // Returns Number.
 function uniqueId() {
-  return (new Date).getTime()
+  return(new Date).getTime()
 }
 
 function cloneContents(container) {
@@ -613,11 +613,11 @@ function stripHash(location) {
 // Returns options Object.
 function optionsFor(container, options) {
   // Both container and options
-  if ( container && options )
+  if (container && options )
     options.container = container
 
   // First argument is options Object
-  else if ( $.isPlainObject(container) )
+  else if ($.isPlainObject(container) )
     options = container
 
   // Only container
@@ -642,11 +642,11 @@ function optionsFor(container, options) {
 function findContainerFor(container) {
   container = $(container)
 
-  if ( !container.length ) {
+  if (!container.length) {
     throw "no pjax container for " + container.selector
-  } else if ( container.selector !== '' && container.context === document ) {
+  } else if (container.selector !== '' && container.context === document) {
     return container
-  } else if ( container.attr('id') ) {
+  } else if (container.attr('id')) {
     return $('#' + container.attr('id'))
   } else {
     throw "cant get selector for pjax container!"
@@ -827,7 +827,7 @@ function cachePop(direction, id, value) {
   trimCacheStack(pushStack, pjax.defaults.maxCacheLength)
 }
 
-// Trim a cache stack (either cacheBackStack or cacheForwardStack) to be no
+// Trim a cache stack(either cacheBackStack or cacheForwardStack) to be no
 // longer than the specified length, deleting cached DOM elements as necessary.
 //
 // stack  - Array of state IDs
@@ -835,7 +835,7 @@ function cachePop(direction, id, value) {
 //
 // Returns nothing.
 function trimCacheStack(stack, length) {
-  while (stack.length > length)
+  while(stack.length > length)
     delete cacheMapping[stack.shift()]
 }
 
@@ -905,7 +905,7 @@ function disable() {
 
 // Add the state property to jQuery's event object so we can use it in
 // $(window).bind('popstate')
-if ( $.inArray('state', $.event.props) < 0 )
+if ($.inArray('state', $.event.props) < 0 )
   $.event.props.push('state')
 
 // Is pjax supported by this browser?
