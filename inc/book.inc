@@ -46,8 +46,16 @@ function dlts_viewer_dispatch_thumbnails($identifier) {
 
     // iterate through the results
     foreach ($cursor as $result) {
+    
+      print_r ( $result );
 
-      $result['sequence'] = min($result['sequence'] ) ;
+      // We will have a new structure. THIS WILL CHANGE leave this hack until new structure
+      if (is_array($result['sequence'])) {
+        $result['sequence'] = min ($result['sequence']);
+      }
+      else {
+        $result['sequence'] = $result['sequence'];
+      }
 
       $result['url'] = url('books/' . $identifier . '/' . $result['sequence'] , array('absolute' => TRUE ));
 
@@ -140,17 +148,28 @@ function dlts_viewer_dispatcher($entity , $arg) {
   if (isset($query_parameters['rows'])) {
     $thumbnails_rows_per_page = filter_xss($query_parameters['rows']);
   }
+  
+  $sequence = $arg['sequence'];
+  
+  if (is_array($sequence)) {
+    /** get the first page of the requested sequence */
+    $page = min($sequence);
 
-  /** get the first page of the requested sequence */
-  $page = min($arg['sequence']);
+    $sequence_max = max($sequence);
 
-  $sequence_max = max($arg['sequence']);
+    $sequence_min = min($sequence);
 
-  $sequence_min = min($arg['sequence']);
-
-  /** check if this is a double page view */
-  if (count($arg['sequence'] ) > 1) {
-    $is_single_page = FALSE ;
+    /** check if this is a double page view */
+    if (count($sequence) > 1) {
+      $is_single_page = FALSE ;
+    }
+  }
+  else {
+    /** get the first page of the requested sequence */
+    $page = $sequence_max = $sequence_min = $sequence;
+    
+    $is_single_page = TRUE;
+    
   }
 
   /** do we really want this as the page title? */
