@@ -40,15 +40,13 @@ function dlts_viewer_dispatch_thumbnails($identifier) {
 
     $items = array();
 
-    $image_server_service = variable_get('dlts_image_djatoka_service', 'http://localhost:8080/adore-djatoka') ;
+    $image_server_service = variable_get('dlts_viewer_djatoka_service', 'http://localhost:8080/adore-djatoka') ;
 
     $placeholder = url(drupal_get_path('module', 'dlts_viewer') . '/images/loadhold.png' , array('absolute' => TRUE ));
 
     // iterate through the results
     foreach ($cursor as $result) {
     
-      print_r ( $result );
-
       // We will have a new structure. THIS WILL CHANGE leave this hack until new structure
       if (is_array($result['sequence'])) {
         $result['sequence'] = min ($result['sequence']);
