@@ -28,12 +28,13 @@
  * @ingroup dlts_viewer
  */
 class FileFilesServerStreamWrapper extends DrupalPublicStreamWrapper {
-
-  function getFileServerUrl() {
-    $base_url = $GLOBALS['base_url'] . '/' . variable_get('file_public_path', conf_path() . '/files') ;
-    return variable_get('dlts_viewer_fileserver_host', $base_url);  
+	/**
+	 * Return FileServer URL
+	 */
+	function getFileServerUrl() {
+    $base_url = $GLOBALS['base_url'] . '/' . variable_get('file_public_path', conf_path() . '/files');
+    return variable_get('dlts_viewer_fileserver_host', $base_url);
   }
-
   /**
    * Overrides getExternalUrl().
    *
@@ -41,7 +42,6 @@ class FileFilesServerStreamWrapper extends DrupalPublicStreamWrapper {
    */
   function getExternalUrl() {
     $path = str_replace('\\', '/', $this->getTarget());
-    // the books part here its just here while I fix the entry in MongoDB
     return self::getFileServerUrl() . '/' . drupal_encode_path($path);
   }
 }

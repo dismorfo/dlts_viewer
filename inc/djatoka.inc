@@ -9,23 +9,15 @@
  * Djatoka request
  */
 function dlts_viewer_djatoka_request($file) {
-
-  $file = (object) $file;
-
+ $file = (object) $file;
   $service_url = variable_get('dlts_viewer_djatoka_service', 'http://localhost:8080/adore-djatoka');
-
   $rft_id = file_create_url($file->uri);
-
   if (isset($file->timestamp)) {
     $rft_id = $rft_id . '?v=' . $file->timestamp;
   }
-
   if (!empty($service_url)) {
-
     $request = url($service_url . '/resolver', array('absolute' => TRUE, 'query' => array('url_ver' => 'Z39.88-2004', 'svc_id' => 'info:lanl-repo/svc/getMetadata', 'rft_id' => $rft_id)));
-
     $response = drupal_http_request($request);
-
     if ($response->code == '200' && isset($response->data)) {
       return drupal_json_decode($response->data);
     }
