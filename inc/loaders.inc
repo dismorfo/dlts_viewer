@@ -24,86 +24,73 @@
  * going to have access anyway, at the cost of an extra JOIN here.
  */
 function dlts_book_load($identifier) {
-
-  $language = LANGUAGE_NONE ;
-
-  $query_parameters = drupal_get_query_parameters() ;
-
-  if (isset($query_parameters['lang'] )) {
-    $language = filter_xss($query_parameters['lang'] ) ;
+  $language = LANGUAGE_NONE;
+  $query_parameters = drupal_get_query_parameters();
+  if (isset($query_parameters['lang'])) {
+    $language = filter_xss($query_parameters['lang']);
   }
-
   $query = new EntityFieldQuery;
-
-  $identifier = filter_xss($identifier) ;
-
+  $identifier = filter_xss($identifier);
   $result = $query->entityCondition('entity_type', 'node')
-                  ->entityCondition('bundle', 'dlts_book')
-                  ->propertyCondition('status', 1) // only load books that are published
-                  // ->propertyCondition('language', $language) // fix this
-                  ->fieldCondition('field_identifier', 'value', $identifier, '=')
-                  ->execute();
-
-  if (! empty($result['node'] )) {
-
-    $keys = array_keys($result['node'] ) ;
-
-    $nid = array_pop($keys ) ;
-
-    return node_load($nid ) ;
-
+    ->entityCondition('bundle', 'dlts_book')
+    ->propertyCondition('status', 1) // only load books that are published
+    // ->propertyCondition('language', $language) // fix this
+    ->fieldCondition('field_identifier', 'value', $identifier, '=')
+    ->execute();
+  if (!empty($result['node'])) {
+    $keys = array_keys($result['node']);
+    $nid = array_pop($keys);
+    return node_load($nid);
   }
-
-  return FALSE ;
-
+  return FALSE;
  }
 
 /**
- * A wildcard loader for dlts_book pages data from MongoDB, using the book identifier and $page.
+ * A wildcard loader for dlts_book pages data from MongoDB, using the book.
+ * identifier and $sequence.
  *
- * @param unknown $identifier
- *  xxx
+ * @param unknown $sequence
  *
- * @param unknown $page
- *  xxx
- *
- * @return multitype:unknown number
- *  xxx
+ * @return object MongoDB book page object
  */
 function dlts_book_page_load($sequence) {
-
-  $identifier = arg(1 ) ;
-
-  $collections = array('single' => 'dlts_book_page' , 'double' => 'dlts_book_stitched_page' ) ;
-
-  $query_parameters = drupal_get_query_parameters() ;
-
+	// I don't like this. Can we find a better solution for this?
+	// investigate a way to pass this from hook_menu
+	// @TODO: Make it so that it can be call as API
+	$identifier = arg(1);
+	// view modes, we map the views with their machine names in MongoDB
+  $collections = array(
+    'single' => 'dlts_book_page',
+  	'double' => 'dlts_book_stitched_page',
+  );
+  // viewer defaults to single page view
   $collection_name = 'dlts_book_page';
-
-  if (isset($query_parameters['page_view'] )) {
-    if (array_key_exists($query_parameters['page_view'] , $collections )) {
+  // user can requests a view modes, get query parameters and
+  // check if page_view is set
+  $query_parameters = drupal_get_query_parameters();
+  if (isset($query_parameters['page_view'])) {
+  	// check if the requested view mode is valid
+    if (array_key_exists($query_parameters['page_view'], $collections)) {
       $collection_name = $collections[$query_parameters['page_view']];
     }
   }
-
-  $query =(object) array('isPartOf' => $identifier , 'sequence' => $sequence ) ;
-
-  $result = mongodb_collection($collection_name )->findOne($query ) ;
-
-  if (! $result ) return FALSE ;
-
-  $cm_uri = file_create_url($result['cm']['uri'] ) ;
-
-  return array(
-    'fid' => (string) $result['_id'] ,
-    'sequence' => $result['sequence'] ,
-    'uri' => $cm_uri ,
-    'djakota_width' => $result['cm']['width'] ,
-    'djakota_height' => $result['cm']['height'] ,
-    'djakota_levels' => $result['cm']['levels'] ,
-    'djakota_dwtLevels' => $result['cm']['dwtLevels'] ,
-    'djakota_compositingLayerCount' => $result['cm']['compositingLayerCount'] ,
-    'timestamp' => $result['cm']['timestamp'] ,
-  ) ;
-
+  // prepare query
+  $query = (object) array('isPartOf' => $identifier, 'sequence' => $sequence);
+  // query MongoDB
+  $result = mongodb_collection($collection_name)->findOne($query);
+  if ($result) {
+    return array(
+      'fid' => (string) $result['_id'], // do we need this?
+      'sequence' => $result['sequence'],
+      'uri' => file_create_url($result['cm']['uri']),
+      'width' => $result['cm']['width'],
+      'height' => $result['cm']['height'],
+      'levels' => $result['cm']['levels'],
+      'dwtLevels' => $result['cm']['dwtLevels'],
+      'compositingLayerCount' => $result['cm']['compositingLayerCount'],
+      'timestamp' => $result['cm']['timestamp'],
+    );
+  }
+  // if $result is empty, retrun FALSE so that hook_menu can 404 redirect
+  return FALSE;
 }

@@ -310,6 +310,7 @@ function dlts_viewer_deliver_json($page_callback_result) {
 
   /** Send appropriate HTTP-Header for browsers and search engines. */
   global $language;
+  
   drupal_add_http_header('Content-Language', $language->language);
 
   /** Menu status constants are integers; page content is a string or array. */
@@ -338,6 +339,7 @@ function dlts_viewer_deliver_json($page_callback_result) {
   // Only add Content-Length if we actually have any content. Some non-standard
   // servers get confused by Content-Length in at least HEAD/GET requests
   $content_length = strlen($data);
+
   if ($content_length > 0) {
     $defaults['Content-Length'] = 'Content-Length: ' . $content_length;
   }
@@ -364,7 +366,7 @@ function dlts_viewer_is_pjax() {
     }
     else {
       $params = drupal_get_query_parameters();
-      if (isset($params['pjax']) && $params['pjax'] == 1) {
+      if (isset($params['pjax'])) {
         drupal_add_http_header('uri', base_path() . request_uri());
         $is_pjax = TRUE;
       }
@@ -388,7 +390,12 @@ function dlts_viewer_viewer_language($vars) {
         $language_list = language_list('enabled');
         $enabled_languages = array_pop($language_list);
         if (isset($enabled_languages[$obj_language])) {
-          $viewer_language = ($enabled_languages[$obj_language]->direction) ? 'rtl' : 'ltr';
+          if ($enabled_languages[$obj_language]->direction) {
+            $viewer_language = 'rtl';
+          }
+          else {
+            $viewer_language = 'ltr';
+          }
         }
         else {
           $viewer_language = 'rtl';
