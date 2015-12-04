@@ -26,7 +26,7 @@ function dlts_viewer_drush_command() {
   $items['import-book'] = array(
     'callback' => 'dlts_viewer_import_book',
     'description' => dt('Import book from a JSON document.'),
-    'arguments' => array(
+    'options' => array(
       'source' => dt('JSON document filepath.'),
     ),
  );
@@ -61,10 +61,12 @@ function dlts_viewer_drush_help($section) {
 }
 
 function dlts_viewer_import_book() {
-  drush_log(dt('Creating dummy books from JSON documents in directory @dir' , array('@dir' => __DIR__ . '/data')), 'status');
   include_once(__DIR__ . '/inc/common.inc');
   include_once(__DIR__ . '/inc/datasource.inc');
   include_once(__DIR__ . '/inc/create.inc');
+  $source = drush_get_option('source', NULL);
+  $source = array( (object) array('uri' => $source));
+  create_dlts_book_from_json($source);
 }
 
 function dlts_viewer_dummy_books() {
@@ -72,5 +74,6 @@ function dlts_viewer_dummy_books() {
   include_once(__DIR__ . '/inc/common.inc');
   include_once(__DIR__ . '/inc/datasource.inc');
   include_once(__DIR__ . '/inc/create.inc');
-  create_dlts_book_from_json(file_scan_directory(__DIR__ . '/data/', '/(.*)\.json$/', array('recurse' => FALSE)));
+  $data = file_scan_directory(__DIR__ . '/data/', '/(.*)\.json$/', array('recurse' => FALSE));
+  create_dlts_book_from_json($data);
 }
