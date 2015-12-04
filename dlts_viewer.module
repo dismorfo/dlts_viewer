@@ -111,6 +111,11 @@ function dlts_viewer_theme() {
       'base hook' => 'page',
       'template' => 'templates/node',
     ),
+    'ds_1col__node_metadata' => array(
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/ds-1col--node-metadata',
+    ),
     'node__dlts_book_pjax' => array(
       'render element' => 'content',
       'base hook' => 'page',
