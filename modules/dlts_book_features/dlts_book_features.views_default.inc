@@ -70,7 +70,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['sorts']['field_sequence_number_value']['id'] = 'field_sequence_number_value';
   $handler->display->display_options['sorts']['field_sequence_number_value']['table'] = 'field_data_field_sequence_number';
   $handler->display->display_options['sorts']['field_sequence_number_value']['field'] = 'field_sequence_number_value';
-  /* Contextual filter: Content: Book(field_book) */
+  /* Contextual filter: Content: Book (field_book) */
   $handler->display->display_options['arguments']['field_book_nid']['id'] = 'field_book_nid';
   $handler->display->display_options['arguments']['field_book_nid']['table'] = 'field_data_field_book';
   $handler->display->display_options['arguments']['field_book_nid']['field'] = 'field_book_nid';
@@ -91,7 +91,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['filters']['field_visible_value']['field'] = 'field_visible_value';
   $handler->display->display_options['filters']['field_visible_value']['value'] = array(
     1 => '1',
- );
+  );
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
@@ -115,7 +115,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['filters']['field_page_type_value']['operator'] = 'not';
   $handler->display->display_options['filters']['field_page_type_value']['value'] = array(
     0 => '0',
- );
+  );
   $handler->display->display_options['path'] = 'books/%/non-normal';
   $translatables['book'] = array(
     t('Master'),
@@ -138,7 +138,7 @@ function dlts_book_features_views_default_views() {
     t('All'),
     t('Page'),
     t('Page - Not Normal'),
- );
+  );
   $export['book'] = $view;
 
   $view = new view();
@@ -180,7 +180,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['fields']['field_page_count']['settings'] = array(
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
- );
+  );
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -226,7 +226,7 @@ function dlts_book_features_views_default_views() {
     t('Page Count'),
     t('All'),
     t('Block'),
- );
+  );
   $export['book_description'] = $view;
 
   $view = new view();
@@ -248,7 +248,7 @@ function dlts_book_features_views_default_views() {
     3 => '3',
     2 => '2',
     4 => '4',
- );
+  );
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
@@ -260,7 +260,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'grid';
   $handler->display->display_options['style_options']['columns'] = '8';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Relationship: Content: Book(field_book) */
+  /* Relationship: Content: Book (field_book) */
   $handler->display->display_options['relationships']['field_book_nid']['id'] = 'field_book_nid';
   $handler->display->display_options['relationships']['field_book_nid']['table'] = 'field_data_field_book';
   $handler->display->display_options['relationships']['field_book_nid']['field'] = 'field_book_nid';
@@ -288,7 +288,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['fields']['field_service_copy']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_service_copy']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_service_copy']['element_default_classes'] = FALSE;
-  /* Sort criterion: Content: Date(field_publication_date) */
+  /* Sort criterion: Content: Date (field_publication_date) */
   $handler->display->display_options['sorts']['field_publication_date_value']['id'] = 'field_publication_date_value';
   $handler->display->display_options['sorts']['field_publication_date_value']['table'] = 'field_data_field_publication_date';
   $handler->display->display_options['sorts']['field_publication_date_value']['field'] = 'field_publication_date_value';
@@ -306,7 +306,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['filters']['field_sequence_number_value']['field'] = 'field_sequence_number_value';
   $handler->display->display_options['filters']['field_sequence_number_value']['value'] = array(
     'value' => '1',
- );
+  );
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
@@ -329,7 +329,7 @@ function dlts_book_features_views_default_views() {
     t('last »'),
     t('field_book'),
     t('Page'),
- );
+  );
   $export['books'] = $view;
 
   $view = new view();
@@ -351,7 +351,7 @@ function dlts_book_features_views_default_views() {
     3 => '3',
     2 => '2',
     4 => '4',
- );
+  );
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
@@ -370,7 +370,7 @@ function dlts_book_features_views_default_views() {
     'status' => 'status',
     'changed' => 'changed',
     'edit_node' => 'edit_node',
- );
+  );
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
     'path' => array(
@@ -411,7 +411,7 @@ function dlts_book_features_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
- );
+  );
   /* Header: Global: Result summary */
   $handler->display->display_options['header']['result']['id'] = 'result';
   $handler->display->display_options['header']['result']['table'] = 'views';
@@ -458,12 +458,12 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
-  /* Sort criterion: Content: Date(field_publication_date) */
+  /* Sort criterion: Content: Date (field_publication_date) */
   $handler->display->display_options['sorts']['field_publication_date_value']['id'] = 'field_publication_date_value';
   $handler->display->display_options['sorts']['field_publication_date_value']['table'] = 'field_data_field_publication_date';
   $handler->display->display_options['sorts']['field_publication_date_value']['field'] = 'field_publication_date_value';
   $handler->display->display_options['sorts']['field_publication_date_value']['relationship'] = 'field_book_nid';
-  /* Sort criterion: Content: Collection(field_collection) */
+  /* Sort criterion: Content: Collection (field_collection) */
   $handler->display->display_options['sorts']['field_collection_nid']['id'] = 'field_collection_nid';
   $handler->display->display_options['sorts']['field_collection_nid']['table'] = 'field_data_field_collection';
   $handler->display->display_options['sorts']['field_collection_nid']['field'] = 'field_collection_nid';
@@ -473,7 +473,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['exposed'] = TRUE;
   $handler->display->display_options['sorts']['created']['expose']['label'] = 'Post date';
-  /* Contextual filter: Content: Collection(field_collection) */
+  /* Contextual filter: Content: Collection (field_collection) */
   $handler->display->display_options['arguments']['field_collection_nid']['id'] = 'field_collection_nid';
   $handler->display->display_options['arguments']['field_collection_nid']['table'] = 'field_data_field_collection';
   $handler->display->display_options['arguments']['field_collection_nid']['field'] = 'field_collection_nid';
@@ -488,8 +488,8 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'dlts_book' => 'dlts_book',
- );
-  /* Filter criterion: Content: Collection(field_collection) */
+  );
+  /* Filter criterion: Content: Collection (field_collection) */
   $handler->display->display_options['filters']['field_collection_nid']['id'] = 'field_collection_nid';
   $handler->display->display_options['filters']['field_collection_nid']['table'] = 'field_data_field_collection';
   $handler->display->display_options['filters']['field_collection_nid']['field'] = 'field_collection_nid';
@@ -497,7 +497,7 @@ function dlts_book_features_views_default_views() {
     3953 => '3953',
     1 => '1',
     4235 => '4235',
- );
+  );
   $handler->display->display_options['filters']['field_collection_nid']['exposed'] = TRUE;
   $handler->display->display_options['filters']['field_collection_nid']['expose']['operator_id'] = 'field_collection_nid_op';
   $handler->display->display_options['filters']['field_collection_nid']['expose']['label'] = 'Collection';
@@ -509,8 +509,8 @@ function dlts_book_features_views_default_views() {
     3 => '3',
     4 => '4',
     1 => 0,
- );
-  /* Filter criterion: Content: Title(field_title) */
+  );
+  /* Filter criterion: Content: Title (field_title) */
   $handler->display->display_options['filters']['field_title_value']['id'] = 'field_title_value';
   $handler->display->display_options['filters']['field_title_value']['table'] = 'field_data_field_title';
   $handler->display->display_options['filters']['field_title_value']['field'] = 'field_title_value';
@@ -523,12 +523,12 @@ function dlts_book_features_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Content: Date(field_publication_date) */
+  /* Sort criterion: Content: Date (field_publication_date) */
   $handler->display->display_options['sorts']['field_publication_date_value']['id'] = 'field_publication_date_value';
   $handler->display->display_options['sorts']['field_publication_date_value']['table'] = 'field_data_field_publication_date';
   $handler->display->display_options['sorts']['field_publication_date_value']['field'] = 'field_publication_date_value';
   $handler->display->display_options['sorts']['field_publication_date_value']['relationship'] = 'field_book_nid';
-  /* Sort criterion: Content: Collection(field_collection) */
+  /* Sort criterion: Content: Collection (field_collection) */
   $handler->display->display_options['sorts']['field_collection_nid']['id'] = 'field_collection_nid';
   $handler->display->display_options['sorts']['field_collection_nid']['table'] = 'field_data_field_collection';
   $handler->display->display_options['sorts']['field_collection_nid']['field'] = 'field_collection_nid';
@@ -540,8 +540,8 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'dlts_book' => 'dlts_book',
- );
-  /* Filter criterion: Content: Collection(field_collection) */
+  );
+  /* Filter criterion: Content: Collection (field_collection) */
   $handler->display->display_options['filters']['field_collection_nid']['id'] = 'field_collection_nid';
   $handler->display->display_options['filters']['field_collection_nid']['table'] = 'field_data_field_collection';
   $handler->display->display_options['filters']['field_collection_nid']['field'] = 'field_collection_nid';
@@ -556,8 +556,8 @@ function dlts_book_features_views_default_views() {
     3 => '3',
     4 => '4',
     1 => 0,
- );
-  /* Filter criterion: Content: Title(field_title) */
+  );
+  /* Filter criterion: Content: Title (field_title) */
   $handler->display->display_options['filters']['field_title_value']['id'] = 'field_title_value';
   $handler->display->display_options['filters']['field_title_value']['table'] = 'field_data_field_title';
   $handler->display->display_options['filters']['field_title_value']['field'] = 'field_title_value';
@@ -572,7 +572,7 @@ function dlts_book_features_views_default_views() {
     1 => 0,
     3 => 0,
     4 => 0,
- );
+  );
   $handler->display->display_options['path'] = 'admin/collection';
   $translatables['books_by_collection'] = array(
     t('Master'),
@@ -603,7 +603,7 @@ function dlts_book_features_views_default_views() {
     t('Title(field_title)'),
     t('Page'),
     t('Title contains word or phrase:'),
- );
+  );
   $export['books_by_collection'] = $view;
 
   $view = new view();
@@ -640,12 +640,12 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['fields']['field_book']['type'] = 'node_reference_node';
   $handler->display->display_options['fields']['field_book']['settings'] = array(
     'node_reference_view_mode' => 'multivolbook',
- );
-  /* Sort criterion: Content: Multi-Volume(field_multivol) */
+  );
+  /* Sort criterion: Content: Multi-Volume (field_multivol) */
   $handler->display->display_options['sorts']['field_multivol_nid']['id'] = 'field_multivol_nid';
   $handler->display->display_options['sorts']['field_multivol_nid']['table'] = 'field_data_field_multivol';
   $handler->display->display_options['sorts']['field_multivol_nid']['field'] = 'field_multivol_nid';
-  /* Contextual filter: Content: Multi-Volume(field_multivol) */
+  /* Contextual filter: Content: Multi-Volume (field_multivol) */
   $handler->display->display_options['arguments']['field_multivol_nid']['id'] = 'field_multivol_nid';
   $handler->display->display_options['arguments']['field_multivol_nid']['table'] = 'field_data_field_multivol';
   $handler->display->display_options['arguments']['field_multivol_nid']['field'] = 'field_multivol_nid';
@@ -669,7 +669,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'dlts_multivol_book' => 'dlts_multivol_book',
- );
+  );
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block_1');
@@ -699,7 +699,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['fields']['field_volume_number']['settings'] = array(
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
- );
+  );
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -725,7 +725,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['fields']['field_book']['settings'] = array(
     'alias' => 0,
     'absolute' => 1,
- );
+  );
   $translatables['multi_volume_by_identifier_select'] = array(
     t('Master'),
     t('Set of multi volume books by multi volume reference'),
@@ -745,7 +745,7 @@ function dlts_book_features_views_default_views() {
     t('All'),
     t('Block'),
     t('[title] Vol. [field_volume_number]'),
- );
+  );
   $export['multi_volume_by_identifier_select'] = $view;
 
   $view = new view();
@@ -772,7 +772,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'node';
-  /* Relationship: Content: Multi-Volume(field_multivol) */
+  /* Relationship: Content: Multi-Volume (field_multivol) */
   $handler->display->display_options['relationships']['field_multivol_nid']['id'] = 'field_multivol_nid';
   $handler->display->display_options['relationships']['field_multivol_nid']['table'] = 'field_data_field_multivol';
   $handler->display->display_options['relationships']['field_multivol_nid']['field'] = 'field_multivol_nid';
@@ -788,16 +788,16 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['fields']['field_book']['type'] = 'node_reference_node';
   $handler->display->display_options['fields']['field_book']['settings'] = array(
     'node_reference_view_mode' => 'multivolbook',
- );
+  );
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
-  /* Sort criterion: Content: Multi-Volume(field_multivol) */
+  /* Sort criterion: Content: Multi-Volume (field_multivol) */
   $handler->display->display_options['sorts']['field_multivol_nid']['id'] = 'field_multivol_nid';
   $handler->display->display_options['sorts']['field_multivol_nid']['table'] = 'field_data_field_multivol';
   $handler->display->display_options['sorts']['field_multivol_nid']['field'] = 'field_multivol_nid';
-  /* Contextual filter: Content: Identifier(field_identifier) */
+  /* Contextual filter: Content: Identifier (field_identifier) */
   $handler->display->display_options['arguments']['field_identifier_value']['id'] = 'field_identifier_value';
   $handler->display->display_options['arguments']['field_identifier_value']['table'] = 'field_data_field_identifier';
   $handler->display->display_options['arguments']['field_identifier_value']['field'] = 'field_identifier_value';
@@ -819,7 +819,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'dlts_multivol_book' => 'dlts_multivol_book',
- );
+  );
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block_1');
@@ -852,7 +852,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['fields']['field_volume_number']['settings'] = array(
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
- );
+  );
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -878,7 +878,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['fields']['field_book']['settings'] = array(
     'alias' => 0,
     'absolute' => 1,
- );
+  );
   $translatables['multivolume_select_for_metadata'] = array(
     t('Master'),
     t('Set of multi volume books by multi volume reference'),
@@ -900,7 +900,7 @@ function dlts_book_features_views_default_views() {
     t('All'),
     t('Block'),
     t('[title] Vol. [field_volume_number]'),
- );
+  );
   $export['multivolume_select_for_metadata'] = $view;
 
   $view = new view();
@@ -927,7 +927,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
     'title' => 'title',
- );
+  );
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
     'title' => array(
@@ -937,7 +937,7 @@ function dlts_book_features_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
- );
+  );
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -953,7 +953,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
-  /* Sort criterion: Content: Identifier(field_identifier) */
+  /* Sort criterion: Content: Identifier (field_identifier) */
   $handler->display->display_options['sorts']['field_identifier_value']['id'] = 'field_identifier_value';
   $handler->display->display_options['sorts']['field_identifier_value']['table'] = 'field_data_field_identifier';
   $handler->display->display_options['sorts']['field_identifier_value']['field'] = 'field_identifier_value';
@@ -970,7 +970,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'dlts_series' => 'dlts_series',
- );
+  );
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
@@ -987,7 +987,7 @@ function dlts_book_features_views_default_views() {
     t('Identifier'),
     t('Nid'),
     t('Page'),
- );
+  );
   $export['series'] = $view;
 
   $view = new view();
@@ -1015,7 +1015,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['style_options']['columns'] = array(
     'title' => 'title',
     'field_series' => 'field_series',
- );
+  );
   $handler->display->display_options['style_options']['default'] = 'field_series';
   $handler->display->display_options['style_options']['info'] = array(
     'title' => array(
@@ -1032,7 +1032,7 @@ function dlts_book_features_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
- );
+  );
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -1058,7 +1058,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'dlts_series_book' => 'dlts_series_book',
- );
+  );
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
@@ -1073,7 +1073,7 @@ function dlts_book_features_views_default_views() {
     t('Asc'),
     t('Desc'),
     t('Page'),
- );
+  );
   $export['series_books'] = $view;
 
   $view = new view();
@@ -1104,11 +1104,11 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['row_options']['inline'] = array(
     'field_series' => 'field_series',
     'field_volume_number_str' => 'field_volume_number_str',
- );
+  );
   $handler->display->display_options['row_options']['separator'] = ', ';
   $handler->display->display_options['row_options']['hide_empty'] = TRUE;
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
-  /* Relationship: Content: Book(field_book) - reverse */
+  /* Relationship: Content: Book (field_book) - reverse */
   $handler->display->display_options['relationships']['reverse_field_book_node']['id'] = 'reverse_field_book_node';
   $handler->display->display_options['relationships']['reverse_field_book_node']['table'] = 'node';
   $handler->display->display_options['relationships']['reverse_field_book_node']['field'] = 'reverse_field_book_node';
@@ -1140,7 +1140,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Contextual filter: Content: Identifier(field_identifier) */
+  /* Contextual filter: Content: Identifier (field_identifier) */
   $handler->display->display_options['arguments']['field_identifier_value']['id'] = 'field_identifier_value';
   $handler->display->display_options['arguments']['field_identifier_value']['table'] = 'field_data_field_identifier';
   $handler->display->display_options['arguments']['field_identifier_value']['field'] = 'field_identifier_value';
@@ -1159,7 +1159,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['filters']['type']['relationship'] = 'reverse_field_book_node';
   $handler->display->display_options['filters']['type']['value'] = array(
     'dlts_series_book' => 'dlts_series_book',
- );
+  );
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
@@ -1176,7 +1176,7 @@ function dlts_book_features_views_default_views() {
     t('No series listed'),
     t('All'),
     t('Block'),
- );
+  );
   $export['series_for_a_book'] = $view;
 
   $view = new view();
@@ -1213,12 +1213,12 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['fields']['field_book']['type'] = 'node_reference_node';
   $handler->display->display_options['fields']['field_book']['settings'] = array(
     'node_reference_view_mode' => 'multivolbook',
- );
-  /* Sort criterion: Content: Multi-Volume(field_multivol) */
+  );
+  /* Sort criterion: Content: Multi-Volume (field_multivol) */
   $handler->display->display_options['sorts']['field_multivol_nid']['id'] = 'field_multivol_nid';
   $handler->display->display_options['sorts']['field_multivol_nid']['table'] = 'field_data_field_multivol';
   $handler->display->display_options['sorts']['field_multivol_nid']['field'] = 'field_multivol_nid';
-  /* Contextual filter: Content: Multi-Volume(field_multivol) */
+  /* Contextual filter: Content: Multi-Volume (field_multivol) */
   $handler->display->display_options['arguments']['field_multivol_nid']['id'] = 'field_multivol_nid';
   $handler->display->display_options['arguments']['field_multivol_nid']['table'] = 'field_data_field_multivol';
   $handler->display->display_options['arguments']['field_multivol_nid']['field'] = 'field_multivol_nid';
@@ -1234,7 +1234,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'dlts_multivol_book' => 'dlts_multivol_book',
- );
+  );
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block_1');
@@ -1267,7 +1267,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['fields']['field_volume_number']['settings'] = array(
     'thousand_separator' => ' ',
     'prefix_suffix' => 1,
- );
+  );
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -1293,7 +1293,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['fields']['field_book']['settings'] = array(
     'alias' => 0,
     'absolute' => 1,
- );
+  );
   $translatables['set_of_multi_volume_by_identifier'] = array(
     t('Master'),
     t('Set of multi volume books by multi volume reference'),
@@ -1313,7 +1313,7 @@ function dlts_book_features_views_default_views() {
     t('All'),
     t('Block'),
     t('[title] Vol. [field_volume_number]'),
- );
+  );
   $export['set_of_multi_volume_by_identifier'] = $view;
 
   return $export;

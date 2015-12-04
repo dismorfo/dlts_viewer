@@ -56,7 +56,7 @@ function dlts_book_features_field_group_info() {
         'required_fields' => 1,
       ),
     ),
- );
+  );
   $export['group_descriptive_metadata|node|dlts_book|form'] = $field_group;
 
   $field_group = new stdClass();
@@ -70,40 +70,32 @@ function dlts_book_features_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Descriptive Metadata',
-    'weight' => '0',
+    'weight' => '41',
     'children' => array(
-      0 => 'field_author',
-      1 => 'field_contributor',
-      2 => 'field_creator',
-      3 => 'field_description',
-      4 => 'field_dimensions',
-      5 => 'field_editor',
-      6 => 'field_handle',
-      7 => 'field_is_part_of_collection',
-      8 => 'field_language',
-      9 => 'field_pdf_file',
-      10 => 'field_publication_date',
-      11 => 'field_publisher',
-      12 => 'field_representative_image',
-      13 => 'field_subject',
-      14 => 'field_subtitle',
-      15 => 'field_title',
-      16 => 'field_publication_location',
+      0 => 'field_creator',
+      1 => 'field_description',
+      2 => 'field_editor',
+      3 => 'field_page_count',
+      4 => 'field_publication_date',
+      5 => 'field_read_order',
+      6 => 'field_representative_image',
+      7 => 'field_scan_date',
+      8 => 'field_scan_order',
+      9 => 'field_scanning_notes',
     ),
-    'format_type' => 'div',
+    'format_type' => 'html-element',
     'format_settings' => array(
-      'label' => 'Descriptive Metadata',
+      'formatter' => '',
       'instance_settings' => array(
+        'element' => 'div',
+        'show_label' => 0,
+        'label_element' => 'div',
         'classes' => '',
-        'description' => '',
-        'show_label' => '0',
-        'label_element' => 'h3',
-        'effect' => 'none',
-        'speed' => 'fast',
+        'attributes' => '',
+        'required_fields' => 1,
       ),
-      'formatter' => 'open',
     ),
- );
+  );
   $export['group_descriptive_metadata|node|dlts_book|metadata'] = $field_group;
 
   $field_group = new stdClass();
@@ -131,7 +123,7 @@ function dlts_book_features_field_group_info() {
         'required_fields' => 1,
       ),
     ),
- );
+  );
   $export['group_essence|node|dlts_book|form'] = $field_group;
 
   $field_group = new stdClass();
@@ -146,18 +138,20 @@ function dlts_book_features_field_group_info() {
   $field_group->data = array(
     'label' => 'Essence',
     'weight' => '1',
-    'children' => array(
-      0 => 'field_ocr_text',
-    ),
-    'format_type' => 'div',
+    'children' => array(),
+    'format_type' => 'html-element',
     'format_settings' => array(
       'formatter' => 'closed',
       'instance_settings' => array(
         'classes' => '',
         'required_fields' => 1,
+        'element' => 'div',
+        'show_label' => 0,
+        'label_element' => 'div',
+        'attributes' => '',
       ),
     ),
- );
+  );
   $export['group_essence|node|dlts_book|metadata'] = $field_group;
 
   $field_group = new stdClass();
@@ -185,7 +179,7 @@ function dlts_book_features_field_group_info() {
         'required_fields' => 1,
       ),
     ),
- );
+  );
   $export['group_structural_metadata|node|dlts_book|form'] = $field_group;
 
   $field_group = new stdClass();
@@ -199,21 +193,23 @@ function dlts_book_features_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Structural Metadata',
-    'weight' => '2',
+    'weight' => '39',
     'children' => array(
-      0 => 'field_read_order',
-      1 => 'field_scan_order',
-      2 => 'group_essence',
+      0 => 'group_essence',
     ),
-    'format_type' => 'tab',
+    'format_type' => 'html-element',
     'format_settings' => array(
       'formatter' => 'closed',
       'instance_settings' => array(
         'classes' => '',
         'required_fields' => 1,
+        'element' => 'div',
+        'show_label' => 0,
+        'label_element' => 'div',
+        'attributes' => '',
       ),
     ),
- );
+  );
   $export['group_structural_metadata|node|dlts_book|metadata'] = $field_group;
 
   $field_group = new stdClass();
@@ -240,7 +236,7 @@ function dlts_book_features_field_group_info() {
         'required_fields' => 1,
       ),
     ),
- );
+  );
   $export['group_technical_metadata|node|dlts_book|form'] = $field_group;
 
   $field_group = new stdClass();
@@ -254,17 +250,21 @@ function dlts_book_features_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Technical Metadata',
-    'weight' => '17',
-    'children' => array(
-      0 => 'field_scan_date',
-      1 => 'field_scanning_notes',
-    ),
-    'format_type' => 'hidden',
+    'weight' => '40',
+    'children' => array(),
+    'format_type' => 'html-element',
     'format_settings' => array(
       'formatter' => '',
-      'instance_settings' => array(),
+      'instance_settings' => array(
+        'element' => 'div',
+        'show_label' => 0,
+        'label_element' => 'div',
+        'classes' => '',
+        'attributes' => '',
+        'required_fields' => 1,
+      ),
     ),
- );
+  );
   $export['group_technical_metadata|node|dlts_book|metadata'] = $field_group;
 
   return $export;

@@ -19,7 +19,7 @@ function dlts_book_features_user_default_permissions() {
       'authenticated user' => 'authenticated user',
     ),
     'module' => 'node',
- );
+  );
 
   return $permissions;
 }

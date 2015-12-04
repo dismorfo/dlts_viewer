@@ -61,7 +61,7 @@ function dlts_book_features_field_default_field_instances() {
       'type' => 'text_textfield',
       'weight' => 29,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_binding_orientation'.
   $field_instances['node-dlts_book-field_binding_orientation'] = array(
@@ -85,7 +85,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 35,
+        'weight' => 33,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -115,7 +115,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'options_buttons',
       'weight' => 47,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_call_number'.
   $field_instances['node-dlts_book-field_call_number'] = array(
@@ -132,9 +132,10 @@ Vertical: \'Flip Book\' style bindings',
       ),
       'metadata' => array(
         'label' => 'above',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 15,
+        'type' => 'text_default',
+        'weight' => 11,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -167,7 +168,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 46,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_collection'.
   $field_instances['node-dlts_book-field_collection'] = array(
@@ -221,7 +222,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'node_reference_autocomplete',
       'weight' => 3,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_contributor'.
   $field_instances['node-dlts_book-field_contributor'] = array(
@@ -240,7 +241,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 30,
+        'weight' => 25,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -273,7 +274,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 32,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_creator'.
   $field_instances['node-dlts_book-field_creator'] = array(
@@ -292,7 +293,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 43,
+        'weight' => 15,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -325,7 +326,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 30,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_description'.
   $field_instances['node-dlts_book-field_description'] = array(
@@ -344,7 +345,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 41,
+        'weight' => 14,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -377,7 +378,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 25,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_dimensions'.
   $field_instances['node-dlts_book-field_dimensions'] = array(
@@ -399,7 +400,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 42,
+        'weight' => 29,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -432,7 +433,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 28,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_editor'.
   $field_instances['node-dlts_book-field_editor'] = array(
@@ -451,7 +452,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 40,
+        'weight' => 16,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -484,7 +485,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 31,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_geographic_coordinates'.
   $field_instances['node-dlts_book-field_geographic_coordinates'] = array(
@@ -504,7 +505,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 30,
       ),
     ),
     'entity_type' => 'node',
@@ -522,7 +523,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'geolocation_text',
       'weight' => 39,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_geographic_subject'.
   $field_instances['node-dlts_book-field_geographic_subject'] = array(
@@ -542,7 +543,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 38,
       ),
     ),
     'entity_type' => 'node',
@@ -563,7 +564,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'taxonomy_autocomplete',
       'weight' => 38,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_handle'.
   $field_instances['node-dlts_book-field_handle'] = array(
@@ -583,7 +584,7 @@ Vertical: \'Flip Book\' style bindings',
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_plain',
-        'weight' => 11,
+        'weight' => 12,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -632,7 +633,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'link_field',
       'weight' => 6,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_identifier'.
   $field_instances['node-dlts_book-field_identifier'] = array(
@@ -684,7 +685,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 2,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_isbn'.
   $field_instances['node-dlts_book-field_isbn'] = array(
@@ -703,7 +704,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 38,
+        'weight' => 36,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -736,7 +737,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 5,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_language'.
   $field_instances['node-dlts_book-field_language'] = array(
@@ -789,7 +790,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 42,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_language_code'.
   $field_instances['node-dlts_book-field_language_code'] = array(
@@ -808,7 +809,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 36,
+        'weight' => 32,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -841,7 +842,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 41,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_number'.
   $field_instances['node-dlts_book-field_number'] = array(
@@ -860,7 +861,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 26,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -893,7 +894,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 44,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_ocr_text'.
   $field_instances['node-dlts_book-field_ocr_text'] = array(
@@ -911,7 +912,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 32,
+        'weight' => 28,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -947,7 +948,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'file_generic',
       'weight' => 8,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_other_version'.
   $field_instances['node-dlts_book-field_other_version'] = array(
@@ -966,7 +967,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 29,
+        'weight' => 34,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -1012,7 +1013,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'link_field',
       'weight' => 45,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_page_count'.
   $field_instances['node-dlts_book-field_page_count'] = array(
@@ -1031,7 +1032,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 34,
+        'weight' => 22,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -1065,7 +1066,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'number',
       'weight' => 27,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_partner'.
   $field_instances['node-dlts_book-field_partner'] = array(
@@ -1108,7 +1109,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'node_reference_autocomplete',
       'weight' => 4,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_pdf_file'.
   $field_instances['node-dlts_book-field_pdf_file'] = array(
@@ -1127,7 +1128,7 @@ Vertical: \'Flip Book\' style bindings',
         'module' => 'file',
         'settings' => array(),
         'type' => 'file_url_plain',
-        'weight' => 12,
+        'weight' => 15,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -1163,7 +1164,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'file_generic',
       'weight' => 5,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_publication_date'.
   $field_instances['node-dlts_book-field_publication_date'] = array(
@@ -1181,7 +1182,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 47,
+        'weight' => 32,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -1223,7 +1224,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'date_text',
       'weight' => 34,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_publication_date_text'.
   $field_instances['node-dlts_book-field_publication_date_text'] = array(
@@ -1276,7 +1277,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 35,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_publication_location'.
   $field_instances['node-dlts_book-field_publication_location'] = array(
@@ -1329,7 +1330,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 36,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_publisher'.
   $field_instances['node-dlts_book-field_publisher'] = array(
@@ -1382,7 +1383,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 33,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_read_order'.
   $field_instances['node-dlts_book-field_read_order'] = array(
@@ -1407,7 +1408,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 45,
+        'weight' => 15,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -1437,7 +1438,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'options_buttons',
       'weight' => 48,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_representative_image'.
   $field_instances['node-dlts_book-field_representative_image'] = array(
@@ -1455,7 +1456,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 39,
+        'weight' => 14,
       ),
       'multivolbook' => array(
         'label' => 'hidden',
@@ -1500,7 +1501,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'image_image',
       'weight' => 7,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_rights'.
   $field_instances['node-dlts_book-field_rights'] = array(
@@ -1520,7 +1521,7 @@ Vertical: \'Flip Book\' style bindings',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 13,
+        'weight' => 16,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -1553,7 +1554,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textarea',
       'weight' => 7,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_scan_date'.
   $field_instances['node-dlts_book-field_scan_date'] = array(
@@ -1571,7 +1572,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 46,
+        'weight' => 16,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -1614,7 +1615,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'date_text',
       'weight' => 35,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_scan_order'.
   $field_instances['node-dlts_book-field_scan_order'] = array(
@@ -1639,7 +1640,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 44,
+        'weight' => 16,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -1669,7 +1670,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'options_buttons',
       'weight' => 49,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_scanning_notes'.
   $field_instances['node-dlts_book-field_scanning_notes'] = array(
@@ -1688,7 +1689,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 48,
+        'weight' => 37,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -1721,7 +1722,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textarea',
       'weight' => 36,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_sequence_count'.
   $field_instances['node-dlts_book-field_sequence_count'] = array(
@@ -1740,7 +1741,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 33,
+        'weight' => 37,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -1774,7 +1775,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'number',
       'weight' => 26,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_subject'.
   $field_instances['node-dlts_book-field_subject'] = array(
@@ -1827,7 +1828,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'taxonomy_autocomplete',
       'weight' => 37,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_subtitle'.
   $field_instances['node-dlts_book-field_subtitle'] = array(
@@ -1843,7 +1844,7 @@ Vertical: \'Flip Book\' style bindings',
         'weight' => 18,
       ),
       'metadata' => array(
-        'label' => 'hidden',
+        'label' => 'inline',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
@@ -1880,7 +1881,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 24,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_title'.
   $field_instances['node-dlts_book-field_title'] = array(
@@ -1897,11 +1898,10 @@ Vertical: \'Flip Book\' style bindings',
         'weight' => 29,
       ),
       'metadata' => array(
-        'label' => 'hidden',
-        'module' => 'text',
+        'label' => 'inline',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 0,
+        'type' => 'hidden',
+        'weight' => 24,
       ),
       'multivolbook' => array(
         'label' => 'hidden',
@@ -1935,7 +1935,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 23,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_topic'.
   $field_instances['node-dlts_book-field_topic'] = array(
@@ -1954,7 +1954,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 37,
+        'weight' => 35,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -1987,7 +1987,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 40,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book-field_volume'.
   $field_instances['node-dlts_book-field_volume'] = array(
@@ -2006,7 +2006,7 @@ Vertical: \'Flip Book\' style bindings',
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 28,
+        'weight' => 27,
       ),
       'multivolbook' => array(
         'label' => 'above',
@@ -2039,7 +2039,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 43,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book_section-field_book'.
   $field_instances['node-dlts_book_section-field_book'] = array(
@@ -2092,7 +2092,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'node_reference_autocomplete',
       'weight' => -2,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book_section-field_section_body'.
   $field_instances['node-dlts_book_section-field_section_body'] = array(
@@ -2145,7 +2145,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textarea',
       'weight' => 0,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_book_section-field_section_name'.
   $field_instances['node-dlts_book_section-field_section_name'] = array(
@@ -2197,7 +2197,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => -1,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_collection-body'.
   $field_instances['node-dlts_collection-body'] = array(
@@ -2254,7 +2254,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textarea_with_summary',
       'weight' => 31,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_collection-field_code'.
   $field_instances['node-dlts_collection-field_code'] = array(
@@ -2307,7 +2307,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 34,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_collection-field_identifier'.
   $field_instances['node-dlts_collection-field_identifier'] = array(
@@ -2360,7 +2360,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 33,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_collection-field_name'.
   $field_instances['node-dlts_collection-field_name'] = array(
@@ -2413,7 +2413,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 35,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_collection-field_partner'.
   $field_instances['node-dlts_collection-field_partner'] = array(
@@ -2467,7 +2467,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'node_reference_autocomplete',
       'weight' => 36,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_author'.
   $field_instances['node-dlts_map-field_author'] = array(
@@ -2520,7 +2520,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 1,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_call_number'.
   $field_instances['node-dlts_map-field_call_number'] = array(
@@ -2573,7 +2573,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 24,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_collection'.
   $field_instances['node-dlts_map-field_collection'] = array(
@@ -2627,7 +2627,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'node_reference_autocomplete',
       'weight' => 4,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_contributor'.
   $field_instances['node-dlts_map-field_contributor'] = array(
@@ -2679,7 +2679,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 16,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_creator'.
   $field_instances['node-dlts_map-field_creator'] = array(
@@ -2731,7 +2731,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 14,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_description'.
   $field_instances['node-dlts_map-field_description'] = array(
@@ -2784,7 +2784,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 12,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_dimensions'.
   $field_instances['node-dlts_map-field_dimensions'] = array(
@@ -2837,7 +2837,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 13,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_editor'.
   $field_instances['node-dlts_map-field_editor'] = array(
@@ -2889,7 +2889,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 15,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_geographic_coordinates'.
   $field_instances['node-dlts_map-field_geographic_coordinates'] = array(
@@ -2939,7 +2939,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'geolocation_text',
       'weight' => 30,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_geographic_subject'.
   $field_instances['node-dlts_map-field_geographic_subject'] = array(
@@ -2995,7 +2995,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'taxonomy_autocomplete',
       'weight' => 29,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_handle'.
   $field_instances['node-dlts_map-field_handle'] = array(
@@ -3064,7 +3064,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'link_field',
       'weight' => 6,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_identifier'.
   $field_instances['node-dlts_map-field_identifier'] = array(
@@ -3116,7 +3116,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 3,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_notes_field'.
   $field_instances['node-dlts_map-field_notes_field'] = array(
@@ -3170,7 +3170,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textarea',
       'weight' => 31,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_other_version'.
   $field_instances['node-dlts_map-field_other_version'] = array(
@@ -3238,7 +3238,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'link_field',
       'weight' => 23,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_partner'.
   $field_instances['node-dlts_map-field_partner'] = array(
@@ -3292,7 +3292,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'node_reference_autocomplete',
       'weight' => 5,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_pdf_file'.
   $field_instances['node-dlts_map-field_pdf_file'] = array(
@@ -3347,7 +3347,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'file_generic',
       'weight' => 28,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_physical_description'.
   $field_instances['node-dlts_map-field_physical_description'] = array(
@@ -3399,7 +3399,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 32,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_publication_date'.
   $field_instances['node-dlts_map-field_publication_date'] = array(
@@ -3459,7 +3459,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'date_text',
       'weight' => 19,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_publication_date_text'.
   $field_instances['node-dlts_map-field_publication_date_text'] = array(
@@ -3512,7 +3512,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 20,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_publication_location'.
   $field_instances['node-dlts_map-field_publication_location'] = array(
@@ -3565,7 +3565,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 18,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_publisher'.
   $field_instances['node-dlts_map-field_publisher'] = array(
@@ -3618,7 +3618,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 17,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_representative_image'.
   $field_instances['node-dlts_map-field_representative_image'] = array(
@@ -3677,7 +3677,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'image_image',
       'weight' => 9,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_rights'.
   $field_instances['node-dlts_map-field_rights'] = array(
@@ -3730,7 +3730,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textarea',
       'weight' => 7,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_scan_date'.
   $field_instances['node-dlts_map-field_scan_date'] = array(
@@ -3790,7 +3790,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'date_text',
       'weight' => 25,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_scanning_notes'.
   $field_instances['node-dlts_map-field_scanning_notes'] = array(
@@ -3842,7 +3842,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textarea',
       'weight' => 26,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_subject'.
   $field_instances['node-dlts_map-field_subject'] = array(
@@ -3895,7 +3895,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'taxonomy_autocomplete',
       'weight' => 21,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_subtitle'.
   $field_instances['node-dlts_map-field_subtitle'] = array(
@@ -3947,7 +3947,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 11,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_title'.
   $field_instances['node-dlts_map-field_title'] = array(
@@ -4000,7 +4000,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 10,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_map-field_topic'.
   $field_instances['node-dlts_map-field_topic'] = array(
@@ -4052,7 +4052,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 22,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_multivol-body'.
   $field_instances['node-dlts_multivol-body'] = array(
@@ -4109,7 +4109,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textarea_with_summary',
       'weight' => 31,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_multivol-field_handle'.
   $field_instances['node-dlts_multivol-field_handle'] = array(
@@ -4178,7 +4178,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'link_field',
       'weight' => 37,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_multivol-field_identifier'.
   $field_instances['node-dlts_multivol-field_identifier'] = array(
@@ -4231,7 +4231,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 33,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_multivol-field_representative_image'.
   $field_instances['node-dlts_multivol-field_representative_image'] = array(
@@ -4294,7 +4294,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'image_image',
       'weight' => 35,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_multivol_book-body'.
   $field_instances['node-dlts_multivol_book-body'] = array(
@@ -4350,7 +4350,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textarea_with_summary',
       'weight' => 2,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_multivol_book-field_book'.
   $field_instances['node-dlts_multivol_book-field_book'] = array(
@@ -4406,7 +4406,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'node_reference_autocomplete',
       'weight' => 4,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_multivol_book-field_collection'.
   $field_instances['node-dlts_multivol_book-field_collection'] = array(
@@ -4459,7 +4459,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'node_reference_autocomplete',
       'weight' => 5,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_multivol_book-field_identifier'.
   $field_instances['node-dlts_multivol_book-field_identifier'] = array(
@@ -4511,7 +4511,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 3,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_multivol_book-field_multivol'.
   $field_instances['node-dlts_multivol_book-field_multivol'] = array(
@@ -4564,7 +4564,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'node_reference_autocomplete',
       'weight' => 6,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_multivol_book-field_volume_number'.
   $field_instances['node-dlts_multivol_book-field_volume_number'] = array(
@@ -4623,7 +4623,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'number',
       'weight' => 7,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_multivol_book-field_volume_number_str'.
   $field_instances['node-dlts_multivol_book-field_volume_number_str'] = array(
@@ -4676,7 +4676,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 9,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_partner-body'.
   $field_instances['node-dlts_partner-body'] = array(
@@ -4733,7 +4733,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textarea_with_summary',
       'weight' => 31,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_partner-field_code'.
   $field_instances['node-dlts_partner-field_code'] = array(
@@ -4786,7 +4786,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 35,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_partner-field_identifier'.
   $field_instances['node-dlts_partner-field_identifier'] = array(
@@ -4839,7 +4839,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 33,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_partner-field_name'.
   $field_instances['node-dlts_partner-field_name'] = array(
@@ -4892,7 +4892,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 37,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_series-field_handle'.
   $field_instances['node-dlts_series-field_handle'] = array(
@@ -4961,7 +4961,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'link_field',
       'weight' => 39,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_series-field_identifier'.
   $field_instances['node-dlts_series-field_identifier'] = array(
@@ -5014,7 +5014,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 33,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_series-field_representative_image'.
   $field_instances['node-dlts_series-field_representative_image'] = array(
@@ -5077,7 +5077,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'image_image',
       'weight' => 37,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_series_book-field_book'.
   $field_instances['node-dlts_series_book-field_book'] = array(
@@ -5131,7 +5131,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'node_reference_autocomplete',
       'weight' => 4,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_series_book-field_collection'.
   $field_instances['node-dlts_series_book-field_collection'] = array(
@@ -5185,7 +5185,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'node_reference_autocomplete',
       'weight' => 5,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_series_book-field_identifier'.
   $field_instances['node-dlts_series_book-field_identifier'] = array(
@@ -5238,7 +5238,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 3,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_series_book-field_series'.
   $field_instances['node-dlts_series_book-field_series'] = array(
@@ -5292,7 +5292,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'node_reference_autocomplete',
       'weight' => 6,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_series_book-field_volume_number'.
   $field_instances['node-dlts_series_book-field_volume_number'] = array(
@@ -5351,7 +5351,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'number',
       'weight' => 7,
     ),
- );
+  );
 
   // Exported field_instance: 'node-dlts_series_book-field_volume_number_str'.
   $field_instances['node-dlts_series_book-field_volume_number_str'] = array(
@@ -5404,7 +5404,7 @@ Vertical: \'Flip Book\' style bindings',
       'type' => 'text_textfield',
       'weight' => 8,
     ),
- );
+  );
 
   // Translatables
   // Included for use with string extractors like potx.

@@ -108,7 +108,7 @@ In early NYUP documentation, this was called \'_chapter\' - section is replacing
       'title_label' => t('Title'),
       'help' => '',
     ),
- );
+  );
   drupal_alter('node_info', $items);
   return $items;
 }
