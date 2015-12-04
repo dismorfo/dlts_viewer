@@ -5,16 +5,13 @@
   z-index: 999999;
   height: auto;
   width: inherit;
-  
   #book-navbar {
     height: 40px;
     background-color: #333;
     border-top: 1px solid #212121;
-    
     a, a:link {
       text-decoration: none;
     }
-    
     div.pager {
       float: right;
       margin-right: 1em;
@@ -23,55 +20,43 @@
       .pager-list {
         display: none;
         visibility: hidden;
-      }      
-    }
-  }
-  .view-book-thumbnails {    
-    .loaderHolder {
-      img {
-        height: auto;
       }
     }
-    .thumbHolder {
-      position: relative;
-      top: 0;
-      img {
-        width: 100%;
-        height: auto;
-        display: block;
-        border: none;
-      }      
-    }    
+  }
+  .view-book-thumbnails {
     .views-row {
       position: relative;
       float: left;
       width: 8%;
       height: auto;
-      min-height:250px;
+      min-height: 250px;
       margin: .5%;
-       
       &:first-child {
         margin: .5% .5% .5% 5.5%;
       }
-       
       &:last-child {
         margin: .5% 5.5% .5% .5%;
       }
-    }     
+    }
+    .thumbHolder {
+      position: absolute;
+      top: 0;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: none;
+    }
     a {
       display: block;
-      img {
-        width: 100%;
-        height: auto;
-        display: block;
-      }
       &:hover {
-         box-shadow: 0px 0px 0px 3px white;
-         + .page-number {
-           background: rgba(0, 0, 0, 0.7);
-           color: white;
-           }
-         }
+        box-shadow: 0px 0px 0px 3px white;
+        + .page-number {
+          background: rgba(0, 0, 0, 0.7);
+          color: white;
+        }
+      }
     }
     .page-number {
       padding: 3% 6%;
@@ -107,7 +92,7 @@
     .pager-first a:before {
       content: "\e011";
     }
-  }  
+  }
   .view-book-thumbnails {
     .views-row {
       direction: rtl;
@@ -120,5 +105,99 @@
       }
     }
   }
-  
+}
+
+@-webkit-keyframes loadingThumbnails {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+@keyframes loadingThumbnails {
+  0% {
+    opacity: .8;
+    // background-color: #b8b8b8;
+ 
+  }
+  // 50% {
+  //   opacity: .8;
+  //    // background-color: #b8b8b8;
+  // }
+  100% {
+    opacity: .1;
+    // background-color: #b8b8b8;
+ 
+  }
+}
+
+
+.loaderHolder {
+  opacity: 0;
+  animation-name: loadingThumbnails;
+  animation-duration: 2s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+  /* Chrome, Safari, Opera */
+  -webkit-animation-name: loadingThumbnails;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
+}
+
+.views-row[data-sequence="2"] .loaderHolder {
+  -webkit-animation-delay: .2s;
+  /* Chrome, Safari, Opera */
+  animation-delay: .2s;
+}
+
+.views-row[data-sequence="3"] .loaderHolder {
+  -webkit-animation-delay: .4s;
+  /* Chrome, Safari, Opera */
+  animation-delay: .4s;
+}
+
+.views-row[data-sequence="4"] .loaderHolder {
+  -webkit-animation-delay: .6s;
+  /* Chrome, Safari, Opera */
+  animation-delay: .6s;
+}
+
+.views-row[data-sequence="5"] .loaderHolder {
+  -webkit-animation-delay: .8s;
+  /* Chrome, Safari, Opera */
+  animation-delay: .8s;
+}
+
+.views-row[data-sequence="6"] .loaderHolder {
+  -webkit-animation-delay: 1s;
+  /* Chrome, Safari, Opera */
+  animation-delay: 1s;
+}
+
+.views-row[data-sequence="7"] .loaderHolder {
+  -webkit-animation-delay: 1.2s;
+  /* Chrome, Safari, Opera */
+  animation-delay: 1.2s;
+}
+
+.views-row[data-sequence="8"] .loaderHolder {
+  -webkit-animation-delay: 1.4s;
+  /* Chrome, Safari, Opera */
+  animation-delay: 1.4s;
+}
+
+.views-row[data-sequence="9"] .loaderHolder {
+  -webkit-animation-delay: 1.6s;
+  /* Chrome, Safari, Opera */
+  animation-delay: 1.6s;
+}
+
+.views-row[data-sequence="10"] .loaderHolder {
+  -webkit-animation-delay: 1.8s;
+  /* Chrome, Safari, Opera */
+  animation-delay: 1.8s;
 }
