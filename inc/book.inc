@@ -84,7 +84,11 @@ function dlts_viewer_pjax_book_view(&$entity) {
     'button_previous' => $entity->button_previous,
     'button_next' => $entity->button_next,
     'button_togglepage' => $entity->button_togglepage,
+    'thumbnailsPage' => $entity->thumbnailsPage,
+    'thumbnailsRows' => $entity->thumbnailsRows,
+    'thumbnailsURL' => $entity->thumbnailsURL,
   );
+
   return theme('book_page', $vars);
 }
 
