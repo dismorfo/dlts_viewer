@@ -24,23 +24,31 @@
     }
   }
   .view-book-thumbnails {
+    margin: 5px 1%;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -ms-flex-wrap: wrap;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+    -ms-flex-pack: justify;
     .views-row {
       position: relative;
-      float: left;
-      width: 8%;
-      height: auto;
-      min-height: 250px;
-      margin: .5%;
-      &:first-child {
-        margin: .5% .5% .5% 5.5%;
-      }
-      &:last-child {
-        margin: .5% 5.5% .5% .5%;
-      }
+      -ms-flex: 0 1 8%;
+      -webkit-flex: 0 1 8%;
+      flex: 0 1 8%;
+      background-color: black;
+      align-self: flex-end;
+    }
+    .loaderHolder {
+      position: relative;
+      bottom: 0;
     }
     .thumbHolder {
-      position: absolute;
-      top: 0;
+      position: relative;
+      bottom: 0;
     }
     img {
       width: 100%;
