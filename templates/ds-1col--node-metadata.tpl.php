@@ -43,7 +43,8 @@
     <?php print $book_page ?>
     <?php print $button_previous ?>
     <?php print $button_next ?>
-  </div>
+    <span id="thumbnails-params" data-url="<?php print $thumbnailsURL ?>" data-rows="<?php print $thumbnailsRows ?>" data-page="<?php print $thumbnailsPage ?>"></span>
+ </div>
 
   <div class="pane load loading">
     <?php if (isset($loading ) ) print $loading ; ?>
@@ -57,7 +58,7 @@
   </div>
 <?php endif; ?>
 
-<div id="thumbnails" class="views-g pane thumbnails hidden" data-url="<?php print $thumbnailsURL ?>" data-rows="<?php print $thumbnailsRows ?>" data-page="<?php print $thumbnailsPage ?>">
+<div id="thumbnails" class="views-g pane thumbnails hidden">
 <?php if (isset($thumbnails ) ) : ?>
   <?php print $thumbnails; ?>
 <?php endif; ?>
