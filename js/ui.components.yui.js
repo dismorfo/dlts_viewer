@@ -492,10 +492,14 @@ YUI().use(
     function onButtonThumbnailsOn(e) {
       Y.log('onButtonThumbnailsOn');
       var thumbnails = Y.one('#thumbnails');
+      var thumbnailsParams = Y.one('#thumbnails-params');
       var data = {};
-      if (thumbnails) {
-        data = thumbnails.getData();
-        Y.io(data.url + '?page=' + data.page + '&rows=' + data.rows, { on: { start: onButtonThumbnailsOnIOStart , complete: onThumbnailsOnSuccess } });
+      if (thumbnailsParams) {
+        data = thumbnailsParams.getData();
+        Y.io(data.url + '?page=' + data.page + '&rows=' + data.rows,
+          { on: { start: onButtonThumbnailsOnIOStart ,
+                  complete: onThumbnailsOnSuccess } }
+        );
       }
     }
     
