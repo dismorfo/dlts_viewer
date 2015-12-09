@@ -8,14 +8,15 @@
     <?php if (isset($items)) : ?>
       <?php foreach ($items as $thumbnail) : ?>
         <div class="views-row" data-uri="<?php print $thumbnail['cm']['uri'] ?>" data-sequence="<?php print $thumbnail['sequence'] ?>" data-width="<?php print $thumbnail['cm']['width'] ?>" data-height="<?php print $thumbnail['cm']['height'] ?>" data-levels="<?php print $thumbnail['cm']['levels'] ?>" data-dwtLevels="<?php print $thumbnail['cm']['dwtLevels'] ?>" data-compositingLayerCount="<?php print $thumbnail['cm']['compositingLayerCount'] ?>">
-
-          <div class="loaderHolder"><img src="<?php print $GLOBALS['base_url'] . '/' . drupal_get_path('module', 'dlts_viewer');?>/images/loadhold.png" width="220" height="356"></div>
-          
-
+        
           <div class="thumbHolder">
-            <a href="<?php print $thumbnail['url'] ?>"><img src="<?php print $thumbnail['imageServeURI'] ?>" /></a>
+            <a href="<?php print $thumbnail['url'] ?>">
+              <img class="thumbItem"  src="<?php print $thumbnail['imageServeURI'] ?>"  />   
+              <img class="thumbItemloader"  src="<?php print $GLOBALS['base_url'] . '/' . drupal_get_path('module', 'dlts_viewer');?>/images/loadhold.png"  height="230" width="166">
+                <img class="thumbItembg"  src="<?php print $GLOBALS['base_url'] . '/' . drupal_get_path('module', 'dlts_viewer');?>/images/loadhold.png"  height="230" width="166">
+              <span class="page-number"><?php print $thumbnail['sequence'] ?></span>
+            </a>
           </div>
-          <span class="page-number"><?php print $thumbnail['sequence'] ?></span>
         </div>
       <?php endforeach ?>
     <?php endif ?>

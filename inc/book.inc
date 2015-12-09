@@ -18,6 +18,7 @@ function dlts_viewer_dispatch_thumbnails($identifier) {
   $query_parameters = drupal_get_query_parameters();
   $page = 0;
   $per_page = 10;
+  $height_of_each_thumbnail = 230;
   if (isset($query_parameters['page'])) { // page number can be part of the query parameter
     $page = filter_xss($query_parameters['page']);
   }
@@ -41,7 +42,7 @@ function dlts_viewer_dispatch_thumbnails($identifier) {
     $result['url'] = url('books/' . $identifier . '/' . $result['sequence'], array('absolute' => TRUE));
     if (isset($result['cm']['uri'])) {
       $rft_id = file_create_url($result['cm']['uri']);
-      $resolver = '/resolver?url_ver=Z39.88-2004&svc_id=info:lanl-repo/svc/getRegion&svc_val_fmt=info:ofi/fmt:kev:mtx:jpeg2000&svc.format=image/jpeg&svc.level=1&svc.rotate=0&rft_id=' . $rft_id;
+      $resolver = '/resolver?url_ver=Z39.88-2004&svc_id=info:lanl-repo/svc/getRegion&svc_val_fmt=info:ofi/fmt:kev:mtx:jpeg2000&svc.format=image/jpeg&svc.scale='. $height_of_each_thumbnail . '&rft_id=' . $rft_id;
       $result['imageServeURI'] = $image_server_service . $resolver;
     }
     $items[] = $result;
