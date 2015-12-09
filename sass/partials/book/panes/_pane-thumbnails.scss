@@ -62,6 +62,16 @@
       border: none;
       opacity: 0;
     }
+    img.thumbItembg {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: none;
+      opacity: .9;
+      position: absolute;
+      top: 0;
+      z-index: -2;
+    }
     a {
       display: block;
       &:hover {

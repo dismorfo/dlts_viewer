@@ -12,7 +12,8 @@
           <div class="thumbHolder">
             <a href="<?php print $thumbnail['url'] ?>">
               <img class="thumbItem"  src="<?php print $thumbnail['imageServeURI'] ?>"  />   
-              <div class="loaderHolder"><img class="thumbItemloader"  src="<?php print $GLOBALS['base_url'] . '/' . drupal_get_path('module', 'dlts_viewer');?>/images/loadhold.png"  height="230" width="166"></div>
+              <img class="thumbItemloader"  src="<?php print $GLOBALS['base_url'] . '/' . drupal_get_path('module', 'dlts_viewer');?>/images/loadhold.png"  height="230" width="166">
+                <img class="thumbItembg"  src="<?php print $GLOBALS['base_url'] . '/' . drupal_get_path('module', 'dlts_viewer');?>/images/loadhold.png"  height="230" width="166">
               <span class="page-number"><?php print $thumbnail['sequence'] ?></span>
             </a>
           </div>
