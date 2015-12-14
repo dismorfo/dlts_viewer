@@ -211,7 +211,7 @@
         "read_order": {
             "label": "Read Order",
             "value": [
-                "Right to left"
+                "1"
             ],
             "field_type": "options_buttons",
             "machine_name": "field_read_order"
