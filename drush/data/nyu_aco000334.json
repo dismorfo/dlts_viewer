@@ -356,7 +356,6 @@
                 "timestamp": "1410318578",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr01_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -376,7 +375,6 @@
                 "timestamp": "1410318579",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr02_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -396,7 +394,6 @@
                 "timestamp": "1410318581",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr03_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -416,7 +413,6 @@
                 "timestamp": "1410318583",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr04_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -436,7 +432,6 @@
                 "timestamp": "1410318585",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr05_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -456,7 +451,6 @@
                 "timestamp": "1410318587",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr06_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -476,7 +470,6 @@
                 "timestamp": "1410318589",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr07_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -496,7 +489,6 @@
                 "timestamp": "1410318590",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr08_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -516,7 +508,6 @@
                 "timestamp": "1410318592",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr09_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -536,7 +527,6 @@
                 "timestamp": "1410318594",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr10_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -556,7 +546,6 @@
                 "timestamp": "1410318596",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr11_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -576,7 +565,6 @@
                 "timestamp": "1410318598",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr12_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -596,7 +584,6 @@
                 "timestamp": "1410318600",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr13_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -616,7 +603,6 @@
                 "timestamp": "1410318602",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr14_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -636,7 +622,6 @@
                 "timestamp": "1410318604",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr15_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -656,7 +641,6 @@
                 "timestamp": "1410318606",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr16_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -676,7 +660,6 @@
                 "timestamp": "1410318607",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr17_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -696,7 +679,6 @@
                 "timestamp": "1410318609",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr18_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -716,7 +698,6 @@
                 "timestamp": "1410318611",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr19_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -736,7 +717,6 @@
                 "timestamp": "1410318613",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr20_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -756,7 +736,6 @@
                 "timestamp": "1410318615",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr21_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -776,7 +755,6 @@
                 "timestamp": "1410318617",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr22_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -796,7 +774,6 @@
                 "timestamp": "1410318619",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr23_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -816,7 +793,6 @@
                 "timestamp": "1410318621",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr24_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -836,7 +812,6 @@
                 "timestamp": "1410318622",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr25_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -856,7 +831,6 @@
                 "timestamp": "1410318624",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr26_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -876,7 +850,6 @@
                 "timestamp": "1410318627",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr27_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -896,7 +869,6 @@
                 "timestamp": "1410318628",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr28_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -916,7 +888,6 @@
                 "timestamp": "1410318630",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr29_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -936,7 +907,6 @@
                 "timestamp": "1410318632",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr30_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -956,7 +926,6 @@
                 "timestamp": "1410318634",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr31_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -976,7 +945,6 @@
                 "timestamp": "1410318636",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr32_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -996,7 +964,6 @@
                 "timestamp": "1410318638",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr33_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1016,7 +983,6 @@
                 "timestamp": "1410318640",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr34_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1036,7 +1002,6 @@
                 "timestamp": "1410318642",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr35_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1056,7 +1021,6 @@
                 "timestamp": "1410318643",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_afr36_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1076,7 +1040,6 @@
                 "timestamp": "1410318645",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000001_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1096,7 +1059,6 @@
                 "timestamp": "1410318647",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000002_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1116,7 +1078,6 @@
                 "timestamp": "1410318649",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000003_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1136,7 +1097,6 @@
                 "timestamp": "1410318651",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000004_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1156,7 +1116,6 @@
                 "timestamp": "1410318653",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000005_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1176,7 +1135,6 @@
                 "timestamp": "1410318655",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000006_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1196,7 +1154,6 @@
                 "timestamp": "1410318657",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000007_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1216,7 +1173,6 @@
                 "timestamp": "1410318659",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000008_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1236,7 +1192,6 @@
                 "timestamp": "1410318661",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000009_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1256,7 +1211,6 @@
                 "timestamp": "1410318663",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000010_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1276,7 +1230,6 @@
                 "timestamp": "1410318665",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000011_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1296,7 +1249,6 @@
                 "timestamp": "1410318667",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000012_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1316,7 +1268,6 @@
                 "timestamp": "1410318669",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000013_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1336,7 +1287,6 @@
                 "timestamp": "1410318670",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000014_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1356,7 +1306,6 @@
                 "timestamp": "1410318672",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000015_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1376,7 +1325,6 @@
                 "timestamp": "1410318674",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000016_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1396,7 +1344,6 @@
                 "timestamp": "1410318676",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000017_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1416,7 +1363,6 @@
                 "timestamp": "1410318678",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000018_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1436,7 +1382,6 @@
                 "timestamp": "1410318680",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000019_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1456,7 +1401,6 @@
                 "timestamp": "1410318682",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000020_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1476,7 +1420,6 @@
                 "timestamp": "1410318684",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000021_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1496,7 +1439,6 @@
                 "timestamp": "1410318686",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000022_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1516,7 +1458,6 @@
                 "timestamp": "1410318688",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000023_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1536,7 +1477,6 @@
                 "timestamp": "1410318690",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000024_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1556,7 +1496,6 @@
                 "timestamp": "1410318692",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000025_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1576,7 +1515,6 @@
                 "timestamp": "1410318693",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000026_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1596,7 +1534,6 @@
                 "timestamp": "1410318696",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000027_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1616,7 +1553,6 @@
                 "timestamp": "1410318697",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000028_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1636,7 +1572,6 @@
                 "timestamp": "1410318699",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000029_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1656,7 +1591,6 @@
                 "timestamp": "1410318701",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000030_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1676,7 +1610,6 @@
                 "timestamp": "1410318703",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000031_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1696,7 +1629,6 @@
                 "timestamp": "1410318705",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000032_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1716,7 +1648,6 @@
                 "timestamp": "1410318707",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000033_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1736,7 +1667,6 @@
                 "timestamp": "1410318709",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000034_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1756,7 +1686,6 @@
                 "timestamp": "1410318711",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000035_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1776,7 +1705,6 @@
                 "timestamp": "1410318713",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000036_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1796,7 +1724,6 @@
                 "timestamp": "1410318715",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000037_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1816,7 +1743,6 @@
                 "timestamp": "1410318717",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000038_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1836,7 +1762,6 @@
                 "timestamp": "1410318718",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000039_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1856,7 +1781,6 @@
                 "timestamp": "1410318720",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000040_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1876,7 +1800,6 @@
                 "timestamp": "1410318723",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000041_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1896,7 +1819,6 @@
                 "timestamp": "1410318725",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000042_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1916,7 +1838,6 @@
                 "timestamp": "1410318727",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000043_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1936,7 +1857,6 @@
                 "timestamp": "1410318729",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000044_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1956,7 +1876,6 @@
                 "timestamp": "1410318731",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000045_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1976,7 +1895,6 @@
                 "timestamp": "1410318733",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000046_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -1996,7 +1914,6 @@
                 "timestamp": "1410318734",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000047_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2016,7 +1933,6 @@
                 "timestamp": "1410318736",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000048_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2036,7 +1952,6 @@
                 "timestamp": "1410318738",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000049_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2056,7 +1971,6 @@
                 "timestamp": "1410318740",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000050_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2076,7 +1990,6 @@
                 "timestamp": "1410318742",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000051_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2096,7 +2009,6 @@
                 "timestamp": "1410318744",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000052_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2116,7 +2028,6 @@
                 "timestamp": "1410318746",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000053_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2136,7 +2047,6 @@
                 "timestamp": "1410318748",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000054_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2156,7 +2066,6 @@
                 "timestamp": "1410318750",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000055_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2176,7 +2085,6 @@
                 "timestamp": "1410318752",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000056_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2196,7 +2104,6 @@
                 "timestamp": "1410318754",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000057_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2216,7 +2123,6 @@
                 "timestamp": "1410318756",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000058_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2236,7 +2142,6 @@
                 "timestamp": "1410318758",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000059_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2256,7 +2161,6 @@
                 "timestamp": "1410318760",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000060_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2276,7 +2180,6 @@
                 "timestamp": "1410318761",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000061_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2296,7 +2199,6 @@
                 "timestamp": "1410318763",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000062_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2316,7 +2218,6 @@
                 "timestamp": "1410318765",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000063_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2336,7 +2237,6 @@
                 "timestamp": "1410318767",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000064_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2356,7 +2256,6 @@
                 "timestamp": "1410318769",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000065_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2376,7 +2275,6 @@
                 "timestamp": "1410318771",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000066_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2396,7 +2294,6 @@
                 "timestamp": "1410318773",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000067_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2416,7 +2313,6 @@
                 "timestamp": "1410318775",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000068_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2436,7 +2332,6 @@
                 "timestamp": "1410318777",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000069_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2456,7 +2351,6 @@
                 "timestamp": "1410318779",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000070_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2476,7 +2370,6 @@
                 "timestamp": "1410318781",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000071_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2496,7 +2389,6 @@
                 "timestamp": "1410318783",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000072_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2516,7 +2408,6 @@
                 "timestamp": "1410318785",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000073_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2536,7 +2427,6 @@
                 "timestamp": "1410318787",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000074_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2556,7 +2446,6 @@
                 "timestamp": "1410318788",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000075_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2576,7 +2465,6 @@
                 "timestamp": "1410318790",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000076_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2596,7 +2484,6 @@
                 "timestamp": "1410318792",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000077_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2616,7 +2503,6 @@
                 "timestamp": "1410318794",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000078_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2636,7 +2522,6 @@
                 "timestamp": "1410318796",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000079_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2656,7 +2541,6 @@
                 "timestamp": "1410318798",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000080_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2676,7 +2560,6 @@
                 "timestamp": "1410318800",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000081_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2696,7 +2579,6 @@
                 "timestamp": "1410318802",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000082_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2716,7 +2598,6 @@
                 "timestamp": "1410318804",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000083_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2736,7 +2617,6 @@
                 "timestamp": "1410318806",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000084_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2756,7 +2636,6 @@
                 "timestamp": "1410318808",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000085_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2776,7 +2655,6 @@
                 "timestamp": "1410318810",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000086_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2796,7 +2674,6 @@
                 "timestamp": "1410318812",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000087_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2816,7 +2693,6 @@
                 "timestamp": "1410318814",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000088_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2836,7 +2712,6 @@
                 "timestamp": "1410318816",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000089_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2856,7 +2731,6 @@
                 "timestamp": "1410318818",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000090_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2876,7 +2750,6 @@
                 "timestamp": "1410318820",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000091_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2896,7 +2769,6 @@
                 "timestamp": "1410318822",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000092_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2916,7 +2788,6 @@
                 "timestamp": "1410318824",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000093_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2936,7 +2807,6 @@
                 "timestamp": "1410318826",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000094_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2956,7 +2826,6 @@
                 "timestamp": "1410318828",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000095_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2976,7 +2845,6 @@
                 "timestamp": "1410318830",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000096_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -2996,7 +2864,6 @@
                 "timestamp": "1410318832",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000097_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3016,7 +2883,6 @@
                 "timestamp": "1410318834",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000098_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3036,7 +2902,6 @@
                 "timestamp": "1410318836",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000099_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3056,7 +2921,6 @@
                 "timestamp": "1410318838",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000100_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3076,7 +2940,6 @@
                 "timestamp": "1410318839",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000101_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3096,7 +2959,6 @@
                 "timestamp": "1410318841",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000102_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3116,7 +2978,6 @@
                 "timestamp": "1410318843",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000103_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3136,7 +2997,6 @@
                 "timestamp": "1410318846",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000104_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3156,7 +3016,6 @@
                 "timestamp": "1410318847",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000105_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3176,7 +3035,6 @@
                 "timestamp": "1410318849",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000106_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3196,7 +3054,6 @@
                 "timestamp": "1410318851",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000107_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3216,7 +3073,6 @@
                 "timestamp": "1410318853",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000108_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3236,7 +3092,6 @@
                 "timestamp": "1410318855",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000109_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3256,7 +3111,6 @@
                 "timestamp": "1410318857",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000110_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3276,7 +3130,6 @@
                 "timestamp": "1410318859",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000111_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3296,7 +3149,6 @@
                 "timestamp": "1410318861",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000112_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3316,7 +3168,6 @@
                 "timestamp": "1410318863",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000113_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3336,7 +3187,6 @@
                 "timestamp": "1410318865",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000114_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3356,7 +3206,6 @@
                 "timestamp": "1410318867",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000115_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3376,7 +3225,6 @@
                 "timestamp": "1410318869",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000116_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3396,7 +3244,6 @@
                 "timestamp": "1410318871",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000117_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3416,7 +3263,6 @@
                 "timestamp": "1410318873",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000118_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3436,7 +3282,6 @@
                 "timestamp": "1410318875",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000119_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3456,7 +3301,6 @@
                 "timestamp": "1410318877",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000120_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3476,7 +3320,6 @@
                 "timestamp": "1410318879",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000121_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3496,7 +3339,6 @@
                 "timestamp": "1410318881",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000122_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3516,7 +3358,6 @@
                 "timestamp": "1410318883",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000123_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3536,7 +3377,6 @@
                 "timestamp": "1410318885",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000124_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3556,7 +3396,6 @@
                 "timestamp": "1410318887",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000125_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3576,7 +3415,6 @@
                 "timestamp": "1410318889",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000126_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3596,7 +3434,6 @@
                 "timestamp": "1410318891",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000127_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3616,7 +3453,6 @@
                 "timestamp": "1410318893",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000128_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3636,7 +3472,6 @@
                 "timestamp": "1410318895",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000129_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3656,7 +3491,6 @@
                 "timestamp": "1410318897",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000130_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3676,7 +3510,6 @@
                 "timestamp": "1410318899",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000131_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3696,7 +3529,6 @@
                 "timestamp": "1410318901",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000132_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3716,7 +3548,6 @@
                 "timestamp": "1410318903",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000133_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3736,7 +3567,6 @@
                 "timestamp": "1410318905",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000134_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3756,7 +3586,6 @@
                 "timestamp": "1410318907",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000135_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3776,7 +3605,6 @@
                 "timestamp": "1410318909",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000136_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3796,7 +3624,6 @@
                 "timestamp": "1410318911",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000137_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3816,7 +3643,6 @@
                 "timestamp": "1410318913",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000138_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3836,7 +3662,6 @@
                 "timestamp": "1410318915",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000139_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3856,7 +3681,6 @@
                 "timestamp": "1410318917",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000140_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3876,7 +3700,6 @@
                 "timestamp": "1410318919",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000141_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3896,7 +3719,6 @@
                 "timestamp": "1410318921",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000142_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3916,7 +3738,6 @@
                 "timestamp": "1410318923",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000143_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3936,7 +3757,6 @@
                 "timestamp": "1410318925",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000144_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3956,7 +3776,6 @@
                 "timestamp": "1410318927",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000145_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3976,7 +3795,6 @@
                 "timestamp": "1410318929",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000146_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -3996,7 +3814,6 @@
                 "timestamp": "1410318931",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000147_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4016,7 +3833,6 @@
                 "timestamp": "1410318933",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000148_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4036,7 +3852,6 @@
                 "timestamp": "1410318935",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000149_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4056,7 +3871,6 @@
                 "timestamp": "1410318937",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000150_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4076,7 +3890,6 @@
                 "timestamp": "1410318939",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000151_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4096,7 +3909,6 @@
                 "timestamp": "1410318941",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000152_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4116,7 +3928,6 @@
                 "timestamp": "1410318943",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000153_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4136,7 +3947,6 @@
                 "timestamp": "1410318945",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000154_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4156,7 +3966,6 @@
                 "timestamp": "1410318947",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000155_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4176,7 +3985,6 @@
                 "timestamp": "1410318949",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000156_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4196,7 +4004,6 @@
                 "timestamp": "1410318951",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000157_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4216,7 +4023,6 @@
                 "timestamp": "1410318953",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000158_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4236,7 +4042,6 @@
                 "timestamp": "1410318955",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000159_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4256,7 +4061,6 @@
                 "timestamp": "1410318957",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000160_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4276,7 +4080,6 @@
                 "timestamp": "1410318959",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000161_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4296,7 +4099,6 @@
                 "timestamp": "1410318961",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000162_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4316,7 +4118,6 @@
                 "timestamp": "1410318963",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000163_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4336,7 +4137,6 @@
                 "timestamp": "1410318965",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000164_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4356,7 +4156,6 @@
                 "timestamp": "1410318967",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000165_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4376,7 +4175,6 @@
                 "timestamp": "1410318969",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000166_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4396,7 +4194,6 @@
                 "timestamp": "1410318971",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000167_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4416,7 +4213,6 @@
                 "timestamp": "1410318973",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000168_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4436,7 +4232,6 @@
                 "timestamp": "1410318975",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000169_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4456,7 +4251,6 @@
                 "timestamp": "1410318976",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000170_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4476,7 +4270,6 @@
                 "timestamp": "1410318978",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000171_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4496,7 +4289,6 @@
                 "timestamp": "1410318980",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000172_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4516,7 +4308,6 @@
                 "timestamp": "1410318982",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000173_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4536,7 +4327,6 @@
                 "timestamp": "1410318984",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000174_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4556,7 +4346,6 @@
                 "timestamp": "1410318986",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000175_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4576,7 +4365,6 @@
                 "timestamp": "1410318988",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000176_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4596,7 +4384,6 @@
                 "timestamp": "1410318990",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000177_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4616,7 +4403,6 @@
                 "timestamp": "1410318992",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000178_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4636,7 +4422,6 @@
                 "timestamp": "1410318994",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000179_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4656,7 +4441,6 @@
                 "timestamp": "1410318996",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000180_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4676,7 +4460,6 @@
                 "timestamp": "1410318998",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000181_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4696,7 +4479,6 @@
                 "timestamp": "1410319000",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000182_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4716,7 +4498,6 @@
                 "timestamp": "1410319002",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000183_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4736,7 +4517,6 @@
                 "timestamp": "1410319004",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000184_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4756,7 +4536,6 @@
                 "timestamp": "1410319006",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000185_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4776,7 +4555,6 @@
                 "timestamp": "1410319008",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000186_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4796,7 +4574,6 @@
                 "timestamp": "1410319010",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000187_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4816,7 +4593,6 @@
                 "timestamp": "1410319012",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000188_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4836,7 +4612,6 @@
                 "timestamp": "1410319014",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000189_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4856,7 +4631,6 @@
                 "timestamp": "1410319016",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000190_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4876,7 +4650,6 @@
                 "timestamp": "1410319018",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000191_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4896,7 +4669,6 @@
                 "timestamp": "1410319020",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000192_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4916,7 +4688,6 @@
                 "timestamp": "1410319022",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000193_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4936,7 +4707,6 @@
                 "timestamp": "1410319024",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000194_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4956,7 +4726,6 @@
                 "timestamp": "1410319026",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000195_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4976,7 +4745,6 @@
                 "timestamp": "1410319028",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000196_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -4996,7 +4764,6 @@
                 "timestamp": "1410319030",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000197_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5016,7 +4783,6 @@
                 "timestamp": "1410319032",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000198_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5036,7 +4802,6 @@
                 "timestamp": "1410319034",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000199_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5056,7 +4821,6 @@
                 "timestamp": "1410319036",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000200_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5076,7 +4840,6 @@
                 "timestamp": "1410319038",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000201_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5096,7 +4859,6 @@
                 "timestamp": "1410319040",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000202_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5116,7 +4878,6 @@
                 "timestamp": "1410319042",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000203_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5136,7 +4897,6 @@
                 "timestamp": "1410319044",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000204_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5156,7 +4916,6 @@
                 "timestamp": "1410319046",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000205_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5176,7 +4935,6 @@
                 "timestamp": "1410319048",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000206_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5196,7 +4954,6 @@
                 "timestamp": "1410319050",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000207_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5216,7 +4973,6 @@
                 "timestamp": "1410319052",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000208_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5236,7 +4992,6 @@
                 "timestamp": "1410319054",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000209_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5256,7 +5011,6 @@
                 "timestamp": "1410319056",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000210_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5276,7 +5030,6 @@
                 "timestamp": "1410319058",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000211_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5296,7 +5049,6 @@
                 "timestamp": "1410319060",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000212_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5316,7 +5068,6 @@
                 "timestamp": "1410319062",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000213_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5336,7 +5087,6 @@
                 "timestamp": "1410319064",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000214_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5356,7 +5106,6 @@
                 "timestamp": "1410319066",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000215_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5376,7 +5125,6 @@
                 "timestamp": "1410319068",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000216_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5396,7 +5144,6 @@
                 "timestamp": "1410319070",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000217_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5416,7 +5163,6 @@
                 "timestamp": "1410319072",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000218_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5436,7 +5182,6 @@
                 "timestamp": "1410319074",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000219_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5456,7 +5201,6 @@
                 "timestamp": "1410319076",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000220_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5476,7 +5220,6 @@
                 "timestamp": "1410319078",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000221_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5496,7 +5239,6 @@
                 "timestamp": "1410319080",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000222_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5516,7 +5258,6 @@
                 "timestamp": "1410319082",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000223_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5536,7 +5277,6 @@
                 "timestamp": "1410319084",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000224_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5556,7 +5296,6 @@
                 "timestamp": "1410319086",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000225_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5576,7 +5315,6 @@
                 "timestamp": "1410319088",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000226_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5596,7 +5334,6 @@
                 "timestamp": "1410319090",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000227_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5616,7 +5353,6 @@
                 "timestamp": "1410319092",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000228_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5636,7 +5372,6 @@
                 "timestamp": "1410319094",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000229_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5656,7 +5391,6 @@
                 "timestamp": "1410319096",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000230_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5676,7 +5410,6 @@
                 "timestamp": "1410319098",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000231_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5696,7 +5429,6 @@
                 "timestamp": "1410319100",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000232_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5716,7 +5448,6 @@
                 "timestamp": "1410319102",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000233_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5736,7 +5467,6 @@
                 "timestamp": "1410319104",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000234_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5756,7 +5486,6 @@
                 "timestamp": "1410319106",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000235_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5776,7 +5505,6 @@
                 "timestamp": "1410319108",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000236_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5796,7 +5524,6 @@
                 "timestamp": "1410319110",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000237_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5816,7 +5543,6 @@
                 "timestamp": "1410319112",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000238_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5836,7 +5562,6 @@
                 "timestamp": "1410319114",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000239_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5856,7 +5581,6 @@
                 "timestamp": "1410319116",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000240_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5876,7 +5600,6 @@
                 "timestamp": "1410319118",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000241_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5896,7 +5619,6 @@
                 "timestamp": "1410319120",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000242_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5916,7 +5638,6 @@
                 "timestamp": "1410319122",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000243_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5936,7 +5657,6 @@
                 "timestamp": "1410319124",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000244_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5956,7 +5676,6 @@
                 "timestamp": "1410319126",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000245_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5976,7 +5695,6 @@
                 "timestamp": "1410319128",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000246_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -5996,7 +5714,6 @@
                 "timestamp": "1410319130",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000247_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6016,7 +5733,6 @@
                 "timestamp": "1410319132",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000248_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6036,7 +5752,6 @@
                 "timestamp": "1410319134",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000249_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6056,7 +5771,6 @@
                 "timestamp": "1410319136",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000250_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6076,7 +5790,6 @@
                 "timestamp": "1410319138",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000251_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6096,7 +5809,6 @@
                 "timestamp": "1410319140",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000252_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6116,7 +5828,6 @@
                 "timestamp": "1410319142",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000253_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6136,7 +5847,6 @@
                 "timestamp": "1410319144",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000254_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6156,7 +5866,6 @@
                 "timestamp": "1410319146",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000255_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6176,7 +5885,6 @@
                 "timestamp": "1410319148",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000256_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6196,7 +5904,6 @@
                 "timestamp": "1410319150",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000257_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6216,7 +5923,6 @@
                 "timestamp": "1410319152",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000258_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6236,7 +5942,6 @@
                 "timestamp": "1410319154",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000259_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6256,7 +5961,6 @@
                 "timestamp": "1410319156",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000260_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6276,7 +5980,6 @@
                 "timestamp": "1410319158",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000261_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6296,7 +5999,6 @@
                 "timestamp": "1410319160",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000262_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6316,7 +6018,6 @@
                 "timestamp": "1410319162",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000263_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6336,7 +6037,6 @@
                 "timestamp": "1410319164",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000264_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6356,7 +6056,6 @@
                 "timestamp": "1410319166",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000265_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6376,7 +6075,6 @@
                 "timestamp": "1410319168",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000266_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6396,7 +6094,6 @@
                 "timestamp": "1410319170",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000267_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6416,7 +6113,6 @@
                 "timestamp": "1410319172",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000268_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6436,7 +6132,6 @@
                 "timestamp": "1410319174",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000269_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6456,7 +6151,6 @@
                 "timestamp": "1410319176",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000270_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6476,7 +6170,6 @@
                 "timestamp": "1410319178",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000271_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6496,7 +6189,6 @@
                 "timestamp": "1410319180",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000272_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6516,7 +6208,6 @@
                 "timestamp": "1410319182",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000273_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6536,7 +6227,6 @@
                 "timestamp": "1410319184",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000274_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6556,7 +6246,6 @@
                 "timestamp": "1410319186",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000275_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6576,7 +6265,6 @@
                 "timestamp": "1410319188",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000276_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6596,7 +6284,6 @@
                 "timestamp": "1410319190",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000277_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6616,7 +6303,6 @@
                 "timestamp": "1410319193",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000278_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6636,7 +6322,6 @@
                 "timestamp": "1410319195",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000279_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6656,7 +6341,6 @@
                 "timestamp": "1410319197",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000280_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6676,7 +6360,6 @@
                 "timestamp": "1410319199",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000281_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6696,7 +6379,6 @@
                 "timestamp": "1410319201",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000282_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6716,7 +6398,6 @@
                 "timestamp": "1410319203",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000283_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6736,7 +6417,6 @@
                 "timestamp": "1410319205",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000284_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6756,7 +6436,6 @@
                 "timestamp": "1410319207",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000285_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6776,7 +6455,6 @@
                 "timestamp": "1410319209",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000286_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6796,7 +6474,6 @@
                 "timestamp": "1410319211",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000287_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6816,7 +6493,6 @@
                 "timestamp": "1410319213",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000288_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6836,7 +6512,6 @@
                 "timestamp": "1410319215",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_n000289_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6856,7 +6531,6 @@
                 "timestamp": "1410319217",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_zbk01_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6876,7 +6550,6 @@
                 "timestamp": "1410319219",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_zbk02_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6896,7 +6569,6 @@
                 "timestamp": "1410319221",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_zbk03_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6916,7 +6588,6 @@
                 "timestamp": "1410319223",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_zbk04_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6936,7 +6607,6 @@
                 "timestamp": "1410319225",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_zbk05_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6956,7 +6626,6 @@
                 "timestamp": "1410319227",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_zbk06_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6976,7 +6645,6 @@
                 "timestamp": "1410319229",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_zbk07_s.jpg",
                 "hand_side": "1",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
@@ -6996,7 +6664,6 @@
                 "timestamp": "1410319231",
                 "service": "http://dev-dl-pa.home.nyu.edu/books/sites/default/files/nyu_aco000334/nyu_aco000334_zbk08_s.jpg",
                 "hand_side": "0",
-                "read_order": "1",
                 "page_type": "0",
                 "visible": "1",
                 "metadata": {
