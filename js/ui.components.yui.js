@@ -26,10 +26,12 @@ YUI().use(
     var pagemeta = Y.one('.pane.pagemeta');
 
     var display = Y.one('#display');
+
+    var pager = Y.one('#pager');
     
     var displayData = display.getData();
 
-    var land_dir = html.get('dir');
+    var land_dir = pager.get('dir');
 
     var bookUrl = displayData['url'];
 
