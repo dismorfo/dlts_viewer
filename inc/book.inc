@@ -231,7 +231,7 @@ function dlts_viewer_dispatcher($entity, $arg) {
 
   $entity->book_page = theme('dlts_viewer_openlayers_image' , array('file' => $arg));
   $entity->book_page_data = $arg;
-  $entity->button_metadata = $button_metadata ;
+  $entity->button_metadata = $button_metadata;
   $entity->button_next = $button_next;
   $entity->button_previous = $button_previous;
   $entity->button_togglepage = $button_togglepage;
