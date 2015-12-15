@@ -71,23 +71,23 @@ function dlts_viewer_full_book_view(&$entity) {
 
 function dlts_viewer_pjax_book_view(&$entity) {
   $vars = array(
+    'button_next' => $entity->button_next,
+    'button_previous' => $entity->button_previous,
+    'button_togglepage' => $entity->button_togglepage,
+    'compositingLayerCount' => $entity->book_page_data['compositingLayerCount'],
+    'dwtLevels' => $entity->book_page_data['dwtLevels'],
     'fid' => $entity->book_page_data['fid'],
+    'height' => $entity->book_page_data['height'],
     'identifier' => $entity->identifier,
-    'title' => $entity->title,
+    'levels' => $entity->book_page_data['levels'],
     'sequence' => $entity->sequence,
     'sequence_count' => $entity->sequence_count,
-    'uri' => $entity->book_page_data['uri'],
-    'width' => $entity->book_page_data['width'],
-    'height' => $entity->book_page_data['height'],
-    'levels' => $entity->book_page_data['levels'],
-    'dwtLevels' => $entity->book_page_data['dwtLevels'],
-    'compositingLayerCount' => $entity->book_page_data['compositingLayerCount'],
-    'button_previous' => $entity->button_previous,
-    'button_next' => $entity->button_next,
-    'button_togglepage' => $entity->button_togglepage,
     'thumbnailsPage' => $entity->thumbnailsPage,
     'thumbnailsRows' => $entity->thumbnailsRows,
     'thumbnailsURL' => $entity->thumbnailsURL,
+    'title' => $entity->title,
+    'uri' => $entity->book_page_data['uri'],
+    'width' => $entity->book_page_data['width'],
   );
 
   return theme('book_page', $vars);
