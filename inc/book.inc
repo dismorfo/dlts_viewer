@@ -153,6 +153,7 @@ function dlts_viewer_dispatcher($entity, $arg) {
     'text' => t('Go to next page'),
     'url' => $book_url . '/' . $next_page . ((!$is_single_page) ? '?page_view=double' : ''),
     'operation' => 'next',
+    'pager side' => $entity->read_order === 'ltr' ? 'pager-right' : 'pager-left',
     )
   );
   /** prev page */
@@ -163,6 +164,7 @@ function dlts_viewer_dispatcher($entity, $arg) {
     'text' => t('Go to previous page'),
     'url' => $book_url . '/' . $previous_page . ((! $is_single_page ) ? '?page_view=double' : ''),
     'operation' => 'previous',
+    'pager side' => $entity->read_order === 'ltr' ? 'pager-left' : 'pager-right',
     )
   );
 
