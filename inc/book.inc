@@ -55,7 +55,7 @@ function dlts_viewer_dispatch_thumbnails($identifier) {
 }
 
 function dlts_viewer_full_book_view(&$entity) {
-	$module_path = drupal_get_path('module', 'dlts_viewer');
+  $module_path = drupal_get_path('module', 'dlts_viewer');
   $js_common_config = array('type' => 'file', 'scope' => 'footer');
   $css_common_config = array('group' => CSS_DEFAULT, 'every_page' => TRUE);
   drupal_add_css($module_path . '/css/dlts_viewer.css', $css_common_config);
