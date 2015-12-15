@@ -229,24 +229,24 @@ function dlts_viewer_dispatcher($entity, $arg) {
     'control_panel' => theme('dlts_book_controlpanel'),
   ));
 
-  $entity->url = $book_url;
-  $entity->thumbnailsURL = $book_url . '/thumbnails';
-  $entity->thumbnailsRows = $thumbnails_rows_per_page;
-  $entity->identifier = $identifier;
-  $entity->sequence_count = $sequence_count;
-  $entity->sequence = $page;
-  $entity->thumbnailsPage = ceil($page / $thumbnails_rows_per_page) - 1;
-  $entity->pane_metadata_hidden = FALSE;
-  $entity->loading = theme('dlts_book_loading', array('sequence_number' => $page));
-  $entity->slider = theme('dlts_book_slider' , array('slider_id' => 'slider', 'uri' => $book_url, 'lang_dir' => $entity->read_order, 'sequence_number' => $page, 'sequence_count' => $sequence_count));
   $entity->book_page = theme('dlts_viewer_openlayers_image' , array('file' => $arg));
-  $entity->button_metadata = $button_metadata ;
-  $entity->button_togglepage = $button_togglepage;
-  $entity->button_previous = $button_previous ;
   $entity->book_page_data = $arg;
+  $entity->button_metadata = $button_metadata ;
   $entity->button_next = $button_next ;
-  $entity->button_previous = $button_previous;
   $entity->button_next = $button_next;
+  $entity->button_previous = $button_previous ;
+  $entity->button_previous = $button_previous;
+  $entity->button_togglepage = $button_togglepage;
+  $entity->identifier = $identifier;
+  $entity->loading = theme('dlts_book_loading', array('sequence_number' => $page));
+  $entity->pane_metadata_hidden = FALSE;
+  $entity->sequence = $page;
+  $entity->sequence_count = $sequence_count;
+  $entity->slider = theme('dlts_book_slider' , array('slider_id' => 'slider', 'uri' => $book_url, 'lang_dir' => $entity->read_order, 'sequence_number' => $page, 'sequence_count' => $sequence_count));
+  $entity->thumbnailsPage = ceil($page / $thumbnails_rows_per_page) - 1;
+  $entity->thumbnailsRows = $thumbnails_rows_per_page;
+  $entity->thumbnailsURL = $book_url . '/thumbnails';
+  $entity->url = $book_url;
 
   if (!$is_pjax) {
   	return dlts_viewer_full_book_view($entity);
