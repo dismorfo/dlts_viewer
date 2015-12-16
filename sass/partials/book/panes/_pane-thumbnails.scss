@@ -95,6 +95,8 @@
   }
 }
 
+// Use sibling selector here
+//#pager[dir="rtl"] ~ .thumbnails {
 .rtl {
   .thumbnails-container {
     .pager-first,
