@@ -96,8 +96,7 @@
 }
 
 // Use sibling selector here
-//#pager[dir="rtl"] ~ .thumbnails {
-.rtl {
+#pager[dir="rtl"] ~ .thumbnails {
   .thumbnails-container {
     .pager-first,
     .pager-previous {
@@ -121,15 +120,6 @@
     }
   }
   .view-book-thumbnails {
-    .views-row {
-      direction: rtl;
-      float: right;
-      &:first-child {
-        margin: .5% 5.5% .5% .5%;
-      }
-      &:last-child {
-        margin: .5% .5% .5% 5.5%;
-      }
-    }
+    direction: rtl;
   }
 }
