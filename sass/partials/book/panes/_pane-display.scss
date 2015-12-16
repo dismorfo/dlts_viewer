@@ -5,29 +5,20 @@ body {
         display: none;
         visibility: hidden;
       }
-      .display {
-        margin-left: 0;
-        a.previous {
-          left: -20px !important;
-        }
-        a.next {
-          right: -20px !important;
-        }
-      }
-    }  
+    }
   }
   .display {
     background-color: $page-background;
-    margin-left: - $metadata-pane-width;
-    margin-right: - $option-pane-width;
+    margin-left: -$metadata-pane-width;
+    margin-right: -$option-pane-width;
     width: inherit;
     height: inherit;
     float: left;
     div {
       width: inherit;
-      height: inherit;  
+      height: inherit;
     }
-    .next {
+    .pager-right {
       right: -20px;
     }
     .button {
@@ -36,7 +27,7 @@ body {
         visibility: hidden;
       }
     }
-    .next-page-off, 
+    .next-page-off,
     .previous-page-off {
       margin-top: 35%;
       display: block;
@@ -48,30 +39,30 @@ body {
       text-decoration: none;
       &:before {
         @include bv-font-faced($icon-font-name);
-        line-height:1em;
+        line-height: 1em;
         font-style: normal;
         font-weight: normal;
-        font-size:9em;
-        padding:0;
-        margin:0;
+        font-size: 9em;
+        padding: 0;
+        margin: 0;
         speak: none;
         -webkit-font-smoothing: antialiased;
       }
       &.paging {
         position: fixed;
-        display:inline;
-        margin:0;
-        opacity: $normal-opacity / 2; 
+        display: inline;
+        margin: 0;
+        opacity: $normal-opacity / 2;
         top: 40%;
         z-index: 9999;
-        &.previous {
+        &.pager-left {
           left: $metadata-pane-width - 20;
           text-decoration: none;
           &:before {
             content: "\e014";
           }
         }
-        &.next {
+        &.pager-right {
           &:before {
             content: "\e002";
           }
@@ -85,18 +76,18 @@ body {
         }
       }
       span {
-        display:none;
-        visibility: hidden;        
+        display: none;
+        visibility: hidden;
       }
     }
   }
-}
-
-.pane.main[dir="rtl"] .pane.display {
-  .paging.next {
-    right: 220px;
+  .pane.main[dir="rtl"] .pane.display {
+    // when the metadata panel is on the left
+    .paging.pager-right {
+      right: 220px;
+    }
+    .paging.pager-left {
+      left: -20px;
+    }
   }
-  .paging.previous {
-    left: -20px;
-  }  
 }
