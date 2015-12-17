@@ -9,8 +9,8 @@
 <ul class="navbar  navbar-arrows">
   <?php
   if (isset($nav_buttons_pager_left_arrow) || isset($nav_buttons_pager_right_arrow)) {
-    print '<li class="navbar-item">' . $nav_buttons_pager_left_arrow . '</li>';
-    print '<li class="navbar-item">' . $nav_buttons_pager_right_arrow . '</li>';
+    print $nav_buttons_pager_left_arrow;
+    print $nav_buttons_pager_right_arrow;
   }
   ?>
 </ul>

@@ -237,6 +237,13 @@ function dlts_viewer_dispatcher($entity, $arg) {
     $nav_pager_button_right_arrow = $button_next;
   }
 
+  $nav_pager_button_left_arrow = '<li class="navbar-item navbar-pager-left">' .
+                                 $nav_pager_button_left_arrow                 .
+                                 '</li>';
+  $nav_pager_button_right_arrow = '<li class="navbar-item navbar-pager-right">' .
+                                 $nav_pager_button_right_arrow                 .
+                                 '</li>';
+
   $entity->navbar = theme('dlts_book_navbar', array(
     'nav_buttons_left' => array($button_metadata , '<li class="navbar-item">' . $button_togglepage . '</li>' , $button_thumbnails, ),
     'nav_buttons_right' => array($button_fullscreen, ),
