@@ -640,7 +640,7 @@ html body, html #main, html #page {
   float: right;
   margin: 0 0.5em 0 0;
 }
-/* line 32, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 31, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item {
   min-width: 50px;
   display: block;
@@ -648,7 +648,7 @@ html body, html #main, html #page {
   margin: 0 0 0 .5em;
   font-size: 2.3em;
 }
-/* line 38, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 37, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item a, #navbar .navbar-item a.active, #navbar .navbar-item span, #navbar .navbar-item .olControlDLTSZoomInItemInactive, #navbar .navbar-item .olControlDLTSZoomOutItemInactive {
   display: block;
   margin: 0 auto;
@@ -677,7 +677,7 @@ html body, html #main, html #page {
   -webkit-transition-timing-function: ease-in;
   transition-timing-function: ease-in;
 }
-/* line 52, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 51, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item a:focus, #navbar .navbar-item a:visited, #navbar .navbar-item a.active:focus, #navbar .navbar-item a.active:visited, #navbar .navbar-item span:focus, #navbar .navbar-item span:visited, #navbar .navbar-item .olControlDLTSZoomInItemInactive:focus, #navbar .navbar-item .olControlDLTSZoomInItemInactive:visited, #navbar .navbar-item .olControlDLTSZoomOutItemInactive:focus, #navbar .navbar-item .olControlDLTSZoomOutItemInactive:visited {
   text-decoration: none;
   color: #ffffff;
@@ -687,7 +687,7 @@ html body, html #main, html #page {
   transition-duration: initial;
   transition-timing-function: initial;
 }
-/* line 61, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 60, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item a:hover, #navbar .navbar-item a.active:hover, #navbar .navbar-item span:hover, #navbar .navbar-item .olControlDLTSZoomInItemInactive:hover, #navbar .navbar-item .olControlDLTSZoomOutItemInactive:hover {
   opacity: 1;
   cursor: pointer;
@@ -697,7 +697,7 @@ html body, html #main, html #page {
   text-decoration: none;
   color: #ffffff;
 }
-/* line 68, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 67, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item a.on, #navbar .navbar-item a.active.on, #navbar .navbar-item span.on, #navbar .navbar-item .olControlDLTSZoomInItemInactive.on, #navbar .navbar-item .olControlDLTSZoomOutItemInactive.on {
   border: none;
   opacity: 1;
@@ -707,7 +707,7 @@ html body, html #main, html #page {
   box-shadow: inset 2px 0 10px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(0, 0, 0, 0.5), 0px 1px 1px rgba(255, 255, 255, 0.75), inset 2px 2px 50px rgba(0, 0, 0, 0.3);
   color: #ffffff;
 }
-/* line 75, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 74, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item a:before, #navbar .navbar-item a.active:before, #navbar .navbar-item span:before, #navbar .navbar-item .olControlDLTSZoomInItemInactive:before, #navbar .navbar-item .olControlDLTSZoomOutItemInactive:before {
   font-family: "book-viewer";
   margin: .2em;
@@ -717,7 +717,7 @@ html body, html #main, html #page {
   speak: none;
   -webkit-font-smoothing: antialiased;
 }
-/* line 85, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 84, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item .inactive, #navbar .navbar-item .zoom_in_max, #navbar .navbar-item .zoom_out_max {
   opacity: 0.33;
   -moz-box-shadow: none !important;
@@ -725,11 +725,11 @@ html body, html #main, html #page {
   box-shadow: none !important;
   cursor: default !important;
 }
-/* line 89, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 88, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item .inactive:hover, #navbar .navbar-item .zoom_in_max:hover, #navbar .navbar-item .zoom_out_max:hover {
   opacity: 0.33 !important;
 }
-/* line 94, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 93, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item a span {
   text-indent: -119988px;
   overflow: hidden;
@@ -737,77 +737,77 @@ html body, html #main, html #page {
   text-transform: capitalize;
   display: none;
 }
-/* line 100, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 99, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item .metadata:before {
   content: "\e016";
 }
-/* line 105, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 104, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item .fullscreen:before {
   content: "\e006";
 }
-/* line 108, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 107, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item .fullscreen.on:before {
   content: "\e005";
 }
-/* line 112, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 111, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item .page-double {
   width: 62px !important;
 }
-/* line 114, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 113, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item .page-double:before {
   content: "\e00a";
 }
-/* line 119, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 118, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item .page-single:before {
   content: "\e009";
 }
-/* line 124, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 123, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item .thumbnails:before {
   content: "\e007";
 }
-/* line 129, ../sass/partials/book/panes/_pane-navbar.scss */
-#navbar .navbar-item .previous:before {
-  content: "\e013";
-}
-/* line 134, ../sass/partials/book/panes/_pane-navbar.scss */
-#navbar .navbar-item .next:before {
+/* line 128, ../sass/partials/book/panes/_pane-navbar.scss */
+#navbar .navbar-item .pager-right:before {
   content: "\e012";
 }
-/* line 139, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 133, ../sass/partials/book/panes/_pane-navbar.scss */
+#navbar .navbar-item .pager-left:before {
+  content: "\e013";
+}
+/* line 138, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item .annotations:before {
   content: "\e004";
 }
-/* line 144, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 143, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item .search:before {
   content: "\e003";
 }
-/* line 149, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 148, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item .olControlDLTSZoomInItemInactive:before {
   content: "\e00b";
 }
-/* line 154, ../sass/partials/book/panes/_pane-navbar.scss */
+/* line 153, ../sass/partials/book/panes/_pane-navbar.scss */
 #navbar .navbar-item .olControlDLTSZoomOutItemInactive:before {
   content: "\e00c";
 }
 
 @media screen and (max-width: 700px) {
-  /* line 162, ../sass/partials/book/panes/_pane-navbar.scss */
+  /* line 161, ../sass/partials/book/panes/_pane-navbar.scss */
   .navbar-left, .navbar-middle, .navbar-arrows {
     padding: 0;
   }
 
-  /* line 165, ../sass/partials/book/panes/_pane-navbar.scss */
+  /* line 164, ../sass/partials/book/panes/_pane-navbar.scss */
   .navbar-fullscreen .navbar-item, .navbar-item {
     margin: 0 .2em;
   }
 }
 @media screen and (max-width: 600px) {
-  /* line 171, ../sass/partials/book/panes/_pane-navbar.scss */
+  /* line 170, ../sass/partials/book/panes/_pane-navbar.scss */
   .navbar-fullscreen .navbar-item, .navbar-item {
     margin: 0 .2em;
   }
 
-  /* line 174, ../sass/partials/book/panes/_pane-navbar.scss */
+  /* line 173, ../sass/partials/book/panes/_pane-navbar.scss */
   .navbar-middle, .navbar-arrows {
     display: none;
   }
@@ -1623,42 +1623,33 @@ body.openlayers-loading .olLayerDiv {
   right: 0;
 }
 
-/* line 100, ../sass/partials/book/panes/_pane-thumbnails.scss */
-.rtl .thumbnails-container .pager-first,
-.rtl .thumbnails-container .pager-previous {
+/* line 101, ../sass/partials/book/panes/_pane-thumbnails.scss */
+#pager[dir="rtl"] ~ .thumbnails .thumbnails-container .pager-first,
+#pager[dir="rtl"] ~ .thumbnails .thumbnails-container .pager-previous {
   float: right;
 }
-/* line 104, ../sass/partials/book/panes/_pane-thumbnails.scss */
-.rtl .thumbnails-container .pager-last,
-.rtl .thumbnails-container .pager-next {
+/* line 105, ../sass/partials/book/panes/_pane-thumbnails.scss */
+#pager[dir="rtl"] ~ .thumbnails .thumbnails-container .pager-last,
+#pager[dir="rtl"] ~ .thumbnails .thumbnails-container .pager-next {
   float: right;
 }
-/* line 108, ../sass/partials/book/panes/_pane-thumbnails.scss */
-.rtl .thumbnails-container .pager-next a:before {
+/* line 109, ../sass/partials/book/panes/_pane-thumbnails.scss */
+#pager[dir="rtl"] ~ .thumbnails .thumbnails-container .pager-next a:before {
   content: "\e013" !important;
 }
-/* line 111, ../sass/partials/book/panes/_pane-thumbnails.scss */
-.rtl .thumbnails-container .pager-previous a:before {
+/* line 112, ../sass/partials/book/panes/_pane-thumbnails.scss */
+#pager[dir="rtl"] ~ .thumbnails .thumbnails-container .pager-previous a:before {
   content: "\e012" !important;
 }
-/* line 114, ../sass/partials/book/panes/_pane-thumbnails.scss */
-.rtl .thumbnails-container .pager-last a:before {
+/* line 115, ../sass/partials/book/panes/_pane-thumbnails.scss */
+#pager[dir="rtl"] ~ .thumbnails .thumbnails-container .pager-last a:before {
   content: "\e010";
 }
-/* line 117, ../sass/partials/book/panes/_pane-thumbnails.scss */
-.rtl .thumbnails-container .pager-first a:before {
+/* line 118, ../sass/partials/book/panes/_pane-thumbnails.scss */
+#pager[dir="rtl"] ~ .thumbnails .thumbnails-container .pager-first a:before {
   content: "\e011";
 }
 /* line 122, ../sass/partials/book/panes/_pane-thumbnails.scss */
-.rtl .view-book-thumbnails .views-row {
+#pager[dir="rtl"] ~ .thumbnails .view-book-thumbnails {
   direction: rtl;
-  float: right;
-}
-/* line 125, ../sass/partials/book/panes/_pane-thumbnails.scss */
-.rtl .view-book-thumbnails .views-row:first-child {
-  margin: .5% 5.5% .5% .5%;
-}
-/* line 128, ../sass/partials/book/panes/_pane-thumbnails.scss */
-.rtl .view-book-thumbnails .views-row:last-child {
-  margin: .5% .5% .5% 5.5%;
 }
