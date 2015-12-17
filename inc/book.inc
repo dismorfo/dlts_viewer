@@ -224,10 +224,25 @@ function dlts_viewer_dispatcher($entity, $arg) {
   /** Book page sequence number */
   $entity->book_page_sequence_number = $page;
 
+  // Set navbar pager buttons according to read direction
+  if ($entity->read_order === 'ltr') {
+    $nav_pager_button_left_arrow = $button_previous;
+    $nav_pager_button_right_arrow = $button_next;
+  } else if ($entity->read_order === 'rtl') {
+    $nav_pager_button_left_arrow = $button_next;
+    $nav_pager_button_right_arrow = $button_previous;
+  } else {
+    // Should never get here, but just in case, default to 'ltr' config
+    $nav_pager_button_left_arrow = $button_previous;
+    $nav_pager_button_right_arrow = $button_next;
+  }
+
   $entity->navbar = theme('dlts_book_navbar', array(
     'nav_buttons_left' => array($button_metadata , '<li class="navbar-item">' . $button_togglepage . '</li>' , $button_thumbnails, ),
     'nav_buttons_right' => array($button_fullscreen, ),
     'nav_buttons_arrows' => array($button_previous, $button_next),
+    'nav_buttons_pager_left_arrow' => $nav_pager_button_left_arrow,
+    'nav_buttons_pager_right_arrow' => $nav_pager_button_right_arrow,
     'control_panel' => theme('dlts_book_controlpanel'),
   ));
 
