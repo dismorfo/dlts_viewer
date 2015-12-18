@@ -6,17 +6,17 @@ $break-large: 1200px;
   background-color: $navbar-overlay;
   overflow: hidden;
   padding: 5px 0;
-  .navbar-left, 
-  .navbar-middle, 
-  .navbar-right, 
-  .navbar-arrows, 
+  .navbar-left,
+  .navbar-middle,
+  .navbar-right,
+  .navbar-arrows,
   .navbar-fullscreen {
     width: auto;
     overflow: hidden;
     height: 46px;
   }
-  .navbar-left, 
-  .navbar-middle, 
+  .navbar-left,
+  .navbar-middle,
   .navbar-arrows {
     padding-right: 7%;
     float: left;
@@ -27,8 +27,7 @@ $break-large: 1200px;
   .navbar-fullscreen .navbar-item {
     float: right;
     margin: 0 0.5em 0 0;
-  }  
-
+  }
   .navbar-item {
     min-width: 50px;
     display: block;
@@ -125,14 +124,14 @@ $break-large: 1200px;
         content: "\e007";
       }
     }
-    .previous {
-      &:before {
-        content: "\e013";
-      }
-    }
-    .next {
+    .pager-right {
       &:before {
         content: "\e012";
+      }
+    }
+    .pager-left {
+      &:before {
+        content: "\e013";
       }
     }
     .annotations {
@@ -155,10 +154,10 @@ $break-large: 1200px;
         content: "\e00c";
       }
     }
-  }  
+  }
 }
 
-@media screen and(max-width: $break-medium) {
+@media screen and (max-width: $break-medium) {
   .navbar-left, .navbar-middle, .navbar-arrows {
     padding: 0;
   }
@@ -167,7 +166,7 @@ $break-large: 1200px;
   }
 }
 
-@media screen and(max-width: $break-small) {
+@media screen and (max-width: $break-small) {
   .navbar-fullscreen .navbar-item, .navbar-item {
     margin: 0 .2em;
   }

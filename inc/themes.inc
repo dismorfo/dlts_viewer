@@ -9,7 +9,7 @@
  * Themes functions
  */
 function theme_dlts_viewer_pager_button($variables) {
-  $classes = array('paging' , $variables['operation']);
+  $classes = array('paging' , $variables['operation'], $variables['pager side']);
   if (dlts_viewer_is_pjax()) {
     $classes[] = 'pjax';
   }

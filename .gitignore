@@ -5,3 +5,8 @@
 
 # Ignore Intellij/PHPStorm/WebStorm files
 *.iml
+
+# Ignore editor backup files
+*~
+*#
+#*
