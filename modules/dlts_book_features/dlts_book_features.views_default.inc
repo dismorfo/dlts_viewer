@@ -426,18 +426,9 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['fields']['path']['hide_alter_empty'] = FALSE;
   $handler->display->display_options['fields']['path']['absolute'] = TRUE;
   /* Field: Content: Title */
-  $handler->display->display_options['fields']['field_title']['id'] = 'field_title';
-  $handler->display->display_options['fields']['field_title']['table'] = 'field_data_field_title';
-  $handler->display->display_options['fields']['field_title']['field'] = 'field_title';
-  $handler->display->display_options['fields']['field_title']['alter']['text'] = '<a href="[path]">[field_title]</a>';
-  $handler->display->display_options['fields']['field_title']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['field_title']['alter']['path'] = '[path]/1';
-  /* Field: Content: Collection */
-  $handler->display->display_options['fields']['field_collection']['id'] = 'field_collection';
-  $handler->display->display_options['fields']['field_collection']['table'] = 'field_data_field_collection';
-  $handler->display->display_options['fields']['field_collection']['field'] = 'field_collection';
-  $handler->display->display_options['fields']['field_collection']['type'] = 'node_reference_plain';
-  $handler->display->display_options['fields']['field_collection']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
   /* Field: Content: Language */
   $handler->display->display_options['fields']['language']['id'] = 'language';
   $handler->display->display_options['fields']['language']['table'] = 'node';
@@ -453,7 +444,9 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['fields']['changed']['id'] = 'changed';
   $handler->display->display_options['fields']['changed']['table'] = 'node';
   $handler->display->display_options['fields']['changed']['field'] = 'changed';
-  $handler->display->display_options['fields']['changed']['date_format'] = 'short';
+  $handler->display->display_options['fields']['changed']['date_format'] = 'custom';
+  $handler->display->display_options['fields']['changed']['custom_date_format'] = 'm/d/Y';
+  $handler->display->display_options['fields']['changed']['second_date_format'] = 'long';
   /* Field: Content: Edit link */
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
@@ -494,9 +487,8 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['filters']['field_collection_nid']['table'] = 'field_data_field_collection';
   $handler->display->display_options['filters']['field_collection_nid']['field'] = 'field_collection_nid';
   $handler->display->display_options['filters']['field_collection_nid']['value'] = array(
-    3953 => '3953',
-    1 => '1',
-    4235 => '4235',
+    'all' => 'all',
+    2 => '2',
   );
   $handler->display->display_options['filters']['field_collection_nid']['exposed'] = TRUE;
   $handler->display->display_options['filters']['field_collection_nid']['expose']['operator_id'] = 'field_collection_nid_op';
@@ -507,7 +499,6 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['filters']['field_collection_nid']['expose']['remember_roles'] = array(
     2 => '2',
     3 => '3',
-    4 => '4',
     1 => 0,
   );
   /* Filter criterion: Content: Title (field_title) */
@@ -592,14 +583,13 @@ function dlts_book_features_views_default_views() {
     t('last »'),
     t('Displaying @start - @end of @total'),
     t('Title'),
-    t('<a href="[path]">[field_title]</a>'),
-    t('Collection'),
     t('Language'),
     t('Status'),
     t('Updated date'),
     t('Edit link'),
     t('Post date'),
     t('All'),
+    t('Collection'),
     t('Title(field_title)'),
     t('Page'),
     t('Title contains word or phrase:'),
