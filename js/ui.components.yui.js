@@ -56,6 +56,27 @@ YUI().use(
 
     function resizePageMeta() {
       slider.set('length' ,(Y.one('#pager').get('offsetWidth') - 120 ));
+
+
+       var viewportHeight = this.get('winHeight'),
+        adminBarHeight = 0,
+        topHeight = Y.one('#top').get('offsetHeight'),
+        navbarHeight = Y.one('#navbar').get('offsetHeight'),
+        pageHeight = Y.one('#pager').get('offsetHeight'),
+        nodeAdminMenu = Y.one('#admin-menu'),
+        sidebarHeight
+      ; /** definition list end */
+
+      if (nodeAdminMenu) {
+        adminBarHeight =  nodeAdminMenu.get('offsetHeight') ;
+      }
+
+      sidebarHeight = viewportHeight - (adminBarHeight + topHeight + navbarHeight + pageHeight);
+    
+      Y.one('#pagemeta').setStyles({
+        'height': sidebarHeight
+      });
+
     }
 
     function on_toggle_language(e) {
@@ -196,7 +217,7 @@ YUI().use(
       }, function() {
         this.removeClass(css_class);
       });
-    };
+    }
 
     /** callback for changes in the value of the slider */
     function slide_value_change(e) {
@@ -222,7 +243,7 @@ YUI().use(
         pjax.navigate(bookUrl + '/' + e.target.getValue());
 
         /** slider set focus to the slider rail, blur as soon as possible so that user can use the keyboard to read the book */
-        Y.soon(function() { slider.thumb.blur() });
+        Y.soon(function() { slider.thumb.blur();});
 
       }
 
@@ -607,7 +628,7 @@ YUI().use(
     
     html.delegate('click', on_button_click, 'a.button');
     
-    Y.on('contentready|windowresize', resizePageMeta, '#pagemeta');
+   
 
     html.delegate('click', pjax_callback, 'a.paging');
     
@@ -623,6 +644,10 @@ YUI().use(
 
     Y.once('contentready', openLayersTilesLoading, '.dlts_image_map');
     
+    Y.on('contentready', resizePageMeta, '#pagemeta');
+   
+    Y.on('windowresize', resizePageMeta);
+
     /** Thumbnails related events */
 
     Y.on('button:button-thumbnails:on', onButtonThumbnailsOn);

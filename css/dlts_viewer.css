@@ -421,19 +421,24 @@ this the same font stack that Normalize.css sets for the `body`.
 }
 
 /* line 1, ../sass/partials/base/_base-typography.scss */
+* {
+  box-sizing: border-box;
+}
+
+/* line 5, ../sass/partials/base/_base-typography.scss */
 body {
   font-size: 87.5%;
   /* The font-size percentage is of 16px.(0.875 * 16px ~ 14px) */
   line-height: 1.5em;
 }
 
-/* line 6, ../sass/partials/base/_base-typography.scss */
+/* line 11, ../sass/partials/base/_base-typography.scss */
 pre,
 code {
   font-family: "DejaVu Sans Mono", Monaco, Consolas, monospace;
 }
 
-/* line 11, ../sass/partials/base/_base-typography.scss */
+/* line 16, ../sass/partials/base/_base-typography.scss */
 hr {
   border: 0 #ccc solid;
   border-top-width: 1px;
@@ -443,37 +448,37 @@ hr {
 
 /* `Headings
 ----------------------------------------------------------------------------------------------------*/
-/* line 21, ../sass/partials/base/_base-typography.scss */
+/* line 26, ../sass/partials/base/_base-typography.scss */
 h1 {
   font-size: 1.714em;
   /* 24px */
 }
 
-/* line 25, ../sass/partials/base/_base-typography.scss */
+/* line 31, ../sass/partials/base/_base-typography.scss */
 h2 {
   font-size: 1.571em;
   /* 22px */
 }
 
-/* line 29, ../sass/partials/base/_base-typography.scss */
+/* line 36, ../sass/partials/base/_base-typography.scss */
 h3 {
   font-size: 1.429em;
   /* 20px */
 }
 
-/* line 33, ../sass/partials/base/_base-typography.scss */
+/* line 41, ../sass/partials/base/_base-typography.scss */
 h4 {
   font-size: 1.286em;
   /* 18px */
 }
 
-/* line 37, ../sass/partials/base/_base-typography.scss */
+/* line 46, ../sass/partials/base/_base-typography.scss */
 h5 {
   font-size: 1.143em;
   /* 16px */
 }
 
-/* line 41, ../sass/partials/base/_base-typography.scss */
+/* line 51, ../sass/partials/base/_base-typography.scss */
 h6 {
   font-size: 1.071em;
   /* 15px */
@@ -481,22 +486,22 @@ h6 {
 
 /* `Spacing
 ----------------------------------------------------------------------------------------------------*/
-/* line 48, ../sass/partials/base/_base-typography.scss */
+/* line 59, ../sass/partials/base/_base-typography.scss */
 ol {
   list-style: decimal;
 }
 
-/* line 52, ../sass/partials/base/_base-typography.scss */
+/* line 63, ../sass/partials/base/_base-typography.scss */
 ul {
   list-style: disc;
 }
 
-/* line 56, ../sass/partials/base/_base-typography.scss */
+/* line 67, ../sass/partials/base/_base-typography.scss */
 li {
   margin-left: 30px;
 }
 
-/* line 60, ../sass/partials/base/_base-typography.scss */
+/* line 71, ../sass/partials/base/_base-typography.scss */
 p,
 dl,
 hr,
@@ -516,7 +521,7 @@ figure {
   margin-bottom: 20px;
 }
 
-/* line 79, ../sass/partials/base/_base-typography.scss */
+/* line 90, ../sass/partials/base/_base-typography.scss */
 strong {
   font-weight: bold;
 }
@@ -823,38 +828,37 @@ html body, html #main, html #page {
   font-size: 14px;
   width: 240px;
   height: 100%;
-  z-index: 999999;
-  padding: 5px 0 0 0;
+  padding: 0;
   position: relative;
+  z-index: 100;
   background-color: #f9f9f9;
   word-wrap: break-word;
-  overflow: hidden;
+  overflow-x: hidden;
   overflow-y: auto;
   display: block;
   border-top: 1px solid rgba(0, 0, 0, 0.3);
 }
 /* line 16, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container {
-  padding: 0;
-  margin-top: .5em;
-  margin-left: 12px;
+  padding: 0 0 0;
+  margin-top: 0;
   margin-left: .6rem;
   margin-right: .7em;
-  margin-bottom: 2em;
+  margin-bottom: 0;
 }
-/* line 23, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 22, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field {
   line-height: 1.4;
   margin-bottom: 5px;
 }
-/* line 27, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 26, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-name-title {
   font-weight: bold;
   font-size: 1.3em;
   margin: .7rem 0 .5rem;
   line-height: 1.3;
 }
-/* line 33, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 32, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-name-field-subtitle {
   border-bottom: 1px solid #ccc;
   font-weight: bold;
@@ -862,80 +866,80 @@ html body, html #main, html #page {
   margin: .5em 0;
   padding: 0 0 .5em 0;
 }
-/* line 41, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 40, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-name-field-rights {
   margin-top: .5em;
   border-top: 1px solid #ccc;
   padding-top: .5em;
   font-size: .8em;
 }
-/* line 47, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 46, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field .field-label {
   font-weight: bold;
 }
-/* line 50, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 49, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .metapane-dropdowns {
   border-bottom: 1px solid #ccc;
   padding-bottom: 1em;
   margin-bottom: .5em;
 }
-/* line 55, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 54, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .lang-options {
   margin-bottom: 0;
 }
-/* line 59, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 58, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-name-field-representative-image img {
   max-width: 100%;
 }
-/* line 63, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 62, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-label-inline {
   word-wrap: break-word;
 }
-/* line 66, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 65, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-label {
   display: inline-block;
   white-space: nowrap;
 }
-/* line 70, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 69, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-items {
   display: inline-block;
   word-wrap: break-word;
 }
-/* line 74, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 73, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-item {
   display: inline-block;
 }
-/* line 78, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 77, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-name-field-author .field-item {
   display: block;
   float: left;
   clear: left;
 }
-/* line 83, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 82, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-name-field-author .field-item:first-child {
   display: inline;
   float: none;
   clear: none;
 }
-/* line 89, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 88, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-type-link-field {
   margin-top: .5em;
   border-top: 1px solid #ccc;
   padding-top: .5em;
 }
 
-/* line 98, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 97, ../sass/partials/book/panes/_pane-metadata.scss */
 .main[dir="rtl"] .pagemeta {
   float: right;
-  border-left: none;
+  border-right: none;
   border-left: 1px solid #ccc;
   direction: rtl;
 }
 
-/* line 107, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 106, ../sass/partials/book/panes/_pane-metadata.scss */
 .main[dir="ltr"] .pagemeta {
   float: left;
-  border-right: none;
+  border-left: none;
   border-right: 1px solid #ccc;
   direction: ltr;
 }
@@ -951,38 +955,37 @@ html body, html #main, html #page {
   font-size: 14px;
   width: 240px;
   height: 100%;
-  z-index: 999999;
-  padding: 5px 0 0 0;
+  padding: 0;
   position: relative;
+  z-index: 100;
   background-color: #f9f9f9;
   word-wrap: break-word;
-  overflow: hidden;
+  overflow-x: hidden;
   overflow-y: auto;
   display: block;
   border-top: 1px solid rgba(0, 0, 0, 0.3);
 }
 /* line 16, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container {
-  padding: 0;
-  margin-top: .5em;
-  margin-left: 12px;
+  padding: 0 0 0;
+  margin-top: 0;
   margin-left: .6rem;
   margin-right: .7em;
-  margin-bottom: 2em;
+  margin-bottom: 0;
 }
-/* line 23, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 22, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field {
   line-height: 1.4;
   margin-bottom: 5px;
 }
-/* line 27, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 26, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-name-title {
   font-weight: bold;
   font-size: 1.3em;
   margin: .7rem 0 .5rem;
   line-height: 1.3;
 }
-/* line 33, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 32, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-name-field-subtitle {
   border-bottom: 1px solid #ccc;
   font-weight: bold;
@@ -990,80 +993,80 @@ html body, html #main, html #page {
   margin: .5em 0;
   padding: 0 0 .5em 0;
 }
-/* line 41, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 40, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-name-field-rights {
   margin-top: .5em;
   border-top: 1px solid #ccc;
   padding-top: .5em;
   font-size: .8em;
 }
-/* line 47, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 46, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field .field-label {
   font-weight: bold;
 }
-/* line 50, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 49, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .metapane-dropdowns {
   border-bottom: 1px solid #ccc;
   padding-bottom: 1em;
   margin-bottom: .5em;
 }
-/* line 55, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 54, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .lang-options {
   margin-bottom: 0;
 }
-/* line 59, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 58, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-name-field-representative-image img {
   max-width: 100%;
 }
-/* line 63, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 62, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-label-inline {
   word-wrap: break-word;
 }
-/* line 66, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 65, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-label {
   display: inline-block;
   white-space: nowrap;
 }
-/* line 70, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 69, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-items {
   display: inline-block;
   word-wrap: break-word;
 }
-/* line 74, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 73, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-item {
   display: inline-block;
 }
-/* line 78, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 77, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-name-field-author .field-item {
   display: block;
   float: left;
   clear: left;
 }
-/* line 83, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 82, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-name-field-author .field-item:first-child {
   display: inline;
   float: none;
   clear: none;
 }
-/* line 89, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 88, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-type-link-field {
   margin-top: .5em;
   border-top: 1px solid #ccc;
   padding-top: .5em;
 }
 
-/* line 98, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 97, ../sass/partials/book/panes/_pane-metadata.scss */
 .main[dir="rtl"] .pagemeta {
   float: right;
-  border-left: none;
+  border-right: none;
   border-left: 1px solid #ccc;
   direction: rtl;
 }
 
-/* line 107, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 106, ../sass/partials/book/panes/_pane-metadata.scss */
 .main[dir="ltr"] .pagemeta {
   float: left;
-  border-right: none;
+  border-left: none;
   border-right: 1px solid #ccc;
   direction: ltr;
 }
@@ -1075,6 +1078,8 @@ body.pagemeta-hidden .pane .pagemeta {
 }
 /* line 10, ../sass/partials/book/panes/_pane-display.scss */
 body .display {
+  position: relative;
+  z-index: 10;
   background-color: white;
   margin-left: -240px;
   margin-right: -240px;
@@ -1082,34 +1087,34 @@ body .display {
   height: inherit;
   float: left;
 }
-/* line 17, ../sass/partials/book/panes/_pane-display.scss */
+/* line 19, ../sass/partials/book/panes/_pane-display.scss */
 body .display div {
   width: inherit;
   height: inherit;
 }
-/* line 21, ../sass/partials/book/panes/_pane-display.scss */
+/* line 23, ../sass/partials/book/panes/_pane-display.scss */
 body .display .pager-right {
   right: -20px;
 }
-/* line 25, ../sass/partials/book/panes/_pane-display.scss */
+/* line 27, ../sass/partials/book/panes/_pane-display.scss */
 body .display .button.toggle-page {
   display: none;
   visibility: hidden;
 }
-/* line 30, ../sass/partials/book/panes/_pane-display.scss */
+/* line 32, ../sass/partials/book/panes/_pane-display.scss */
 body .display .next-page-off,
 body .display .previous-page-off {
   margin-top: 35%;
   display: block;
   opacity: 0.33;
 }
-/* line 36, ../sass/partials/book/panes/_pane-display.scss */
+/* line 38, ../sass/partials/book/panes/_pane-display.scss */
 body .display a {
   text-shadow: icon-embossed-text-shadow;
   color: #444;
   text-decoration: none;
 }
-/* line 40, ../sass/partials/book/panes/_pane-display.scss */
+/* line 42, ../sass/partials/book/panes/_pane-display.scss */
 body .display a:before {
   font-family: "book-viewer";
   line-height: 1em;
@@ -1121,7 +1126,7 @@ body .display a:before {
   speak: none;
   -webkit-font-smoothing: antialiased;
 }
-/* line 51, ../sass/partials/book/panes/_pane-display.scss */
+/* line 53, ../sass/partials/book/panes/_pane-display.scss */
 body .display a.paging {
   position: fixed;
   display: inline;
@@ -1130,38 +1135,38 @@ body .display a.paging {
   top: 40%;
   z-index: 9999;
 }
-/* line 58, ../sass/partials/book/panes/_pane-display.scss */
+/* line 60, ../sass/partials/book/panes/_pane-display.scss */
 body .display a.paging.pager-left {
   left: 220px;
   text-decoration: none;
 }
-/* line 61, ../sass/partials/book/panes/_pane-display.scss */
+/* line 63, ../sass/partials/book/panes/_pane-display.scss */
 body .display a.paging.pager-left:before {
   content: "\e014";
 }
-/* line 66, ../sass/partials/book/panes/_pane-display.scss */
+/* line 68, ../sass/partials/book/panes/_pane-display.scss */
 body .display a.paging.pager-right:before {
   content: "\e002";
 }
-/* line 70, ../sass/partials/book/panes/_pane-display.scss */
+/* line 72, ../sass/partials/book/panes/_pane-display.scss */
 body .display a.paging.inactive {
   display: none;
   visibility: hidden;
 }
-/* line 74, ../sass/partials/book/panes/_pane-display.scss */
+/* line 76, ../sass/partials/book/panes/_pane-display.scss */
 body .display a.paging:hover {
   opacity: 1;
 }
-/* line 78, ../sass/partials/book/panes/_pane-display.scss */
+/* line 80, ../sass/partials/book/panes/_pane-display.scss */
 body .display a span {
   display: none;
   visibility: hidden;
 }
-/* line 86, ../sass/partials/book/panes/_pane-display.scss */
+/* line 88, ../sass/partials/book/panes/_pane-display.scss */
 body .pane.main[dir="rtl"] .pane.display .paging.pager-right {
   right: 220px;
 }
-/* line 89, ../sass/partials/book/panes/_pane-display.scss */
+/* line 91, ../sass/partials/book/panes/_pane-display.scss */
 body .pane.main[dir="rtl"] .pane.display .paging.pager-left {
   left: -20px;
 }
@@ -1179,8 +1184,6 @@ body .pane.main[dir="rtl"] .pane.display .paging.pager-left {
 
 /* line 7, ../sass/partials/book/panes/_pane-slider.scss */
 #pager {
-  border-top: 1px solid gray;
-  height: 28px;
   width: 100%;
   position: fixed;
   bottom: 0;
@@ -1198,7 +1201,7 @@ body .pane.main[dir="rtl"] .pane.display .paging.pager-left {
   padding: 8px 0 0 0;
   border-top: 1px solid #ccc;
 }
-/* line 21, ../sass/partials/book/panes/_pane-slider.scss */
+/* line 18, ../sass/partials/book/panes/_pane-slider.scss */
 #pager #slider_value {
   font-weight: bold;
   background: #f1f1f1;
@@ -1214,34 +1217,34 @@ body .pane.main[dir="rtl"] .pane.display .paging.pager-left {
   color: #444;
   font-size: 1em;
 }
-/* line 34, ../sass/partials/book/panes/_pane-slider.scss */
+/* line 31, ../sass/partials/book/panes/_pane-slider.scss */
 #pager form {
   display: inline;
 }
-/* line 37, ../sass/partials/book/panes/_pane-slider.scss */
+/* line 34, ../sass/partials/book/panes/_pane-slider.scss */
 #pager form + span, #pager form + span + span {
   text-shadow: embossed-text-shadow;
   font-weight: bold;
   color: #444;
 }
-/* line 42, ../sass/partials/book/panes/_pane-slider.scss */
+/* line 39, ../sass/partials/book/panes/_pane-slider.scss */
 #pager #slider {
   padding: 0px 20px;
 }
-/* line 45, ../sass/partials/book/panes/_pane-slider.scss */
+/* line 42, ../sass/partials/book/panes/_pane-slider.scss */
 #pager .pages_count_total {
   white-space: nowrap;
   color: #777;
   cursor: default;
 }
-/* line 51, ../sass/partials/book/panes/_pane-slider.scss */
+/* line 48, ../sass/partials/book/panes/_pane-slider.scss */
 #pager #slider_value.error {
   border: 1px solid #8C2E0B;
   background-color: #DF3A01;
   opacity: 1;
   color: #fff !important;
 }
-/* line 58, ../sass/partials/book/panes/_pane-slider.scss */
+/* line 54, ../sass/partials/book/panes/_pane-slider.scss */
 #pager #slider_value.warning {
   border: 1px solid #FEFFBF;
   background-color: #B2B300;
