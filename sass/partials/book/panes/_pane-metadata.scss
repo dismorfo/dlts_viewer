@@ -4,22 +4,21 @@
   font-size: 14px;
   width: $metadata-pane-width;
   height: 100%;
-  z-index: 999999;
-  padding: 5px 0 0 0;
+  padding: 0;
   position: relative;
+  z-index: 100;
   background-color: $pane-background;
   word-wrap: break-word;
-  overflow: hidden;
+  overflow-x: hidden;
   overflow-y: auto;
   display: block;
   border-top: 1px solid rgba(0, 0, 0, 0.3);
   .container {
-    padding: 0;
-    margin-top: .5em;
-    margin-left: 12px;
+    padding: 0 0 0;
+    margin-top: 0;
     margin-left: .6rem;
     margin-right: .7em;
-    margin-bottom: 2em;
+    margin-bottom: 0;
     .field {
       line-height: 1.4;
       margin-bottom: 5px;
@@ -97,7 +96,7 @@
 .main[dir="rtl"] {
   .pagemeta {
     float: right;
-    border-left: none;
+    border-right: none;
     border-left: 1px solid #ccc;
     direction: rtl;
   }
@@ -106,7 +105,7 @@
 .main[dir="ltr"] {
   .pagemeta {
     float: left;
-    border-right: none;
+    border-left: none;
     border-right: 1px solid #ccc;
     direction: ltr;
   }

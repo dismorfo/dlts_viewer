@@ -1,6 +1,11 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-size: 87.5%; /* The font-size percentage is of 16px.(0.875 * 16px ~ 14px) */
-  line-height:1.5em;
+  font-size: 87.5%;
+  /* The font-size percentage is of 16px.(0.875 * 16px ~ 14px) */
+  line-height: 1.5em;
 }
 
 pre,
@@ -19,27 +24,33 @@ hr {
 ----------------------------------------------------------------------------------------------------*/
 
 h1 {
-  font-size: 1.714em; /* 24px */
+  font-size: 1.714em;
+  /* 24px */
 }
 
 h2 {
-  font-size: 1.571em; /* 22px */
+  font-size: 1.571em;
+  /* 22px */
 }
 
 h3 {
-  font-size: 1.429em; /* 20px */
+  font-size: 1.429em;
+  /* 20px */
 }
 
 h4 {
-  font-size: 1.286em; /* 18px */
+  font-size: 1.286em;
+  /* 18px */
 }
 
 h5 {
-  font-size: 1.143em; /* 16px */
+  font-size: 1.143em;
+  /* 16px */
 }
 
 h6 {
-  font-size: 1.071em; /* 15px */
+  font-size: 1.071em;
+  /* 15px */
 }
 
 /* `Spacing
