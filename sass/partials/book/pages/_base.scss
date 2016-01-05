@@ -7,31 +7,25 @@ html {
   margin: 0;
   padding: 0;
   font-family: $book-fonts;
-  
   a {
     @include set-link-colors($link-color);
   }
-
   i, em {
     font-style: italic;
   }
-  
   body, input {
     font-family: inherit;
   }
-    
   body, #main, #page {
     overflow: inherit;
     height: inherit;
     width: inherit;
   }
-
 }
 
 /** Global elements */
 
-.element-invisible,
-.hidden {
+.element-invisible, .hidden {
   display: none;
   visibility: hidden;
 }

@@ -16,13 +16,18 @@ body {
     width: inherit;
     height: inherit;
     float: left;
-    div {
-      width: inherit;
-      height: inherit;
+    /**
+     * https://jira.nyu.edu/browse/DLTSVIEWER-9 
+     */
+    div.olMap, div.node.pjax {
+      width: 100%;
+      height: 100%;
     }
+    
     .pager-right {
       right: -20px;
     }
+    
     .button {
       &.toggle-page {
         display: none;
@@ -83,6 +88,7 @@ body {
       }
     }
   }
+  
   .pane.main[dir="rtl"] .pane.display {
     // when the metadata panel is on the right
     .paging.pager-right {
