@@ -5,6 +5,13 @@ body {
         display: none;
         visibility: hidden;
       }
+      .display {
+        margin-left: inherit;
+        margin-right: inherit;
+        .pager-left {
+          left: initial;
+        }
+      }
     }
   }
   .display {
@@ -23,7 +30,6 @@ body {
       width: 100%;
       height: 100%;
     }
-    
     .pager-right {
       right: -20px;
     }
