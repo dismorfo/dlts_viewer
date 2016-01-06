@@ -388,7 +388,7 @@ function dlts_viewer_is_embed() {
 	if (!isset($is_embed)) {
 		$params = drupal_get_query_parameters();
 		if (isset($params['embed'])) {
-		  if ($params['embed'] === '1' ||$params['embed'] === 'true') {
+		  if ($params['embed'] === '1' || $params['embed'] === 'true') {
 		  	$is_embed = TRUE;
 		  }
 		  else {
