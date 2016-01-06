@@ -4,7 +4,7 @@
  * @file
  * DLTS Viewer module
  */
- 
+
 /**
  * Include wildcard loaders
  */
@@ -266,7 +266,7 @@ function dlts_viewer_preprocess_page(&$vars) {
  * https://api.drupal.org/api/drupal/includes%21theme.inc/function/template_process_page/7
  */
 function dlts_viewer_process_page(&$vars) {
-  $vars['is_embed'] = FALSE;
+  $vars['is_embed'] = dlts_viewer_is_embed();
   // check if this is a embed request. Don't show title if is embeded
   if (!$vars['is_embed']) {
     $vars['top'] = theme('dlts_book_top', array(
@@ -278,8 +278,8 @@ function dlts_viewer_process_page(&$vars) {
       'title_prefix' => render($vars['title_prefix']),
       'title_suffix' => render($vars['title_suffix']),
       'help' => render($vars['page']['help']),
-    )
- );
+      )
+    );
   }
 }
 
@@ -315,7 +315,7 @@ function dlts_viewer_deliver_json($page_callback_result) {
 
   /** Send appropriate HTTP-Header for browsers and search engines. */
   global $language;
-  
+
   drupal_add_http_header('Content-Language', $language->language);
 
   /** Menu status constants are integers; page content is a string or array. */
@@ -381,6 +381,22 @@ function dlts_viewer_is_pjax() {
     }
   }
   return $is_pjax;
+}
+
+function dlts_viewer_is_embed() {
+	$is_embed = &drupal_static('is_embed');
+	if (!isset($is_embed)) {
+		$params = drupal_get_query_parameters();
+		if (isset($params['embed'])) {
+		  if ($params['embed'] === '1' ||$params['embed'] === 'true') {
+		  	$is_embed = TRUE;
+		  }
+		  else {
+		  	$is_embed = FALSE;
+		  }
+		}
+  }
+	return $is_embed;
 }
 
 function dlts_viewer_viewer_language($vars) {
