@@ -8,29 +8,21 @@
 <div id="navbar" class="pane navbar">
   <?php print $navbar ?>
 </div>
-
 <div id="main" class="pane main" dir="<?php print isset($lang_dir) ? $lang_dir : "ltr" ?>">
-
 <div id="pagemeta" class="pane pagemeta">
-    <div class="container">
-
-<<?php print $ds_content_wrapper; print $layout_attributes; ?> class="<?php print $classes;?> " dir="<?php print isset($lang_dir) ? $lang_dir : "ltr" ?>" data-dir="<?php print isset($lang_dir) ? $lang_dir : "ltr" ?>" data-lang="<?php print isset($lang_language) ? $lang_language : "und" ?>" >
-
-  <?php if (isset($lang_options) || isset($select_multivolbook) ) : ?>
-	<div class="metapane-dropdowns">
-  <?php if (isset($lang_options)) : ?>
-  	<div class="lang-options"><?php print locale('Available languages', NULL, $lang_language) ?>: <?php print render($lang_options) ; ?>
+  <div class="container">
+    <<?php print $ds_content_wrapper; print $layout_attributes; ?> class="<?php print $classes;?> " dir="<?php print isset($lang_dir) ? $lang_dir : "ltr" ?>" data-dir="<?php print isset($lang_dir) ? $lang_dir : "ltr" ?>" data-lang="<?php print isset($lang_language) ? $lang_language : "und" ?>" >
+    <?php if (isset($lang_options) || isset($select_multivolbook) ) : ?>
+	  <div class="metapane-dropdowns">
+      <?php if (isset($lang_options)) : ?>
+  	  <div class="lang-options"><?php print locale('Available languages', NULL, $lang_language) ?>: <?php print render($lang_options) ; ?>
 		</div><?php endif; ?>
-  <?php if (isset($select_multivolbook)) : ?>
-   			<?php print $select_multivolbook; ?>
-  <?php endif; ?>
+    <?php if (isset($select_multivolbook)) : ?>
+   	  <?php print $select_multivolbook; ?>
+    <?php endif; ?>
  	</div>
 	<?php endif; ?>
-
-
-  	<?php print $ds_content; ?>
-
- 
+  <?php print $ds_content; ?>
 </<?php print $ds_content_wrapper ?>>
 <?php if (!empty($drupal_render_children)): ?>
   <?php print $drupal_render_children ?>

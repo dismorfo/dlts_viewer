@@ -9,6 +9,7 @@
  * Themes functions
  */
 function theme_dlts_viewer_pager_button($variables) {
+	// Notice: Undefined index: pager side in theme_dlts_viewer_pager_button() (line 12 of dlts_viewer/inc/themes.inc).
   $classes = array('paging' , $variables['operation'], $variables['pager side']);
   if (dlts_viewer_is_pjax()) {
     $classes[] = 'pjax';

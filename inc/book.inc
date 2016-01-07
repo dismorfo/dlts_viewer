@@ -120,10 +120,46 @@ function dlts_viewer_dispatcher($entity, $arg) {
 
   drupal_set_title($entity->title);
 
-  $book_url = url('node/' . $entity->nid , array('absolute' => TRUE));
   $book_wrapper = entity_metadata_wrapper('node', $entity);
-  $title = $book_wrapper->field_title->value();
+
   $identifier = $book_wrapper->field_identifier->value();
+
+  /** language */
+  $languages = language_list('enabled');
+  $languages = $languages[1];
+  $entity->lang_dir = (!isset($languages[$entity->language]->direction) || isset($languages[$entity->language]->direction) && $languages[$entity->language]->direction == 0) ? 'ltr' : 'rtl';
+  $entity->lang_language = isset($languages[$entity->language]->language) ? $languages[$entity->language]->language : 'en';
+  $entity->lang_name = isset($languages[$entity->language]->name) ? $languages[$entity->language]->name : 'English';
+  $translations = translation_path_get_translations('node/' . $entity->nid);
+  if (count($translations) > 1) {
+  	$entity->lang_options = array('#type' => 'markup', '#prefix' => '<select class="language">', '#suffix' => '</select>', '#markup' => '');
+  	foreach ($translations as $key => $index) {
+  		$url = url('books/' . $identifier . '/display', array('absolute' => true, 'query' => array('lang' => $key)));
+  		$markup = array(
+  				'#tag' => 'option',
+  				'#theme' => 'html_tag',
+  				'#attributes' => array(
+  						'data-title' => t('@lang', array('@lang' => $languages[$key]->native)),
+  						'data-language' => $key,
+  						'title' => t('@lang', array('@lang' => $languages[$key]->native)),
+  						'class' => array('language', $key),
+  						'data-url' => $url,
+  						'value' => $url,
+  				),
+  				'#value' => t('@lang', array('@lang' => $languages[$key]->native)),
+  		);
+  		if ($entity->lang_language == $key) {
+  			$markup['#attributes']['selected'] = 'selected';
+  		}
+  		$entity->lang_options['#markup'] .= theme('html_tag', $markup);
+  	}
+  }
+  /** END language */
+
+  $book_url = url('node/' . $entity->nid , array('absolute' => TRUE));
+
+  $title = $book_wrapper->field_title->value();
+
   $sequence_count = $book_wrapper->field_sequence_count->value();
   $int_read_order = $book_wrapper->field_read_order->value();
   $entity->read_order = ($int_read_order == 1 ) ? 'rtl' : 'ltr';
@@ -228,10 +264,12 @@ function dlts_viewer_dispatcher($entity, $arg) {
   if ($entity->read_order === 'ltr') {
     $nav_pager_button_left_arrow = $button_previous;
     $nav_pager_button_right_arrow = $button_next;
-  } else if ($entity->read_order === 'rtl') {
+  }
+  elseif ($entity->read_order === 'rtl') {
     $nav_pager_button_left_arrow = $button_next;
     $nav_pager_button_right_arrow = $button_previous;
-  } else {
+  }
+  else {
     // Should never get here, but just in case, default to 'ltr' config
     $nav_pager_button_left_arrow = $button_previous;
     $nav_pager_button_right_arrow = $button_next;

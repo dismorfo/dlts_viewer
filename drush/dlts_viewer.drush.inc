@@ -70,10 +70,13 @@ function dlts_viewer_import_book() {
 }
 
 function dlts_viewer_dummy_books() {
-  drush_log('Drush Import book from JSON document' , 'status');
-  include_once(__DIR__ . '/inc/common.inc');
-  include_once(__DIR__ . '/inc/datasource.inc');
-  include_once(__DIR__ . '/inc/create.inc');
-  $data = file_scan_directory(__DIR__ . '/data/', '/(.*)\.json$/', array('recurse' => FALSE));
-  create_dlts_book_from_json($data);
+	include_once(__DIR__ . '/inc/common.inc');
+	include_once(__DIR__ . '/inc/datasource.inc');
+	include_once(__DIR__ . '/inc/create.inc');
+	drush_log( dt('Import books from JSON documents inside directory @directory', array('@directory'=> __DIR__ . '/data')) , 'status');
+	watchdog('DRUSH', "Import books from JSON documents inside directory %directory", array('%directory' => __DIR__ . '/data'), WATCHDOG_INFO);
+  $en_data = file_scan_directory(__DIR__ . '/data', '/(.*)\.en.json$/', array('recurse' => FALSE));
+  create_dlts_book_from_json($en_data);
+  $ar_data = file_scan_directory(__DIR__ . '/data', '/(.*)\.ar.json$/', array('recurse' => FALSE));
+  create_dlts_book_from_json($ar_data);
 }

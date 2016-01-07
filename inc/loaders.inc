@@ -24,17 +24,17 @@
  * going to have access anyway, at the cost of an extra JOIN here.
  */
 function dlts_book_load($identifier) {
-  $language = LANGUAGE_NONE;
+  $language = array('en', LANGUAGE_NONE);
   $query_parameters = drupal_get_query_parameters();
   if (isset($query_parameters['lang'])) {
-    $language = filter_xss($query_parameters['lang']);
+    $language = array(filter_xss($query_parameters['lang']));
   }
   $query = new EntityFieldQuery;
   $identifier = filter_xss($identifier);
   $result = $query->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'dlts_book')
     ->propertyCondition('status', 1) // only load books that are published
-    // ->propertyCondition('language', $language) // fix this
+    ->propertyCondition('language', $language)
     ->fieldCondition('field_identifier', 'value', $identifier, '=')
     ->execute();
   if (!empty($result['node'])) {
@@ -91,6 +91,9 @@ function dlts_book_page_load($sequence) {
       'timestamp' => $result['cm']['timestamp'],
     );
   }
+
+  print $collection_name;
+
   // if $result is empty, retrun FALSE so that hook_menu can 404 redirect
   return FALSE;
 }
