@@ -63,6 +63,7 @@ function dlts_book_page_load($sequence) {
     'single' => 'dlts_book_page',
   	'double' => 'dlts_book_stitched_page',
   );
+
   // viewer defaults to single page view
   $collection_name = 'dlts_book_page';
   // user can requests a view modes, get query parameters and
@@ -78,6 +79,7 @@ function dlts_book_page_load($sequence) {
   $query = (object) array('isPartOf' => $identifier, 'sequence' => $sequence);
   // query MongoDB
   $result = mongodb_collection($collection_name)->findOne($query);
+
   if ($result) {
     return array(
       'fid' => (string) $result['_id'], // do we need this?
@@ -91,8 +93,6 @@ function dlts_book_page_load($sequence) {
       'timestamp' => $result['cm']['timestamp'],
     );
   }
-
-  print $collection_name;
 
   // if $result is empty, retrun FALSE so that hook_menu can 404 redirect
   return FALSE;

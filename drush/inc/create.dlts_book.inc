@@ -4,27 +4,17 @@
  * @file
  * DLTS Viewer drush
  */
-
 function save_dlts_book($node, $language = 'en') {
-
   global $user;
-
   $node_language = (isset($node['entity_language']) ? $node['entity_language'] : $language);
-
   $book_exist = book_nid($node['identifier'], $node_language);
-
   if ($book_exist) {
-
     // Load the node by NID
     $entity = node_load($book_exist);
-
     // Wrap it with Entity API
     $ewrapper = entity_metadata_wrapper('node', $entity);
-
   }
-
   else {
-
     // entity_create replaces the procedural steps in the first example of
     // creating a new object $node and setting its 'type' and uid property
     $values = array(
@@ -33,70 +23,46 @@ function save_dlts_book($node, $language = 'en') {
       'status' => 1,
       'comment' => 0,
       'promote' => 0,
-   );
-
+    );
     if ($node_language == LANGUAGE_NONE) {
       $node_language = 'en';
     }
-
     if ($node_language != 'en') {
-
       // find if the English version of this book exist
       $tnid = book_nid($node['identifier'], 'en');
-
       if ($tnid) {
-
         // make sure the language exists
         $enabled_language = add_language($node_language);
-
         // if language does not exists, do not add the book
         if (!$enabled_language) return FALSE;
-
         // load the source
         $source_node = node_load($tnid);
-
         // wrap it with Entity API
         $source_node_ewrapper = entity_metadata_wrapper('node', $source_node);
-
         // set nid as tnid
         $source_node->tnid = $tnid;
-
         // save source
         $source_node_ewrapper->save();
-
         // not sure why this is needed
         $values['translate'] = 0;
-
         // set source nid as the tnid for the translation
         $values['tnid'] = $tnid;
-
         // English is the default language for the books object
         $values['source'] = 'en';
-
       }
-
       // return as soon as possible
       else {
-
         drush_log(t('English version does not exist', 'error' ));
-
         return FALSE;
-
       }
-
     }
-
     $values['language'] = $node_language;
-
     $entity = entity_create('node', $values);
-
     // The entity is now created, but we have not yet simplified use of it.
     // Now create an entity_metadata_wrapper around the new node entity
     // to make getting and setting values easier
     $ewrapper = entity_metadata_wrapper('node', $entity);
-
   }
-
   $collections_nids =
     $subjects =
     $pdf_files = array();
@@ -111,13 +77,16 @@ function save_dlts_book($node, $language = 'en') {
   foreach ($node['partners'] as $partner) {
     $partner_entity = NULL;
     $nid = partner_nid($partner['identifier']);
+
     // create collection
     if (! $nid) {
       $partner_entity = create_dlts_partner($partner);
     }
+
     if ($nid) {
       $partners_nids[] = $nid;
     }
+
   }
 
   foreach ($node['collections'] as $collection) {
@@ -283,36 +252,22 @@ function save_dlts_book($node, $language = 'en') {
 
   $ewrapper->save();
 
-  /**
-   * Multi volume book
-  if ($node_language == 'en') {
-
+  /** Multi volume book */
+  if ($node_language == 'en' && 1 == 2 ) {
     foreach ($node['multivol'] as $multivol) {
-
       $multivol_nid = multivol_nid($multivol['identifier']);
-
       if ($multivol_nid) {
-
         // $multivol['title'] = $node['title_long'] . ' ' . t('Volume') . ' ' . $multivol['volume'];
-
         $multivol['title'] = $node['title_long'];
-
         $multivol['book'] = $node['identifier'];
-
         $dlts_multivol_book = create_dlts_multivol_book($multivol);
-
       }
-
       else {
         drush_log(t('Book "@title" is part of multi volume set "@multivol", but multi volume does not exist. Skip.', array('@title' => $node['title'], '@multivol' => $multivol['identifier'], )), 'warning');
       }
-
     }
   }
-  */
-
   return $entity;
-
 }
 
 function create_dlts_book_from_json($books) {
@@ -387,25 +342,45 @@ function create_dlts_book_from_json($books) {
     [37] => geographic_subject
     */
 
-    if ($metadata->title ) $title = $metadata->title->value[0];
+    if ($metadata->title) {
+    	$title = $metadata->title->value[0];
+    }
 
-    if ($metadata->subtitle && !empty($metadata->subtitle->value)) $subtitle = $metadata->subtitle->value[0];
+    if ($metadata->subtitle && !empty($metadata->subtitle->value)) {
+    	$subtitle = $metadata->subtitle->value[0];
+    }
 
-    if ($metadata->page_count && !empty($metadata->page_count->value)) $page_count = $metadata->page_count->value[0];
+    if ($metadata->page_count && !empty($metadata->page_count->value)) {
+    	$page_count = $metadata->page_count->value[0];
+    }
 
-    if ($metadata->sequence_count && !empty($metadata->sequence_count->value)) $sequence_count = $metadata->sequence_count->value[0];
+    if ($metadata->sequence_count && !empty($metadata->sequence_count->value)) {
+    	$sequence_count = $metadata->sequence_count->value[0];
+    }
 
-    if ($metadata->binding_orientation && !empty($metadata->binding_orientation->value)) $binding_orientation = $metadata->binding_orientation->value[0];
+    if ($metadata->binding_orientation && !empty($metadata->binding_orientation->value)) {
+    	$binding_orientation = $metadata->binding_orientation->value[0];
+    }
 
-    if ($metadata->call_number && !empty($metadata->call_number->value)) $call_number = $metadata->call_number->value[0];
+    if ($metadata->call_number && !empty($metadata->call_number->value)) {
+    	$call_number = $metadata->call_number->value[0];
+    }
 
-    if ($metadata->description && !empty($metadata->description->value)) $description = $metadata->description->value[0];
+    if ($metadata->description && !empty($metadata->description->value)) {
+    	$description = $metadata->description->value[0];
+    }
 
-    if ($metadata->dimensions && !empty($metadata->dimensions->value)) $dimensions = $metadata->dimensions->value[0];
+    if ($metadata->dimensions && !empty($metadata->dimensions->value)) {
+    	$dimensions = $metadata->dimensions->value[0];
+    }
 
-    if ($metadata->handle && !empty($metadata->handle->value)) $handle = $metadata->handle->value[0];
+    if ($metadata->handle && !empty($metadata->handle->value)) {
+    	$handle = $metadata->handle->value[0];
+    }
 
-    if ($metadata->number && !empty($metadata->number->value)) $number = $metadata->number->value[0];
+    if ($metadata->number && !empty($metadata->number->value)) {
+    	$number = $metadata->number->value[0];
+    }
 
     if ($metadata->read_order && !empty($metadata->read_order->value)) {
       switch ($metadata->read_order->value[0]) {
@@ -418,29 +393,53 @@ function create_dlts_book_from_json($books) {
       }
     }
 
-    if ($metadata->scan_order && !empty($metadata->scan_order->value)) $scan_order = $metadata->scan_order->value[0];
+    if ($metadata->scan_order && !empty($metadata->scan_order->value)) {
+    	$scan_order = $metadata->scan_order->value[0];
+    }
 
-    if ($metadata->scanning_notes && !empty($metadata->scanning_notes->value)) $scanning_notes = $metadata->scanning_notes->value[0];
+    if ($metadata->scanning_notes && !empty($metadata->scanning_notes->value)) {
+    	$scanning_notes = $metadata->scanning_notes->value[0];
+    }
 
-    if ($metadata->scan_date && !empty($metadata->scan_date->value)) $scan_date = $metadata->scan_date->value[0];
+    if ($metadata->scan_date && !empty($metadata->scan_date->value)) {
+    	$scan_date = $metadata->scan_date->value[0];
+    }
 
-    if ($metadata->rights && !empty($metadata->rights->value)) $rights = $metadata->rights->value[0];
+    if ($metadata->rights && !empty($metadata->rights->value)) {
+    	$rights = $metadata->rights->value[0];
+    }
 
-    if ($metadata->volume && !empty($metadata->volume->value)) $volume = $metadata->volume->value[0];
+    if ($metadata->volume && !empty($metadata->volume->value)) {
+    	$volume = $metadata->volume->value[0];
+    }
 
-    if ($metadata->publication_date && !empty($metadata->publication_date->value)) $publication_date = $metadata->publication_date->value[0];
+    if ($metadata->publication_date && !empty($metadata->publication_date->value)) {
+    	$publication_date = $metadata->publication_date->value[0];
+    }
 
-    if ($metadata->publication_location && !empty($metadata->publication_location->value)) $publication_location = $metadata->publication_location->value[0];
+    if ($metadata->publication_location && !empty($metadata->publication_location->value)) {
+    	$publication_location = $metadata->publication_location->value[0];
+    }
 
-    if ($metadata->publication_date_text && !empty($metadata->publication_date_text->value)) $publication_date_text = $metadata->publication_date_text->value[0];
+    if ($metadata->publication_date_text && !empty($metadata->publication_date_text->value)) {
+    	$publication_date_text = $metadata->publication_date_text->value[0];
+    }
 
-    if ($metadata->scan_date && !empty($metadata->scan_date->value)) $scan_date = $metadata->scan_date->value[0];
+    if ($metadata->scan_date && !empty($metadata->scan_date->value)) {
+    	$scan_date = $metadata->scan_date->value[0];
+    }
 
-    if ($metadata->representative_image  && !empty($metadata->representative_image)) $representative_image = $metadata->representative_image->value->fileserver;
+    if ($metadata->representative_image  && !empty($metadata->representative_image)) {
+    	$representative_image = $metadata->representative_image->value->fileserver;
+    }
 
-    if ($metadata->other_version) foreach ($metadata->other_version->value as $other_version) $other_versions[] = $other_version;
+    if ($metadata->other_version) foreach ($metadata->other_version->value as $other_version) {
+    	$other_versions[] = $other_version;
+    }
 
-    if ($metadata->isbn) foreach ($metadata->isbn->value as $isbn) $isbns[] = $isbn;
+    if ($metadata->isbn) foreach ($metadata->isbn->value as $isbn) {
+    	$isbns[] = $isbn;
+    }
 
     if ($metadata->language) foreach ($metadata->language->value as $language) $languages[] = $language;
 
@@ -529,6 +528,26 @@ function create_dlts_book_from_json($books) {
           ),
          )
        );
+      }
+      foreach ($data->stitched->page as $key => $page) {
+        $collection_name = 'dlts_book_stitched_page';
+        $collection = mongodb_collection($collection_name);
+        $collection->save(
+          array(
+            'isPartOf' => $entity_identifier,
+            'sequence' => $page->sequence,
+            'realPageNumber' => $page->page,
+            'cm' => array(
+              'uri' => $page->fileserver,
+              'width' => $page->metadata->width,
+              'height' => $page->metadata->height,
+              'levels' => $page->metadata->levels,
+              'dwtLevels' => $page->metadata->dwtLevels,
+              'compositingLayerCount' => $page->metadata->compositingLayerCount,
+              'timestamp' => $page->metadata->timestamp,
+            ),
+          )
+        );
       }
     }
   }
