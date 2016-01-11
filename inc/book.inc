@@ -4,7 +4,6 @@
  * @file
  * Books
  */
-
 function dlts_viewer_dispatch_thumbnails($identifier) {
   $collection_name = 'dlts_book_page';
   $query = (object) array('isPartOf' => $identifier);
@@ -96,7 +95,8 @@ function dlts_viewer_pjax_book_view(&$entity) {
 function dlts_viewer_dispatcher($entity, $arg) {
   $is_pjax = dlts_viewer_is_pjax();
   $query_parameters = drupal_get_query_parameters();
-  $is_single_page = TRUE; // we assume single page view
+  // we assume single page view
+  $is_single_page = TRUE;
   $thumbnails_rows_per_page = 10;
   if (isset($query_parameters['rows'])) {
     $thumbnails_rows_per_page = filter_xss($query_parameters['rows']);
@@ -119,9 +119,7 @@ function dlts_viewer_dispatcher($entity, $arg) {
   }
 
   drupal_set_title($entity->title);
-
   $book_wrapper = entity_metadata_wrapper('node', $entity);
-
   $identifier = $book_wrapper->field_identifier->value();
 
   /** language */
@@ -167,6 +165,7 @@ function dlts_viewer_dispatcher($entity, $arg) {
   $previous_page = $sequence_min - 1;
   $previous_page_active = TRUE;
   $next_page_active = TRUE;
+
   if ($previous_page < 1) {
     $previous_page = 1;
   }

@@ -54,9 +54,9 @@ function dlts_book_load($identifier) {
  * @return object MongoDB book page object
  */
 function dlts_book_page_load($sequence) {
-	// I don't like this. Can we find a better solution for this?
-	// investigate a way to pass this from hook_menu
-	// @TODO: Make it so that it can be call as API
+  // I don't like this. Can we find a better solution for this?
+  // investigate a way to pass this from hook_menu
+  // @TODO: Make it so that it can be call as API
 	$identifier = arg(1);
 	// view modes, we map the views with their machine names in MongoDB
   $collections = array(

@@ -15,6 +15,8 @@ YUI().use(
     /** set a X-PJAX HTTP header for all IO requests */
     Y.io.header('X-PJAX', 'true');
     
+    Y.log('componets');
+    
     var PJAX_INVALID = -1;
     
     var PJAX_UNKNOWN_ERROR = -2;    
@@ -49,15 +51,13 @@ YUI().use(
       clickableRail: false, 
       max: sequenceCount, 
       value: sequence, 
-      length:(Y.one('#pager').get('offsetWidth') - 120 ) + 'px' 
+      length:(Y.one('#pager').get('offsetWidth') - 120) + 'px' 
     });
     
     /** nodes */
 
     function resizePageMeta() {
       slider.set('length' ,(Y.one('#pager').get('offsetWidth') - 120 ));
-
-
        var viewportHeight = this.get('winHeight'),
         adminBarHeight = 0,
         topHeight = Y.one('#top').get('offsetHeight'),
@@ -66,17 +66,13 @@ YUI().use(
         nodeAdminMenu = Y.one('#admin-menu'),
         sidebarHeight
       ; /** definition list end */
-
       if (nodeAdminMenu) {
         adminBarHeight =  nodeAdminMenu.get('offsetHeight') ;
       }
-
       sidebarHeight = viewportHeight - (adminBarHeight + topHeight + navbarHeight + pageHeight);
-    
       Y.one('#pagemeta').setStyles({
         'height': sidebarHeight
       });
-
     }
 
     function on_toggle_language(e) {
@@ -116,6 +112,8 @@ YUI().use(
 
     function on_button_click(e) {
     
+      Y.log(e);
+    	
       e.preventDefault();
 
       var self = this;
@@ -309,9 +307,9 @@ YUI().use(
         
         var node = e.content.node;
         
-      var map = node.one('.dlts_image_map');
-      
-      if (map) {
+        var map = node.one('.dlts_image_map');
+
+        if (map) {
 
           var config = {};
           
@@ -330,7 +328,7 @@ YUI().use(
           }
           
           if (previous) {
-          previous.replace(node.one('.previous').cloneNode(true));
+            previous.replace(node.one('.previous').cloneNode(true));
           }
 
           /** Configuration for the new book page */
@@ -349,11 +347,8 @@ YUI().use(
               compositingLayerCount: map.getAttribute('data-compositingLayerCount')
             }
           };
-          
           Y.on('available', change_page, '#' + config.id, OpenLayers, config);
-          
           Y.fire('pjax:load:available', config);
-          
       }
       else {
         throw new PjaxException(e.url);
@@ -395,11 +390,11 @@ YUI().use(
       }      
 
       if (top) {
-      top.addClass('hidden');      
+        top.addClass('hidden');      
       }
       
       if (metadata) {
-      metadata.removeClass('on');      
+        metadata.removeClass('on');      
       }
       
     }
@@ -628,8 +623,6 @@ YUI().use(
     
     html.delegate('click', on_button_click, 'a.button');
     
-   
-
     html.delegate('click', pjax_callback, 'a.paging');
     
     Y.on('pjax:change|openlayers:next|openlayers:previous', pjax_callback);
@@ -654,8 +647,8 @@ YUI().use(
 
     Y.on('button:button-thumbnails:off', onButtonThumbnailsOff);
 
-    Y.delegate('click', onThumbnailsContainerPagerClick , 'body', '.thumbnails .views-row a');
+    Y.delegate('click', onThumbnailsContainerPagerClick, 'body', '.thumbnails .views-row a');
     
-    Y.one('body').delegate('click', onThumbnailsPagePagerClick , '#thumbnails .pager a');
+    Y.one('body').delegate('click', onThumbnailsPagePagerClick, '#thumbnails .pager a');
 
 });

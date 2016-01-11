@@ -294,7 +294,7 @@ function create_dlts_book_from_json($books) {
 
     $json_string = file_get_contents($value->uri);
 
-    $json_string = str_replace(array("\r","\n"),"", $json_string);
+    $json_string = str_replace(array('\r', '\n'), '', $json_string);
 
     $data = json_decode($json_string);
 
@@ -384,10 +384,10 @@ function create_dlts_book_from_json($books) {
 
     if ($metadata->read_order && !empty($metadata->read_order->value)) {
       switch ($metadata->read_order->value[0]) {
-      	case 'Left to right':
+      	case 'Left to right' :
       		$read_order = 0;
       		break;
-      	case 'Right to left':
+      	case 'Right to left' :
     	  	$read_order = 1;
     		  break;
       }
@@ -429,39 +429,83 @@ function create_dlts_book_from_json($books) {
     	$scan_date = $metadata->scan_date->value[0];
     }
 
-    if ($metadata->representative_image  && !empty($metadata->representative_image)) {
+    if ($metadata->representative_image && !empty($metadata->representative_image)) {
     	$representative_image = $metadata->representative_image->value->fileserver;
     }
 
-    if ($metadata->other_version) foreach ($metadata->other_version->value as $other_version) {
-    	$other_versions[] = $other_version;
+    if ($metadata->other_version) {
+    	foreach ($metadata->other_version->value as $other_version) {
+    	  $other_versions[] = $other_version;
+    	}
     }
 
-    if ($metadata->isbn) foreach ($metadata->isbn->value as $isbn) {
-    	$isbns[] = $isbn;
+    if ($metadata->isbn) {
+    	foreach ($metadata->isbn->value as $isbn) {
+    	  $isbns[] = $isbn;
+    	}
     }
 
-    if ($metadata->language) foreach ($metadata->language->value as $language) $languages[] = $language;
+    if ($metadata->language) {
+    	foreach ($metadata->language->value as $language) {
+    	  $languages[] = $language;
+    	}
+    }
 
-    if ($metadata->language_code) foreach ($metadata->language_code->value as $language_code) $language_codes[] = $language_code;
+    if ($metadata->language_code) {
+    	foreach ($metadata->language_code->value as $language_code) {
+    	  $language_codes[] = $language_code;
+    	}
+    }
 
-    if ($metadata->topic) foreach ($metadata->topic->value as $topic) $topics[] = $topic;
+    if ($metadata->topic) {
+    	foreach ($metadata->topic->value as $topic) {
+    	  $topics[] = $topic;
+      }
+    }
 
-    if ($metadata->author) foreach ($metadata->author->value as $author) $authors[] = $author;
+    if ($metadata->author) {
+    	foreach ($metadata->author->value as $author) {
+    	  $authors[] = $author;
+      }
+    }
 
-    if ($metadata->creator) foreach ($metadata->creator->value as $creator) $creators[] = $creator;
+    if ($metadata->creator) {
+    	foreach ($metadata->creator->value as $creator) {
+    	  $creators[] = $creator;
+    	}
+    }
 
-    if ($metadata->contributor) foreach ($metadata->contributor->value as $contributor) $contributors[] = $contributor;
+    if ($metadata->contributor) {
+      foreach ($metadata->contributor->value as $contributor) {
+    	  $contributors[] = $contributor;
+    	}
+    }
 
-    if ($metadata->editor) foreach ($metadata->editor->value as $editor) $editors[] = $editor;
+    if ($metadata->editor) {
+    	foreach ($metadata->editor->value as $editor) {
+    	  $editors[] = $editor;
+    	}
+    }
 
-    if ($metadata->publisher) foreach ($metadata->publisher->value as $publisher) $publishers[] = $publisher;
+    if ($metadata->publisher) {
+    	foreach ($metadata->publisher->value as $publisher) {
+    	  $publishers[] = $publisher;
+    	}
+    }
 
-    if ($metadata->subjects && !empty($subjects)) $subjects = $metadata->subjects->value[0];
+    if ($metadata->subjects && !empty($subjects)) {
+    	$subjects = $metadata->subjects->value[0];
+    }
 
-    if ($metadata->pdf_file) foreach ($metadata->pdf_file->value as $pdf_file) $pdf_files[] = $pdf_file->fileserver;
+    if ($metadata->pdf_file) foreach ($metadata->pdf_file->value as $pdf_file) {
+    	$pdf_files[] = $pdf_file->fileserver;
+    }
 
-    if ($metadata->ocr_text) foreach ($metadata->ocr_text->value as $ocr_text) $ocr_text_files[] = $ocr_text->fileserver;
+    if ($metadata->ocr_text) {
+    	foreach ($metadata->ocr_text->value as $ocr_text) {
+    	  $ocr_text_files[] = $ocr_text->fileserver;
+    	}
+    }
 
     $node = array(
       'entity_title' => $entity_title,
@@ -508,7 +552,7 @@ function create_dlts_book_from_json($books) {
    $created = save_dlts_book($node);
 
    if ($created && isset($created->nid)) {
-   	  watchdog('DRUSH', "Node %title (%url) imported using JSON document %document.", array('%document' => $value->uri, '%title' => $entity_title, '%url' => url( 'node/' . $created->nid, array('alias' => false ))), WATCHDOG_INFO);
+   	 watchdog('DRUSH', 'Node %title (%url) imported using JSON document %document.', array('%document' => $value->uri, '%title' => $entity_title, '%url' => url( 'node/' . $created->nid, array('alias' => false ))), WATCHDOG_INFO);
      foreach ($data->pages->page as $key => $page) {
        $collection_name = 'dlts_book_page';
        $collection = mongodb_collection($collection_name);
@@ -525,28 +569,28 @@ function create_dlts_book_from_json($books) {
              'dwtLevels' => $page->metadata->dwtLevels,
              'compositingLayerCount' => $page->metadata->compositingLayerCount,
              'timestamp' => $page->metadata->timestamp,
-          ),
+           ),
          )
        );
-      }
-      foreach ($data->stitched->page as $key => $page) {
-        $collection_name = 'dlts_book_stitched_page';
-        $collection = mongodb_collection($collection_name);
-        $collection->save(
-          array(
-            'isPartOf' => $entity_identifier,
-            'sequence' => $page->sequence,
-            'realPageNumber' => $page->page,
-            'cm' => array(
-              'uri' => $page->fileserver,
-              'width' => $page->metadata->width,
-              'height' => $page->metadata->height,
-              'levels' => $page->metadata->levels,
-              'dwtLevels' => $page->metadata->dwtLevels,
-              'compositingLayerCount' => $page->metadata->compositingLayerCount,
-              'timestamp' => $page->metadata->timestamp,
-            ),
-          )
+     }
+     foreach ($data->stitched->page as $key => $page) {
+       $collection_name = 'dlts_book_stitched_page';
+       $collection = mongodb_collection($collection_name);
+       $collection->save(
+         array(
+           'isPartOf' => $entity_identifier,
+           'sequence' => $page->sequence,
+           'realPageNumber' => $page->page,
+           'cm' => array(
+             'uri' => $page->fileserver,
+             'width' => $page->metadata->width,
+             'height' => $page->metadata->height,
+             'levels' => $page->metadata->levels,
+             'dwtLevels' => $page->metadata->dwtLevels,
+             'compositingLayerCount' => $page->metadata->compositingLayerCount,
+             'timestamp' => $page->metadata->timestamp,
+           ),
+         )
         );
       }
     }
