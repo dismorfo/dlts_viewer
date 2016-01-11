@@ -80,19 +80,36 @@ function dlts_book_page_load($sequence) {
   // query MongoDB
   $result = mongodb_collection($collection_name)->findOne($query);
 
-  if ($result) {
-    return array(
-      'fid' => (string) $result['_id'], // do we need this?
-      'sequence' => $result['sequence'],
-      'uri' => file_create_url($result['cm']['uri']),
-      'width' => $result['cm']['width'],
-      'height' => $result['cm']['height'],
-      'levels' => $result['cm']['levels'],
-      'dwtLevels' => $result['cm']['dwtLevels'],
-      'compositingLayerCount' => $result['cm']['compositingLayerCount'],
-      'timestamp' => $result['cm']['timestamp'],
-    );
+  if ($result && isset($result['cm']) && !empty($result['cm']['uri'])) {
+  	if (!isset($result['cm']['levels'])) {
+  		module_load_include('inc', 'dlts_viewer', 'inc/djatoka');
+  		$djatoka = dlts_viewer_djatoka_request($result);
+  		/**
+  		$file['width'] = $djatoka['width'];
+  		$file['height'] = $djatoka['height'];
+  		$file['levels'] = $djatoka['levels'];
+  		$file['dwtLevels'] = $djatoka['dwtLevels'];
+  		$file['compositingLayerCount'] = $djatoka['compositingLayerCount'];
+  		*/
+  	}
+  	else {
+      return array(
+        'fid' => (string) $result['_id'], // do we need this?
+        'sequence' => $result['sequence'],
+        'uri' => file_create_url($result['cm']['uri']),
+        'width' => $result['cm']['width'],
+        'height' => $result['cm']['height'],
+        'levels' => $result['cm']['levels'],
+        'dwtLevels' => $result['cm']['dwtLevels'],
+        'compositingLayerCount' => $result['cm']['compositingLayerCount'],
+        'timestamp' => $result['cm']['timestamp'],
+      );
+  	}
   }
+
+  drupal_set_message(t('<em>DLTS Viewer</em>: Sequence page <strong>@sequence</strong> from book identify by identifier <strong>@identifier</strong> not found.', array('@sequence' => $sequence, '@identifier' => $identifier)), 'error');
+
+  watchdog('MongoDB sequence not found', 'Unable to find book sequence page <strong>%sequence</strong> from book <strong>%identifier</strong>.', array('%identifier' => $identifier, '%sequence' => $sequence), WATCHDOG_NOTICE);
 
   // if $result is empty, retrun FALSE so that hook_menu can 404 redirect
   return FALSE;

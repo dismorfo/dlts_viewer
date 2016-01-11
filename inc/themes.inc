@@ -71,17 +71,6 @@ function theme_dlts_viewer_openlayers_image($variables) {
   if (isset($file['timestamp'])) {
   	$file_uri = $file_uri . '?v=' . $file['timestamp'];
   }
-  if (!isset($file['width'])) {
-  	include_once __DIR__ . '/inc/loaders.inc';
-    $djatoka = dlts_viewer_djatoka_request($file);
-    if (!isset($file['djakota_width'])) {
-      $file['width'] = $djatoka['width'];
-      $file['height'] = $djatoka['height'];
-      $file['levels'] = $djatoka['levels'];
-      $file['dwtLevels'] = $djatoka['dwtLevels'];
-      $file['compositingLayerCount'] = $djatoka['compositingLayerCount'];
-    }
-  }
   $openlayers_options = array(
     'service' => variable_get('dlts_viewer_djatoka_service', 'http://dl-imgdev.home.nyu.edu/adore-djatoka'),
     'imgMetadata' => array(
