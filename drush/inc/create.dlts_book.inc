@@ -63,12 +63,13 @@ function save_dlts_book($node, $language = 'en') {
     // to make getting and setting values easier
     $ewrapper = entity_metadata_wrapper('node', $entity);
   }
+
   $collections_nids =
     $subjects =
     $pdf_files = array();
 
   // find the max for this field and trunk it
-  $ewrapper->title->set($node['title']);
+  $ewrapper->title->set($node['entity_title']);
 
   if (!empty($node['identifier'] )) {
     $ewrapper->field_identifier->set($node['identifier']);
@@ -306,7 +307,12 @@ function create_dlts_book_from_json($books) {
 
     $entity_identifier = $data->identifier;
 
-    $metadata = $data->metadata;
+    if (!isset($data->metadata)) {
+    	$metadata = (object) array();
+    }
+    else {
+    	$metadata = $data->metadata;
+    }
 
     /** partners the book belong */
     if ($metadata->partner) {
@@ -553,7 +559,8 @@ function create_dlts_book_from_json($books) {
 
    if ($created && isset($created->nid)) {
    	 watchdog('DRUSH', 'Node %title (%url) imported using JSON document %document.', array('%document' => $value->uri, '%title' => $entity_title, '%url' => url( 'node/' . $created->nid, array('alias' => false ))), WATCHDOG_INFO);
-     foreach ($data->pages->page as $key => $page) {
+     if (isset($data->pages->page) && !empty($data->pages->page)) {
+       foreach ($data->pages->page as $key => $page) {
        $collection_name = 'dlts_book_page';
        $collection = mongodb_collection($collection_name);
        $collection->save(
@@ -572,8 +579,10 @@ function create_dlts_book_from_json($books) {
            ),
          )
        );
+       }
      }
-     foreach ($data->stitched->page as $key => $page) {
+     if (isset($data->stitched->page) && !empty($data->stitched->page)) {
+       foreach ($data->stitched->page as $key => $page) {
        $collection_name = 'dlts_book_stitched_page';
        $collection = mongodb_collection($collection_name);
        $collection->save(
@@ -592,7 +601,8 @@ function create_dlts_book_from_json($books) {
            ),
          )
         );
-      }
+       }
+     }
     }
   }
 }
