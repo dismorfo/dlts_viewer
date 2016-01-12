@@ -81,20 +81,60 @@ function dlts_book_page_load($sequence) {
   $result = mongodb_collection($collection_name)->findOne($query);
 
   if ($result && isset($result['cm']) && !empty($result['cm']['uri'])) {
-  	if (!isset($result['cm']['levels'])) {
-  		module_load_include('inc', 'dlts_viewer', 'inc/djatoka');
-  		$djatoka = dlts_viewer_djatoka_request($result);
+  	/**
+  	 * Sequence exist in MongoDB but we need to request metadata from image server
+  	 */
+  	if (empty($result['cm']['levels'])) {
   		/**
-  		$file['width'] = $djatoka['width'];
-  		$file['height'] = $djatoka['height'];
-  		$file['levels'] = $djatoka['levels'];
-  		$file['dwtLevels'] = $djatoka['dwtLevels'];
-  		$file['compositingLayerCount'] = $djatoka['compositingLayerCount'];
-  		*/
+  		 * Load connector
+  		 */
+  		module_load_include('inc', 'dlts_viewer', 'inc/djatoka');
+      /**
+       * Pass over $result['cm'] as $file argument
+       */
+  		$djatoka = dlts_viewer_djatoka_request($result['cm']);
+  		/**
+  		 * No error, update MongoDB record
+  		 * @TODO: Consider using Drupal queue to update the record.
+  		 * See: https://api.drupal.org/api/drupal/modules!system!system.queue.inc/class/DrupalQueue/7
+  		 */
+  		if (!isset($djatoka['error'])) {
+  			/**
+  			 * Load MongoDB helper
+  			 */
+  			module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
+  			/**
+  			 * Update $result reference with Image Server requested metadata
+  			 */
+  			$result['cm'] = array_merge($result['cm'], $djatoka);
+  			/**
+  			 * Update sequence record
+  			 */
+  			dlts_viewer_mongodb_update_sequence($result);
+  			/**
+  			 * Return sequence object
+  			 */
+  		  return array(
+  		  	'fid' => (string) $result['_id'],
+  		  	'sequence' => $result['sequence'],
+  		  	'uri' => file_create_url($result['cm']['uri']),
+  		  	'width' => $djatoka['width'],
+  		  	'height' => $djatoka['height'],
+  		  	'levels' => $djatoka['levels'],
+  		  	'dwtLevels' => $djatoka['dwtLevels'],
+  		  	'compositingLayerCount' => $djatoka['compositingLayerCount'],
+  		  	'timestamp' => $result['cm']['timestamp']
+  		  );
+  		}
+  		/**
+  		 * Request failed.
+  		 */
+  		else {
+  		}
   	}
   	else {
       return array(
-        'fid' => (string) $result['_id'], // do we need this?
+        'fid' => (string) $result['_id'],
         'sequence' => $result['sequence'],
         'uri' => file_create_url($result['cm']['uri']),
         'width' => $result['cm']['width'],
