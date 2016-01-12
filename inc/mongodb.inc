@@ -31,6 +31,8 @@ function dlts_viewer_mongodb_update_sequence($arguments, $collection_name = 'dlt
   // if NULL, we have a problem, log error.
   if (!$op) {
   	watchdog('MongoDB update document', 'Unable to update book sequence page <strong>%sequence</strong> from book <strong>%identifier</strong>.', array('%identifier' => $arguments['isPartOf'], '%sequence' => $arguments['sequence']), WATCHDOG_ERROR);
+  	return FALSE;
   }
+  return $op;
 }
 
