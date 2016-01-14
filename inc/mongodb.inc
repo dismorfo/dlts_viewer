@@ -10,7 +10,7 @@ function dlts_viewer_mongodb_update_sequence($arguments, $collection_name = 'dlt
 
 	$cursor = mongodb_collection($collection_name);
 
-	$data = (array)$arguments;
+	$data = (array) $arguments;
 
   $query = array('sequence' => $data['sequence'], 'isPartOf' => $data['isPartOf']);
 
