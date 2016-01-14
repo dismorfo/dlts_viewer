@@ -10,6 +10,7 @@
  */
 function dlts_viewer_djatoka_request($file) {
 	$file = (object) $file;
+
   $service_url = variable_get('dlts_viewer_djatoka_service', 'http://dl-imgdev.home.nyu.edu/adore-djatoka');
   $rft_id = file_create_url($file->uri);
   if (isset($file->timestamp)) {

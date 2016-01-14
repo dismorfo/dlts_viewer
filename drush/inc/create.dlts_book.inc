@@ -4,10 +4,26 @@
  * @file
  * DLTS Viewer drush
  */
+
+/**
+ * @TODO: Support for fields: publication_date, geographic_coordinates, geographic_subject
+ */
+
 function save_dlts_book($node, $language = 'en') {
-  global $user;
+
+  // Get the current user
+  // --user=uid OR --user=1 for super user
+	global $user;
+
   $node_language = (isset($node['entity_language']) ? $node['entity_language'] : $language);
+
+  /** force EN language */
+  if ($node_language == LANGUAGE_NONE) {
+  	$node_language = 'en';
+  }
+
   $book_exist = book_nid($node['identifier'], $node_language);
+
   if ($book_exist) {
     // Load the node by NID
     $entity = node_load($book_exist);
@@ -52,7 +68,7 @@ function save_dlts_book($node, $language = 'en') {
       }
       // return as soon as possible
       else {
-        drush_log(t('English version does not exist', 'error' ));
+        drush_log(t('English version does not exist', 'error'));
         return FALSE;
       }
     }
@@ -78,16 +94,13 @@ function save_dlts_book($node, $language = 'en') {
   foreach ($node['partners'] as $partner) {
     $partner_entity = NULL;
     $nid = partner_nid($partner['identifier']);
-
     // create collection
     if (! $nid) {
       $partner_entity = create_dlts_partner($partner);
     }
-
     if ($nid) {
       $partners_nids[] = $nid;
     }
-
   }
 
   foreach ($node['collections'] as $collection) {
@@ -116,7 +129,7 @@ function save_dlts_book($node, $language = 'en') {
   }
 
   if (!empty($node['handle'])) {
-    $ewrapper->field_handle->set(array('url' => $node['handle'] ));
+    $ewrapper->field_handle->set(array('url' => $node['handle']));
   }
 
   if (!empty($node['title_long'])) {
@@ -203,69 +216,60 @@ function save_dlts_book($node, $language = 'en') {
     $ewrapper->field_publication_date_text->set($node['publication_date_text']);
   }
 
-  /**
   if (!empty($node['representative_image'])) {
+  	drush_log(dt('Found image @uri. Images at the moment are not being imported.', array('@uri'=> $node['representative_image'])), 'warning');
     // send FALSE overwrite while developing
-    $representative_image = import_add_file($node['representative_image'], FALSE);
-    if ($representative_image) {
-      $ewrapper->field_representative_image ->set(array('fid' => $representative_image->fid ));
-    }
+    //$representative_image = import_add_file($node['representative_image'], FALSE);
+    //if ($representative_image) {
+      //$ewrapper->field_representative_image->set(array('fid' => $representative_image->fid));
+    //}
   }
-  */
+
+   if (!empty($node['pdf_files'])) {
+     foreach ($node['pdf_files'] as $file) {
+       drush_log(dt('Found pdf @uri. Images at the moment are not being imported.', array('@uri'=> $file)), 'warning');
+       /**
+       $content = import_add_file($file, FALSE);
+       if (isset($content) && isset($content->fid )) {
+         $pdf_files[] = array('fid' => $content->fid, 'display' => 0);
+       }
+       */
+     }
+     //$ewrapper->field_pdf_file->set($pdf_files);
+   }
 
   if (!empty($node['language'])) {
-    $ewrapper->field_language ->set(array($node['language'] ));
+    $ewrapper->field_language->set(array($node['language']));
   }
 
   if (!empty($node['language_code'])) {
-    $ewrapper->field_language_code ->set(array($node['language_code'] ));
+    $ewrapper->field_language_code->set(array($node['language_code']));
   }
 
-  /**
-  if (!empty($node['pdf_files'])) {
-    foreach ($node['pdf_files'] as $file) {
-      // send FALSE overwrite while developing
-      $content = import_add_file($file, FALSE);
-    if (isset($content) && isset($content->fid )) {
-      $pdf_files[] = array('fid' => $content->fid, 'display' => 0);
-    }
-    }
-    $ewrapper->field_pdf_file->set($pdf_files);
+  if (!empty($node['rights'])) {
+    $ewrapper->field_rights->set($node['rights']);
   }
-  */
 
-  /**
-  if (!empty($node['subjects'])) {
+  if (!empty($node['subject'])) {
     $vocabulary = taxonomy_vocabulary_machine_name_load('subjects');
-    foreach ($node['subjects'] as $subject) {
+    foreach ($node['subject'] as $subject) {
       $term = taxonomy_get_term_by_name($subject);
-      if ($term) {
-        $subjects = array_merge($subjects, array_keys($term));
-      }
-      else {
+      if (!$term) {
         $term = create_taxonomy_term($subject, $vocabulary->vid);
-        $subjects = array_merge($subjects, array_keys($term));
       }
-      $ewrapper->field_subject->set($subjects);
+      $subjects[] = array_pop($term)->tid;
     }
+    $ewrapper->field_subject->set($subjects);
   }
-  */
 
   $ewrapper->save();
 
   /** Multi volume book */
-  if ($node_language == 'en' && 1 == 2 ) {
-    foreach ($node['multivol'] as $multivol) {
-      $multivol_nid = multivol_nid($multivol['identifier']);
-      if ($multivol_nid) {
-        // $multivol['title'] = $node['title_long'] . ' ' . t('Volume') . ' ' . $multivol['volume'];
-        $multivol['title'] = $node['title_long'];
-        $multivol['book'] = $node['identifier'];
-        $dlts_multivol_book = create_dlts_multivol_book($multivol);
-      }
-      else {
-        drush_log(t('Book "@title" is part of multi volume set "@multivol", but multi volume does not exist. Skip.', array('@title' => $node['title'], '@multivol' => $multivol['identifier'], )), 'warning');
-      }
+  if ($node_language == 'en') {
+    foreach ($node['multivolume']->volume as $multivolume) {
+      $multivolume->title = (isset($node['title_long']) && !empty($node['title_long'])) ? $node['title_long'] : $node['title'];
+      $multivolume->book = $node['identifier'];
+      create_dlts_multivol_book($multivolume);
     }
   }
   return $entity;
@@ -314,6 +318,13 @@ function create_dlts_book_from_json($books) {
     	$metadata = $data->metadata;
     }
 
+    if (!isset($data->multivolume)) {
+    	$multivolume  = (object) array();
+    }
+    else {
+      $multivolume = $data->multivolume;
+    }
+
     /** partners the book belong */
     if ($metadata->partner) {
       foreach ($metadata->partner->value as $value) {
@@ -341,13 +352,6 @@ function create_dlts_book_from_json($books) {
       }
     }
 
-    /**
-    [29] => subject
-    [19] => publication_date
-    [36] => geographic_coordinates
-    [37] => geographic_subject
-    */
-
     if ($metadata->title) {
     	$title = $metadata->title->value[0];
     }
@@ -365,7 +369,18 @@ function create_dlts_book_from_json($books) {
     }
 
     if ($metadata->binding_orientation && !empty($metadata->binding_orientation->value)) {
-    	$binding_orientation = $metadata->binding_orientation->value[0];
+    	switch ($metadata->scan_order->value[0]) {
+    		case 'Vertical' :
+    		case '0' :
+    		case 0 :
+    			$binding_orientation = 0;
+    			break;
+    		case 'Horizontal' :
+    		case '1' :
+    		case 1 :
+    			$binding_orientation = 1;
+    			break;
+    	}
     }
 
     if ($metadata->call_number && !empty($metadata->call_number->value)) {
@@ -391,16 +406,31 @@ function create_dlts_book_from_json($books) {
     if ($metadata->read_order && !empty($metadata->read_order->value)) {
       switch ($metadata->read_order->value[0]) {
       	case 'Left to right' :
+      	case '0' :
+      	case 0 :
       		$read_order = 0;
       		break;
       	case 'Right to left' :
+      	case '1' :
+      	case 1 :
     	  	$read_order = 1;
     		  break;
       }
     }
 
     if ($metadata->scan_order && !empty($metadata->scan_order->value)) {
-    	$scan_order = $metadata->scan_order->value[0];
+    	switch ($metadata->scan_order->value[0]) {
+    		case 'Left to right' :
+    		case '0' :
+    		case 0 :
+    			$scan_order = 0;
+    			break;
+    		case 'Right to left' :
+    		case '1' :
+    		case 1 :
+    			$scan_order = 1;
+    			break;
+    	}
     }
 
     if ($metadata->scanning_notes && !empty($metadata->scanning_notes->value)) {
@@ -499,8 +529,10 @@ function create_dlts_book_from_json($books) {
     	}
     }
 
-    if ($metadata->subjects && !empty($subjects)) {
-    	$subjects = $metadata->subjects->value[0];
+    if ($metadata->subject && !empty($metadata->subject->value)) {
+    	foreach ($metadata->subject->value as $subject) {
+    	  $subjects[] = $subject;
+    	}
     }
 
     if ($metadata->pdf_file) foreach ($metadata->pdf_file->value as $pdf_file) {
@@ -549,60 +581,50 @@ function create_dlts_book_from_json($books) {
       'contributor' => $contributors,
       'editor' => $editors,
       'publisher' => $publishers,
-      'subjects' => $subjects,
+      'subject' => $subjects,
       'pdf_files' => $pdf_files,
       'pages' => $pages_array,
-      //'multivol' => $multivols,
+      'multivol' => $multivols,
+    	'multivolume' => $multivolume,
    );
 
    $created = save_dlts_book($node);
 
-   if ($created && isset($created->nid)) {
-   	 watchdog('DRUSH', 'Node %title (%url) imported using JSON document %document.', array('%document' => $value->uri, '%title' => $entity_title, '%url' => url( 'node/' . $created->nid, array('alias' => false ))), WATCHDOG_INFO);
-     if (isset($data->pages->page) && !empty($data->pages->page)) {
-       foreach ($data->pages->page as $key => $page) {
-       $collection_name = 'dlts_book_page';
-       $collection = mongodb_collection($collection_name);
-       $collection->save(
-         array(
-           'isPartOf' => $entity_identifier,
-           'sequence' => array($page->sequence),
-           'realPageNumber' => $page->page,
-           'cm' => array(
-             'uri' => $page->fileserver,
-             'width' => $page->metadata->width,
-             'height' => $page->metadata->height,
-             'levels' => $page->metadata->levels,
-             'dwtLevels' => $page->metadata->dwtLevels,
-             'compositingLayerCount' => $page->metadata->compositingLayerCount,
-             'timestamp' => $page->metadata->timestamp,
-           ),
-         )
-       );
-       }
-     }
-     if (isset($data->stitched->page) && !empty($data->stitched->page)) {
-       foreach ($data->stitched->page as $key => $page) {
-       $collection_name = 'dlts_book_stitched_page';
-       $collection = mongodb_collection($collection_name);
-       $collection->save(
-         array(
-           'isPartOf' => $entity_identifier,
-           'sequence' => $page->sequence,
-           'realPageNumber' => $page->page,
-           'cm' => array(
-             'uri' => $page->fileserver,
-             'width' => $page->metadata->width,
-             'height' => $page->metadata->height,
-             'levels' => $page->metadata->levels,
-             'dwtLevels' => $page->metadata->dwtLevels,
-             'compositingLayerCount' => $page->metadata->compositingLayerCount,
-             'timestamp' => $page->metadata->timestamp,
-           ),
-         )
-        );
-       }
-     }
+    if ($created && isset($created->nid)) {
+   	  watchdog('DRUSH', 'Node %title (%url) imported using JSON document %document.', array('%document' => $value->uri, '%title' => $entity_title, '%url' => url( 'node/' . $created->nid, array('alias' => false ))), WATCHDOG_INFO);
+   	  /**
+   	   * Load connector
+   	   */
+   	  module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
+      if (isset($data->pages->page) && !empty($data->pages->page)) {
+        foreach ($data->pages->page as $key => $page) {
+        	$sequence = $page->sequence;
+        	if (!is_array($page->sequence)) {
+        		$sequence = array($page->sequence);
+        	}
+        	$page->sequence = $sequence;
+          dlts_viewer_mongodb_new_sequence($page, 'dlts_book_page');
+        }
+      }
+      if (isset($data->stitched->page) && !empty($data->stitched->page)) {
+        foreach ($data->stitched->page as $key => $page) {
+          $data = array(
+            'isPartOf' => $entity_identifier,
+            'sequence' => $page->sequence,
+            'realPageNumber' => $page->page,
+            'cm' => array(
+              'uri' => $page->fileserver,
+              'width' => $page->metadata->width,
+              'height' => $page->metadata->height,
+              'levels' => $page->metadata->levels,
+              'dwtLevels' => $page->metadata->dwtLevels,
+              'compositingLayerCount' => $page->metadata->compositingLayerCount,
+              'timestamp' => $page->metadata->timestamp,
+            )
+          );
+          dlts_viewer_mongodb_new_sequence($data, 'dlts_book_stitched_page');
+        }
+      }
     }
   }
 }
