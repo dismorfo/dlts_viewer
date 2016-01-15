@@ -22,11 +22,13 @@ function dlts_viewer_djatoka_request($file) {
       return drupal_json_decode($response->data);
     }
     else {
+    	drupal_set_message(t('<em>Djatoka Image Server</em>: Error requesting image metadata from Djakota service. @url.', array('@url' => $rft_id)), 'error');
       watchdog('dlts_viewer', 'Error requesting image metadata from Djakota service(url @url). @message(error code @code). Please verify that the ' . l(t('DLTS Image'), 'admin/config/media/dlts-image') . ' module is properly configured. ', array('@message' => $response->error, '@code' => $response->code, '@url' => $request ), WATCHDOG_ERROR);
       return array('message' => isset($response->status_message) ? $response->status_message : $response->error, 'error' => $response->error, 'code' => $response->code);
     }
   }
   else {
+  	drupal_set_message(t('<em>Djatoka Image Server</em>: Error requesting image metadata from Djakota service. @url.', array('@url' => $rft_id)), 'error');
     watchdog('dlts_viewer', 'Error requesting image metadata from Djakota service. Please configure Djatoka Jpeg 2000 Image Server.', array(), WATCHDOG_ERROR);
     return array('message' => $msg, 'error' => 404, 'code' => 404);
   }

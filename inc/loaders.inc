@@ -63,7 +63,6 @@ function dlts_book_page_load($sequence) {
     'single' => 'dlts_book_page',
   	'double' => 'dlts_book_stitched_page',
   );
-
   // viewer defaults to single page view
   $collection_name = 'dlts_book_page';
   // user can requests a view modes, get query parameters and
@@ -75,20 +74,17 @@ function dlts_book_page_load($sequence) {
       $collection_name = $collections[$query_parameters['page_view']];
     }
   }
-
   // prepare query
   $query = (object) array('isPartOf' => $identifier, 'sequence' => $sequence);
 
   // query MongoDB
   $result = mongodb_collection($collection_name)->findOne($query);
 
-
   if ($result && isset($result['cm']) && !empty($result['cm']['uri'])) {
   	/**
   	 * Sequence exist in MongoDB but we need to request metadata from image server
   	 */
   	if (empty($result['cm']['levels'])) {
-
   		/**
   		 * Load connector
   		 */
@@ -97,7 +93,6 @@ function dlts_book_page_load($sequence) {
        * Pass over $result['cm'] as $file argument
        */
   		$djatoka = dlts_viewer_djatoka_request($result['cm']);
-
   		/**
   		 * No error, update MongoDB record
   		 * @TODO: Consider using Drupal queue to update the record.
@@ -134,8 +129,7 @@ function dlts_book_page_load($sequence) {
   		/**
   		 * Request failed.
   		 */
-  		else {
-  		}
+  		else {}
   	}
   	else {
       return array(

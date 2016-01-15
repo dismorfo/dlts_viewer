@@ -212,13 +212,15 @@ function save_dlts_book($node, $language = 'en') {
 
    if (!empty($node['pdf_files'])) {
      foreach ($node['pdf_files'] as $file) {
-       drush_log(dt('Found pdf @uri. Images at the moment are not being imported.', array('@uri'=> $file)), 'warning');
-       /**
-       $content = import_add_file($file, FALSE);
-       if (isset($content) && isset($content->fid )) {
-         $pdf_files[] = array('fid' => $content->fid, 'display' => 0);
-       }
-       */
+     	 if (!empty($file)) {
+     	 	drush_log(dt('Found pdf @uri. Images at the moment are not being imported.', array('@uri'=> $file)), 'warning');
+     	 	/**
+     	 	 $content = import_add_file($file, FALSE);
+     	 	 if (isset($content) && isset($content->fid )) {
+     	 	 $pdf_files[] = array('fid' => $content->fid, 'display' => 0);
+     	 	 }
+     	 	*/
+     	 }
      }
      //$ewrapper->field_pdf_file->set($pdf_files);
    }
@@ -243,17 +245,10 @@ function save_dlts_book($node, $language = 'en') {
       if (!$term) {
         $term = create_taxonomy_term($subject, $vocabulary->vid);
       }
-
-
       if (is_array($term)) {
       	$this_term = array_pop($term);
       }
-      else {
-      	drush_log('Why', 'warning');
-      	print_r($term);
-      }
-
-
+      else {}
       $subjects[] = $this_term->tid;
     }
     $ewrapper->field_subject->set($subjects);
@@ -505,7 +500,6 @@ function create_dlts_book_from_json($books) {
     	  $ocr_text_files[] = $ocr_text->fileserver;
     	}
     }
-
     $node = array(
       'entity_title' => $entity_title,
       'entity_language' => $entity_language,
@@ -547,41 +541,33 @@ function create_dlts_book_from_json($books) {
       'pages' => $pages_array,
       'multivol' => $multivols,
     	'multivolume' => $multivolume,
-   );
-   $created = save_dlts_book($node);
+    );
+
+    $created = save_dlts_book($node);
+
     if ($created && isset($created->nid)) {
-   	  watchdog('DRUSH', 'Node %title (%url) imported using JSON document %document.', array('%document' => $value->uri, '%title' => $entity_title, '%url' => url( 'node/' . $created->nid, array('alias' => false ))), WATCHDOG_INFO);
-   	  /**
-   	   * Load connector
-   	   */
-   	  module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
-      if (isset($data->pages->page) && !empty($data->pages->page)) {
-        foreach ($data->pages->page as $key => $page) {
-        	$sequence = $page->sequence;
-        	if (!is_array($page->sequence)) {
-        		$sequence = array($page->sequence);
-        	}
-        	$page->sequence = $sequence;
-          dlts_viewer_mongodb_new_sequence($page, 'dlts_book_page');
+    	// watchdog('DRUSH', 'Node %title (%url) imported using JSON document %document.', array('%document' => $value->uri, '%title' => $entity_title, '%url' => url( 'node/' . $created->nid, array('alias' => false ))), WATCHDOG_INFO);
+
+   	  // we only create pages for books with languages English or Undetermined
+   	  if ($entity_language == 'en' || $entity_language == LANGUAGE_NONE) {
+   	    // Load MongoDB util
+   	    module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
+   	    // check if the JSON document include pages
+        if (isset($data->pages->page) && !empty($data->pages->page)) {
+          foreach ($data->pages->page as $key => $page) {
+        	  $sequence = $page->sequence;
+        	  if (!is_array($page->sequence)) {
+        		  $sequence = array($page->sequence);
+        	  }
+        	  $page->sequence = $sequence;
+        	  dlts_viewer_mongodb_new_sequence($page, 'dlts_book_page');
+          }
         }
-      }
-      if (isset($data->stitched->page) && !empty($data->stitched->page)) {
-      	foreach ($data->stitched->page as $key => $page) {
-          $data = array(
-            'isPartOf' => $entity_identifier,
-            'sequence' => $page->sequence,
-            'realPageNumber' => $page->page,
-            'cm' => array(
-              'uri' => $page->fileserver,
-              'width' => $page->metadata->width,
-              'height' => $page->metadata->height,
-              'levels' => $page->metadata->levels,
-              'dwtLevels' => $page->metadata->dwtLevels,
-              'compositingLayerCount' => $page->metadata->compositingLayerCount,
-              'timestamp' => $page->metadata->timestamp,
-            )
-          );
-          dlts_viewer_mongodb_new_sequence($data, 'dlts_book_stitched_page');
+        // check if the JSON document include stitched pages
+        if (isset($data->stitched->page) && !empty($data->stitched->page)) {
+      	  foreach ($data->stitched->page as $key => $page) {
+            dlts_viewer_mongodb_new_sequence($page, 'dlts_book_stitched_page');
+          }
         }
       }
     }

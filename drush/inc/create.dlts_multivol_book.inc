@@ -52,33 +52,27 @@ function create_dlts_multivol_book($node) {
       $ewrapper->field_collection->set(array($nid ));
     }
   }
-
   if ($node->identifier) {
     $ewrapper->field_identifier->set($node->identifier);
   }
   else {
   	$ewrapper->field_identifier->set(uniqid());
   }
-
   if ($multivol_exist) {
     $ewrapper->field_multivol->set($multivol_exist);
   }
-
   if ($node->volume_number) {
     $ewrapper->field_volume_number->set((int)$node->volume_number);
   }
-
   if ($node->volume_number_str) {
     $ewrapper->field_volume_number_str->set($node->volume_number_str);
   }
-
   if ($node->book) {
     $book_exist = book_nid($node->book, 'en');
     if ($book_exist) {
       $ewrapper->field_book->set($book_exist);
     }
   }
-
   if ($node->multivol) {
     $multivol_exist = multivol_nid($node->multivol);
     $multivol_node = node_load($multivol_exist);
@@ -86,9 +80,6 @@ function create_dlts_multivol_book($node) {
       $ewrapper->field_multivol->set($multivol_exist);
     }
   }
-
   $ewrapper->save();
-
   return $entity;
-
 }

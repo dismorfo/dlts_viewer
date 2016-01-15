@@ -66,25 +66,15 @@ function multivol_book_nid($multivol_identifier, $volume_page, $collection_ident
   $query = new EntityFieldQuery;
   $multivol_nid = multivol_nid($multivol_identifier);
   $collection_nid = collection_nid($collection_identifier);
-
-  drush_log(dt('Multivol nid: @nid', array('@nid' => $multivol_nid)),'ok');
-  drush_log(dt('Collection nid: @nid', array('@nid' => $collection_nid)),'ok');
-  drush_log(dt('Volume page: @page', array('@page' => $volume_page)),'ok');
-
   $result = $query
-            ->entityCondition('entity_type', 'node')
+    ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'dlts_multivol_book')
     ->fieldCondition('field_multivol', 'nid', $multivol_nid, '=')
     ->fieldCondition('field_collection', 'nid', $collection_nid, '=')
     ->fieldCondition('field_volume_number', 'value', $volume_page, '=')
     ->execute();
-
   if (empty($result['node'])) return FALSE;
-
-  print_r($result['node']);
-
   $keys = array_keys($result['node']);
-
   return (int)$keys[0];
 }
 
