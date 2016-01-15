@@ -16,7 +16,7 @@ function create_dlts_multivol_book($node) {
   	}
   }
 
-  $multivol_book_exist = multivol_book_nid($node->identifier, $node->volume_number, $node->collection[0]->identifier);
+  $multivol_book_exist = multivol_book_nid($node->isPartOf[0]->identifier, $node->volume_number, $node->collection[0]->identifier);
 
   if ($multivol_book_exist) {
     // Load the node by NID
@@ -58,9 +58,7 @@ function create_dlts_multivol_book($node) {
   else {
   	$ewrapper->field_identifier->set(uniqid());
   }
-  if ($multivol_exist) {
-    $ewrapper->field_multivol->set($multivol_exist);
-  }
+
   if ($node->volume_number) {
     $ewrapper->field_volume_number->set((int)$node->volume_number);
   }
@@ -73,13 +71,14 @@ function create_dlts_multivol_book($node) {
       $ewrapper->field_book->set($book_exist);
     }
   }
-  if ($node->multivol) {
-    $multivol_exist = multivol_nid($node->multivol);
-    $multivol_node = node_load($multivol_exist);
-    if ($multivol_exist) {
-      $ewrapper->field_multivol->set($multivol_exist);
-    }
+
+  $multivol_exist = multivol_nid($node->isPartOf[0]->identifier);
+  if ($multivol_exist) {
+    $ewrapper->field_multivol->set($multivol_exist);
   }
+
   $ewrapper->save();
+
   return $entity;
+
 }

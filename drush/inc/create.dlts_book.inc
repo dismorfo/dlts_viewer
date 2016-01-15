@@ -258,6 +258,7 @@ function save_dlts_book($node, $language = 'en') {
 
   /** Multi volume book */
   if ($node_language == 'en') {
+  	print_r($node['identifier']);
     foreach ($node['multivolume']->volume as $multivolume) {
       $multivolume->title = (isset($node['title_long']) && !empty($node['title_long'])) ? $node['title_long'] : $node['title'];
       $multivolume->book = $node['identifier'];
