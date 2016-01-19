@@ -17,13 +17,25 @@ function dlts_book_features_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'dlts_book';
   $ds_fieldsetting->view_mode = 'metadata';
   $ds_fieldsetting->settings = array(
+    'mv_2016' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'show_title' => 0,
+        'title_wrapper' => '',
+        'ctools' => 'a:3:{s:4:"conf";a:16:{s:23:"override_pager_settings";i:0;s:9:"use_pager";i:0;s:14:"nodes_per_page";s:3:"100";s:8:"pager_id";s:1:"0";s:6:"offset";s:1:"0";s:9:"more_link";i:0;s:10:"feed_icons";i:0;s:10:"panel_args";i:0;s:12:"link_to_view";i:0;s:4:"args";s:0:"";s:3:"url";s:0:"";s:7:"display";s:7:"default";s:7:"context";a:1:{i:0;s:42:"argument_entity_id:node_1.field_identifier";}s:14:"override_title";i:0;s:19:"override_title_text";s:0:"";s:22:"override_title_heading";s:2:"h2";}s:4:"type";s:5:"views";s:7:"subtype";s:2:"mv";}',
+        'load_terms' => 0,
+        'ft' => array(),
+      ),
+    ),
     'series_for_this_book' => array(
-      'weight' => '7',
+      'weight' => '9',
       'label' => 'hidden',
       'format' => 'default',
     ),
     'title' => array(
-      'weight' => '0',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -96,6 +108,32 @@ function dlts_book_features_ds_custom_fields_info() {
 
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
+  $ds_field->field = 'mv_2016';
+  $ds_field->label = 'Multivol Select 2016';
+  $ds_field->field_type = 7;
+  $ds_field->entities = array(
+    'node' => 'node',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'default' => array(),
+    'settings' => array(
+      'show_title' => array(
+        'type' => 'checkbox',
+      ),
+      'title_wrapper' => array(
+        'type' => 'textfield',
+        'description' => 'Eg: h1, h2, p',
+      ),
+      'ctools' => array(
+        'type' => 'ctools',
+      ),
+    ),
+  );
+  $export['mv_2016'] = $ds_field;
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
   $ds_field->field = 'series_for_this_book';
   $ds_field->label = 'Series';
   $ds_field->field_type = 6;
@@ -128,24 +166,26 @@ function dlts_book_features_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'title',
-        1 => 'field_subtitle',
-        2 => 'field_author',
-        3 => 'field_publication_location',
-        4 => 'field_publisher',
-        5 => 'field_publication_date_text',
-        6 => 'field_subject',
-        7 => 'series_for_this_book',
-        8 => 'field_language',
-        9 => 'field_collection',
-        10 => 'field_partner',
-        11 => 'field_call_number',
-        12 => 'field_handle',
+        0 => 'mv_2016',
+        1 => 'title',
+        2 => 'field_subtitle',
+        3 => 'field_author',
+        4 => 'field_publication_location',
+        5 => 'field_publisher',
+        6 => 'field_publication_date_text',
+        7 => 'field_subject',
+        8 => 'series_for_this_book',
+        9 => 'field_language',
+        10 => 'field_collection',
+        11 => 'field_partner',
+        12 => 'field_call_number',
         13 => 'field_pdf_file',
-        14 => 'field_rights',
+        14 => 'field_handle',
+        15 => 'field_rights',
       ),
     ),
     'fields' => array(
+      'mv_2016' => 'ds_content',
       'title' => 'ds_content',
       'field_subtitle' => 'ds_content',
       'field_author' => 'ds_content',
@@ -158,8 +198,8 @@ function dlts_book_features_ds_layout_settings_info() {
       'field_collection' => 'ds_content',
       'field_partner' => 'ds_content',
       'field_call_number' => 'ds_content',
-      'field_handle' => 'ds_content',
       'field_pdf_file' => 'ds_content',
+      'field_handle' => 'ds_content',
       'field_rights' => 'ds_content',
     ),
     'classes' => array(),
