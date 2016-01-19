@@ -44,7 +44,13 @@ function create_dlts_multivol_book($node) {
     $ewrapper = entity_metadata_wrapper('node', $entity);
   }
 
-  $ewrapper->title->set($node->title);
+  if (!empty($node->title)) {
+  	// find the max for this field and trunk it
+  	$ewrapper->title->set($node->title);
+  }
+  else {
+  	$ewrapper->title->set('Untitled');
+  }
 
   if ($node->collection) {
     $nid = collection_nid($node->collection[0]->identifier);

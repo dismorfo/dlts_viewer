@@ -82,11 +82,18 @@ function save_dlts_book($node, $language = 'en') {
 
   $collections_nids = $subjects = $pdf_files = array();
 
-  // find the max for this field and trunk it
-  $ewrapper->title->set($node['entity_title']);
+  if (!empty($node['entity_title'])) {
+  	// find the max for this field and trunk it
+  	$ewrapper->title->set($node['entity_title']);
+  }
+  else {
+  	$ewrapper->title->set('Untitled');
+  }
+
   if (!empty($node['identifier'] )) {
     $ewrapper->field_identifier->set($node['identifier']);
   }
+
   foreach ($node['partners'] as $partner) {
     $partner_entity = NULL;
     $nid = partner_nid($partner['identifier']);

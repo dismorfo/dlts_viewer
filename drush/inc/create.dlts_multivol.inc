@@ -32,7 +32,13 @@ function create_dlts_multivol($node) {
   // to make getting and setting values easier
   $ewrapper = entity_metadata_wrapper('node', $entity);
 
-  $ewrapper->title->set($node->title);
+  if (!empty($node->title)) {
+  	// find the max for this field and trunk it
+  	$ewrapper->title->set($node->title);
+  }
+  else {
+  	$ewrapper->title->set('Untitled');
+  }
 
   $ewrapper->field_identifier->set($node->identifier);
 
