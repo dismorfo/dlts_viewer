@@ -4,23 +4,21 @@
  * @file
  * DLTS Viewer drush
  */
-
-function create_dlts_multivol_book($node) {
-
+function create_dlts_series_book($node) {
   global $user;
-
   /** make sure the parent relationship exist */
   foreach ($node->isPartOf as $isPartOf) {
-  	if (!multivol_nid($isPartOf->identifier)) {
-  		create_dlts_multivol($isPartOf);
+    $series_nid = series_nid($isPartOf->identifier);
+  	if (!$series_nid) {
+  		create_dlts_series($isPartOf);
   	}
   }
-
-  $multivol_book_exist = multivol_book_nid($node->isPartOf[0]->identifier, $node->volume_number, $node->collection[0]->identifier);
-
-  if ($multivol_book_exist) {
+  
+  $exist = series_book_nid($node->isPartOf[0]->identifier, $node->volume_number, $node->collection[0]->identifier);
+  
+  if ($exist) {
     // Load the node by NID
-    $entity = node_load($multivol_book_exist);
+    $entity = node_load($exist);
     // Wrap it with Entity API
     $ewrapper = entity_metadata_wrapper('node', $entity);
   }
@@ -28,7 +26,7 @@ function create_dlts_multivol_book($node) {
     // entity_create replaces the procedural steps in the first example of
     // creating a new object $node and setting its 'type' and uid property
     $values = array(
-      'type' => 'dlts_multivol_book',
+      'type' => 'dlts_series_book',
       'uid' => $user->uid,
       'status' => 1,
       'comment' => 0,
@@ -43,6 +41,8 @@ function create_dlts_multivol_book($node) {
     // to make getting and setting values easier
     $ewrapper = entity_metadata_wrapper('node', $entity);
   }
+  
+  $series_nid = multivol_nid($node->isPartOf[0]->identifier);
 
   $ewrapper->title->set($node->title);
 
@@ -52,6 +52,7 @@ function create_dlts_multivol_book($node) {
       $ewrapper->field_collection->set(array($nid));
     }
   }
+  
   if ($node->identifier) {
     $ewrapper->field_identifier->set($node->identifier);
   }
@@ -62,9 +63,11 @@ function create_dlts_multivol_book($node) {
   if ($node->volume_number) {
     $ewrapper->field_volume_number->set((int)$node->volume_number);
   }
+  
   if ($node->volume_number_str) {
     $ewrapper->field_volume_number_str->set($node->volume_number_str);
   }
+  
   if ($node->book) {
     $book_exist = book_nid($node->book, 'en');
     if ($book_exist) {
@@ -72,9 +75,8 @@ function create_dlts_multivol_book($node) {
     }
   }
 
-  $multivol_exist = multivol_nid($node->isPartOf[0]->identifier);
-  if ($multivol_exist) {
-    $ewrapper->field_multivol->set($multivol_exist);
+  if ($series_nid) {
+    $ewrapper->field_multivol->set($series_nid);
   }
 
   $ewrapper->save();

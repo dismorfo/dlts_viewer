@@ -256,13 +256,17 @@ function save_dlts_book($node, $language = 'en') {
 
   $ewrapper->save();
 
-  /** Multi volume book */
+  /** If book language is EN check for  Multi volume and Series*/
   if ($node_language == 'en') {
-  	print_r($node['identifier']);
+  	/** Multi volume book */
     foreach ($node['multivolume']->volume as $multivolume) {
       $multivolume->title = (isset($node['title_long']) && !empty($node['title_long'])) ? $node['title_long'] : $node['title'];
       $multivolume->book = $node['identifier'];
       create_dlts_multivol_book($multivolume);
+    }
+    /** Series book */
+    foreach ($node['series'] as $series) {
+    	create_dlts_series_book($series);
     }
   }
   return $entity;
@@ -286,7 +290,8 @@ function create_dlts_book_from_json($books) {
       $pdf_files =
       $language_codes =
       $ocr_text_files =
-      $subjects = array();
+      $subjects =
+      $series = array();
 
     $page_count = $subtitle = $title = NULL;
 
@@ -317,6 +322,14 @@ function create_dlts_book_from_json($books) {
     else {
       $multivolume = $data->multivolume;
     }
+
+    if (!isset($data->series)) {
+    	$series  = array();
+    }
+    else {
+    	$series = $data->series;
+    }
+
     /** partners the book belong */
     if ($metadata->partner) {
       foreach ($metadata->partner->value as $value) {
@@ -542,13 +555,12 @@ function create_dlts_book_from_json($books) {
       'pages' => $pages_array,
       'multivol' => $multivols,
     	'multivolume' => $multivolume,
+    	'series' => $series,
     );
 
     $created = save_dlts_book($node);
 
     if ($created && isset($created->nid)) {
-    	// watchdog('DRUSH', 'Node %title (%url) imported using JSON document %document.', array('%document' => $value->uri, '%title' => $entity_title, '%url' => url( 'node/' . $created->nid, array('alias' => false ))), WATCHDOG_INFO);
-
    	  // we only create pages for books with languages English or Undetermined
    	  if ($entity_language == 'en' || $entity_language == LANGUAGE_NONE) {
    	    // Load MongoDB util
