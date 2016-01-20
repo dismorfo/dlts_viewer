@@ -252,8 +252,8 @@ function save_dlts_book($node, $language = 'en') {
     	  $node_subjects[] = dlts_viewer_subject_tid($subject,$vid);
       }
     }
-    if(!empty($node_subjects)) {
-    	$ewrapper->field_subject->set($subjects);
+    if (!empty($node_subjects)) {
+    	$ewrapper->field_subject->set($node_subjects);
     }
   }
 
