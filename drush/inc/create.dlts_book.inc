@@ -245,20 +245,16 @@ function save_dlts_book($node, $language = 'en') {
   }
 
   if (!empty($node['subject'])) {
-    $vocabulary = taxonomy_vocabulary_machine_name_load('subjects');
+  	$vid = dlts_viewer_subject_vocabulary_vid();
+  	$node_subjects = array();
     foreach ($node['subject'] as $subject) {
-      $term = taxonomy_get_term_by_name($subject);
-      $this_term = null;
-      if (!$term) {
-        $term = create_taxonomy_term($subject, $vocabulary->vid);
+    	if (!empty($subject)) {
+    	  $node_subjects[] = dlts_viewer_subject_tid($subject,$vid);
       }
-      if (is_array($term)) {
-      	$this_term = array_pop($term);
-      }
-      else {}
-      $subjects[] = $this_term->tid;
     }
-    $ewrapper->field_subject->set($subjects);
+    if(!empty($node_subjects)) {
+    	$ewrapper->field_subject->set($subjects);
+    }
   }
 
   $ewrapper->save();
@@ -277,6 +273,36 @@ function save_dlts_book($node, $language = 'en') {
     }
   }
   return $entity;
+}
+
+function dlts_viewer_subject_tid($subject,$vid) {
+	$global_subjects = &drupal_static('global_subjects');
+	if (empty($global_subjects)) {
+		$global_subjects = array();
+	}
+	if (!empty($subject)) {
+	  $this_subject = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $subject)));
+	  if (!array_key_exists($this_subject, $global_subjects)) {
+	  	$term = taxonomy_get_term_by_name($this_subject);
+		  if ($term) {
+		  	$this_term = array_pop($term);
+		    $tid = $this_term->tid;
+		  }
+		  else {
+		    $tid = create_taxonomy_term($this_subject, $vid);
+		  }
+      $global_subjects[$this_subject] = $tid;
+	  }
+	}
+	return $global_subjects;
+}
+
+function dlts_viewer_subject_vocabulary_vid() {
+	$global_vocabulary_vid = &drupal_static('global_vocabulary_vid');
+	if (empty($global_vocabulary_vid)) {
+		$global_vocabulary_vid = taxonomy_vocabulary_machine_name_load('subjects')->vid;
+	}
+	return $global_vocabulary_vid;
 }
 
 function create_dlts_book_from_json($books) {
@@ -310,7 +336,7 @@ function create_dlts_book_from_json($books) {
 
     $entity_title = $data->entity_title;
 
-    drush_log(dt('Importing @title from JSON document @document', array('@document' => $value->uri, '@title' => $entity_title)), 'ok');
+    drush_log('Importing ' . $entity_title . ' from JSON document ' . $value->uri, 'ok');
 
     $entity_language = $data->entity_language;
 
