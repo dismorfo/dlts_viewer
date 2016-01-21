@@ -406,7 +406,6 @@ features[views_view][] = book
 features[views_view][] = book_description
 features[views_view][] = books
 features[views_view][] = books_by_collection
-features[views_view][] = multivolume_select_for_metadata
 features[views_view][] = mv
 features[views_view][] = series
 features[views_view][] = series_books

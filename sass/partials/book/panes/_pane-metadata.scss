@@ -74,6 +74,15 @@
       display: inline-block;
       word-wrap: break-word;
     }
+    .field-name-mv-2016 {
+      .field-items, .field-item {
+        display: block;
+      }
+      .ctools-jump-menu-hide {
+        height: 0;
+        width: 0;
+      }
+    }
     .field-item {
       display: inline-block;
     }
