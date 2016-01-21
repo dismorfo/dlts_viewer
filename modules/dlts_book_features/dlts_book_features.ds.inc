@@ -17,8 +17,19 @@ function dlts_book_features_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'dlts_book';
   $ds_fieldsetting->view_mode = 'metadata';
   $ds_fieldsetting->settings = array(
+    'title_with_vol_num' => array(
+      'weight' => '2',
+      'label' => 'above',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'prefix' => 'Volume?',
+        ),
+      ),
+    ),
     'mv_2016' => array(
-      'weight' => '1',
+      'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -35,7 +46,7 @@ function dlts_book_features_ds_field_settings_info() {
       'format' => 'default',
     ),
     'title' => array(
-      'weight' => '2',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -168,25 +179,27 @@ function dlts_book_features_ds_layout_settings_info() {
       'ds_content' => array(
         0 => 'mv_2016',
         1 => 'title',
-        2 => 'field_subtitle',
-        3 => 'field_author',
-        4 => 'field_publication_location',
-        5 => 'field_publisher',
-        6 => 'field_publication_date_text',
-        7 => 'field_subject',
-        8 => 'series_for_this_book',
-        9 => 'field_language',
-        10 => 'field_collection',
-        11 => 'field_partner',
-        12 => 'field_call_number',
-        13 => 'field_pdf_file',
-        14 => 'field_handle',
-        15 => 'field_rights',
+        2 => 'title_with_vol_num',
+        3 => 'field_subtitle',
+        4 => 'field_author',
+        5 => 'field_publication_location',
+        6 => 'field_publisher',
+        7 => 'field_publication_date_text',
+        8 => 'field_subject',
+        9 => 'series_for_this_book',
+        10 => 'field_language',
+        11 => 'field_collection',
+        12 => 'field_partner',
+        13 => 'field_call_number',
+        14 => 'field_pdf_file',
+        15 => 'field_handle',
+        16 => 'field_rights',
       ),
     ),
     'fields' => array(
       'mv_2016' => 'ds_content',
       'title' => 'ds_content',
+      'title_with_vol_num' => 'ds_content',
       'field_subtitle' => 'ds_content',
       'field_author' => 'ds_content',
       'field_publication_location' => 'ds_content',
@@ -211,6 +224,7 @@ function dlts_book_features_ds_layout_settings_info() {
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
   );
   $export['node|dlts_book|metadata'] = $ds_layout;
 
