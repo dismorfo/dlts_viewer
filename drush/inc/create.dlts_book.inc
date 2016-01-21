@@ -249,7 +249,8 @@ function save_dlts_book($node, $language = 'en') {
   	$node_subjects = array();
     foreach ($node['subject'] as $subject) {
     	if (!empty($subject)) {
-    	  $node_subjects[] = dlts_viewer_subject_tid($subject,$vid);
+    		$subject_list = dlts_viewer_subject_tid($subject,$vid);
+    		$node_subjects[] = $subject_list[$subject];
       }
     }
     if (!empty($node_subjects)) {
@@ -262,15 +263,19 @@ function save_dlts_book($node, $language = 'en') {
   /** If book language is EN check for  Multi volume and Series*/
   if ($node_language == 'en') {
   	/** Multi volume book */
-    foreach ($node['multivolume']->volume as $multivolume) {
-      $multivolume->title = (isset($node['title_long']) && !empty($node['title_long'])) ? $node['title_long'] : $node['title'];
-      $multivolume->book = $node['identifier'];
-      create_dlts_multivol_book($multivolume);
-    }
+  	if (!empty($node['multivolume']) && !empty($node['multivolume']->volume)) {
+      foreach ($node['multivolume']->volume as $multivolume) {
+        $multivolume->title = (isset($node['title_long']) && !empty($node['title_long'])) ? $node['title_long'] : $node['title'];
+        $multivolume->book = $node['identifier'];
+        create_dlts_multivol_book($multivolume);
+      }
+  	}
     /** Series book */
-    foreach ($node['series'] as $series) {
-    	create_dlts_series_book($series);
-    }
+  	if ( !empty($node['series'])) {
+      foreach ($node['series'] as $series) {
+    	  create_dlts_series_book($series);
+      }
+  	}
   }
   return $entity;
 }
