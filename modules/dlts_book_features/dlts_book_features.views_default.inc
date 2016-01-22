@@ -267,6 +267,8 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['fields']['field_volume']['field'] = 'field_volume';
   $handler->display->display_options['fields']['field_volume']['label'] = '';
   $handler->display->display_options['fields']['field_volume']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_volume']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_volume']['alter']['text'] = 'Vol. [field_volume]';
   $handler->display->display_options['fields']['field_volume']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_volume']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_volume']['hide_empty'] = TRUE;
@@ -278,7 +280,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['title']['alter']['text'] = '[title] Vol. [field_volume]';
+  $handler->display->display_options['fields']['title']['alter']['text'] = '[title] [field_volume]';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
@@ -332,7 +334,8 @@ function dlts_book_features_views_default_views() {
     t('Desc'),
     t('no title'),
     t('no title found'),
-    t('[title] Vol. [field_volume]'),
+    t('Vol. [field_volume]'),
+    t('[title] [field_volume]'),
     t('All'),
     t('Block'),
   );
