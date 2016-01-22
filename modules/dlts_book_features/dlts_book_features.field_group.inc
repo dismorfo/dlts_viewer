@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function dlts_book_features_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -57,7 +57,7 @@ function dlts_book_features_field_group_info() {
       ),
     ),
   );
-  $export['group_descriptive_metadata|node|dlts_book|form'] = $field_group;
+  $field_groups['group_descriptive_metadata|node|dlts_book|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -70,7 +70,7 @@ function dlts_book_features_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Descriptive Metadata',
-    'weight' => '46',
+    'weight' => '44',
     'children' => array(
       0 => 'field_creator',
       1 => 'field_description',
@@ -96,7 +96,7 @@ function dlts_book_features_field_group_info() {
       ),
     ),
   );
-  $export['group_descriptive_metadata|node|dlts_book|metadata'] = $field_group;
+  $field_groups['group_descriptive_metadata|node|dlts_book|metadata'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -124,7 +124,7 @@ function dlts_book_features_field_group_info() {
       ),
     ),
   );
-  $export['group_essence|node|dlts_book|form'] = $field_group;
+  $field_groups['group_essence|node|dlts_book|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -152,7 +152,7 @@ function dlts_book_features_field_group_info() {
       ),
     ),
   );
-  $export['group_essence|node|dlts_book|metadata'] = $field_group;
+  $field_groups['group_essence|node|dlts_book|metadata'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -180,7 +180,7 @@ function dlts_book_features_field_group_info() {
       ),
     ),
   );
-  $export['group_structural_metadata|node|dlts_book|form'] = $field_group;
+  $field_groups['group_structural_metadata|node|dlts_book|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -193,7 +193,7 @@ function dlts_book_features_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Structural Metadata',
-    'weight' => '44',
+    'weight' => '42',
     'children' => array(
       0 => 'group_essence',
     ),
@@ -210,7 +210,7 @@ function dlts_book_features_field_group_info() {
       ),
     ),
   );
-  $export['group_structural_metadata|node|dlts_book|metadata'] = $field_group;
+  $field_groups['group_structural_metadata|node|dlts_book|metadata'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -237,7 +237,7 @@ function dlts_book_features_field_group_info() {
       ),
     ),
   );
-  $export['group_technical_metadata|node|dlts_book|form'] = $field_group;
+  $field_groups['group_technical_metadata|node|dlts_book|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -250,7 +250,7 @@ function dlts_book_features_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Technical Metadata',
-    'weight' => '45',
+    'weight' => '43',
     'children' => array(),
     'format_type' => 'html-element',
     'format_settings' => array(
@@ -265,7 +265,14 @@ function dlts_book_features_field_group_info() {
       ),
     ),
   );
-  $export['group_technical_metadata|node|dlts_book|metadata'] = $field_group;
+  $field_groups['group_technical_metadata|node|dlts_book|metadata'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Descriptive Metadata');
+  t('Essence');
+  t('Structural Metadata');
+  t('Technical Metadata');
+
+  return $field_groups;
 }

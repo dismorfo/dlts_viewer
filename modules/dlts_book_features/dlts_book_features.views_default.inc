@@ -230,6 +230,118 @@ function dlts_book_features_views_default_views() {
   $export['book_description'] = $view;
 
   $view = new view();
+  $view->name = 'book_title_with_volnum';
+  $view->description = 'For Metadata pane -- book title with volume number, if any';
+  $view->tag = 'default';
+  $view->base_table = 'node';
+  $view->human_name = 'Book title with volnum';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Book title with volnum';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '1';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['label'] = 'no title';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = 'no title found';
+  $handler->display->display_options['empty']['area']['format'] = 'full_html';
+  /* Field: Content: Volume */
+  $handler->display->display_options['fields']['field_volume']['id'] = 'field_volume';
+  $handler->display->display_options['fields']['field_volume']['table'] = 'field_data_field_volume';
+  $handler->display->display_options['fields']['field_volume']['field'] = 'field_volume';
+  $handler->display->display_options['fields']['field_volume']['label'] = '';
+  $handler->display->display_options['fields']['field_volume']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_volume']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_volume']['alter']['text'] = 'Vol. [field_volume]';
+  $handler->display->display_options['fields']['field_volume']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_volume']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_volume']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_volume']['empty_zero'] = TRUE;
+  $handler->display->display_options['fields']['field_volume']['type'] = 'text_plain';
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['text'] = '[title] [field_volume]';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Contextual filter: Content: Identifier (field_identifier) */
+  $handler->display->display_options['arguments']['field_identifier_value']['id'] = 'field_identifier_value';
+  $handler->display->display_options['arguments']['field_identifier_value']['table'] = 'field_data_field_identifier';
+  $handler->display->display_options['arguments']['field_identifier_value']['field'] = 'field_identifier_value';
+  $handler->display->display_options['arguments']['field_identifier_value']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['field_identifier_value']['default_argument_type'] = 'node';
+  $handler->display->display_options['arguments']['field_identifier_value']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_identifier_value']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_identifier_value']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['field_identifier_value']['limit'] = '0';
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'dlts_book' => 'dlts_book',
+  );
+  /* Filter criterion: Content: Language (field_language) */
+  $handler->display->display_options['filters']['field_language_value']['id'] = 'field_language_value';
+  $handler->display->display_options['filters']['field_language_value']['table'] = 'field_data_field_language';
+  $handler->display->display_options['filters']['field_language_value']['field'] = 'field_language_value';
+  $handler->display->display_options['filters']['field_language_value']['operator'] = 'contains';
+  $handler->display->display_options['filters']['field_language_value']['value'] = 'Eng';
+
+  /* Display: Block */
+  $handler = $view->new_display('block', 'Block', 'block');
+  $translatables['book_title_with_volnum'] = array(
+    t('Master'),
+    t('Book title with volnum'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('no title'),
+    t('no title found'),
+    t('Vol. [field_volume]'),
+    t('[title] [field_volume]'),
+    t('All'),
+    t('Block'),
+  );
+  $export['book_title_with_volnum'] = $view;
+
+  $view = new view();
   $view->name = 'books';
   $view->description = 'Book listing with optional argument(IA identifier)';
   $view->tag = 'dlts_books';
@@ -597,166 +709,11 @@ function dlts_book_features_views_default_views() {
   $export['books_by_collection'] = $view;
 
   $view = new view();
-  $view->name = 'multivolume_select_for_metadata';
-  $view->description = '';
-  $view->tag = 'default';
-  $view->base_table = 'node';
-  $view->human_name = 'Multivolume select for metadata';
-  $view->core = 7;
-  $view->api_version = '3.0';
-  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
-
-  /* Display: Master */
-  $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Set of multi volume books by multi volume reference';
-  $handler->display->display_options['hide_attachment_summary'] = TRUE;
-  $handler->display->display_options['hide_admin_links'] = TRUE;
-  $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'perm';
-  $handler->display->display_options['cache']['type'] = 'none';
-  $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['row_plugin'] = 'node';
-  /* Relationship: Content: Multi-Volume (field_multivol) */
-  $handler->display->display_options['relationships']['field_multivol_nid']['id'] = 'field_multivol_nid';
-  $handler->display->display_options['relationships']['field_multivol_nid']['table'] = 'field_data_field_multivol';
-  $handler->display->display_options['relationships']['field_multivol_nid']['field'] = 'field_multivol_nid';
-  $handler->display->display_options['relationships']['field_multivol_nid']['required'] = TRUE;
-  $handler->display->display_options['relationships']['field_multivol_nid']['delta'] = '-1';
-  /* Field: Content: Book */
-  $handler->display->display_options['fields']['field_book']['id'] = 'field_book';
-  $handler->display->display_options['fields']['field_book']['table'] = 'field_data_field_book';
-  $handler->display->display_options['fields']['field_book']['field'] = 'field_book';
-  $handler->display->display_options['fields']['field_book']['label'] = '';
-  $handler->display->display_options['fields']['field_book']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_book']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_book']['type'] = 'node_reference_node';
-  $handler->display->display_options['fields']['field_book']['settings'] = array(
-    'node_reference_view_mode' => 'multivolbook',
-  );
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  /* Sort criterion: Content: Multi-Volume (field_multivol) */
-  $handler->display->display_options['sorts']['field_multivol_nid']['id'] = 'field_multivol_nid';
-  $handler->display->display_options['sorts']['field_multivol_nid']['table'] = 'field_data_field_multivol';
-  $handler->display->display_options['sorts']['field_multivol_nid']['field'] = 'field_multivol_nid';
-  /* Contextual filter: Content: Identifier (field_identifier) */
-  $handler->display->display_options['arguments']['field_identifier_value']['id'] = 'field_identifier_value';
-  $handler->display->display_options['arguments']['field_identifier_value']['table'] = 'field_data_field_identifier';
-  $handler->display->display_options['arguments']['field_identifier_value']['field'] = 'field_identifier_value';
-  $handler->display->display_options['arguments']['field_identifier_value']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['field_identifier_value']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_identifier_value']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_identifier_value']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['field_identifier_value']['limit'] = '0';
-  /* Filter criterion: Content: Published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'node';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 1;
-  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Type */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'node';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'dlts_multivol_book' => 'dlts_multivol_book',
-  );
-
-  /* Display: Block */
-  $handler = $view->new_display('block', 'Block', 'block_1');
-  $handler->display->display_options['field_language'] = '***DEFAULT_LANGUAGE***';
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '0';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'jump_menu';
-  $handler->display->display_options['style_options']['path'] = 'field_book';
-  $handler->display->display_options['style_options']['text'] = '';
-  $handler->display->display_options['style_options']['choose'] = '- View Related Titles -';
-  $handler->display->display_options['defaults']['style_options'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'fields';
-  $handler->display->display_options['row_options']['hide_empty'] = TRUE;
-  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
-  $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Volume Number */
-  $handler->display->display_options['fields']['field_volume_number']['id'] = 'field_volume_number';
-  $handler->display->display_options['fields']['field_volume_number']['table'] = 'field_data_field_volume_number';
-  $handler->display->display_options['fields']['field_volume_number']['field'] = 'field_volume_number';
-  $handler->display->display_options['fields']['field_volume_number']['label'] = '';
-  $handler->display->display_options['fields']['field_volume_number']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_volume_number']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_volume_number']['settings'] = array(
-    'thousand_separator' => ' ',
-    'prefix_suffix' => 1,
-  );
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['title']['alter']['text'] = '[title] Vol. [field_volume_number]';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Content: Book */
-  $handler->display->display_options['fields']['field_book']['id'] = 'field_book';
-  $handler->display->display_options['fields']['field_book']['table'] = 'field_data_field_book';
-  $handler->display->display_options['fields']['field_book']['field'] = 'field_book';
-  $handler->display->display_options['fields']['field_book']['label'] = '';
-  $handler->display->display_options['fields']['field_book']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_book']['alter']['text'] = '[title] Vol. [field_volume_number]';
-  $handler->display->display_options['fields']['field_book']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_book']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_book']['type'] = 'node_reference_path';
-  $handler->display->display_options['fields']['field_book']['settings'] = array(
-    'alias' => 0,
-    'absolute' => 1,
-  );
-  $translatables['multivolume_select_for_metadata'] = array(
-    t('Master'),
-    t('Set of multi volume books by multi volume reference'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('field_multivol'),
-    t('Title'),
-    t('All'),
-    t('Block'),
-    t('[title] Vol. [field_volume_number]'),
-  );
-  $export['multivolume_select_for_metadata'] = $view;
-
-  $view = new view();
   $view->name = 'mv';
   $view->description = 'Renders a jump menu with links to the other volumes in this set';
-  $view->tag = 'Jan15';
+  $view->tag = '2016';
   $view->base_table = 'node';
-  $view->human_name = 'Multivol select 2016';
+  $view->human_name = 'Multivolume select';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -775,15 +732,8 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['style_options']['hide'] = TRUE;
   $handler->display->display_options['style_options']['path'] = 'field_book';
   $handler->display->display_options['style_options']['choose'] = '- View Related Titles -';
+  $handler->display->display_options['style_options']['inline'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* No results behavior: Global: Text area */
-  $handler->display->display_options['empty']['area']['id'] = 'area';
-  $handler->display->display_options['empty']['area']['table'] = 'views';
-  $handler->display->display_options['empty']['area']['field'] = 'area';
-  $handler->display->display_options['empty']['area']['label'] = 'No results';
-  $handler->display->display_options['empty']['area']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area']['content'] = 'No results';
-  $handler->display->display_options['empty']['area']['format'] = 'full_html';
   /* Relationship: Content: Book (field_book) - reverse */
   $handler->display->display_options['relationships']['reverse_field_book_node']['id'] = 'reverse_field_book_node';
   $handler->display->display_options['relationships']['reverse_field_book_node']['table'] = 'node';
@@ -863,7 +813,7 @@ function dlts_book_features_views_default_views() {
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
-  $handler->display->display_options['block_description'] = 'Get ID of associated multivol book ';
+  $handler->display->display_options['block_description'] = 'Multivolume Select';
   $translatables['mv'] = array(
     t('Master'),
     t('MV'),
@@ -873,13 +823,12 @@ function dlts_book_features_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('No results'),
     t('field_book'),
     t('field_multivol'),
     t('[field_book_1]  Vol. [field_volume_number_1]'),
     t('All'),
     t('Block'),
-    t('Get ID of associated multivol book '),
+    t('Multivolume Select'),
   );
   $export['mv'] = $view;
 

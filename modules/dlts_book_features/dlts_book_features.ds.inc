@@ -17,8 +17,29 @@ function dlts_book_features_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'dlts_book';
   $ds_fieldsetting->view_mode = 'metadata';
   $ds_fieldsetting->settings = array(
-    'mv_2016' => array(
+    'title_volnum_dyno' => array(
       'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'show_title' => 0,
+        'title_wrapper' => '',
+        'ctools' => 'a:3:{s:4:"conf";a:16:{s:23:"override_pager_settings";i:0;s:9:"use_pager";i:0;s:14:"nodes_per_page";s:1:"1";s:8:"pager_id";s:1:"0";s:6:"offset";s:1:"0";s:9:"more_link";i:0;s:10:"feed_icons";i:0;s:10:"panel_args";i:0;s:12:"link_to_view";i:0;s:4:"args";s:0:"";s:3:"url";s:0:"";s:7:"display";s:5:"block";s:7:"context";a:1:{i:0;s:42:"argument_entity_id:node_1.field_identifier";}s:14:"override_title";i:0;s:19:"override_title_text";s:0:"";s:22:"override_title_heading";s:2:"h2";}s:4:"type";s:5:"views";s:7:"subtype";s:22:"book_title_with_volnum";}',
+        'load_terms' => 0,
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'fi' => TRUE,
+          'fi-el' => 'h2',
+          'fi-cl' => 'field-name-title',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
+        ),
+      ),
+    ),
+    'mv_2016' => array(
+      'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -30,22 +51,9 @@ function dlts_book_features_ds_field_settings_info() {
       ),
     ),
     'series_for_this_book' => array(
-      'weight' => '9',
+      'weight' => '8',
       'label' => 'hidden',
       'format' => 'default',
-    ),
-    'title' => array(
-      'weight' => '2',
-      'label' => 'hidden',
-      'format' => 'default',
-      'formatter_settings' => array(
-        'link' => '0',
-        'wrapper' => 'h2',
-        'class' => '',
-        'ft' => array(
-          'func' => 'theme_ds_field_minimal',
-        ),
-      ),
     ),
   );
   $export['node|dlts_book|metadata'] = $ds_fieldsetting;
@@ -147,6 +155,32 @@ function dlts_book_features_ds_custom_fields_info() {
   );
   $export['series_for_this_book'] = $ds_field;
 
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'title_volnum_dyno';
+  $ds_field->label = 'Title with Vol Num Dynamic';
+  $ds_field->field_type = 7;
+  $ds_field->entities = array(
+    'node' => 'node',
+  );
+  $ds_field->ui_limit = '';
+  $ds_field->properties = array(
+    'default' => array(),
+    'settings' => array(
+      'show_title' => array(
+        'type' => 'checkbox',
+      ),
+      'title_wrapper' => array(
+        'type' => 'textfield',
+        'description' => 'Eg: h1, h2, p',
+      ),
+      'ctools' => array(
+        'type' => 'ctools',
+      ),
+    ),
+  );
+  $export['title_volnum_dyno'] = $ds_field;
+
   return $export;
 }
 
@@ -167,7 +201,7 @@ function dlts_book_features_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'mv_2016',
-        1 => 'title',
+        1 => 'title_volnum_dyno',
         2 => 'field_subtitle',
         3 => 'field_author',
         4 => 'field_publication_location',
@@ -186,7 +220,7 @@ function dlts_book_features_ds_layout_settings_info() {
     ),
     'fields' => array(
       'mv_2016' => 'ds_content',
-      'title' => 'ds_content',
+      'title_volnum_dyno' => 'ds_content',
       'field_subtitle' => 'ds_content',
       'field_author' => 'ds_content',
       'field_publication_location' => 'ds_content',
@@ -211,6 +245,7 @@ function dlts_book_features_ds_layout_settings_info() {
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
   );
   $export['node|dlts_book|metadata'] = $ds_layout;
 
