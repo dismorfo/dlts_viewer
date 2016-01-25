@@ -592,27 +592,22 @@ function dlts_book_features_field_default_field_bases() {
   // Exported field_base: 'field_ocr_text'.
   $field_bases['field_ocr_text'] = array(
     'active' => 1,
-    'cardinality' => -1,
+    'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ocr_text',
     'indexes' => array(
-      'fid' => array(
-        0 => 'fid',
+      'uri' => array(
+        0 => 'uri',
       ),
     ),
     'locked' => 0,
-    'module' => 'file',
+    'module' => 'field_fileserver',
     'settings' => array(
-      'display_default' => 0,
-      'display_field' => 0,
-      'entity_translation_sync' => array(
-        0 => 'fid',
-      ),
-      'uri_scheme' => 'public',
+      'entity_translation_sync' => FALSE,
     ),
     'translatable' => 0,
-    'type' => 'file',
+    'type' => 'field_fileserver_uri',
   );
 
   // Exported field_base: 'field_other_version'.
@@ -711,22 +706,17 @@ function dlts_book_features_field_default_field_bases() {
     'entity_types' => array(),
     'field_name' => 'field_pdf_file',
     'indexes' => array(
-      'fid' => array(
-        0 => 'fid',
+      'uri' => array(
+        0 => 'uri',
       ),
     ),
     'locked' => 0,
-    'module' => 'file',
+    'module' => 'field_fileserver',
     'settings' => array(
-      'display_default' => 0,
-      'display_field' => 0,
-      'entity_translation_sync' => array(
-        0 => 'fid',
-      ),
-      'uri_scheme' => 'public',
+      'entity_translation_sync' => FALSE,
     ),
-    'translatable' => 1,
-    'type' => 'file',
+    'translatable' => 0,
+    'type' => 'field_fileserver_uri',
   );
 
   // Exported field_base: 'field_physical_description'.
@@ -883,21 +873,17 @@ function dlts_book_features_field_default_field_bases() {
     'entity_types' => array(),
     'field_name' => 'field_representative_image',
     'indexes' => array(
-      'fid' => array(
-        0 => 'fid',
+      'uri' => array(
+        0 => 'uri',
       ),
     ),
     'locked' => 0,
-    'module' => 'image',
+    'module' => 'field_fileserver',
     'settings' => array(
-      'default_image' => 0,
-      'entity_translation_sync' => array(
-        0 => 'fid',
-      ),
-      'uri_scheme' => 'public',
+      'entity_translation_sync' => FALSE,
     ),
-    'translatable' => 1,
-    'type' => 'image',
+    'translatable' => 0,
+    'type' => 'field_fileserver_uri',
   );
 
   // Exported field_base: 'field_rights'.

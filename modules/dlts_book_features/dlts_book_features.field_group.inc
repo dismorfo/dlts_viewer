@@ -30,23 +30,23 @@ function dlts_book_features_field_group_info() {
       4 => 'field_description',
       5 => 'field_dimensions',
       6 => 'field_editor',
-      7 => 'field_language',
-      8 => 'field_language_code',
-      9 => 'field_number',
-      10 => 'field_other_version',
-      11 => 'field_page_count',
-      12 => 'field_publication_date',
-      13 => 'field_publication_location',
-      14 => 'field_publisher',
-      15 => 'field_sequence_count',
-      16 => 'field_subject',
-      17 => 'field_subtitle',
-      18 => 'field_title',
-      19 => 'field_topic',
-      20 => 'field_volume',
-      21 => 'field_publication_date_text',
-      22 => 'field_geographic_coordinates',
-      23 => 'field_geographic_subject',
+      7 => 'field_geographic_coordinates',
+      8 => 'field_geographic_subject',
+      9 => 'field_language',
+      10 => 'field_language_code',
+      11 => 'field_number',
+      12 => 'field_other_version',
+      13 => 'field_page_count',
+      14 => 'field_publication_date',
+      15 => 'field_publication_date_text',
+      16 => 'field_publication_location',
+      17 => 'field_publisher',
+      18 => 'field_sequence_count',
+      19 => 'field_subject',
+      20 => 'field_subtitle',
+      21 => 'field_title',
+      22 => 'field_topic',
+      23 => 'field_volume',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
@@ -70,7 +70,7 @@ function dlts_book_features_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Descriptive Metadata',
-    'weight' => '44',
+    'weight' => '42',
     'children' => array(
       0 => 'field_creator',
       1 => 'field_description',
@@ -78,10 +78,9 @@ function dlts_book_features_field_group_info() {
       3 => 'field_page_count',
       4 => 'field_publication_date',
       5 => 'field_read_order',
-      6 => 'field_representative_image',
-      7 => 'field_scan_date',
-      8 => 'field_scan_order',
-      9 => 'field_scanning_notes',
+      6 => 'field_scan_date',
+      7 => 'field_scan_order',
+      8 => 'field_scanning_notes',
     ),
     'format_type' => 'html-element',
     'format_settings' => array(
@@ -110,11 +109,7 @@ function dlts_book_features_field_group_info() {
   $field_group->data = array(
     'label' => 'Essence',
     'weight' => '9',
-    'children' => array(
-      0 => 'field_ocr_text',
-      1 => 'field_pdf_file',
-      2 => 'field_representative_image',
-    ),
+    'children' => array(),
     'format_type' => 'tab',
     'format_settings' => array(
       'formatter' => 'closed',
@@ -193,7 +188,7 @@ function dlts_book_features_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Structural Metadata',
-    'weight' => '42',
+    'weight' => '39',
     'children' => array(
       0 => 'group_essence',
     ),
@@ -250,7 +245,7 @@ function dlts_book_features_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Technical Metadata',
-    'weight' => '43',
+    'weight' => '40',
     'children' => array(),
     'format_type' => 'html-element',
     'format_settings' => array(
