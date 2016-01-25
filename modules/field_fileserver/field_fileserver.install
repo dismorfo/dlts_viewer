@@ -1,33 +1,54 @@
 <?php
-
 /**
  * @file
- * Install, update and uninstall functions for the text module.
+ * Install, update, and uninstall functions for the field_example module.
  */
 
 /**
  * Implements hook_field_schema().
+ *
+ * Defines the database schema of the field, using the format used by the
+ * Schema API.
+ *
+ * The data we will store here is just one 7-character element, even
+ * though the widget presents the three portions separately.
+ *
+ * All implementations of hook_field_schema() must be in the module's
+ * .install file.
+ *
+ * @see http://drupal.org/node/146939
+ * @see schemaapi
+ * @see hook_field_schema()
+ * @ingroup field_example
  */
-function field_fileserver_schema($field) {
+function field_fileserver_field_schema($field) {
+
+	$columns = array(
+    'uri' => array(
+      'type' => 'varchar',
+      'length' => 255,
+      'not null' => FALSE,
+    ),
+    'data' => array(
+      'type' => 'text',
+      'not null' => FALSE,
+    ),
+  );
+
+  $indexes = array(
+    'uri' => array('uri'),
+  );
+
   return array(
-    'columns' => array(
-      'value' => array(
-        'description' => 'The {file_managed}.fid being referenced in this field.',
-        'type' => 'varchar',
-        'length' => 60,        
-        'not null' => FALSE,
-        'unsigned' => TRUE,
-      ),
-      'format' => array(
-        'description' => 'The {file_managed}.fid being referenced in this field.',
-        'type' => 'varchar',
-        'length' => 60,        
-        'not null' => FALSE,
-        'unsigned' => TRUE,
-      ),      
-    ),
-    'indexes' => array(
-      'value' => array('value'),
-    ),
- );
+    'columns' => $columns,
+    'indexes' => $indexes,
+  );
+
 }
+
+/**
+ * Implements hook_requirements().
+ *
+ * Display information about getting upload progress bars working.
+ */
+// function file_requirements($phase) {}

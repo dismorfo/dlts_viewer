@@ -1,7 +1,5 @@
-name = Field File Server
-description = Defines File Server field.
+name = Field Fileserver
+description = Allow for file in the File Server
 package = DLTS
-version = VERSION
 core = 7.x
-dependencies[] = field
-
+files[] = field_fileserver.test

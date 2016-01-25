@@ -33,3 +33,21 @@ function dlts_viewer_djatoka_request($file) {
     return array('message' => $msg, 'error' => 404, 'code' => 404);
   }
 }
+
+function dlts_viewer_djatoka_url($file) {
+	$service = variable_get('dlts_viewer_djatoka_service', 'http://localhost:8080/adore-djatoka');
+	$arguments = array(
+	  'url_ver' => 'Z39.88-2004',
+		'svc_id' => 'info:lanl-repo/svc/getRegion',
+		'svc_val_fmt' => 'info:ofi/fmt:kev:mtx:jpeg2000',
+		'svc.format' => 'image/jpeg',
+		'rft_id' => file_create_url($file['uri']),
+	);
+	if (isset($file['image_style'])) {
+	  $dimmensions = explode("x", $file['image_style']);
+	  if (count($dimmensions) == 2 && is_numeric($dimmensions[1])) {
+	  	$arguments['svc.scale'] = $dimmensions[1];
+	  }
+	}
+	return url($service . '/resolver', array('external' => true, 'query' => $arguments));
+}
