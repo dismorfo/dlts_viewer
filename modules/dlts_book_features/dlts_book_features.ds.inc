@@ -86,36 +86,6 @@ function dlts_book_features_ds_custom_fields_info() {
 
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
-  $ds_field->field = 'multivolume_by_identifier_select';
-  $ds_field->label = 'multivolume by identifier select';
-  $ds_field->field_type = 6;
-  $ds_field->entities = array(
-    'node' => 'node',
-  );
-  $ds_field->ui_limit = '';
-  $ds_field->properties = array(
-    'block' => 'views|ff662681e3c55e01c76472b14059f973',
-    'block_render' => '3',
-  );
-  $export['multivolume_by_identifier_select'] = $ds_field;
-
-  $ds_field = new stdClass();
-  $ds_field->api_version = 1;
-  $ds_field->field = 'multivolume_select';
-  $ds_field->label = 'Multivolume select';
-  $ds_field->field_type = 6;
-  $ds_field->entities = array(
-    'node' => 'node',
-  );
-  $ds_field->ui_limit = '';
-  $ds_field->properties = array(
-    'block' => 'views|65adcdd84849d7419640ca9bef8a6b82',
-    'block_render' => '3',
-  );
-  $export['multivolume_select'] = $ds_field;
-
-  $ds_field = new stdClass();
-  $ds_field->api_version = 1;
   $ds_field->field = 'mv_2016';
   $ds_field->label = 'Multivol Select 2016';
   $ds_field->field_type = 7;
