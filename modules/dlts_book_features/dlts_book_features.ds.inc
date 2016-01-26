@@ -170,8 +170,8 @@ function dlts_book_features_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'field_representative_image',
-        1 => 'mv_2016',
+        0 => 'mv_2016',
+        1 => 'field_representative_image',
         2 => 'title_volnum_dyno',
         3 => 'field_subtitle',
         4 => 'field_author',
@@ -190,8 +190,8 @@ function dlts_book_features_ds_layout_settings_info() {
       ),
     ),
     'fields' => array(
-      'field_representative_image' => 'ds_content',
       'mv_2016' => 'ds_content',
+      'field_representative_image' => 'ds_content',
       'title_volnum_dyno' => 'ds_content',
       'field_subtitle' => 'ds_content',
       'field_author' => 'ds_content',
