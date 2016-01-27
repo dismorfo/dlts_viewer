@@ -22,7 +22,6 @@
  * @ingroup field_example
  */
 function field_fileserver_field_schema($field) {
-
 	$columns = array(
     'uri' => array(
       'type' => 'varchar',
@@ -34,16 +33,13 @@ function field_fileserver_field_schema($field) {
       'not null' => FALSE,
     ),
   );
-
   $indexes = array(
     'uri' => array('uri'),
   );
-
   return array(
     'columns' => $columns,
     'indexes' => $indexes,
   );
-
 }
 
 /**

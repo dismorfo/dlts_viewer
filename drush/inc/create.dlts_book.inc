@@ -8,22 +8,16 @@
 /**
  * @TODO: Support for fields: publication_date, geographic_coordinates, geographic_subject
  */
-
 function save_dlts_book($node, $language = 'en') {
-
   // Get the current user
   // --user=uid OR --user=1 for super user
 	global $user;
-
   $node_language = (isset($node['entity_language']) ? $node['entity_language'] : $language);
-
   /** force EN language */
   if ($node_language == LANGUAGE_NONE) {
   	$node_language = 'en';
   }
-
   $book_exist = book_nid($node['identifier'], $node_language);
-
   if ($book_exist) {
     // Load the node by NID
     $entity = node_load($book_exist);
@@ -79,9 +73,7 @@ function save_dlts_book($node, $language = 'en') {
     // to make getting and setting values easier
     $ewrapper = entity_metadata_wrapper('node', $entity);
   }
-
   $collections_nids = $subjects = $pdf_files = array();
-
   if (!empty($node['entity_title'])) {
   	// find the max for this field and trunk it
   	$ewrapper->title->set($node['entity_title']);
@@ -89,11 +81,9 @@ function save_dlts_book($node, $language = 'en') {
   else {
   	$ewrapper->title->set('Untitled');
   }
-
-  if (!empty($node['identifier'] )) {
+  if (!empty($node['identifier'])) {
     $ewrapper->field_identifier->set($node['identifier']);
   }
-
   foreach ($node['partners'] as $partner) {
     $partner_entity = NULL;
     $nid = partner_nid($partner['identifier']);
@@ -143,107 +133,92 @@ function save_dlts_book($node, $language = 'en') {
   if (!empty($node['creator'])) {
     $ewrapper->field_creator->set($node['creator']);
   }
-
   if (!empty($node['author'])) {
     $ewrapper->field_author->set($node['author']);
   }
-
   if (!empty($node['publisher'])) {
     $ewrapper->field_publisher->set($node['publisher']);
   }
-
   if (!empty($node['contributor'])) {
     $ewrapper->field_contributor->set($node['contributor']);
   }
-
   if (!empty($node['dimensions'])) {
     $ewrapper->field_dimensions->set($node['dimensions']);
   }
-
   if (!empty($node['volume'])) {
     $ewrapper->field_volume->set($node['volume']);
   }
-
   if (!empty($node['number'])) {
     $ewrapper->field_number->set($node['number']);
   }
-
   if (!empty($node['call_number'])) {
     $ewrapper->field_call_number->set($node['call_number']);
   }
-
   if (!empty($node['other_version'])) {
     $ewrapper->field_other_version->set($node['other_version']);
   }
-
   if (!empty($node['binding_orientation'])) {
     $ewrapper->field_binding_orientation->set((int)$node['binding_orientation']);
   }
-
   if (!empty($node['scan_order'])) {
     $ewrapper->field_scan_order->set((int)$node['scan_order']);
   }
-
   if (!empty($node['page_count'])) {
     $ewrapper->field_page_count->set((int)$node['page_count']);
   }
-
   if (!empty($node['sequence_count'])) {
     $ewrapper->field_sequence_count->set((int)$node['sequence_count']);
   }
-
   if (!empty($node['read_order'])) {
     $ewrapper->field_read_order->set((int)$node['read_order']);
   }
-
   if (!empty($node['publication_location'])) {
     $ewrapper->field_publication_location->set($node['publication_location']);
   }
-
   if (!empty($node['publisher'])) {
     $ewrapper->field_publisher->set($node['publisher']);
   }
-
   if (!empty($node['publication_date_text'])) {
     $ewrapper->field_publication_date_text->set($node['publication_date_text']);
   }
-
   if (!empty($node['representative_image'])) {
-  	drush_log(dt('Found image @uri. Images at the moment are not being imported.', array('@uri'=> $node['representative_image'])), 'warning');
-    // send FALSE overwrite while developing
-    //$representative_image = import_add_file($node['representative_image'], FALSE);
-    //if ($representative_image) {
-      //$ewrapper->field_representative_image->set(array('fid' => $representative_image->fid));
-    //}
+    $label = (isset($node['representative_image']['label'])) ? $node['representative_image']['label'] : null;
+    $serialize_data = serialize(
+      array(
+    	  'label' => $label,
+    	  'uri' => $node['representative_image']['uri'],
+    	  'url' => file_create_url($node['representative_image']['uri']),
+      	'image_style' => '0x230'
+      )
+    );
+    $representative_image = array(
+      'uri' => $node['representative_image']['uri'],
+    	'label' => $label,
+    	'data' => $serialize_data,
+    );
+    $ewrapper->field_representative_image->set($representative_image);
   }
-
-   if (!empty($node['pdf_files'])) {
-     foreach ($node['pdf_files'] as $file) {
-     	 if (!empty($file)) {
-     	 	drush_log(dt('Found pdf @uri. Images at the moment are not being imported.', array('@uri'=> $file)), 'warning');
-     	 	/**
-     	 	 $content = import_add_file($file, FALSE);
-     	 	 if (isset($content) && isset($content->fid )) {
-     	 	 $pdf_files[] = array('fid' => $content->fid, 'display' => 0);
-     	 	 }
-     	 	*/
-     	 }
-     }
-     //$ewrapper->field_pdf_file->set($pdf_files);
-   }
-
+  if (!empty($node['pdf_files'])) {
+    foreach ($node['pdf_files'] as $pdf) {
+    	$label = (isset($pdf['label'])) ? $pdf['label'] : null;
+    	$serialize_data = serialize(array('label' => $label, 'uri' => $pdf['file'], 'url' => file_create_url($pdf['file'])));
+      $field_pdf_file[] = array(
+        'uri' => $pdf['file'],
+      	'label' => $label,
+      	'data' => $serialize_data,
+      );
+    }
+    $ewrapper->field_pdf_file->set($field_pdf_file);
+  }
   if (!empty($node['language'])) {
     $ewrapper->field_language->set(array($node['language']));
   }
-
   if (!empty($node['language_code'])) {
     $ewrapper->field_language_code->set(array($node['language_code']));
   }
-
   if (!empty($node['rights'])) {
     $ewrapper->field_rights->set($node['rights']);
   }
-
   if (!empty($node['subject'])) {
   	$vid = dlts_viewer_subject_vocabulary_vid();
   	$node_subjects = array();
@@ -257,9 +232,7 @@ function save_dlts_book($node, $language = 'en') {
     	$ewrapper->field_subject->set($node_subjects);
     }
   }
-
   $ewrapper->save();
-
   /** If book language is EN check for  Multi volume and Series*/
   if ($node_language == 'en') {
   	/** Multi volume book */
@@ -271,8 +244,9 @@ function save_dlts_book($node, $language = 'en') {
       }
   	}
     /** Series book */
-  	if ( !empty($node['series'])) {
+  	if (!empty($node['series'])) {
       foreach ($node['series'] as $series) {
+      	$series->book = $node['identifier'];
     	  create_dlts_series_book($series);
       }
   	}
@@ -330,44 +304,32 @@ function create_dlts_book_from_json($books) {
       $ocr_text_files =
       $subjects =
       $series = array();
-
     $page_count = $subtitle = $title = NULL;
-
     $json_string = file_get_contents($value->uri);
-
     $json_string = str_replace(array('\r', '\n'), '', $json_string);
-
     $data = json_decode($json_string);
-
     $entity_title = $data->entity_title;
-
     drush_log('Importing ' . $entity_title . ' from JSON document ' . $value->uri, 'ok');
-
     $entity_language = $data->entity_language;
-
     $entity_identifier = $data->identifier;
-
     if (!isset($data->metadata)) {
     	$metadata = (object) array();
     }
     else {
     	$metadata = $data->metadata;
     }
-
     if (!isset($data->multivolume)) {
     	$multivolume  = (object) array();
     }
     else {
       $multivolume = $data->multivolume;
     }
-
     if (!isset($data->series)) {
-    	$series  = array();
+    	$series = array();
     }
     else {
     	$series = $data->series;
     }
-
     /** partners the book belong */
     if ($metadata->partner) {
       foreach ($metadata->partner->value as $value) {
@@ -469,7 +431,7 @@ function create_dlts_book_from_json($books) {
     	$scan_date = $metadata->scan_date->value[0];
     }
     if ($metadata->rights && !empty($metadata->rights->value)) {
-    	$rights = $metadata->rights->value[0];
+    	$rights = trim($metadata->rights->value[0]);
     }
     if ($metadata->volume && !empty($metadata->volume->value)) {
     	$volume = $metadata->volume->value[0];
@@ -487,7 +449,10 @@ function create_dlts_book_from_json($books) {
     	$scan_date = $metadata->scan_date->value[0];
     }
     if ($metadata->representative_image && !empty($metadata->representative_image)) {
-    	$representative_image = $metadata->representative_image->value->fileserver;
+    	$representative_image = array(
+    	  'uri' => $metadata->representative_image->cm->uri,
+    	  'timestamp' => $metadata->representative_image->cm->timestamp,
+      );
     }
     if ($metadata->other_version) {
     	foreach ($metadata->other_version->value as $other_version) {
@@ -544,8 +509,30 @@ function create_dlts_book_from_json($books) {
     	  $subjects[] = $subject;
     	}
     }
-    if ($metadata->pdf_file) foreach ($metadata->pdf_file->value as $pdf_file) {
-    	$pdf_files[] = $pdf_file->fileserver;
+    if ($metadata->pdf_file) {
+    	$valid_extensions = array('pdf');
+      foreach ($metadata->pdf_file->value as $pdf_file) {
+      	$pathinfo = pathinfo($pdf_file);
+      	$basename = str_replace('fileserver://', '', $pathinfo['basename']);
+      	$ext = pathinfo($pdf_file, PATHINFO_EXTENSION);
+      	// check if we have a fileserver scheme
+      	if (strpos($pdf_file, 'fileserver://') === false) continue;
+      	// check that the URI is not bigger than the allowed MySQL size for varchar with index
+      	if (strlen($pdf_file) > 255) continue;
+      	// check that the URI contain a file extension
+      	if (!$ext) continue;
+      	// do we have a valid extension
+      	if (!in_array($ext,$valid_extensions)) continue;
+      	if (strpos($pdf_file, '_hi')) {
+      		$pdf_files[] = array('file' => $pdf_file, 'label' => 'High resolution');
+      	}
+      	elseif (strpos($pdf_file, '_lo')) {
+      		$pdf_files[] = array('file' => $pdf_file, 'label' => 'Low resolution');
+      	}
+      	else {
+      		$pdf_files[] = array('file' => $pdf_file);
+      	}
+    	}
     }
     if ($metadata->ocr_text) {
     	foreach ($metadata->ocr_text->value as $ocr_text) {
@@ -595,9 +582,7 @@ function create_dlts_book_from_json($books) {
     	'multivolume' => $multivolume,
     	'series' => $series,
     );
-
     $created = save_dlts_book($node);
-
     if ($created && isset($created->nid)) {
    	  // we only create pages for books with languages English or Undetermined
    	  if ($entity_language == 'en' || $entity_language == LANGUAGE_NONE) {

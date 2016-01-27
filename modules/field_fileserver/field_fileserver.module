@@ -95,9 +95,7 @@ function fileserver_field_property_info_callback(&$info, $entity_type, $field, $
 	// Auto-create the field item as soon as a property is set.
 	$property['auto creation'] =  'fileserver_field_item_create';
 	$property['property info'] = fileserver_field_item_property_info();
-
 	unset($property['query callback']);
-
 }
 
 /**
@@ -275,7 +273,7 @@ function field_fileserver_field_formatter_view($entity_type, $entity, $field, $i
     case 'field_fileserver_link':
       foreach ($items as $delta => $item) {
       	$data = unserialize($item['data']);
-      	$value = (isset($data['label']) && !empty($data['label'])) ? $data['label'] : $data['url'];
+      	$value = ($data && isset($data['label']) && !empty($data['label'])) ? $data['label'] : $data['url'];
     	  $zebra = ($delta % 2 ==  0) ? 'even' : 'odd';
     		$uri = file_create_url($item['uri']);
     		$element[$delta] = array(
@@ -343,12 +341,10 @@ function field_fileserver_field_presave($entity_type, $entity, $field, $instance
 		  switch ($instance['widget']['type']) {
 		  	case 'field_fileserver_text':
 		  	case 'field_fileserver_link':
-		  		if (!empty($item['label'])) {
-		  			$data['uri'] = $item['uri'];
-		  			$data['url'] = file_create_url($item['uri']);
-		  			if (!empty($item['label'])) {
-			        $data['label'] = $item['label'];
-		        }
+		  		$data['uri'] = $item['uri'];
+		  		$data['url'] = file_create_url($item['uri']);
+		      if (!empty($item['label'])) {
+		      	$data['label'] = $item['label'];
 		      }
 		  		break;
 		    case 'field_fileserver_image':
