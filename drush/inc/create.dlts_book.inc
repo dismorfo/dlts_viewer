@@ -73,7 +73,7 @@ function save_dlts_book($node, $language = 'en') {
     // to make getting and setting values easier
     $ewrapper = entity_metadata_wrapper('node', $entity);
   }
-  $collections_nids = $subjects = $pdf_files = array();
+  $collections_nids = $subjects = array();
   if (!empty($node['entity_title'])) {
   	// find the max for this field and trunk it
   	$ewrapper->title->set($node['entity_title']);
@@ -200,7 +200,7 @@ function save_dlts_book($node, $language = 'en') {
   }
   if (!empty($node['pdf_files'])) {
     foreach ($node['pdf_files'] as $pdf) {
-    	$label = (isset($pdf['label'])) ? $pdf['label'] : null;
+    	$label = (isset($pdf['label'])) ? $pdf['label'] : '';
     	$serialize_data = serialize(array('label' => $label, 'uri' => $pdf['file'], 'url' => file_create_url($pdf['file'])));
       $field_pdf_file[] = array(
         'uri' => $pdf['file'],
@@ -284,7 +284,7 @@ function dlts_viewer_subject_vocabulary_vid() {
 	return $global_vocabulary_vid;
 }
 
-function create_dlts_book_from_json($books) {
+function create_dlts_book_from_json($books, $cretePages = false) {
   foreach ($books as $value) {
     $pages_array =
       $partners =
@@ -583,7 +583,7 @@ function create_dlts_book_from_json($books) {
     	'series' => $series,
     );
     $created = save_dlts_book($node);
-    if ($created && isset($created->nid)) {
+    if ($cretePages && $created && isset($created->nid)) {
    	  // we only create pages for books with languages English or Undetermined
    	  if ($entity_language == 'en' || $entity_language == LANGUAGE_NONE) {
    	    // Load MongoDB util

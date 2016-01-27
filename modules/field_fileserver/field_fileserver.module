@@ -330,9 +330,11 @@ function field_fileserver_field_widget_info() {
  * Implements hook_field_presave().
  */
 function field_fileserver_field_presave($entity_type, $entity, $field, $instance, $langcode, &$items) {
+	$new_node = (isset($entity->nid)) ? true : false;
 	if ($instance['widget']['module'] == 'field_fileserver') {
 	  foreach ($items as $key => $item) {
-	  	$data = array();
+	  	$old_data = (!empty($item['data'])) ? unserialize($item['data']) : array();
+	  	$new_data = array();
       //check for web-safe file extentions
 		  $pathinfo = pathinfo($item['uri']);
 		  $basename = str_replace('fileserver://', '', $pathinfo['basename']);
@@ -341,25 +343,24 @@ function field_fileserver_field_presave($entity_type, $entity, $field, $instance
 		  switch ($instance['widget']['type']) {
 		  	case 'field_fileserver_text':
 		  	case 'field_fileserver_link':
-		  		$data['uri'] = $item['uri'];
-		  		$data['url'] = file_create_url($item['uri']);
-		      if (!empty($item['label'])) {
-		      	$data['label'] = $item['label'];
-		      }
+		  		$new_data['uri'] = $item['uri'];
+		  		$new_data['url'] = file_create_url($item['uri']);
+		  		$default_label = ($new_node && isset($old_data['label'])) ? $old_data['label'] : null;
+		  		$new_data['label'] = ($item['label']) ? $item['label'] : $default_label;
 		  		break;
 		    case 'field_fileserver_image':
 		      // valid JP2 or TIFF file extentions
-		      $valid_hires_extensions = array('jp2', 'tiff', 'jpg',); // test assumptions that our image server can read all JPG images
+		      $valid_hires_extensions = array('jp2', 'tiff', 'jpg'); // test assumptions that our image server can read all JPG images
 		      // valid web-safe extentions
-		      $valid_websafe_extensions = array( 'jpeg', 'gif', 'png',);
-		      $data['uri'] = $item['uri'];
+		      $valid_websafe_extensions = array( 'jpeg', 'gif', 'png');
+		      $new_data['uri'] = $item['uri'];
 		      if (!empty($item['label'])) {
-			      $data['label'] = $item['label'];
+			      $new_data['label'] = $item['label'];
 		      }
 		      $dimmensions = explode("x", $item['image_style']);
 		      if (count($dimmensions) == 2) {
-		        $data['width'] = $dimmensions[0];
-		        $data['height'] = $dimmensions[1];
+		        $new_data['width'] = $dimmensions[0];
+		        $new_data['height'] = $dimmensions[1];
 		      }
 		      // do we have a valid extension?
 		      // check for Hi-Res file extention
@@ -367,15 +368,15 @@ function field_fileserver_field_presave($entity_type, $entity, $field, $instance
 		      	// Load Djatoka Image Server utils
 		      	module_load_include('inc', 'dlts_viewer', 'inc/djatoka');
 		      	// Get URL
-			      $data['url'] = dlts_viewer_djatoka_url($item);
+			      $new_data['url'] = dlts_viewer_djatoka_url($item);
 		      }
 		      // check for web-safe file extention
 		      elseif (in_array($ext,$valid_websafe_extensions)) {
-			      $data['url'] = file_create_url($item['uri']);
+			      $new_data['url'] = file_create_url($item['uri']);
 		      }
 		      break;
 		  }
-		  $items[$key]['data'] = serialize($data);
+		  $items[$key]['data'] = serialize($new_data);
 		}
 	}
 }
@@ -396,11 +397,13 @@ function field_fileserver_field_widget_form(&$form, &$form_state, $field, $insta
 	$uri_widget = $element;
 	$data_widget = $element;
   $widget['#delta'] = $delta;
+  dpm($items[$delta]['data']);
+  $label_default_value = (isset($data_value['label'])) ? $data_value['label'] : null;
   $label_widget = array(
     '#title' => 'Label',
   	'#suffix' => '<div class="field-fileserver-label"></div>',
   	'#type' => 'textfield',
-  	'#default_value' => (isset($data_value['label']) && !empty($data_value['label'])) ? $data_value['label'] : '',
+  	'#default_value' => $label_default_value,
   	'#attributes' => array('class' => array('edit-field-fileserver-label')),
   	'#size' => 255,
   	'#maxlength' => 255,
@@ -458,6 +461,7 @@ function field_fileserver_field_widget_form(&$form, &$form_state, $field, $insta
       $element['image_style'] = $image_style_widget;
       break;
   }
+  dpm($element);
   return $element;
 }
 
