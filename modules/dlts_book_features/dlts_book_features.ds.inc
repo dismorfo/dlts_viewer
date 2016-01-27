@@ -18,7 +18,7 @@ function dlts_book_features_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'metadata';
   $ds_fieldsetting->settings = array(
     'mv_2016' => array(
-      'weight' => '0',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -31,11 +31,11 @@ function dlts_book_features_ds_field_settings_info() {
     ),
     'series_for_this_book' => array(
       'weight' => '8',
-      'label' => 'hidden',
+      'label' => 'inline',
       'format' => 'default',
     ),
     'title_volnum_dyno' => array(
-      'weight' => '1',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -170,16 +170,16 @@ function dlts_book_features_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'mv_2016',
-        1 => 'field_representative_image',
+        0 => 'field_representative_image',
+        1 => 'mv_2016',
         2 => 'title_volnum_dyno',
         3 => 'field_subtitle',
         4 => 'field_author',
         5 => 'field_publication_location',
         6 => 'field_publisher',
         7 => 'field_publication_date_text',
-        8 => 'field_subject',
-        9 => 'series_for_this_book',
+        8 => 'series_for_this_book',
+        9 => 'field_subject',
         10 => 'field_language',
         11 => 'field_collection',
         12 => 'field_partner',
@@ -190,16 +190,16 @@ function dlts_book_features_ds_layout_settings_info() {
       ),
     ),
     'fields' => array(
-      'mv_2016' => 'ds_content',
       'field_representative_image' => 'ds_content',
+      'mv_2016' => 'ds_content',
       'title_volnum_dyno' => 'ds_content',
       'field_subtitle' => 'ds_content',
       'field_author' => 'ds_content',
       'field_publication_location' => 'ds_content',
       'field_publisher' => 'ds_content',
       'field_publication_date_text' => 'ds_content',
-      'field_subject' => 'ds_content',
       'series_for_this_book' => 'ds_content',
+      'field_subject' => 'ds_content',
       'field_language' => 'ds_content',
       'field_collection' => 'ds_content',
       'field_partner' => 'ds_content',
