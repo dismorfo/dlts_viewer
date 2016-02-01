@@ -6,7 +6,7 @@
  */
 
 // $collection_name: dlts_book_page OR dlts_book_stitched_page
-function dlts_viewer_mongodb_update_sequence($arguments, $collection_name = 'dlts_book_page') {
+function dlts_viewer_mongodb_update_sequence($arguments, $collection_name = 'dlts_books_page') {
 
 	$cursor = mongodb_collection($collection_name);
 
@@ -33,7 +33,7 @@ function dlts_viewer_mongodb_update_sequence($arguments, $collection_name = 'dlt
   return $op;
 }
 
-function dlts_viewer_mongodb_new_sequence($arguments, $collection_name = 'dlts_book_page') {
+function dlts_viewer_mongodb_new_sequence($arguments, $collection_name = 'dlts_books_page') {
 	// We use findAndModify with new flag to avoid record duplication (at cost of operation time)
 	return dlts_viewer_mongodb_update_sequence($arguments, $collection_name);
 }

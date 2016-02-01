@@ -60,11 +60,11 @@ function dlts_book_page_load($sequence) {
 	$identifier = arg(1);
 	// view modes, we map the views with their machine names in MongoDB
   $collections = array(
-    'single' => 'dlts_book_page',
-  	'double' => 'dlts_book_stitched_page',
+    'single' => 'dlts_books_page',
+  	'double' => 'dlts_stitched_books_page',
   );
   // viewer defaults to single page view
-  $collection_name = 'dlts_book_page';
+  $collection_name = 'dlts_books_page';
   // user can requests a view modes, get query parameters and
   // check if page_view is set
   $query_parameters = drupal_get_query_parameters();
@@ -79,7 +79,7 @@ function dlts_book_page_load($sequence) {
 
   // query MongoDB
   $result = mongodb_collection($collection_name)->findOne($query);
-
+  
   if ($result && isset($result['cm']) && !empty($result['cm']['uri'])) {
   	/**
   	 * Sequence exist in MongoDB but we need to request metadata from image server

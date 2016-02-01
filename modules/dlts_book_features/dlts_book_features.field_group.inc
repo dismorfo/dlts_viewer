@@ -188,7 +188,7 @@ function dlts_book_features_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Structural Metadata',
-    'weight' => '40',
+    'weight' => '39',
     'children' => array(
       0 => 'group_essence',
     ),
@@ -245,7 +245,7 @@ function dlts_book_features_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Technical Metadata',
-    'weight' => '41',
+    'weight' => '40',
     'children' => array(),
     'format_type' => 'html-element',
     'format_settings' => array(
