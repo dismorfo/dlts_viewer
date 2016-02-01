@@ -166,6 +166,17 @@ function dlts_viewer_menu() {
       'file' => 'inc/book.inc',
       'type' => MENU_CALLBACK,
     ),
+  	/**
+  	 * @TODO: Work out the author displaying.
+  	 */
+  	'books/%dlts_book/display' => array(
+  	  'title' => 'Book metadata display',
+  	  'access arguments' => array('access content'),
+  	  'page callback' => 'dlts_viewer_metadata_display',
+  	  'page arguments' => array(1),
+  	  'delivery callback' => 'drupal_deliver_html_page',
+  	  'type' => MENU_CALLBACK,
+  	),
     /**
      * Render book pages
      */
@@ -304,6 +315,11 @@ function dlts_viewer_stream_wrappers() {
   return $wrappers ;
 }
 
+function dlts_viewer_metadata_display($node) {
+	$node = node_view($node, 'metadata', $node->language);
+	return $node;
+}
+
 /**
  * Package and send page callback as JSON/JSONP.
  * See: http://api.drupal.org/api/drupal/includes--common.inc/function/drupal_deliver_html_page/7
@@ -312,12 +328,9 @@ function dlts_viewer_stream_wrappers() {
  * A keyed array to be converted into JSON
  */
 function dlts_viewer_deliver_json($page_callback_result) {
-
   /** Send appropriate HTTP-Header for browsers and search engines. */
   global $language;
-
   drupal_add_http_header('Content-Language', $language->language);
-
   /** Menu status constants are integers; page content is a string or array. */
   if (is_int($page_callback_result)) {
     switch ($page_callback_result) {
@@ -340,15 +353,12 @@ function dlts_viewer_deliver_json($page_callback_result) {
         break;
     }
   }
-
   // Only add Content-Length if we actually have any content. Some non-standard
   // servers get confused by Content-Length in at least HEAD/GET requests
   $content_length = strlen($data);
-
   if ($content_length > 0) {
     $defaults['Content-Length'] = 'Content-Length: ' . $content_length;
   }
-
   if (isset($page_callback_result)) {
     if (array_key_exists('callback', $_GET)) {
       drupal_add_http_header('Content-Type', 'text/javascript; charset=utf-8');

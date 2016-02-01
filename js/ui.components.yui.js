@@ -76,38 +76,22 @@ YUI().use(
     }
 
     function on_toggle_language(e) {
-
       var current_target = e.currentTarget;
-
       var data_target = current_target.get('value');
-
       e.preventDefault();
-
       Y.io(data_target, {
-
         on: {
-
           complete: function(id, e) {
-
             var node = Y.one('#pagemeta');
-            
             var dir;
-
             node.set('innerHTML', e.response);
-
             dir = node.one('.node-dlts-book').getAttribute('data-dir');
-
             Y.one('.pane.main').set('dir', dir);
-
             Y.one('.titlebar').set('dir', dir);
-
             Y.one('#page-title').set('innerHTML', node.one('.field-name-field-title .field-item').get('text'));
-
           }
         }
-
       });
-
     }
 
     function on_button_click(e) {
@@ -626,7 +610,7 @@ YUI().use(
     html.delegate('click', pjax_callback, 'a.paging');
     
     Y.on('pjax:change|openlayers:next|openlayers:previous', pjax_callback);
-    
+
     Y.on('button:button-metadata:on', onButtonMetadataOn , pagemeta);
 
     Y.on('button:button-metadata:off', onButtonMetadataOff, pagemeta);
@@ -636,19 +620,20 @@ YUI().use(
     Y.on('button:button-fullscreen:off', fullscreenOff);
 
     Y.once('contentready', openLayersTilesLoading, '.dlts_image_map');
-    
+
     Y.on('contentready', resizePageMeta, '#pagemeta');
-   
+
     Y.on('windowresize', resizePageMeta);
 
     /** Thumbnails related events */
-
     Y.on('button:button-thumbnails:on', onButtonThumbnailsOn);
 
     Y.on('button:button-thumbnails:off', onButtonThumbnailsOff);
 
     Y.delegate('click', onThumbnailsContainerPagerClick, 'body', '.thumbnails .views-row a');
-    
+
     Y.one('body').delegate('click', onThumbnailsPagePagerClick, '#thumbnails .pager a');
+
+    Y.delegate('change', on_toggle_language, 'body', '.language');
 
 });
