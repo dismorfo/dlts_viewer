@@ -155,9 +155,7 @@ function dlts_viewer_dispatcher($entity, $arg) {
   /** END language */
 
   $book_url = url('node/' . $entity->nid , array('absolute' => TRUE));
-
   $title = $book_wrapper->field_title->value();
-
   $sequence_count = $book_wrapper->field_sequence_count->value();
   $int_read_order = $book_wrapper->field_read_order->value();
   $entity->read_order = ($int_read_order == 1 ) ? 'rtl' : 'ltr';
@@ -181,17 +179,21 @@ function dlts_viewer_dispatcher($entity, $arg) {
   if ($next_page >= $sequence_count ) {
     $next_page_active = FALSE;
   }
+  
   /** next page */
+  $next_pager_side = ($entity->read_order === 'ltr') ? 'pager-right' : 'pager-left';
   $button_next = theme('dlts_viewer_pager_button' , array(
     'id' => 'next-page',
     'active' => $next_page_active,
     'text' => t('Go to next page'),
     'url' => $book_url . '/' . $next_page . ((!$is_single_page) ? '?page_view=double' : ''),
     'operation' => 'next',
-    'pager side' => $entity->read_order === 'ltr' ? 'pager-right' : 'pager-left',
+    'classes' => array('next', $next_pager_side)
     )
   );
+  
   /** prev page */
+  $previous_pager_side = ($entity->read_order === 'ltr') ? 'pager-left' : 'pager-right';  
   $button_previous = theme('dlts_viewer_pager_button' , array(
     'id' => 'previous-page',
     'active' => $previous_page_active,
@@ -199,7 +201,7 @@ function dlts_viewer_dispatcher($entity, $arg) {
     'text' => t('Go to previous page'),
     'url' => $book_url . '/' . $previous_page . ((! $is_single_page ) ? '?page_view=double' : ''),
     'operation' => 'previous',
-    'pager side' => $entity->read_order === 'ltr' ? 'pager-left' : 'pager-right',
+    'classes' => array('previous', $previous_pager_side),    
     )
   );
 
@@ -211,6 +213,7 @@ function dlts_viewer_dispatcher($entity, $arg) {
     'text' => t('Toggle between single or double page'),
     'url' => $book_url . '/' . $sequence_min . (($is_single_page ) ? '?page_view=double' : ''),
     'operation' => ($is_single_page) ? ' page-double' : ' page-single',
+    'classes' => array('toggle'),
     )
   );
 
