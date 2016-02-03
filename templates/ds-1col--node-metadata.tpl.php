@@ -27,21 +27,17 @@
 <?php if (!empty($drupal_render_children)): ?>
   <?php print $drupal_render_children ?>
 <?php endif; ?>
-
 </div> <!-- end container -->
 </div> <!-- end pane -->
-
  <div id="display" class="pane display" data-url="<?php print $url ?>" data-identifier="<?php print $identifier ?>" data-sequence-count="<?php print $sequence_count ?>" data-sequence="<?php print $book_page_sequence_number ?>" data-title="<?php print $title ?>">
     <?php print $book_page ?>
     <?php print $button_previous ?>
     <?php print $button_next ?>
     <span id="thumbnails-params" data-url="<?php print $thumbnailsURL ?>" data-rows="<?php print $thumbnailsRows ?>" data-page="<?php print $thumbnailsPage ?>"></span>
  </div>
-
   <div class="pane load loading">
     <?php if (isset($loading ) ) print $loading ; ?>
   </div>
-
 </div> <!-- end main -->
 
 <?php if (isset($read_order ) ) : ?>

@@ -187,7 +187,6 @@ function dlts_viewer_dispatcher($entity, $arg) {
     'active' => $next_page_active,
     'text' => t('Go to next page'),
     'url' => $book_url . '/' . $next_page . ((!$is_single_page) ? '?page_view=double' : ''),
-    'operation' => 'next',
     'classes' => array('next', $next_pager_side)
     )
   );
@@ -200,20 +199,19 @@ function dlts_viewer_dispatcher($entity, $arg) {
     'type' => 'dlts_book_page',
     'text' => t('Go to previous page'),
     'url' => $book_url . '/' . $previous_page . ((! $is_single_page ) ? '?page_view=double' : ''),
-    'operation' => 'previous',
     'classes' => array('previous', $previous_pager_side),    
     )
   );
-
+  
   /** Toggle between Single and Double page button */
+  $button_togglepage_operation = ($is_single_page) ? ' page-double' : ' page-single';
   $button_togglepage = theme('dlts_viewer_pager_button' , array(
     'id' => 'toggle-page',
     'active' => TRUE,
     'type' => 'dlts_book_page',
     'text' => t('Toggle between single or double page'),
     'url' => $book_url . '/' . $sequence_min . (($is_single_page ) ? '?page_view=double' : ''),
-    'operation' => ($is_single_page) ? ' page-double' : ' page-single',
-    'classes' => array('toggle'),
+    'classes' => array('toggle', $button_togglepage_operation),
     )
   );
 

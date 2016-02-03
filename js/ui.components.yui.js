@@ -9,40 +9,23 @@ YUI().use(
   , 'gallery-soon'
   , 'widget-anim'
   , function(Y) {
-    
     'use strict';
-    
+    Y.log(new Date());
     /** set a X-PJAX HTTP header for all IO requests */
     Y.io.header('X-PJAX', 'true');
-    
-    Y.log('componets');
-    
     var PJAX_INVALID = -1;
-    
     var PJAX_UNKNOWN_ERROR = -2;    
-    
     var html = Y.one('html');
-    
     var top = Y.one('#top');
-    
     var pagemeta = Y.one('.pane.pagemeta');
-
     var display = Y.one('#display');
-
     var pager = Y.one('#pager');
-    
     var displayData = display.getData();
-
     var land_dir = pager.get('dir');
-
     var bookUrl = displayData['url'];
-
     var sequenceCount = parseInt(displayData['sequence-count'] , 10);
-
     var sequence = parseInt(displayData['sequence'] , 10);
-
     var slider_datasource = Y.one('#slider_value');
-    
     /** slider object */
     var slider = new Y.Slider({
       axis: 'x', 
@@ -53,9 +36,7 @@ YUI().use(
       value: sequence, 
       length:(Y.one('#pager').get('offsetWidth') - 120) + 'px' 
     });
-    
     /** nodes */
-
     function resizePageMeta() {
       slider.set('length' ,(Y.one('#pager').get('offsetWidth') - 120 ));
        var viewportHeight = this.get('winHeight'),
@@ -95,49 +76,29 @@ YUI().use(
     }
 
     function on_button_click(e) {
-    
-      Y.log(e);
-    	
       e.preventDefault();
-
       var self = this;
-      
       var current_target = e.currentTarget;
-      
       var event_prefix; 
-      
       var event_id; 
-      
       var node_target;
-      
       var data_target;
-
       /** don't waste time if the button is inactive */
       if (current_target.hasClass('inactive')) return;
-
       /** if current target has target, get target from data-target */
       if (current_target.hasClass('target')) {
-
         data_target = self.getAttribute('data-target');
-
         event_prefix = 'button:' + data_target;
-
         /** look-up for the main target */
         node_target = Y.all('#' + data_target);
-
       }
-
       /** current target is the main target */
       else {
-
         event_id = self.get('id');
-
         event_prefix = 'button:' + event_id;
-
         /** find possible reference targets to this target */
         node_target = Y.all('a[data-target=' + event_id + ']');
       }
-
       if (self.hasClass('on')) {
         self.removeClass('on');
         if (Y.Lang.isObject(node_target)) {
@@ -146,7 +107,8 @@ YUI().use(
           });
         }
         Y.fire(event_prefix + ':off', e);
-      } else {
+      } 
+      else {
         self.addClass('on');
         if (Y.Lang.isObject(node_target)) {
           node_target.each(function(node) {
@@ -155,29 +117,20 @@ YUI().use(
         }
         Y.fire(event_prefix + ':on', e);
       }
-
       Y.fire(event_prefix + ':toggle', e);
     }
 
     /** TODO: I don't like this, find a more elegant solution */
     function pager_form(e) {
-      
       e.preventDefault();
-
       var value = this.get('value');
-
       var current = parseInt(book.sequence_number, 10);
-      
       var css_class;
-
       if (value.match(/\D/)) {
         css_class = 'error';
       } 
-      
       else {
-        
         value = parseInt(value, 10);
-
         if (value !== current &&(value > 0 && value <= sequenceCount )) {
           css_class = 'ok';
           pjax.navigate(bookUrl + '/' +  value);
@@ -191,7 +144,6 @@ YUI().use(
           }
         }
       }
-
       this.addClass(css_class).transition({
         duration: 1,
         easing: 'ease-in',
@@ -203,12 +155,10 @@ YUI().use(
 
     /** callback for changes in the value of the slider */
     function slide_value_change(e) {
-
       /** slider event */
       if (! Y.Lang.isValue(slider.triggerBy )) {
         slider_datasource.set('value', e.newVal);
       }
-
       /** event was triggered by reference */
       else {
         slider.triggerBy = undefined;
@@ -217,18 +167,12 @@ YUI().use(
 
     /** callback for the slide end event */
     function slide_end(e) {
-
       e.preventDefault();
-      
       if (! Y.Lang.isValue(slider.triggerBy )) {
-
         pjax.navigate(bookUrl + '/' + e.target.getValue());
-
         /** slider set focus to the slider rail, blur as soon as possible so that user can use the keyboard to read the book */
         Y.soon(function() { slider.thumb.blur();});
-
       }
-
       /** event was triggered by reference */
       else {
         slider.triggerBy = undefined;
@@ -236,17 +180,11 @@ YUI().use(
     }
 
     function pjax_navigate(e) {
-
       var msg = e.url.replace(bookUrl, '' ).replace('/' , '');
-
       if (/(^[\d]+$){1}/.test(msg ) || /(^[\d]+-[\d]+$){1}/.test(msg)) {
         this.one('.current_page').set('text', msg);
       } 
-
-      this.addClass('loading');
-
-      this.show();
-
+      this.addClass('loading').show();
     }
     
     /** 
@@ -254,67 +192,52 @@ YUI().use(
      * enable link or by reference with data-url 
      */
     function pjax_callback(e) {
-      
       var url;
-
       e.preventDefault();
-      
       /** test if the target is not active */
-      if (e.currentTarget.hasClass('inactive') ) return false;
-
+      if (e.currentTarget.hasClass('inactive')) return false;
       /** if event has referenceTarget, then event was trigger by reference */
       if (Y.Lang.isObject(e.referenceTarget, true)) {
         url = e.referenceTarget.getAttribute('data-url');
       }
-
       /** trigger by a pjax enable link */
       else {
         url = this.get('href');
       }
-
       /** request URL */
       pjax.navigate(url);
-
     }
     
     function PjaxException(value) {
       this.value = value;
       this.message = "does not conform to the expected format for a PJAX request";
       this.toString = function() {
-        return this.value + this.message;
+        return this.value + ' ' + this.message;
       };
     }    
 
     function pjax_load(e) {
-      
+      var config = {};    
+      var node = e.content.node;
+      var toggle = Y.one('.navbar-item .toggle');
+      var next = Y.one('.navbar-item .next');
+      var previous = Y.one('.navbar-item .previous');      
       try {
-        
-        var node = e.content.node;
-        
-        var map = node.one('.dlts_image_map');
-
+        /** check if request include a map object */
+        var map = node.one('.dlts_viewer_map');
         if (map) {
-
-          var config = {};
-          
-          var toogle = Y.one('#navbar a.toogle');
-          
-          var next = Y.one('#navbar .next');
-          
-          var previous = Y.one('#navbar .previous');
-      
-          if (toogle) {
-            toogle.replace(node.one('.toogle').cloneNode(true));
+          /** if "toggle" navbar item is available, replace it with this request link */
+          if (toggle) {
+            toggle.replace(node.one('.toggle').cloneNode(true));
           }
-
+          /** if "next" navbar item is available, replace it with this request link */
           if (next) {
             next.replace(node.one('.next').cloneNode(true));
           }
-          
+          /** if "previous" navbar item is available, replace it with this request link */
           if (previous) {
             previous.replace(node.one('.previous').cloneNode(true));
           }
-
           /** Configuration for the new book page */
           config = {
             id: map.get('id'),
@@ -333,11 +256,11 @@ YUI().use(
           };
           Y.on('available', change_page, '#' + config.id, OpenLayers, config);
           Y.fire('pjax:load:available', config);
+        }
+        else {
+          throw new PjaxException(e.url);
+        }
       }
-      else {
-        throw new PjaxException(e.url);
-      }
-      } 
       catch(e) {
         if (e instanceof PjaxException) {
           return PJAX_INVALID;
@@ -346,7 +269,6 @@ YUI().use(
           return PJAX_UNKNOWN_ERROR;
         }        
       }
-
     }
     
     function fullscreenOn(e) {
@@ -416,13 +338,9 @@ YUI().use(
     }    
 
     function change_page(config) {
-      
       var map;
-      
       var service;
-      
       var zoom;
-      
       var open_layers_dlts = OpenLayers.DLTS;
       
       if (Y.Lang.isObject(open_layers_dlts.pages[0], true )) {
@@ -492,7 +410,6 @@ YUI().use(
     }
 
     function onButtonThumbnailsOn(e) {
-      Y.log('onButtonThumbnailsOn');
       var thumbnails = Y.one('#thumbnails');
       var thumbnailsParams = Y.one('#thumbnails-params');
       var data = {};
