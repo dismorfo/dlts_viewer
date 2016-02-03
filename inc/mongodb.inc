@@ -7,23 +7,18 @@
 
 // $collection_name: dlts_book_page OR dlts_book_stitched_page
 function dlts_viewer_mongodb_update_sequence($arguments, $collection_name = 'dlts_books_page') {
-
 	$cursor = mongodb_collection($collection_name);
-
 	$data = (array) $arguments;
-
 	// make sure we let MongoDB assing the _id for the document.
 	if (isset($data['_id'])) {
 		unset($data['_id']);
 	}
-
   $query = array('sequence' => $data['sequence'], 'isPartOf' => $data['isPartOf']);
 
   // Find document and modify
   // See: https://docs.mongodb.org/manual/reference/method/db.collection.findAndModify/
   // See: http://php.net/manual/en/mongocollection.findandmodify.php
   $op = $cursor->findAndModify($query, array('$set' => $data), null,  array('sort' => array('rating' => 1), 'upsert' => true, 'new' => true));
-
   // We should have the current result document as an associative array.
   // if NULL, we have a problem, log error.
   if (!$op) {

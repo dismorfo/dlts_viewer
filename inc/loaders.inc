@@ -110,9 +110,7 @@ function dlts_book_page_load($sequence) {
   			/**
   			 * Update sequence record
   			 */
-  			
-  			//dlts_viewer_mongodb_update_sequence($result, $collection_name);
-  			
+  			dlts_viewer_mongodb_update_sequence($result, $collection_name);
   			/**
   			 * Return sequence object
   			 */
