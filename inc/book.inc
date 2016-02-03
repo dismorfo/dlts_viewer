@@ -5,7 +5,7 @@
  * Books
  */
 function dlts_viewer_dispatch_thumbnails($identifier) {
-  $collection_name = 'dlts_book_page';
+  $collection_name = 'dlts_books_page';
   $query = (object) array('isPartOf' => $identifier);
   $cursor = mongodb_collection($collection_name)->find($query);
   $count = $cursor->count();
