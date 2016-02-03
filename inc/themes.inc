@@ -9,25 +9,16 @@
  * Themes functions
  */
 function theme_dlts_viewer_pager_button($variables) {
-
-	// Notice: Undefined index: pager side in theme_dlts_viewer_pager_button() (line 12 of dlts_viewer/inc/themes.inc).
-	// @TODO: Hack for now, fix this later on once I know why this is here
-	$variables['pager side'] = isset($variables['pager side']) ? $variables['pager side'] : NULL;
-
-  $classes = array('paging', $variables['operation']);
-  
+  $classes = array('paging');
   if (isset($variables['classes'])) {
     $classes = array_merge($classes, $variables['classes']);
   }
-  
   if (dlts_viewer_is_pjax()) {
     $classes[] = 'pjax';
   }
-  
-  if ($variables['active']) {
+  if (isset($variables['active'])) {
     $classes[] = 'active';
   }
-  
   else {
     $classes[] = 'inactive';
   }
