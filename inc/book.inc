@@ -77,8 +77,6 @@ function dlts_viewer_dispatch_thumbnails($identifier) {
   // Pager
   $pager = theme('pager', array('quantity', $count));
 
-  dpm($items);
-
   return theme('dlts_book_thumbnails',  array('items' => $items, 'placeholder' => $placeholder, 'pager' => $pager));
 }
 
