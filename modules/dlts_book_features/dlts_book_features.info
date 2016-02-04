@@ -73,7 +73,6 @@ features[ds_field_settings][] = node|dlts_book|metadata
 features[ds_field_settings][] = node|dlts_map|metadata
 features[ds_fields][] = mv_2016
 features[ds_fields][] = series_for_this_book
-features[ds_fields][] = title_volnum_dyno
 features[ds_layout_settings][] = node|dlts_book|metadata
 features[features_api][] = api:2
 features[field_base][] = body

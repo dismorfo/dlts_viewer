@@ -4,6 +4,22 @@
  * @file
  * Books
  */
+
+function dlts_viewer_is_multivolume_book($entity) {
+  $query = new EntityFieldQuery;
+	$result = $query
+	  ->entityCondition('entity_type', 'node')
+		->entityCondition('bundle', 'dlts_multivol_book')
+		->fieldCondition('field_book', 'nid', array($entity->nid))
+		->execute();
+	if (!empty($result['node'])) {
+	  $keys = array_keys($result['node']);
+	  $nid = array_pop($keys);
+		return node_load($nid);
+  }
+  return FALSE;
+}
+
 function dlts_viewer_dispatch_thumbnails($identifier) {
   $collection_name = 'dlts_books_page';
   $query = (object) array('isPartOf' => $identifier);
@@ -119,10 +135,19 @@ function dlts_viewer_dispatcher($entity, $arg) {
     $is_single_page = TRUE;
   }
 
-  drupal_set_title($entity->title);
+  $multivolume_book = dlts_viewer_is_multivolume_book($entity);
+  if ($multivolume_book) {
+  	$multivolume_book_wrapper = entity_metadata_wrapper('node', $multivolume_book);
+  	$volume_number_str = $multivolume_book_wrapper->field_volume_number_str->value();
+  	$node_title = t('@title @volume', array('@title' => $multivolume_book->title, '@volume' => $volume_number_str));
+    drupal_set_title($node_title);
+    $entity->title = $node_title;
+  }
+  else {
+  	drupal_set_title($entity->title);
+  }
   $book_wrapper = entity_metadata_wrapper('node', $entity);
   $identifier = $book_wrapper->field_identifier->value();
-
   /** language */
   $languages = language_list('enabled');
   $languages = $languages[1];
@@ -164,7 +189,6 @@ function dlts_viewer_dispatcher($entity, $arg) {
   $previous_page = $sequence_min - 1;
   $previous_page_active = TRUE;
   $next_page_active = TRUE;
-
   if ($previous_page < 1) {
     $previous_page = 1;
   }
@@ -180,7 +204,6 @@ function dlts_viewer_dispatcher($entity, $arg) {
   if ($next_page >= $sequence_count ) {
     $next_page_active = FALSE;
   }
-
   /** next page */
   $next_pager_side = ($entity->read_order === 'ltr') ? 'pager-right' : 'pager-left';
   $button_next = theme('dlts_viewer_pager_button' , array(
@@ -291,8 +314,6 @@ function dlts_viewer_dispatcher($entity, $arg) {
     'nav_buttons_pager_right_arrow' => $nav_pager_button_right_arrow,
     'control_panel' => theme('dlts_book_controlpanel'),
   ));
-
-
   $entity->book_page_data = $arg;
   $entity->button_metadata = $button_metadata;
   $entity->button_next = $button_next;
@@ -311,7 +332,6 @@ function dlts_viewer_dispatcher($entity, $arg) {
   $entity->pageView = ($is_single_page) ? 'single' : 'double';
   $arg['pageView'] = $entity->pageView;
   $entity->book_page = theme('dlts_viewer_openlayers_image' , array('file' => $arg));
-
   if (!$is_pjax) {
   	return dlts_viewer_full_book_view($entity);
   }

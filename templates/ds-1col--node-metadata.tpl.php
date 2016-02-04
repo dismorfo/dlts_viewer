@@ -1,10 +1,3 @@
-<?php
-
-/**
- * @file
- * Display Suite 1 column template.
- */
-?>
 <div id="navbar" class="pane navbar">
   <?php print $navbar ?>
 </div>
@@ -16,10 +9,8 @@
 	  <div class="metapane-dropdowns">
       <?php if (isset($lang_options)) : ?>
   	  <div class="lang-options"><?php print locale('Available languages', NULL, $lang_language) ?>: <?php print render($lang_options) ; ?>
-		</div><?php endif; ?>
-    <?php if (isset($select_multivolbook)) : ?>
-   	  <?php print $select_multivolbook; ?>
-    <?php endif; ?>
+		</div>
+		<?php endif; ?>
  	</div>
 	<?php endif; ?>
   <?php print $ds_content; ?>
@@ -38,14 +29,12 @@
   <div class="pane load loading">
     <?php if (isset($loading ) ) print $loading ; ?>
   </div>
-</div> <!-- end main -->
-
-<?php if (isset($read_order ) ) : ?>
+</div>
+<?php if (isset($read_order )) : ?>
   <div dir="<?php if (isset($read_order ) ) print $read_order ; else print 'ltr' ?>" id="pager" class="pane pager">
     <?php if (isset($slider ) ) : print $slider ; endif ; ?>
   </div>
 <?php endif; ?>
-
 <div id="thumbnails" class="views-g pane thumbnails hidden">
 <?php if (isset($thumbnails ) ) : ?>
   <?php print $thumbnails; ?>
