@@ -10,7 +10,6 @@ YUI().use(
   , 'widget-anim'
   , function(Y) {
     'use strict';
-    Y.log(new Date());
     /** set a X-PJAX HTTP header for all IO requests */
     Y.io.header('X-PJAX', 'true');
     var PJAX_INVALID = -1;
@@ -55,8 +54,9 @@ YUI().use(
         'height': sidebarHeight
       });
     }
-
     function on_toggle_language(e) {
+      Y.log('on_toggle_language');
+      return;
       var current_target = e.currentTarget;
       var data_target = current_target.get('value');
       e.preventDefault();
@@ -168,10 +168,16 @@ YUI().use(
     /** callback for the slide end event */
     function slide_end(e) {
       e.preventDefault();
-      if (! Y.Lang.isValue(slider.triggerBy )) {
-        pjax.navigate(bookUrl + '/' + e.target.getValue());
+      var target = e.target;
+      var map = Y.one('.dlts_viewer_map');
+      var data = map.getData();
+      var request = bookUrl + '/' + e.target.getValue() + '?page_view=' + data.pageview;
+      if (!Y.Lang.isValue(slider.triggerBy)) {
+        pjax.navigate(request);
         /** slider set focus to the slider rail, blur as soon as possible so that user can use the keyboard to read the book */
-        Y.soon(function() { slider.thumb.blur();});
+        Y.soon(function() { 
+          slider.thumb.blur();
+        });
       }
       /** event was triggered by reference */
       else {

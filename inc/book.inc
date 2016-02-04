@@ -87,6 +87,7 @@ function dlts_viewer_pjax_book_view(&$entity) {
     'title' => $entity->title,
     'uri' => $entity->book_page_data['uri'],
     'width' => $entity->book_page_data['width'],
+  	'pageView' => $entity->pageView,
   );
 
   return theme('book_page', $vars);
@@ -158,7 +159,7 @@ function dlts_viewer_dispatcher($entity, $arg) {
   $title = $book_wrapper->field_title->value();
   $sequence_count = $book_wrapper->field_sequence_count->value();
   $int_read_order = $book_wrapper->field_read_order->value();
-  $entity->read_order = ($int_read_order == 1 ) ? 'rtl' : 'ltr';
+  $entity->read_order = ($int_read_order == 1) ? 'rtl' : 'ltr';
   $next_page = $sequence_max + 1;
   $previous_page = $sequence_min - 1;
   $previous_page_active = TRUE;
@@ -179,7 +180,7 @@ function dlts_viewer_dispatcher($entity, $arg) {
   if ($next_page >= $sequence_count ) {
     $next_page_active = FALSE;
   }
-  
+
   /** next page */
   $next_pager_side = ($entity->read_order === 'ltr') ? 'pager-right' : 'pager-left';
   $button_next = theme('dlts_viewer_pager_button' , array(
@@ -190,19 +191,19 @@ function dlts_viewer_dispatcher($entity, $arg) {
     'classes' => array('next', $next_pager_side)
     )
   );
-  
+
   /** prev page */
-  $previous_pager_side = ($entity->read_order === 'ltr') ? 'pager-left' : 'pager-right';  
+  $previous_pager_side = ($entity->read_order === 'ltr') ? 'pager-left' : 'pager-right';
   $button_previous = theme('dlts_viewer_pager_button' , array(
     'id' => 'previous-page',
     'active' => $previous_page_active,
     'type' => 'dlts_book_page',
     'text' => t('Go to previous page'),
     'url' => $book_url . '/' . $previous_page . ((! $is_single_page ) ? '?page_view=double' : ''),
-    'classes' => array('previous', $previous_pager_side),    
+    'classes' => array('previous', $previous_pager_side),
     )
   );
-  
+
   /** Toggle between Single and Double page button */
   $button_togglepage_operation = ($is_single_page) ? ' page-double' : ' page-single';
   $button_togglepage = theme('dlts_viewer_pager_button' , array(
@@ -291,7 +292,7 @@ function dlts_viewer_dispatcher($entity, $arg) {
     'control_panel' => theme('dlts_book_controlpanel'),
   ));
 
-  $entity->book_page = theme('dlts_viewer_openlayers_image' , array('file' => $arg));
+
   $entity->book_page_data = $arg;
   $entity->button_metadata = $button_metadata;
   $entity->button_next = $button_next;
@@ -307,6 +308,9 @@ function dlts_viewer_dispatcher($entity, $arg) {
   $entity->thumbnailsRows = $thumbnails_rows_per_page;
   $entity->thumbnailsURL = $book_url . '/thumbnails';
   $entity->url = $book_url;
+  $entity->pageView = ($is_single_page) ? 'single' : 'double';
+  $arg['pageView'] = $entity->pageView;
+  $entity->book_page = theme('dlts_viewer_openlayers_image' , array('file' => $arg));
 
   if (!$is_pjax) {
   	return dlts_viewer_full_book_view($entity);
