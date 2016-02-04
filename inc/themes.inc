@@ -101,3 +101,4 @@ function theme_dlts_viewer_openlayers_image($variables) {
   );
   return t('<div id="@id" class="dlts_image_map dlts_viewer_map" data-pageView="@pageView" data-uri="@uri" data-width="@width" data-height="@height" data-levels="@levels" data-dwtLevels="@dwtLevels" data-compositing-layer="@layer"></div>', $options);
 }
+

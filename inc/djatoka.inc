@@ -49,5 +49,8 @@ function dlts_viewer_djatoka_url($file) {
 	  	$arguments['svc.scale'] = $dimmensions[1];
 	  }
 	}
+	else {
+		$arguments['svc.scale'] = '230';
+	}
 	return url($service . '/resolver', array('external' => true, 'query' => $arguments));
 }

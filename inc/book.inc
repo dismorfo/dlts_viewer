@@ -21,63 +21,49 @@ function dlts_viewer_is_multivolume_book($entity) {
 }
 
 function dlts_viewer_dispatch_thumbnails($identifier) {
+	/**
+	 * Load connector
+	 */
+	module_load_include('inc', 'dlts_viewer', 'inc/djatoka');
+	$items = array();
   $collection_name = 'dlts_books_page';
   $query = (object) array('isPartOf' => $identifier);
   $cursor = mongodb_collection($collection_name)->find($query);
   //$cursor->sort(array('realPageNumber' => 1)); // DLTSVIEWER-27
   $count = $cursor->count();
-
   // no need to continue if request does not have items.
-  if (!$count) {
-    drupal_not_found();
-    return;
-  }
-
-  // db.foo.find( { 'realPageNumber' : { $type : 2 } }).forEach(function (x) { console.log(x) });
-
-  $query_parameters = drupal_get_query_parameters();
-  $page = 0;
-  $per_page = 10;
-  $height_of_each_thumbnail = 230;
-
-  if (isset($query_parameters['page'])) { // page number can be part of the query parameter
-    $page = filter_xss($query_parameters['page']);
-  }
-
-  if (isset($query_parameters['rows'])) { // app can overwrite the amount of items to display
-    $per_page = filter_xss($query_parameters['rows']);
-  }
-
-  $image_server_service = variable_get('dlts_viewer_djatoka_service', 'http://localhost:8080/adore-djatoka');
-
-  $cursor->limit($per_page);
-
-  $cursor->skip($per_page * $page);
-
-  $placeholder = url(drupal_get_path('module', 'dlts_viewer') . '/images/loadhold.png', array('absolute' => TRUE)); // we dont need this
-  $items = array();
-  foreach ($cursor as $result) { // iterate through the results
-    // We will have a new structure. THIS WILL CHANGE leave this hack until new structure
-    if (is_array($result['sequence'])) {
-      $result['sequence'] = min($result['sequence']);
+  if ($count) {
+    $query_parameters = drupal_get_query_parameters();
+    $page = 0;
+    $per_page = 10;
+    if (isset($query_parameters['page'])) { // page number can be part of the query parameter
+      $page = filter_xss($query_parameters['page']);
     }
-    else {
-      $result['sequence'] = $result['sequence'];
+    if (isset($query_parameters['rows'])) { // app can overwrite the amount of items to display
+      $per_page = filter_xss($query_parameters['rows']);
     }
-    $result['url'] = url('books/' . $identifier . '/' . $result['sequence'], array('absolute' => TRUE));
-    if (isset($result['cm']['uri'])) {
-      $rft_id = file_create_url($result['cm']['uri']);
-      $resolver = '/resolver?url_ver=Z39.88-2004&svc_id=info:lanl-repo/svc/getRegion&svc_val_fmt=info:ofi/fmt:kev:mtx:jpeg2000&svc.format=image/jpeg&svc.scale='. $height_of_each_thumbnail . '&rft_id=' . $rft_id;
-      $result['imageServeURI'] = $image_server_service . $resolver;
+    $cursor->limit($per_page);
+    $cursor->skip($per_page * $page);
+    foreach ($cursor as $result) { // iterate through the results
+      // We will have a new structure. THIS WILL CHANGE leave this hack until new structure
+      if (is_array($result['sequence'])) {
+        $result['sequence'] = min($result['sequence']);
+      }
+      else {
+        $result['sequence'] = $result['sequence'];
+      }
+      $result['url'] = url('books/' . $identifier . '/' . $result['sequence'], array('absolute' => TRUE));
+      $result['imageServeURI'] = dlts_viewer_djatoka_url($result['cm']);
+      $items[] = $result;
     }
-    $items[] = $result;
+    // Initialise the pager
+    $current_page = pager_default_initialize($count, $per_page);
+    // Pager
+    $pager = theme('thumbnails_pager', array('quantity' => $count, 'parameters' => array('test')));
+    return theme('dlts_book_thumbnails',  array('items' => $items, 'pager' => $pager));
   }
-  // Initialise the pager
-  $current_page = pager_default_initialize($count, $per_page);
-  // Pager
-  $pager = theme('pager', array('quantity', $count));
-
-  return theme('dlts_book_thumbnails',  array('items' => $items, 'placeholder' => $placeholder, 'pager' => $pager));
+  drupal_not_found();
+  return;
 }
 
 function dlts_viewer_full_book_view(&$entity) {
