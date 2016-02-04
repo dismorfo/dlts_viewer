@@ -124,6 +124,13 @@ function dlts_viewer_theme() {
       'base hook' => 'page',
       'template' => 'templates/node.pjax',
     ),
+
+  	'node__display_pjax' => array(
+  	  'render element' => 'content',
+  		'base hook' => 'page',
+  		'template' => 'templates/display.pjax',
+  	),
+
     'block__content' => array(
       'render element' => 'content',
       'base hook' => 'page',
@@ -259,9 +266,23 @@ function dlts_viewer_preprocess_node(&$vars) {
     drupal_goto('books/' . $identifier . '/1');
   }
   $vars['language_dir'] = dlts_viewer_viewer_language($vars);
-  if (dlts_viewer_is_pjax()) {
-    $vars['theme_hook_suggestions'][] = 'node__books_pjax';
+  if ($vars['view_mode'] == 'metadata' && $vars['type'] == 'dlts_book') {
+  	$is_pjax = dlts_viewer_is_pjax();
+  	$args = arg();
+  	$count = count($args);
+    if ($count === 3 && $args[2] == 'display') {
+    	if ($is_pjax) {
+    	  $vars['theme_hook_suggestions'][] = 'node__display';
+    	}
+    	else {
+    	  $vars['theme_hook_suggestions'][] = 'node__display_pjax';
+    	}
+    }
+    if ($is_pjax) {
+    	$vars['theme_hook_suggestions'][] = 'node__books_pjax';
+    }
   }
+  dpm($vars['theme_hook_suggestions']);
 }
 
 /**
@@ -319,8 +340,7 @@ function dlts_viewer_stream_wrappers() {
 }
 
 function dlts_viewer_metadata_display($node) {
-	$node = node_view($node, 'metadata', $node->language);
-	return $node;
+	return node_view($node, 'metadata', $node->language);
 }
 
 /**
