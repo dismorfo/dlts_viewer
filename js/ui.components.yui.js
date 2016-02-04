@@ -155,8 +155,9 @@ YUI().use(
 
     /** callback for changes in the value of the slider */
     function slide_value_change(e) {
+      Y.log('Callback for changes in the value of the slider');
       /** slider event */
-      if (! Y.Lang.isValue(slider.triggerBy )) {
+      if (!Y.Lang.isValue(slider.triggerBy)) {
         slider_datasource.set('value', e.newVal);
       }
       /** event was triggered by reference */
@@ -192,12 +193,13 @@ YUI().use(
       } 
       this.addClass('loading').show();
     }
-    
+
     /** 
      * pjax callback can be call by clicking a pjax 
      * enable link or by reference with data-url 
      */
     function pjax_callback(e) {
+      Y.log('pjax callback can be call by clicking a pjax enable link or by reference with data-url');
       var url;
       e.preventDefault();
       /** test if the target is not active */
@@ -278,69 +280,50 @@ YUI().use(
     }
     
     function fullscreenOn(e) {
-
       var docElm = document.documentElement;
-
       var metadata = Y.one('.metadata');
-      
       var top = Y.one('.top');
-      
       if (docElm.requestFullscreen) {
         docElm.requestFullscreen();
       }
-      
       else if (docElm.msRequestFullscreen) {
         docElm.msRequestFullscreen();
       }
-            
       else if (docElm.mozRequestFullScreen) {
         docElm.mozRequestFullScreen();
       }
-      
       else if (docElm.webkitRequestFullScreen) {
         docElm.webkitRequestFullScreen();
       }      
-
       if (top) {
         top.addClass('hidden');      
       }
-      
       if (metadata) {
         metadata.removeClass('on');      
       }
-      
     }
-    
+
     function fullscreenOff(e) {
-      
       var fullscreenButton = Y.one('a.fullscreen');
-        
       var top = Y.one('.top');
-      
       if (document.exitFullscreen) {
         document.exitFullscreen();
-      }
-      
+      }      
       else if (document.msExitFullscreen) {
         document.msExitFullscreen();
       }
-      
       else if (document.mozCancelFullScreen) {
         document.mozCancelFullScreen();
       }
-      
       else if (document.webkitCancelFullScreen) {
         document.webkitCancelFullScreen();
       }
-      
       if (fullscreenButton) {
         fullscreenButton.blur();
       }
-      
       if (top) {
         top.removeClass('hidden');      
-      }      
-      
+      }
     }    
 
     function change_page(config) {
@@ -348,31 +331,23 @@ YUI().use(
       var service;
       var zoom;
       var open_layers_dlts = OpenLayers.DLTS;
-      
-      if (Y.Lang.isObject(open_layers_dlts.pages[0], true )) {
+      if (Y.Lang.isObject(open_layers_dlts.pages[0], true)) {
         map = open_layers_dlts.pages[0];
-        service = map.baseLayer.url;
-        zoom = map.getZoom();
-        map.destroy();
-        open_layers_dlts.pages = [];
+        service = map.baseLayer.url; // get this value from a data attribute
+        zoom = map.getZoom(); // get this value from a data attribute
       }
-      
-      if (Y.Object.isEmpty(open_layers_dlts.pages)) {
-        open_layers_dlts.Page(config.id, config.uri, {
-          zoom: zoom,
-          boxes: config.boxes,
-          service: service,
-          imgMetadata: config.metadata
+      open_layers_dlts.pages = [];
+      open_layers_dlts.Page(config.id, config.uri, {
+        zoom: zoom,
+        boxes: config.boxes,
+        service: service,
+        imgMetadata: config.metadata
+      });
+      Y.on('contentready', function() {
+        Y.later(1000, Y.one('.pane.load'), function() {
+          this.hide();
         });
-
-        Y.on('contentready', function() {
-          Y.later(1000, Y.one('.pane.load'), function() {
-            this.hide();
-          });
-        }, '#' + config.id);
-      
-      }
-
+      }, '#' + config.id);
     }
     
     function onButtonMetadataOn(e) {
@@ -395,24 +370,21 @@ YUI().use(
     }
 
     function onPjaxLoadAvailable(conf) {
-      
       var page_title = Y.one('#page-title') ;
-      
+      var sequence = conf.sequence;
       if (page_title) {
-      page_title.set('text', conf.title);
+        page_title.set('text', conf.title);
       }
-
       slider.triggerBy = 'pjax:load:available';
-
-      slider_datasource.set('value', conf.sequence);
-
-      slider.set('value', conf.sequence);
-          
+      slider.set('value', parseInt(sequence, 10));
+      Y.one('#slider_value').set('value', sequence);      
     }
     
     function onButtonThumbnailsOnIOStart(e) {
       var thumbnails = Y.one('#thumbnails');
-          thumbnails.removeClass('hidden');
+      if (thumbnails) {
+        thumbnails.removeClass('hidden');
+      }
     }
 
     function onButtonThumbnailsOn(e) {
@@ -441,35 +413,28 @@ YUI().use(
     }
     
     function onThumbnailsPagePagerClick(e) {
-      
       var url;
-      
       e.preventDefault();
-
       /** test if the target is not active */
       if (e.currentTarget.hasClass('inactive')) { 
         return false;
       }
-
       /** if event has referenceTarget, then event was trigger by reference */
       if (Y.Lang.isObject(e.referenceTarget, true)) {
         url = e.referenceTarget.getAttribute('data-url');
       }
-
       /** trigger by a pjax enable link */
       else {
         url = this.get('href');
       }
-
       /** request new page */
-      Y.io(url, { on : 
-        {
-          start: onThumbnailsPageStart, 
-        end: onThumbnailsPageEnd, 
-        complete: onThumbnailsPageComplete, 
-          success: onThumbnailsPageSuccess, 
-        failure: onThumbnailsPageFailure 
-        }
+      Y.io(url, { on : { 
+    	  start: onThumbnailsPageStart, 
+    	  end: onThumbnailsPageEnd, 
+    	  complete: onThumbnailsPageComplete, 
+    	  success: onThumbnailsPageSuccess, 
+    	  failure: onThumbnailsPageFailure 
+    	} 
       });
     }
     
