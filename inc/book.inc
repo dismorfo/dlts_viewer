@@ -183,31 +183,38 @@ function dlts_viewer_dispatcher($entity, $arg) {
   else {
   	// type of request
   	$display_type = 'book_page';
+  	if ($is_pjax) {
+  		$display_type = 'book_page_pjax';
+  	}
   	// we assume single page view
   	$is_single_page = TRUE;
   	$thumbnails_rows_per_page = 10;
   	$sequence = $arg['sequence'];
   	if (isset($query_parameters['rows'])) {
   		$thumbnails_rows_per_page = filter_xss($query_parameters['rows']);
-  		if (is_array($sequence)) {
-  			/** get the first page of the requested sequence */
-  			$page = min($sequence);
-  			$sequence_max = max($sequence);
-  			$sequence_min = min($sequence);
-  			/** check if this is a double page view */
-  			if (count($sequence) > 1) {
-  				$is_single_page = FALSE;
-  			}
-  		}
-  		else {
-  			/** get the first page of the requested sequence */
-  			$page = $sequence_max = $sequence_min = $sequence;
-  			$is_single_page = TRUE;
+  	}
+  	if (is_array($sequence)) {
+  	  /** get the first page of the requested sequence */
+  		$page = min($sequence);
+  		$sequence_max = max($sequence);
+  		$sequence_min = min($sequence);
+  		/** check if this is a double page view */
+  		if (count($sequence) > 1) {
+  			$is_single_page = FALSE;
   		}
   	}
+  	else {
+  		/** get the first page of the requested sequence */
+  		$page = $sequence_max = $sequence_min = $sequence;
+  		$is_single_page = TRUE;
+  	}
+
   	$sequence_count = $book_wrapper->field_sequence_count->value();
+
   	$int_read_order = $book_wrapper->field_read_order->value();
+
   	$entity->read_order = ($int_read_order == 1) ? 'rtl' : 'ltr';
+
   	$next_page = $sequence_max + 1;
   	$previous_page = $sequence_min - 1;
   	$previous_page_active = TRUE;

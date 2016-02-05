@@ -54,6 +54,7 @@ function dlts_book_load($identifier) {
  * @return object MongoDB book page object
  */
 function dlts_book_page_load($sequence) {
+
   // I don't like this. Can we find a better solution for this?
   // investigate a way to pass this from hook_menu
   // @TODO: Make it so that it can be call as API
@@ -75,11 +76,11 @@ function dlts_book_page_load($sequence) {
     }
   }
   // prepare query
-  $query = (object) array('isPartOf' => $identifier, 'sequence' => $sequence);
+  $query = (object) array('isPartOf' => $identifier, 'sequence' => (int)$sequence);
 
   // query MongoDB
   $result = mongodb_collection($collection_name)->findOne($query);
-  
+
   if ($result && isset($result['cm']) && !empty($result['cm']['uri'])) {
   	/**
   	 * Sequence exist in MongoDB but we need to request metadata from image server
