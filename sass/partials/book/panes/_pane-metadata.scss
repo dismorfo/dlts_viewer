@@ -50,6 +50,16 @@
     .field .field-label {
       font-weight: bold;
     }
+    .field-name-field-pdf-file .field-item a:after {
+      content: ", ";
+      text-decoration: none;
+      color: #000;
+      margin-right: .2em;
+    }
+
+    .field-name-field-pdf-file .field-item:last-child a:after {
+      content: "";
+    }
     .metapane-dropdowns {
       border-bottom: 1px solid #ccc;
       padding-bottom: 1em;
