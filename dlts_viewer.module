@@ -124,11 +124,10 @@ function dlts_viewer_theme() {
       'base hook' => 'page',
       'template' => 'templates/node.pjax',
     ),
-
-  	'node__display_pjax' => array(
+  	'node__display' => array(
   	  'render element' => 'content',
-  		'base hook' => 'page',
-  		'template' => 'templates/display.pjax',
+  		'base hook' => 'node',
+  		'template' => 'templates/display',
   	),
 
     'block__content' => array(
@@ -254,6 +253,17 @@ function dlts_viewer_preprocess_html(&$vars) {
   }
 }
 
+function dlts_viewer_process_node(&$vars) {
+	// dpm(__FUNCTION__);
+	// dpm($vars);
+	$is_pjax = dlts_viewer_is_pjax();
+	$args = arg();
+	$count = count($args);
+	if ($count === 3 && $args[2] == 'display') {
+		$vars['theme_hook_suggestions'][] = 'node__display';
+	}
+}
+
 /**
  * Implements template_preprocess_node().
  * https://api.drupal.org/api/drupal/modules%21node%21node.module/function/template_preprocess_node/7
@@ -271,18 +281,12 @@ function dlts_viewer_preprocess_node(&$vars) {
   	$args = arg();
   	$count = count($args);
     if ($count === 3 && $args[2] == 'display') {
-    	if ($is_pjax) {
-    	  $vars['theme_hook_suggestions'][] = 'node__display';
-    	}
-    	else {
-    	  $vars['theme_hook_suggestions'][] = 'node__display_pjax';
-    	}
+    	$vars['theme_hook_suggestions'][] = 'node__display';
     }
     if ($is_pjax) {
     	$vars['theme_hook_suggestions'][] = 'node__books_pjax';
     }
   }
-  dpm($vars['theme_hook_suggestions']);
 }
 
 /**

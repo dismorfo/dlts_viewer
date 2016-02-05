@@ -5,12 +5,10 @@
 <div id="pagemeta" class="pane pagemeta">
   <div class="container">
     <<?php print $ds_content_wrapper; print $layout_attributes; ?> class="<?php print $classes;?> " dir="<?php print isset($lang_dir) ? $lang_dir : "ltr" ?>" data-dir="<?php print isset($lang_dir) ? $lang_dir : "ltr" ?>" data-lang="<?php print isset($lang_language) ? $lang_language : "und" ?>" >
-    <?php if (isset($lang_options) || isset($select_multivolbook) ) : ?>
+    <?php if (isset($lang_options)) : ?>
 	  <div class="metapane-dropdowns">
-      <?php if (isset($lang_options)) : ?>
   	  <div class="lang-options"><?php print locale('Available languages', NULL, $lang_language) ?>: <?php print render($lang_options) ; ?>
 		</div>
-		<?php endif; ?>
  	</div>
 	<?php endif; ?>
   <?php print $ds_content; ?>
@@ -30,7 +28,7 @@
     <?php if (isset($loading ) ) print $loading ; ?>
   </div>
 </div>
-<?php if (isset($read_order )) : ?>
+<?php if (isset($read_order)) : ?>
   <div dir="<?php if (isset($read_order ) ) print $read_order ; else print 'ltr' ?>" id="pager" class="pane pager">
     <?php if (isset($slider ) ) : print $slider ; endif ; ?>
   </div>

@@ -55,8 +55,6 @@ YUI().use(
       });
     }
     function on_toggle_language(e) {
-      Y.log('on_toggle_language');
-      return;
       var current_target = e.currentTarget;
       var data_target = current_target.get('value');
       e.preventDefault();
@@ -68,8 +66,8 @@ YUI().use(
             node.set('innerHTML', e.response);
             dir = node.one('.node-dlts-book').getAttribute('data-dir');
             Y.one('.pane.main').set('dir', dir);
-            Y.one('.titlebar').set('dir', dir);
-            Y.one('#page-title').set('innerHTML', node.one('.field-name-field-title .field-item').get('text'));
+            Y.one('#titlebar').set('dir', dir);
+            Y.one('#page-title').set('innerHTML', node.one('.field-name-title .field-item').get('text'));
           }
         }
       });
@@ -199,11 +197,11 @@ YUI().use(
      * enable link or by reference with data-url 
      */
     function pjax_callback(e) {
-      Y.log('pjax callback can be call by clicking a pjax enable link or by reference with data-url');
       var url;
+      var currentTarget = e.currentTarget;
       e.preventDefault();
       /** test if the target is not active */
-      if (e.currentTarget.hasClass('inactive')) return false;
+      if (currentTarget.hasClass('inactive')) return false;
       /** if event has referenceTarget, then event was trigger by reference */
       if (Y.Lang.isObject(e.referenceTarget, true)) {
         url = e.referenceTarget.getAttribute('data-url');
@@ -214,6 +212,10 @@ YUI().use(
       }
       /** request URL */
       pjax.navigate(url);
+      
+      if (currentTarget.hasClass('next') || currentTarget.hasClass('next')) {
+        Y.fire('button:button-thumbnails:off');
+      }
     }
     
     function PjaxException(value) {
@@ -402,8 +404,13 @@ YUI().use(
     
     function onButtonThumbnailsOff(e) {
       var thumbnails = Y.one('#thumbnails');
+      var button = Y.one('#button-thumbnails');
+      // in case event was triggered by other means
+      if (button.hasClass('on')) {
+        button.removeClass('on');
+      }
       if (thumbnails) {
-      thumbnails.addClass('hidden');       
+        thumbnails.addClass('hidden'); 
       }
     }
 
@@ -507,7 +514,7 @@ YUI().use(
 
     Y.on('button:button-fullscreen:off', fullscreenOff);
 
-    Y.once('contentready', openLayersTilesLoading, '.dlts_image_map');
+    Y.once('contentready', openLayersTilesLoading, '.dlts_viewer_map');
 
     Y.on('contentready', resizePageMeta, '#pagemeta');
 
