@@ -153,7 +153,6 @@ YUI().use(
 
     /** callback for changes in the value of the slider */
     function slide_value_change(e) {
-      Y.log('Callback for changes in the value of the slider');
       /** slider event */
       if (!Y.Lang.isValue(slider.triggerBy)) {
         slider_datasource.set('value', e.newVal);
