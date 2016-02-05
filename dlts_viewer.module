@@ -81,6 +81,10 @@ function dlts_viewer_theme() {
       'template' => 'templates/components/component--bookpage',
       'variables' => array(),
     ),
+  	'book_display' => array(
+  	  'template' => 'templates/components/component--display',
+  		'variables' => array(),
+  	),
     'dlts_book_oembed' => array(
       'template' => 'templates/components/component--oembed',
       'variables' => array(),
@@ -175,15 +179,13 @@ function dlts_viewer_menu() {
       'file' => 'inc/book.inc',
       'type' => MENU_CALLBACK,
     ),
-  	/**
-  	 * @TODO: Work out the author displaying.
-  	 */
   	'books/%dlts_book/display' => array(
   	  'title' => 'Book metadata display',
   	  'access arguments' => array('access content'),
-  	  'page callback' => 'dlts_viewer_metadata_display',
-  	  'page arguments' => array(1),
+  		'page callback' => 'dlts_viewer_dispatcher',
+  	  'page arguments' => array(1, 2),
   	  'delivery callback' => 'drupal_deliver_html_page',
+  		'file' => 'inc/book.inc',
   	  'type' => MENU_CALLBACK,
   	),
     /**
