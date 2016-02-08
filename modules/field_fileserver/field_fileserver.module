@@ -397,7 +397,6 @@ function field_fileserver_field_widget_form(&$form, &$form_state, $field, $insta
 	$uri_widget = $element;
 	$data_widget = $element;
   $widget['#delta'] = $delta;
-  dpm($items[$delta]['data']);
   $label_default_value = (isset($data_value['label'])) ? $data_value['label'] : null;
   $label_widget = array(
     '#title' => 'Label',
@@ -461,7 +460,6 @@ function field_fileserver_field_widget_form(&$form, &$form_state, $field, $insta
       $element['image_style'] = $image_style_widget;
       break;
   }
-  dpm($element);
   return $element;
 }
 

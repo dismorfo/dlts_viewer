@@ -54,17 +54,18 @@ function dlts_book_load($identifier) {
  * @return object MongoDB book page object
  */
 function dlts_book_page_load($sequence) {
+
   // I don't like this. Can we find a better solution for this?
   // investigate a way to pass this from hook_menu
   // @TODO: Make it so that it can be call as API
 	$identifier = arg(1);
 	// view modes, we map the views with their machine names in MongoDB
   $collections = array(
-    'single' => 'dlts_book_page',
-  	'double' => 'dlts_book_stitched_page',
+    'single' => 'dlts_books_page',
+  	'double' => 'dlts_stitched_books_page',
   );
   // viewer defaults to single page view
-  $collection_name = 'dlts_book_page';
+  $collection_name = 'dlts_books_page';
   // user can requests a view modes, get query parameters and
   // check if page_view is set
   $query_parameters = drupal_get_query_parameters();
@@ -75,7 +76,7 @@ function dlts_book_page_load($sequence) {
     }
   }
   // prepare query
-  $query = (object) array('isPartOf' => $identifier, 'sequence' => $sequence);
+  $query = (object) array('isPartOf' => $identifier, 'sequence' => (int)$sequence);
 
   // query MongoDB
   $result = mongodb_collection($collection_name)->findOne($query);
@@ -110,7 +111,7 @@ function dlts_book_page_load($sequence) {
   			/**
   			 * Update sequence record
   			 */
-  			dlts_viewer_mongodb_update_sequence($result);
+  			dlts_viewer_mongodb_update_sequence($result, $collection_name);
   			/**
   			 * Return sequence object
   			 */

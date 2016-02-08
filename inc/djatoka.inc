@@ -35,7 +35,7 @@ function dlts_viewer_djatoka_request($file) {
 }
 
 function dlts_viewer_djatoka_url($file) {
-	$service = variable_get('dlts_viewer_djatoka_service', 'http://localhost:8080/adore-djatoka');
+	$service = variable_get('dlts_viewer_djatoka_service', 'http://dl-imgdev.home.nyu.edu/adore-djatoka');
 	$arguments = array(
 	  'url_ver' => 'Z39.88-2004',
 		'svc_id' => 'info:lanl-repo/svc/getRegion',
@@ -48,6 +48,9 @@ function dlts_viewer_djatoka_url($file) {
 	  if (count($dimmensions) == 2 && is_numeric($dimmensions[1])) {
 	  	$arguments['svc.scale'] = $dimmensions[1];
 	  }
+	}
+	else {
+		$arguments['svc.scale'] = '230';
 	}
 	return url($service . '/resolver', array('external' => true, 'query' => $arguments));
 }
