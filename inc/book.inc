@@ -40,11 +40,13 @@ function dlts_viewer_dispatch_thumbnails($identifier) {
 		$per_page = filter_xss($query_parameters['rows']);
 	}
   // request thumbnails from MondoDB
-	$items = dlts_viewer_mongodb_load_thumbnails($identifier, $page, $per_page);
+	$thumbnails = dlts_viewer_mongodb_load_thumbnails($identifier, $page, $per_page);
   // no need to continue if request does not have items.
-  if ($items) {
+  if ($thumbnails) {
   	// count of thumbnails
-  	$count = count($items);
+  	$count = $thumbnails['count'];
+  	// Items
+  	$items = $thumbnails['items'];
     // Initialise the pager
     $current_page = pager_default_initialize($count, $per_page);
     // Pager

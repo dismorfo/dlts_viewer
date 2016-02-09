@@ -51,6 +51,7 @@ function dlts_viewer_mongodb_load_thumbnails($isPartOf, $page = 0, $per_page = 1
 	$query = (object) array('isPartOf' => $isPartOf);
 	$cursor = mongodb_collection($collection_name)->find($query);
 	// no need to continue if request does not have items.
+	$count = $cursor->count();
 	if ($cursor->count() > 0) {
 		// DLTSVIEWER-27
 		// https://docs.mongodb.org/manual/reference/method/cursor.sort/
@@ -69,7 +70,7 @@ function dlts_viewer_mongodb_load_thumbnails($isPartOf, $page = 0, $per_page = 1
 			$thumbnail['imageServeURI'] = dlts_viewer_djatoka_url($thumbnail['cm']);
 			$items[] = $thumbnail;
 		}
-    return $items;
+    return array('count' => $count, 'items' => $items);
 	}
 	return FALSE;
 }
