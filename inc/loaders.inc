@@ -54,11 +54,16 @@ function dlts_book_load($identifier) {
  * @return object MongoDB book page object
  */
 function dlts_book_page_load($sequence) {
+	/**
+	 * Load MongoDB helper
+	 */
+	module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
 
   // I don't like this. Can we find a better solution for this?
   // investigate a way to pass this from hook_menu
   // @TODO: Make it so that it can be call as API
-	$identifier = arg(1);
+	$isPartOf = arg(1);
+
 	// view modes, we map the views with their machine names in MongoDB
   $collections = array(
     'single' => 'dlts_books_page',
@@ -69,17 +74,15 @@ function dlts_book_page_load($sequence) {
   // user can requests a view modes, get query parameters and
   // check if page_view is set
   $query_parameters = drupal_get_query_parameters();
+
   if (isset($query_parameters['page_view'])) {
   	// check if the requested view mode is valid
     if (array_key_exists($query_parameters['page_view'], $collections)) {
       $collection_name = $collections[$query_parameters['page_view']];
     }
   }
-  // prepare query
-  $query = (object) array('isPartOf' => $identifier, 'sequence' => (int)$sequence);
 
-  // query MongoDB
-  $result = mongodb_collection($collection_name)->findOne($query);
+  $result = dlts_viewer_mongodb_load_sequence($sequence, $isPartOf, $collection_name);
 
   if ($result && isset($result['cm']) && !empty($result['cm']['uri'])) {
   	/**
@@ -100,10 +103,6 @@ function dlts_book_page_load($sequence) {
   		 * See: https://api.drupal.org/api/drupal/modules!system!system.queue.inc/class/DrupalQueue/7
   		 */
   		if (!isset($djatoka['error'])) {
-  			/**
-  			 * Load MongoDB helper
-  			 */
-  			module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
   			/**
   			 * Update $result reference with Image Server requested metadata
   			 */
@@ -130,7 +129,8 @@ function dlts_book_page_load($sequence) {
   		/**
   		 * Request failed.
   		 */
-  		else {}
+  		else {
+  		}
   	}
   	else {
       return array(
@@ -147,9 +147,9 @@ function dlts_book_page_load($sequence) {
   	}
   }
 
-  drupal_set_message(t('<em>DLTS Viewer</em>: Sequence page <strong>@sequence</strong> from book identify by identifier <strong>@identifier</strong> not found.', array('@sequence' => $sequence, '@identifier' => $identifier)), 'error');
+  drupal_set_message(t('<em>DLTS Viewer</em>: Sequence page <strong>@sequence</strong> from book identify by identifier <strong>@identifier</strong> not found.', array('@sequence' => $sequence, '@identifier' => $isPartOf)), 'error');
 
-  watchdog('MongoDB sequence not found', 'Unable to find book sequence page <strong>%sequence</strong> from book <strong>%identifier</strong>.', array('%identifier' => $identifier, '%sequence' => $sequence), WATCHDOG_NOTICE);
+  watchdog('MongoDB sequence not found', 'Unable to find book sequence page <strong>%sequence</strong> from book <strong>%identifier</strong>.', array('%identifier' => $isPartOf, '%sequence' => $sequence), WATCHDOG_NOTICE);
 
   // if $result is empty, retrun FALSE so that hook_menu can 404 redirect
   return FALSE;

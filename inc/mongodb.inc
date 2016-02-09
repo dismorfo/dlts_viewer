@@ -4,17 +4,15 @@
  * @file
  * MongoDB.inc
  */
-
 // $collection_name: dlts_book_page OR dlts_book_stitched_page
 function dlts_viewer_mongodb_update_sequence($arguments, $collection_name = 'dlts_books_page') {
-	$cursor = mongodb_collection($collection_name);
-	$data = (array) $arguments;
+  $cursor = mongodb_collection($collection_name);
+  $data = (array) $arguments;
 	// make sure we let MongoDB assing the _id for the document.
-	if (isset($data['_id'])) {
-		unset($data['_id']);
-	}
+  if (isset($data['_id'])) {
+    unset($data['_id']);
+  }
   $query = array('sequence' => $data['sequence'], 'isPartOf' => $data['isPartOf']);
-
   // Find document and modify
   // See: https://docs.mongodb.org/manual/reference/method/db.collection.findAndModify/
   // See: http://php.net/manual/en/mongocollection.findandmodify.php
@@ -31,4 +29,34 @@ function dlts_viewer_mongodb_update_sequence($arguments, $collection_name = 'dlt
 function dlts_viewer_mongodb_new_sequence($arguments, $collection_name = 'dlts_books_page') {
 	// We use findAndModify with new flag to avoid record duplication (at cost of operation time)
 	return dlts_viewer_mongodb_update_sequence($arguments, $collection_name);
+}
+
+function dlts_viewer_mongodb_load_sequence($sequence, $isPartOf, $collection_name = 'dlts_books_page') {
+	// make sure we have a number
+	$sequence = (int) $sequence;
+	// prepare query
+	$query = (object) array('isPartOf' => $isPartOf, 'sequence' => $sequence);
+	$cursor = mongodb_collection($collection_name);
+	$result = $cursor->findOne($query);
+	return $result;
+}
+
+function dlts_viewer_mongodb_load_thumbnails($isPartOf, $page = 0, $per_page = 10) {
+	$collection_name = 'dlts_books_page';
+	$query = (object) array('isPartOf' => $isPartOf);
+	$cursor = mongodb_collection($collection_name)->find($query);
+	// no need to continue if request does not have items.
+	if ($cursor->count() > 0) {
+		// DLTSVIEWER-27
+		// https://docs.mongodb.org/manual/reference/method/cursor.sort/
+		$cursor->sort(array('sequence' => 1));
+		$cursor->limit($per_page);
+		$cursor->skip($per_page * $page);
+		// DLTSVIEWER-27
+		$cursor->sort(array('sequence' => 1));
+		$cursor->limit($per_page);
+		$result = $cursor->skip($per_page * $page);
+    return $result;
+	}
+	return FALSE;
 }

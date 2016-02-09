@@ -22,39 +22,42 @@ function dlts_viewer_is_multivolume_book($entity) {
 
 function dlts_viewer_dispatch_thumbnails($identifier) {
 	/**
-	 * Load connector
+	 * Load helpers
 	 */
 	module_load_include('inc', 'dlts_viewer', 'inc/djatoka');
+	module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
+
+	$query_parameters = drupal_get_query_parameters();
+
+	$page = 0;
+
+	$per_page = 10;
+
 	$items = array();
-  $collection_name = 'dlts_books_page';
-  $query = (object) array('isPartOf' => $identifier);
-  $cursor = mongodb_collection($collection_name)->find($query);
-  //$cursor->sort(array('realPageNumber' => 1)); // DLTSVIEWER-27
-  $count = $cursor->count();
+
+	// page number can be part of the query parameter
+	if (isset($query_parameters['page'])) {
+		$page = filter_xss($query_parameters['page']);
+	}
+
+	// app can overwrite the amount of items to display
+	if (isset($query_parameters['rows'])) {
+		$per_page = filter_xss($query_parameters['rows']);
+	}
+
+	$thumbnails = dlts_viewer_mongodb_load_thumbnails($identifier, $page, $per_page);
+
   // no need to continue if request does not have items.
-  if ($count) {
-    $query_parameters = drupal_get_query_parameters();
-    $page = 0;
-    $per_page = 10;
-    if (isset($query_parameters['page'])) { // page number can be part of the query parameter
-      $page = filter_xss($query_parameters['page']);
-    }
-    if (isset($query_parameters['rows'])) { // app can overwrite the amount of items to display
-      $per_page = filter_xss($query_parameters['rows']);
-    }
-    $cursor->limit($per_page);
-    $cursor->skip($per_page * $page);
-    foreach ($cursor as $result) { // iterate through the results
-      // We will have a new structure. THIS WILL CHANGE leave this hack until new structure
-      if (is_array($result['sequence'])) {
-        $result['sequence'] = min($result['sequence']);
+  if ($thumbnails) {
+  	$count = count($thumbnails);
+  	// iterate through the results
+    foreach ($thumbnails as $thumbnail) {
+      if (is_array($thumbnail['sequence'])) {
+        $thumbnail['sequence'] = min($thumbnail['sequence']);
       }
-      else {
-        $result['sequence'] = $result['sequence'];
-      }
-      $result['url'] = url('books/' . $identifier . '/' . $result['sequence'], array('absolute' => TRUE));
-      $result['imageServeURI'] = dlts_viewer_djatoka_url($result['cm']);
-      $items[] = $result;
+      $thumbnail['url'] = url('books/' . $identifier . '/' . $thumbnail['sequence'], array('absolute' => TRUE));
+      $thumbnail['imageServeURI'] = dlts_viewer_djatoka_url($thumbnail['cm']);
+      $items[] = $thumbnail;
     }
     // Initialise the pager
     $current_page = pager_default_initialize($count, $per_page);
@@ -62,8 +65,9 @@ function dlts_viewer_dispatch_thumbnails($identifier) {
     $pager = theme('thumbnails_pager', array('quantity' => $count, 'parameters' => array('test')));
     return theme('dlts_book_thumbnails',  array('items' => $items, 'pager' => $pager));
   }
-  drupal_not_found();
-  return;
+  else {
+    drupal_exit();
+  }
 }
 
 function dlts_viewer_full_book_view(&$entity) {
