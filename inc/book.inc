@@ -66,7 +66,7 @@ function dlts_viewer_full_book_view(&$entity) {
   drupal_add_js($module_path . '/js/crossframe.js', $js_common_config);
   drupal_add_js($module_path . '/js/ui.crossframe.js', $js_common_config);
   drupal_add_js($module_path . '/js/modules/slider-base.js', $js_common_config);
-  // drupal_add_js($module_path . '/js/ui.keyboard.yui.js', $js_common_config);
+  drupal_add_js($module_path . '/js/ui.keyboard.yui.js', $js_common_config);
   drupal_add_js($module_path . '/js/ui.components.yui.js', $js_common_config);
   drupal_add_js(variable_get('dlts_viewer_openlayers_source', 'sites/all/libraries/openlayers/build/OpenLayers.js'), array('group' => JS_LIBRARY));
   return node_view($entity , 'metadata', $entity->language);
