@@ -42,7 +42,12 @@ function dlts_viewer_mongodb_load_sequence($sequence, $isPartOf, $collection_nam
 }
 
 function dlts_viewer_mongodb_load_thumbnails($isPartOf, $page = 0, $per_page = 10) {
+	/**
+	 * Load helpers
+	 */
+	module_load_include('inc', 'dlts_viewer', 'inc/djatoka');
 	$collection_name = 'dlts_books_page';
+	$items = array();
 	$query = (object) array('isPartOf' => $isPartOf);
 	$cursor = mongodb_collection($collection_name)->find($query);
 	// no need to continue if request does not have items.
@@ -55,8 +60,16 @@ function dlts_viewer_mongodb_load_thumbnails($isPartOf, $page = 0, $per_page = 1
 		// DLTSVIEWER-27
 		$cursor->sort(array('sequence' => 1));
 		$cursor->limit($per_page);
-		$result = $cursor->skip($per_page * $page);
-    return $result;
+		$thumbnails = $cursor->skip($per_page * $page);
+		foreach ($thumbnails as $thumbnail) {
+			if (is_array($thumbnail['sequence'])) {
+				$thumbnail['sequence'] = min($thumbnail['sequence']);
+			}
+			$thumbnail['url'] = url('books/' . $isPartOf . '/' . $thumbnail['sequence'], array('absolute' => TRUE));
+			$thumbnail['imageServeURI'] = dlts_viewer_djatoka_url($thumbnail['cm']);
+			$items[] = $thumbnail;
+		}
+    return $items;
 	}
 	return FALSE;
 }

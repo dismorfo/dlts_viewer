@@ -24,46 +24,33 @@ function dlts_viewer_dispatch_thumbnails($identifier) {
 	/**
 	 * Load helpers
 	 */
-	module_load_include('inc', 'dlts_viewer', 'inc/djatoka');
 	module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
-
+  // hold query arguments
 	$query_parameters = drupal_get_query_parameters();
-
+  // start page
 	$page = 0;
-
+  // default amount of items to request
 	$per_page = 10;
-
-	$items = array();
-
 	// page number can be part of the query parameter
 	if (isset($query_parameters['page'])) {
 		$page = filter_xss($query_parameters['page']);
 	}
-
 	// app can overwrite the amount of items to display
 	if (isset($query_parameters['rows'])) {
 		$per_page = filter_xss($query_parameters['rows']);
 	}
-
-	$thumbnails = dlts_viewer_mongodb_load_thumbnails($identifier, $page, $per_page);
-
+  // request thumbnails from MondoDB
+	$items = dlts_viewer_mongodb_load_thumbnails($identifier, $page, $per_page);
   // no need to continue if request does not have items.
-  if ($thumbnails) {
-  	$count = count($thumbnails);
-  	// iterate through the results
-    foreach ($thumbnails as $thumbnail) {
-      if (is_array($thumbnail['sequence'])) {
-        $thumbnail['sequence'] = min($thumbnail['sequence']);
-      }
-      $thumbnail['url'] = url('books/' . $identifier . '/' . $thumbnail['sequence'], array('absolute' => TRUE));
-      $thumbnail['imageServeURI'] = dlts_viewer_djatoka_url($thumbnail['cm']);
-      $items[] = $thumbnail;
-    }
+  if ($items) {
+  	// count of thumbnails
+  	$count = count($items);
     // Initialise the pager
     $current_page = pager_default_initialize($count, $per_page);
     // Pager
-    $pager = theme('thumbnails_pager', array('quantity' => $count, 'parameters' => array('test')));
-    return theme('dlts_book_thumbnails',  array('items' => $items, 'pager' => $pager));
+    $pager = theme('thumbnails_pager', array('quantity' => $count));
+    $output = theme('dlts_book_thumbnails',  array('items' => $items, 'pager' => $pager));
+    return $output;
   }
   else {
     drupal_exit();
