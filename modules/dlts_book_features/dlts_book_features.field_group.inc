@@ -70,7 +70,7 @@ function dlts_book_features_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Descriptive Metadata',
-    'weight' => '42',
+    'weight' => '41',
     'children' => array(
       0 => 'field_creator',
       1 => 'field_description',

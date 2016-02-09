@@ -39,11 +39,6 @@ function dlts_book_features_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'field_pdf_file' => array(
-      'formatter_settings' => array(
-        'ft' => array(),
-      ),
-    ),
   );
   $export['node|dlts_book|metadata'] = $ds_fieldsetting;
 
@@ -142,13 +137,13 @@ function dlts_book_features_ds_layout_settings_info() {
         6 => 'series_for_this_book',
         7 => 'field_publication_date_text',
         8 => 'field_subject',
-        9 => 'field_collection',
-        10 => 'field_language',
-        11 => 'field_partner',
-        12 => 'field_handle',
-        13 => 'field_pdf_file',
-        14 => 'field_rights',
-        15 => 'field_call_number',
+        9 => 'field_call_number',
+        10 => 'field_collection',
+        11 => 'field_language',
+        12 => 'field_partner',
+        13 => 'field_handle',
+        14 => 'field_pdf_file',
+        15 => 'field_rights',
       ),
     ),
     'fields' => array(
@@ -161,13 +156,13 @@ function dlts_book_features_ds_layout_settings_info() {
       'series_for_this_book' => 'ds_content',
       'field_publication_date_text' => 'ds_content',
       'field_subject' => 'ds_content',
+      'field_call_number' => 'ds_content',
       'field_collection' => 'ds_content',
       'field_language' => 'ds_content',
       'field_partner' => 'ds_content',
       'field_handle' => 'ds_content',
       'field_pdf_file' => 'ds_content',
       'field_rights' => 'ds_content',
-      'field_call_number' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
