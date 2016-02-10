@@ -6,6 +6,54 @@
  */
 
 /**
+ * Implements hook_field_schema().
+ *
+ * Defines the database schema of the field, using the format used by the
+ * Schema API.
+ *
+ * The data we will store here is just one 7-character element, even
+ * though the widget presents the three portions separately.
+ *
+ * All implementations of hook_field_schema() must be in the module's
+ * .install file.
+ *
+ * @see http://drupal.org/node/146939
+ * @see schemaapi
+ * @see hook_field_schema()
+ * @ingroup field_example
+ */
+function dlts_viewer_schema($field) {
+
+  $schema['dlts_viewer_drush_git_commits'] = array(
+    'description' => 'Table for Git commit hashs',
+    'fields' => array(
+      'hash' => array('type' => 'varchar', 'length' => 255, 'not null' => FALSE),
+    	'label' => array('type' => 'text'),
+    	'created' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+    	'proceed' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+    ),
+    'primary key' => array('hash'),
+	);
+
+  $schema['dlts_viewer_books_json'] = array(
+    'description' => 'JSON Documents',
+  	'fields' => array(
+  	  'nid' => array('type' => 'varchar', 'length' => 255, 'not null' => FALSE),
+  		'hash' => array('type' => 'varchar', 'length' => 255, 'not null' => FALSE),
+  		'document' => array('type' => 'text'),
+  		'language' => array('type' => 'text'),
+  		'proceed' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+  		'created' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+  	),
+  );
+
+	return $schema;
+}
+
+// https://v1.home.nyu.edu/svn/dlib/drupal_modules/7/ocr/ocr.install
+
+
+/**
  * Implementation of hook_enable().
  */
 function dlts_viewer_enable() {
@@ -21,4 +69,5 @@ function dlts_viewer_uninstall() {
   variable_del('dlts_viewer_djatoka_service');
   variable_del('dlts_viewer_openlayers_source');
   variable_del('dlts_viewer_fileserver_host');
+  db_query("DELETE * FROM {hash}", array());
 }

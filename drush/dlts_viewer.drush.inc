@@ -30,6 +30,17 @@ function dlts_viewer_drush_command() {
       'source' => dt('JSON document filepath.'),
     ),
  );
+  $items['git-pull-books'] = array(
+  		'callback' => 'dlts_viewer_pull_books_from_git_repo',
+  		'description' => dt('Import book from a git repository'),
+  		'options' => array(
+        'source' => dt('directory path'),
+  		),
+  );
+  $items['import-book-free-queue'] = array(
+    'callback' => 'dlts_viewer_free_json_documents_queue',
+    'description' => dt('Import book from a git repository')
+  );
   $items['import-dummy-books'] = array(
     'callback' => 'dlts_viewer_dummy_books',
     'description' => dt('Import dummy book.'),
@@ -60,13 +71,15 @@ function dlts_viewer_drush_help($section) {
   }
 }
 
-function dlts_viewer_import_book() {
+function dlts_viewer_import_book($source = NULL) {
   include_once(__DIR__ . '/inc/common.inc');
   include_once(__DIR__ . '/inc/datasource.inc');
   include_once(__DIR__ . '/inc/create.inc');
-  $source = drush_get_option('source', NULL);
-  $source = array( (object) array('uri' => $source));
-  create_dlts_book_from_json($source);
+  if ($source == NULL) {
+    $source = drush_get_option('source', NULL);
+    if (empty($source)) return;
+  }
+  return create_dlts_book_from_json(array((object) array('uri' => $source)));
 }
 
 function dlts_viewer_dummy_books() {
@@ -79,4 +92,77 @@ function dlts_viewer_dummy_books() {
   create_dlts_book_from_json($en_data);
   $ar_data = file_scan_directory(__DIR__ . '/data', '/(.*)\.ar.json$/', array('recurse' => FALSE));
   create_dlts_book_from_json($ar_data);
+}
+
+function dlts_viewer_free_json_documents_queue() {
+	$results = db_query("SELECT document FROM {dlts_viewer_books_json} WHERE proceed = :proceed AND language = :language GROUP BY document ORDER BY created DESC", array(':proceed' => 0, ':language' => 'en'));
+	foreach ($results as $key => $result) {
+		$nodes = dlts_viewer_import_book($result->document);
+	  if (isset($nodes['success'][0])) {
+	  	$node = $nodes['success'][0];
+	  	if ($node->nid) {
+	  		db_update('dlts_viewer_books_json')->fields(array('nid' => $node->nid,'proceed' => 1, 'created' => $node->timestamp))->condition('document', $result->document, '=')->execute();
+	  	}
+	  }
+	  else {
+	  	drush_log(dt('Error importing document @document.', array('@document'=> $nodes['error'][0])), 'error');
+	  }
+	}
+}
+
+function dlts_viewer_add_json_documents_to_queue($files) {
+  foreach ($files as $hash => $languages) {
+    foreach ($languages as $language => $documents) {
+      foreach ($documents as $document) {
+      	if (file_exists($document)) {
+          db_insert('dlts_viewer_books_json')->fields(array('nid' => null, 'hash' => $hash, 'document'=> $document, 'language' => $language, 'proceed' => 0, 'created' => time()))->execute();
+      	}
+		  }
+	  }
+  }
+}
+
+function dlts_viewer_pull_books_from_git_repo() {
+	$verbose = drush_get_option('verbose', NULL);
+	$source = drush_get_option('source', NULL);
+	$pwd = getcwd();
+	$result = array();
+	$git_work_tree = '/content/dev/pa/drupal/dlts_viewer_content';
+	$git_dir = '/content/dev/pa/drupal/dlts_viewer_content/.git';
+	$git_branch = 'master';
+	chdir($git_work_tree);
+	// UNIX command
+  if ($verbose) drush_log(dt('Inside @dir', array('@dir' => getcwd())), 'ok');
+  $command = 'git log -n 10  --pretty=format:"%H"';
+	exec($command, $result);
+  foreach ($result as $commit) {
+  	$c = $d = $files = array();
+  	$result = db_query("SELECT * FROM {dlts_viewer_drush_git_commits} WHERE hash = :hash", array(':hash' =>$commit))->fetchField();
+  	if (!$result) {
+		  if ($verbose) drush_log(dt('Commit @commit', array('@commit'=>$commit)), 'ok');
+		  $date = 'git show -s --format=%ci ' . $commit;
+		  exec($date, $d);
+		  $timestamp = strtotime($d[0]);
+  		$comment = 'git show -s --format=%s ' . $commit;
+  		exec($comment, $c);
+  		$label = $c[0];
+  		$command = 'git --git-dir=' . $git_dir . ' --work-tree=' . $git_work_tree . ' diff-tree --no-commit-id --name-only -r ' . $commit;
+  		exec($command, $files);
+  		$clean_files = array($commit => array('en' => array(), 'ar' => array()));
+  		// figure out the language using the filename
+  		foreach ($files as $file) {
+  			if (strpos($file, '.json') !== false) { // "make sure" this is a JSON file
+  			  if (strpos($file, '.ar.json') !== false) {
+  				  $clean_files[$commit]['ar'][] = $git_work_tree . '/' . $file;
+  			  }
+  			  else {
+  				  $clean_files[$commit]['en'][] = $git_work_tree . '/' . $file;
+  			  }
+  			}
+  	  }
+  	  dlts_viewer_add_json_documents_to_queue($clean_files);
+  	  db_insert('dlts_viewer_drush_git_commits')->fields(array('hash' => $commit, 'label'=> $label, 'created' => $timestamp, 'proceed' => 0))->execute();
+  	}
+  }
+  chdir($pwd);
 }

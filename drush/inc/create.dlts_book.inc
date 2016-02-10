@@ -285,6 +285,7 @@ function dlts_viewer_subject_vocabulary_vid() {
 }
 
 function create_dlts_book_from_json($books, $cretePages = false) {
+	$out = array('success' => array(), 'error' => array());
   foreach ($books as $value) {
     $pages_array =
       $partners =
@@ -305,7 +306,14 @@ function create_dlts_book_from_json($books, $cretePages = false) {
       $subjects =
       $series = array();
     $page_count = $subtitle = $title = NULL;
+
+    if (!file_exists($value->uri)) {
+    	$out['error'][] = $value->uri;
+    	continue;
+    }
+
     $json_string = file_get_contents($value->uri);
+
     $json_string = str_replace(array('\r', '\n'), '', $json_string);
     $data = json_decode($json_string);
     $entity_title = $data->entity_title;
@@ -582,7 +590,11 @@ function create_dlts_book_from_json($books, $cretePages = false) {
     	'multivolume' => $multivolume,
     	'series' => $series,
     );
+
     $created = save_dlts_book($node);
+
+    $out['success'][] = $created;
+
     if ($cretePages && $created && isset($created->nid)) {
    	  // we only create pages for books with languages English or Undetermined
    	  if ($entity_language == 'en' || $entity_language == LANGUAGE_NONE) {
@@ -608,4 +620,5 @@ function create_dlts_book_from_json($books, $cretePages = false) {
       }
     }
   }
+  return $out;
 }
