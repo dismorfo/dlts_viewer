@@ -284,7 +284,7 @@ function dlts_viewer_subject_vocabulary_vid() {
 	return $global_vocabulary_vid;
 }
 
-function create_dlts_book_from_json($books, $cretePages = FALSE) {
+function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE) {
   $out = array('success' => array(), 'error' => array());
   foreach ($books as $value) {
     $pages_array =
@@ -350,8 +350,10 @@ function create_dlts_book_from_json($books, $cretePages = FALSE) {
        );
       }
     }
+    
     /** collections the book belong */
     if ($metadata->collection) {
+      print_r($metadata->collection);
       foreach ($metadata->collection->value as $value) {
         $collections[] =  array(
           'title' => $value->title,
@@ -363,18 +365,23 @@ function create_dlts_book_from_json($books, $cretePages = FALSE) {
        );
       }
     }
+    
     if ($metadata->title) {
-    	$title = $metadata->title->value[0];
+      $title = $metadata->title->value[0];
     }
+    
     if ($metadata->subtitle && !empty($metadata->subtitle->value)) {
     	$subtitle = $metadata->subtitle->value[0];
     }
+    
     if ($metadata->page_count && !empty($metadata->page_count->value)) {
     	$page_count = $metadata->page_count->value[0];
     }
+    
     if ($metadata->sequence_count && !empty($metadata->sequence_count->value)) {
     	$sequence_count = $metadata->sequence_count->value[0];
     }
+    
     if ($metadata->binding_orientation && !empty($metadata->binding_orientation->value)) {
     	switch ($metadata->scan_order->value[0]) {
     		case 'Vertical' :
@@ -517,36 +524,59 @@ function create_dlts_book_from_json($books, $cretePages = FALSE) {
     	  $subjects[] = $subject;
     	}
     }
+    
+    $legacy = true;
     if ($metadata->pdf_file) {
-    	$valid_extensions = array('pdf');
-      foreach ($metadata->pdf_file->value as $pdf_file) {
-      	$pathinfo = pathinfo($pdf_file);
-      	$basename = str_replace('fileserver://', '', $pathinfo['basename']);
-      	$ext = pathinfo($pdf_file, PATHINFO_EXTENSION);
-      	// check if we have a fileserver scheme
-      	if (strpos($pdf_file, 'fileserver://') === false) continue;
-      	// check that the URI is not bigger than the allowed MySQL size for varchar with index
-      	if (strlen($pdf_file) > 255) continue;
-      	// check that the URI contain a file extension
-      	if (!$ext) continue;
-      	// do we have a valid extension
-      	if (!in_array($ext,$valid_extensions)) continue;
-      	if (strpos($pdf_file, '_hi')) {
+      // deals with JSON new documents
+      if (!$legacy) {
+        $valid_extensions = array('pdf');
+        foreach ($metadata->pdf_file->value as $pdf_file) {
+      	  $pathinfo = pathinfo($pdf_file);
+      	  $basename = str_replace('fileserver://', '', $pathinfo['basename']);
+      	  $ext = pathinfo($pdf_file, PATHINFO_EXTENSION);
+      	  // check if we have a fileserver scheme
+      	  if (strpos($pdf_file, 'fileserver://') === false) continue;
+      	  // check that the URI is not bigger than the allowed MySQL size for varchar with index
+      	  if (strlen($pdf_file) > 255) continue;
+      	  // check that the URI contain a file extension
+      	  if (!$ext) continue;
+      	  // do we have a valid extension
+      	  if (!in_array($ext,$valid_extensions)) continue;
+      	  if (strpos($pdf_file, '_hi')) {
       		$pdf_files[] = array('file' => $pdf_file, 'label' => 'High resolution');
-      	}
-      	elseif (strpos($pdf_file, '_lo')) {
+      	  }
+      	  elseif (strpos($pdf_file, '_lo')) {
       		$pdf_files[] = array('file' => $pdf_file, 'label' => 'Low resolution');
-      	}
-      	else {
+      	  }
+      	  else {
       		$pdf_files[] = array('file' => $pdf_file);
-      	}
+      	  }
     	}
+      }
+      else {
+      	foreach ($metadata->pdf_file->value as $pdf_file) {
+      	  $pdf_uri = $pdf_file->fileserver;
+      	  // check that the URI is not bigger than the allowed MySQL size for varchar with index
+      	  if (strlen($pdf_uri) > 255) continue;
+      	  if (strpos($pdf_uri, '_hi')) {
+      	  	$pdf_files[] = array('file' => $pdf_uri, 'label' => 'High resolution');
+      	  }
+      	  elseif (strpos($pdf_uri, '_lo')) {
+      	  	$pdf_files[] = array('file' => $pdf_uri, 'label' => 'Low resolution');
+      	  }
+      	  else {
+      	  	$pdf_files[] = array('file' => $pdf_uri);
+      	  }
+      	}
+      }
     }
+    
     if ($metadata->ocr_text) {
       foreach ($metadata->ocr_text->value as $ocr_text) {
         $ocr_text_files[] = $ocr_text->fileserver;
       }
     }
+    
     $node = array(
       'entity_title' => $entity_title,
       'entity_language' => $entity_language,
@@ -590,8 +620,11 @@ function create_dlts_book_from_json($books, $cretePages = FALSE) {
       'multivolume' => $multivolume,
       'series' => $series,
     );
+    
     $created = save_dlts_book($node);
+    
     $out['success'][] = $created;
+    
     if ($cretePages && $created && isset($created->nid)) {
    	  // we only create pages for books with languages English or Undetermined
    	  if ($entity_language == 'en' || $entity_language == LANGUAGE_NONE) {

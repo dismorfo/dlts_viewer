@@ -29,6 +29,7 @@ function dlts_viewer_drush_command() {
     'options' => array(
       'source' => dt('JSON document filepath.'),
       'pages' => dt('Create pages.'),
+      'legacy' => dt('Create book using legacy JSON documents.'),    		
     ),
   );  
   $items['git-pull-books'] = array(
@@ -83,17 +84,21 @@ function dlts_viewer_drush_help($section) {
   }
 }
 
-function dlts_viewer_import_book($source = NULL) {
+function dlts_viewer_import_book($source = NULL, $create_pages = FALSE) {
   include_once(__DIR__ . '/inc/common.inc');
   include_once(__DIR__ . '/inc/datasource.inc');
   include_once(__DIR__ . '/inc/create.inc');
   if ($source == NULL) {
     $source = drush_get_option('source', NULL);
+    if (drush_get_option('pages', FALSE)) $create_pages = TRUE;    
     if (empty($source)) return;
+    if (is_dir($source)) {      
+      create_dlts_book_from_json(file_scan_directory($source, '/(.*).json$/', array('recurse' => FALSE)), $create_pages);
+    }
+    else {
+      return create_dlts_book_from_json( array((object) array('uri' => $source)), $create_pages);
+    }
   }  
-  $pages = drush_get_option('pages', FALSE);  
-  if ($pages) $create_pages = TRUE;  
-  return create_dlts_book_from_json( array((object) array('uri' => $source)), $create_pages);
 }
 
 function dlts_viewer_dummy_books() {
