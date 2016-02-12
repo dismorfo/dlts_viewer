@@ -284,8 +284,8 @@ function dlts_viewer_subject_vocabulary_vid() {
 	return $global_vocabulary_vid;
 }
 
-function create_dlts_book_from_json($books, $cretePages = false) {
-	$out = array('success' => array(), 'error' => array());
+function create_dlts_book_from_json($books, $cretePages = FALSE) {
+  $out = array('success' => array(), 'error' => array());
   foreach ($books as $value) {
     $pages_array =
       $partners =
@@ -543,9 +543,9 @@ function create_dlts_book_from_json($books, $cretePages = false) {
     	}
     }
     if ($metadata->ocr_text) {
-    	foreach ($metadata->ocr_text->value as $ocr_text) {
-    	  $ocr_text_files[] = $ocr_text->fileserver;
-    	}
+      foreach ($metadata->ocr_text->value as $ocr_text) {
+        $ocr_text_files[] = $ocr_text->fileserver;
+      }
     }
     $node = array(
       'entity_title' => $entity_title,
@@ -570,8 +570,8 @@ function create_dlts_book_from_json($books, $cretePages = false) {
       'scanning_notes' => $scanning_notes,
       'volume' => $volume,
       'publication_date' => $publication_date,
-    	'publication_date_text' => $publication_date_text,
-    	'publication_location' => $publication_location,
+      'publication_date_text' => $publication_date_text,
+      'publication_location' => $publication_location,
       'scan_date' => $scan_date,
       'representative_image' => $representative_image,
       'ocr_text' => $ocr_text_files,
@@ -587,14 +587,11 @@ function create_dlts_book_from_json($books, $cretePages = false) {
       'pdf_files' => $pdf_files,
       'pages' => $pages_array,
       'multivol' => $multivols,
-    	'multivolume' => $multivolume,
-    	'series' => $series,
+      'multivolume' => $multivolume,
+      'series' => $series,
     );
-
     $created = save_dlts_book($node);
-
     $out['success'][] = $created;
-
     if ($cretePages && $created && isset($created->nid)) {
    	  // we only create pages for books with languages English or Undetermined
    	  if ($entity_language == 'en' || $entity_language == LANGUAGE_NONE) {
@@ -608,13 +605,13 @@ function create_dlts_book_from_json($books, $cretePages = false) {
         		  $sequence = array($page->sequence);
         	  }
         	  $page->sequence = $sequence;
-        	  dlts_viewer_mongodb_new_sequence($page, 'dlts_book_page');
+        	  dlts_viewer_mongodb_new_sequence($page, 'dlts_books_page');
           }
         }
         // check if the JSON document include stitched pages
         if (isset($data->stitched->page) && !empty($data->stitched->page)) {
       	  foreach ($data->stitched->page as $key => $page) {
-            dlts_viewer_mongodb_new_sequence($page, 'dlts_book_stitched_page');
+            dlts_viewer_mongodb_new_sequence($page, 'dlts_stitched_books_page');
           }
         }
       }

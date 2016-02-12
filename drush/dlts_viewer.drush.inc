@@ -21,30 +21,36 @@
  * @return
  *   An associative array describing your command(s).
  */
-function dlts_viewer_drush_command() {
-  $items = array();
+function dlts_viewer_drush_command() {  
+  $items = array();  
   $items['import-book'] = array(
     'callback' => 'dlts_viewer_import_book',
     'description' => dt('Import book from a JSON document.'),
     'options' => array(
       'source' => dt('JSON document filepath.'),
+      'pages' => dt('Create pages.'),
     ),
- );
+  );  
   $items['git-pull-books'] = array(
-  		'callback' => 'dlts_viewer_pull_books_from_git_repo',
-  		'description' => dt('Import book from a git repository'),
-  		'options' => array(
-        'source' => dt('directory path'),
-  		),
-  );
-  $items['import-book-free-queue'] = array(
+    'callback' => 'dlts_viewer_pull_books_from_git_repo',
+  	'description' => dt('Import book from a git repository'),
+  	'options' => array(
+      'git-dir' => dt('Git repo directory path'),
+      'git-worktree' => dt('Git repo directory  work tree'),
+      'git-branch' => dt('Project branch'), // @TODO: not implemented
+  	),
+  );  
+  $items['import-queue'] = array(
     'callback' => 'dlts_viewer_free_json_documents_queue',
-    'description' => dt('Import book from a git repository')
-  );
+    'description' => dt('Import book from a git repository'),
+    'options' => array(  		
+      'pages' => dt('Create pages.'),
+    ),
+  );  
   $items['import-dummy-books'] = array(
     'callback' => 'dlts_viewer_dummy_books',
     'description' => dt('Import dummy book.'),
- );
+ );  
   return $items;
 }
 
@@ -68,6 +74,12 @@ function dlts_viewer_drush_help($section) {
     case 'drush:import-dummy-books':
       return dt("Some day someone will document this module");
       break;
+    case 'drush:git-pull-books':
+      return dt("Some day someone will document this module");
+      break;
+    case 'drush:import-book-free-queue':
+      return dt("Some day someone will document this module");
+      break;
   }
 }
 
@@ -78,16 +90,18 @@ function dlts_viewer_import_book($source = NULL) {
   if ($source == NULL) {
     $source = drush_get_option('source', NULL);
     if (empty($source)) return;
-  }
-  return create_dlts_book_from_json(array((object) array('uri' => $source)));
+  }  
+  $pages = drush_get_option('pages', FALSE);  
+  if ($pages) $create_pages = TRUE;  
+  return create_dlts_book_from_json( array((object) array('uri' => $source)), $create_pages);
 }
 
 function dlts_viewer_dummy_books() {
-	include_once(__DIR__ . '/inc/common.inc');
-	include_once(__DIR__ . '/inc/datasource.inc');
-	include_once(__DIR__ . '/inc/create.inc');
-	drush_log( dt('Import books from JSON documents inside directory @directory', array('@directory'=> __DIR__ . '/data')) , 'status');
-	watchdog('DRUSH', "Import books from JSON documents inside directory %directory", array('%directory' => __DIR__ . '/data'), WATCHDOG_INFO);
+  include_once(__DIR__ . '/inc/common.inc');
+  include_once(__DIR__ . '/inc/datasource.inc');
+  include_once(__DIR__ . '/inc/create.inc');
+  drush_log( dt('Import books from JSON documents inside directory @directory', array('@directory'=> __DIR__ . '/data')) , 'status');
+  watchdog('DRUSH', "Import books from JSON documents inside directory %directory", array('%directory' => __DIR__ . '/data'), WATCHDOG_INFO);
   $en_data = file_scan_directory(__DIR__ . '/data', '/(.*)\.en.json$/', array('recurse' => FALSE));
   create_dlts_book_from_json($en_data);
   $ar_data = file_scan_directory(__DIR__ . '/data', '/(.*)\.ar.json$/', array('recurse' => FALSE));
@@ -108,6 +122,19 @@ function dlts_viewer_free_json_documents_queue() {
 	  	drush_log(dt('Error importing document @document.', array('@document'=> $nodes['error'][0])), 'error');
 	  }
 	}
+	$results = db_query("SELECT document FROM {dlts_viewer_books_json} WHERE proceed = :proceed AND language = :language GROUP BY document ORDER BY created DESC", array(':proceed' => 0, ':language' => 'ar'));
+	foreach ($results as $key => $result) {
+		$nodes = dlts_viewer_import_book($result->document);
+	  if (isset($nodes['success'][0])) {
+	  	$node = $nodes['success'][0];
+	  	if ($node->nid) {
+	  		db_update('dlts_viewer_books_json')->fields(array('nid' => $node->nid,'proceed' => 1, 'created' => $node->timestamp))->condition('document', $result->document, '=')->execute();
+	  	}
+    }
+    else {
+      drush_log(dt('Error importing document @document.', array('@document'=> $nodes['error'][0])), 'error');
+    }
+  }
 }
 
 function dlts_viewer_add_json_documents_to_queue($files) {
@@ -117,24 +144,29 @@ function dlts_viewer_add_json_documents_to_queue($files) {
       	if (file_exists($document)) {
           db_insert('dlts_viewer_books_json')->fields(array('nid' => null, 'hash' => $hash, 'document'=> $document, 'language' => $language, 'proceed' => 0, 'created' => time()))->execute();
       	}
-		  }
-	  }
+      }
+    }
   }
 }
 
+// drush git-pull-books --git-worktree=/Users/aortiz/tools/projects/dlts_viewer_distro --git-dir=/Users/aortiz/tools/projects/dlts_viewer_distro/.git --user=1
+
 function dlts_viewer_pull_books_from_git_repo() {
-	$verbose = drush_get_option('verbose', NULL);
-	$source = drush_get_option('source', NULL);
-	$pwd = getcwd();
-	$result = array();
-	$git_work_tree = '/content/dev/pa/drupal/dlts_viewer_content';
-	$git_dir = '/content/dev/pa/drupal/dlts_viewer_content/.git';
-	$git_branch = 'master';
-	chdir($git_work_tree);
+  $pwd = getcwd();
+  $result = array();
+  $verbose = drush_get_option('verbose', NULL);
+  $git_work_tree = drush_get_option('git-worktree', NULL);
+  $git_dir = drush_get_option('git-dir', NULL);	
+  $git_branch = drush_get_option('git-branch', 'master');
+  if (!$git_dir || !$git_work_tree) {
+    drush_log('Error','error');
+    return;
+  }
+  chdir($git_work_tree);	
 	// UNIX command
   if ($verbose) drush_log(dt('Inside @dir', array('@dir' => getcwd())), 'ok');
   $command = 'git log -n 10  --pretty=format:"%H"';
-	exec($command, $result);
+  exec($command, $result);
   foreach ($result as $commit) {
   	$c = $d = $files = array();
   	$result = db_query("SELECT * FROM {dlts_viewer_drush_git_commits} WHERE hash = :hash", array(':hash' =>$commit))->fetchField();

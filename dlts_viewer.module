@@ -152,7 +152,8 @@ function dlts_viewer_theme() {
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_menu/7
  */
 function dlts_viewer_menu() {
-  return array(
+
+  $menu = array(
     /**
      * Convinient way to edit a Book object
      * e.g., http://{{HOST}}/{{SITE}}/books/{{IDENTIFIER}}/edit
@@ -218,7 +219,20 @@ function dlts_viewer_menu() {
       'delivery callback' => 'dlts_viewer_deliver_json',
       'file' => 'inc/endpoints.inc',
     ),
- );
+  );
+  if (module_exists('devel')) {
+    $menu['node/%node/json_view'] = array(
+      'title' => 'JSON',
+      'page callback' => 'dlts_viewer_load_object',
+      'page arguments' => array('node', 1),
+      'access arguments' => array('access content'),
+      'type' => MENU_LOCAL_TASK,
+      'file' => 'inc/book.inc',
+      'weight' => 100,
+    );
+  }
+  return $menu;
+  
 }
 
 /**
