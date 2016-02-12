@@ -22,8 +22,7 @@
  * @see hook_field_schema()
  * @ingroup field_example
  */
-function dlts_viewer_schema($field) {
-
+function dlts_viewer_schema() {
   $schema['dlts_viewer_drush_git_commits'] = array(
     'description' => 'Table for Git commit hashs',
     'fields' => array(
@@ -34,7 +33,6 @@ function dlts_viewer_schema($field) {
     ),
     'primary key' => array('hash'),
 	);
-
   $schema['dlts_viewer_books_json'] = array(
     'description' => 'JSON Documents',
   	'fields' => array(
@@ -46,12 +44,8 @@ function dlts_viewer_schema($field) {
   		'created' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
   	),
   );
-
-	return $schema;
+  return $schema;
 }
-
-// https://v1.home.nyu.edu/svn/dlib/drupal_modules/7/ocr/ocr.install
-
 
 /**
  * Implementation of hook_enable().
@@ -69,5 +63,6 @@ function dlts_viewer_uninstall() {
   variable_del('dlts_viewer_djatoka_service');
   variable_del('dlts_viewer_openlayers_source');
   variable_del('dlts_viewer_fileserver_host');
-  db_query("DELETE * FROM {hash}", array());
+  db_query("DELETE * FROM {dlts_viewer_books_json}", array());
+  db_query("DELETE * FROM {dlts_viewer_drush_git_commits}", array());  
 }
