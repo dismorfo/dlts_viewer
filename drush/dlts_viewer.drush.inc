@@ -21,17 +21,17 @@
  * @return
  *   An associative array describing your command(s).
  */
-function dlts_viewer_drush_command() {  
-  $items = array();  
+function dlts_viewer_drush_command() {
+  $items = array();
   $items['import-book'] = array(
     'callback' => 'dlts_viewer_import_book',
     'description' => dt('Import book from a JSON document.'),
     'options' => array(
       'source' => dt('JSON document filepath.'),
       'pages' => dt('Create pages.'),
-      'legacy' => dt('Create book using legacy JSON documents.'),    		
+      'legacy' => dt('Create book using legacy JSON documents.'),
     ),
-  );  
+  );
   $items['git-pull-books'] = array(
     'callback' => 'dlts_viewer_pull_books_from_git_repo',
   	'description' => dt('Import book from a git repository'),
@@ -40,18 +40,18 @@ function dlts_viewer_drush_command() {
       'git-worktree' => dt('Git repo directory  work tree'),
       'git-branch' => dt('Project branch'), // @TODO: not implemented
   	),
-  );  
+  );
   $items['import-queue'] = array(
     'callback' => 'dlts_viewer_free_json_documents_queue',
     'description' => dt('Import book from a git repository'),
-    'options' => array(  		
+    'options' => array(
       'pages' => dt('Create pages.'),
     ),
-  );  
+  );
   $items['import-dummy-books'] = array(
     'callback' => 'dlts_viewer_dummy_books',
     'description' => dt('Import dummy book.'),
- );  
+ );
   return $items;
 }
 
@@ -90,15 +90,16 @@ function dlts_viewer_import_book($source = NULL, $create_pages = FALSE) {
   include_once(__DIR__ . '/inc/create.inc');
   if ($source == NULL) {
     $source = drush_get_option('source', NULL);
-    if (drush_get_option('pages', FALSE)) $create_pages = TRUE;    
+    if (drush_get_option('pages', FALSE)) $create_pages = TRUE;
     if (empty($source)) return;
-    if (is_dir($source)) {      
-      create_dlts_book_from_json(file_scan_directory($source, '/(.*).json$/', array('recurse' => FALSE)), $create_pages);
+    if (is_dir($source)) {
+      create_dlts_book_from_json(file_scan_directory($source, '/(.*)\.en.json$/', array('recurse' => FALSE)), $create_pages);
+      create_dlts_book_from_json(file_scan_directory($source, '/(.*)\.ar.json$/', array('recurse' => FALSE)), $create_pages);
     }
     else {
       return create_dlts_book_from_json( array((object) array('uri' => $source)), $create_pages);
     }
-  }  
+  }
 }
 
 function dlts_viewer_dummy_books() {
@@ -161,13 +162,13 @@ function dlts_viewer_pull_books_from_git_repo() {
   $result = array();
   $verbose = drush_get_option('verbose', NULL);
   $git_work_tree = drush_get_option('git-worktree', NULL);
-  $git_dir = drush_get_option('git-dir', NULL);	
+  $git_dir = drush_get_option('git-dir', NULL);
   $git_branch = drush_get_option('git-branch', 'master');
   if (!$git_dir || !$git_work_tree) {
     drush_log('Error','error');
     return;
   }
-  chdir($git_work_tree);	
+  chdir($git_work_tree);
 	// UNIX command
   if ($verbose) drush_log(dt('Inside @dir', array('@dir' => getcwd())), 'ok');
   $command = 'git log -n 10  --pretty=format:"%H"';

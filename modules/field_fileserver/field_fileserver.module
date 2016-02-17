@@ -346,7 +346,7 @@ function field_fileserver_field_presave($entity_type, $entity, $field, $instance
 		  		$new_data['uri'] = $item['uri'];
 		  		$new_data['url'] = file_create_url($item['uri']);
 		  		$default_label = ($new_node && isset($old_data['label'])) ? $old_data['label'] : null;
-		  		$new_data['label'] = ($item['label']) ? $item['label'] : $default_label;
+		  		$new_data['label'] = (isset($item['label'])) ? $item['label'] : $default_label;
 		  		break;
 		    case 'field_fileserver_image':
 		      // valid JP2 or TIFF file extentions
@@ -357,11 +357,19 @@ function field_fileserver_field_presave($entity_type, $entity, $field, $instance
 		      if (!empty($item['label'])) {
 			      $new_data['label'] = $item['label'];
 		      }
-		      $dimmensions = explode("x", $item['image_style']);
-		      if (count($dimmensions) == 2) {
-		        $new_data['width'] = $dimmensions[0];
-		        $new_data['height'] = $dimmensions[1];
+
+		      if (isset($item['image_style'])) {
+		        $dimmensions = explode("x", $item['image_style']);
+		        if (count($dimmensions) == 2) {
+		          $new_data['width'] = $dimmensions[0];
+		          $new_data['height'] = $dimmensions[1];
+		        }
 		      }
+		      else {
+		      	$new_data['width'] = 0;
+		      	$new_data['height'] = 230;
+		      }
+
 		      // do we have a valid extension?
 		      // check for Hi-Res file extention
 		      if (in_array($ext,$valid_hires_extensions)) {
