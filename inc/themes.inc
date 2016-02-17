@@ -9,16 +9,20 @@
  * Themes functions
  */
 function theme_dlts_viewer_pager_button($variables) {
-  $classes = array('paging' , $variables['operation']);
+  $classes = array('paging');
+  if (isset($variables['classes'])) {
+    $classes = array_merge($classes, $variables['classes']);
+  }
   if (dlts_viewer_is_pjax()) {
     $classes[] = 'pjax';
   }
-  if ($variables['active']) {
+  if (isset($variables['active'])) {
     $classes[] = 'active';
   }
   else {
     $classes[] = 'inactive';
   }
+
   $render_array = array(
     'markup' => array(
       '#theme' => 'html_tag',
@@ -70,17 +74,6 @@ function theme_dlts_viewer_openlayers_image($variables) {
   if (isset($file['timestamp'])) {
   	$file_uri = $file_uri . '?v=' . $file['timestamp'];
   }
-  if (!isset($file['width'])) {
-  	include_once __DIR__ . '/inc/loaders.inc';
-    $djatoka = dlts_viewer_djatoka_request($file);
-    if (!isset($file['djakota_width'])) {
-      $file['width'] = $djatoka['width'];
-      $file['height'] = $djatoka['height'];
-      $file['levels'] = $djatoka['levels'];
-      $file['dwtLevels'] = $djatoka['dwtLevels'];
-      $file['compositingLayerCount'] = $djatoka['compositingLayerCount'];
-    }
-  }
   $openlayers_options = array(
     'service' => variable_get('dlts_viewer_djatoka_service', 'http://dl-imgdev.home.nyu.edu/adore-djatoka'),
     'imgMetadata' => array(
@@ -104,6 +97,8 @@ function theme_dlts_viewer_openlayers_image($variables) {
     '@levels' => $file['levels'],
     '@dwtLevels' => $file['dwtLevels'],
     '@layer' => $file['compositingLayerCount'],
+  	'@pageView' => 'single',
   );
-  return t('<div id="@id" class="dlts_image_map" data-uri="@uri" data-width="@width" data-height="@height" data-levels="@levels" data-dwtLevels="@dwtLevels" data-compositing-layer="@layer"></div>', $options);
+  return t('<div id="@id" class="dlts_image_map dlts_viewer_map" data-pageView="@pageView" data-uri="@uri" data-width="@width" data-height="@height" data-levels="@levels" data-dwtLevels="@dwtLevels" data-compositing-layer="@layer"></div>', $options);
 }
+

@@ -16,6 +16,22 @@ function series_nid($identifier) {
   return (int)$keys[0];
 }
 
+function series_book_nid($series_identifier, $volume_page, $collection_identifier) {
+	$query = new EntityFieldQuery;
+	$series_nid = series_nid($series_identifier);
+	$collection_nid = collection_nid($collection_identifier);
+	$result = $query
+	  ->entityCondition('entity_type', 'node')
+	  ->entityCondition('bundle', 'dlts_series_book')
+	  ->fieldCondition('field_series', 'nid', $series_identifier, '=')
+	  ->fieldCondition('field_collection', 'nid', $collection_nid, '=')
+	  ->fieldCondition('field_volume_number', 'value', $volume_page, '=')
+	  ->execute();
+	if (empty($result['node'])) return FALSE;
+	$keys = array_keys($result['node']);
+	return (int)$keys[0];
+}
+
 function find_nodes($type) {
   /** find all */
   $query = db_query("SELECT DISTINCT nid FROM {node} WHERE type = :type", array('type' => $type));
@@ -73,7 +89,6 @@ function multivol_book_nid($multivol_identifier, $volume_page, $collection_ident
     ->fieldCondition('field_collection', 'nid', $collection_nid, '=')
     ->fieldCondition('field_volume_number', 'value', $volume_page, '=')
     ->execute();
-
   if (empty($result['node'])) return FALSE;
   $keys = array_keys($result['node']);
   return (int)$keys[0];
@@ -106,14 +121,19 @@ function partner_nid($identifier) {
 }
 
 function book_nid($identifier, $language = LANGUAGE_NONE) {
-  $query = new EntityFieldQuery;
+
+	$query = new EntityFieldQuery;
+
   $result = $query
     ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'dlts_book')
     ->propertyCondition('language', $language)
     ->fieldCondition('field_identifier', 'value', $identifier, '=')
     ->execute();
+
   if (empty($result['node'])) return FALSE;
+
   $keys = array_keys($result['node']);
+
   return (int)$keys[0];
 }

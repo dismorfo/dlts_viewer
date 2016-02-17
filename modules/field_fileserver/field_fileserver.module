@@ -2,175 +2,517 @@
 
 /**
  * @file
- * Defines simple text field types.
+ * An example field using the Field Types API.
  */
 
 /**
- * Implements hook_help().
+ * @defgroup field_fileserver
+ * @ingroup DLTS
+ * @{
+ *
+ * Based on example module and Barry Jaspan's presentation at Drupalcon Paris,
+ * @link http://acquia.com/community/resources/acquia-tv/intro-field-api-module-developers Video Presentation @endlink
+ *
+ * Providing a field requires:
+ * - Defining a field:
+ *   - hook_field_info()
+ *   - hook_field_schema()
+ *   - hook_field_validate()
+ *   - hook_field_is_empty()
+ *
+ * - Defining a formatter for the field (the portion that outputs the field for
+ *   display):
+ *   - hook_field_formatter_info()
+ *   - hook_field_formatter_view()
+ *
+ * - Defining a widget for the edit form:
+ *   - hook_field_widget_info()
+ *   - hook_field_widget_form()
+ *
+ * Our module defines the field in field_fileserver_field_info(),
+ * field_fileserver_field_validate() and field_fileserver_field_is_empty().
+ * field_fileserver_field_schema() is implemented in field_fileserver.install.
+ *
+ * Our module sets up a formatter in field_fileserver_field_formatter_info() and
+ * field_fileserver_field_formatter_view(). These are the API hooks that present
+ * formatted and themed output to the user.
+ *
+ * And finally, our module defines the widget in
+ * field_fileserver_field_widget_info() and field_fileserver_field_widget_form().
+ * The widget is the form element used to receive input from the user
+ * when the field is being populated.
+ *
+ * @see field_types
+ * @see field
  */
-function field_fileserver_help($path, $arg) {
-  switch($path) {
-    case 'admin/help#text':
-      $output = '';
-      $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>some day someone will write soemthing that will make sense ... but not me!!!</p>';
-      return $output;
-  }
+
+/***************************************************************
+ * Field Type API hooks
+ ***************************************************************/
+
+/**
+ * Implementation of hook_theme().
+ * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_theme/7
+ */
+function field_fileserver_theme() {
+  return array(
+    'fileserver_image' => array(
+      'variables' => array(),
+    ),
+  );
 }
 
 /**
  * Implements hook_field_info().
  *
- * Field settings:
- *   - max_length: the maximum length for a varchar field.
- * Instance settings:
- *   - text_processing: whether text input filters should be used.
- *   - display_summary: whether the summary field should be displayed.
- *     When empty and not displayed the summary will take its value from the
- *     trimmed value of the main text field.
+ * Provides the description of the field.
  */
 function field_fileserver_field_info() {
   return array(
-    'fileserver_image' => array(
-      'label' => t('Image'),
-      'description' => t('This field stores the image URL of a image hsoted in the FileServer'),
-      'instance_settings' => array('text_processing' => 0),
-      'default_widget' => 'fileserver_image_textfield',
-      'default_formatter' => 'fileserver_image_default',
+    'field_fileserver_uri' => array(
+      'label' => t('FileServer'),
+      'description' => t('Allow to use files storage in a FileServer'),
+      'default_widget' => 'field_fileserver_link',
+      'default_formatter' => 'field_fileserver_link',
+    	// Support hook_entity_property_info() from contrib "Entity API".
+    	'property_type' => 'field_fileserver_uri', // field_item_link
+    	'property_callbacks' => array('fileserver_field_property_info_callback'),
     ),
- );
+  );
+}
+
+/**
+ * Additional callback to adapt the property info of fileserver fields.
+ *
+ * @see entity_metadata_field_entity_property_info()
+ */
+function fileserver_field_property_info_callback(&$info, $entity_type, $field, $instance, $field_type) {
+	$property = &$info[$entity_type]['bundles'][$instance['bundle']]['properties'][$field['field_name']];
+	// Define a data structure so it's possible to deal with
+	// both the uri title and data.
+	$property['getter callback'] = 'entity_metadata_field_verbatim_get';
+	$property['setter callback'] = 'entity_metadata_field_verbatim_set';
+	// Auto-create the field item as soon as a property is set.
+	$property['auto creation'] =  'fileserver_field_item_create';
+	$property['property info'] = fileserver_field_item_property_info();
+	unset($property['query callback']);
+}
+
+/**
+ * Callback for creating a new, empty link field item.
+ *
+ * @see link_field_property_info_callback()
+ */
+function fileserver_field_item_create() {
+	return array(
+	  'uri' => NULL,
+		'data' => NULL,
+		'label' => NULL,
+		'image_style' => NULL,
+	);
+}
+
+/**
+ * Defines info for the properties of the link-field item data structure.
+ */
+function fileserver_field_item_property_info() {
+	$properties['uri'] = array(
+    'type' => 'varchar',
+		'label' => t('The file URI'),
+		'setter callback' => 'entity_property_verbatim_set',
+	);
+	$properties['data'] = array(
+    'type' => 'text',
+		'label' => t('File data'),
+		'setter callback' => 'entity_property_verbatim_set',
+	);
+	return $properties;
+}
+
+/**
+ * Entity property info getter callback for fileserver attributes.
+ */
+function fileserver_field_attribute_property_get($data, array $options, $name, $type, $info) {
+	return isset($data[$name]) ? array_filter($data[$name]) : array();
 }
 
 /**
  * Implements hook_field_validate().
+ *
+ * This hook gives us a chance to validate content that's in our
+ * field. We're really only interested in the $items parameter, since
+ * it holds arrays representing content in the field we've defined.
+ *
+ * @see field_fileserver_field_widget_error()
  */
 function field_fileserver_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
-  // here we can make sure the value is a valid URL
-}
-
-/**
- * Implements hook_field_load().
- *
- * Where possible, generate the sanitized version of each field early so that
- * it is cached in the field cache. This avoids looking up from the filter cache
- * separately.
- *
- * @see text_field_formatter_view()
- */
-function field_fileserver_field_load($entity_type, $entities, $field, $instances, $langcode, &$items) {
-  foreach ($entities as $id => $entity) {
-    foreach ($items[$id] as $delta => $item) {
-      // Only process items with a cacheable format, the rest will be handled
-      // by formatters if needed.
-      
-      /**
-      if (empty($instances[$id]['settings']['text_processing']) || filter_format_allowcache($item['format'])) {
-        $items[$id][$delta]['safe_value'] = isset($item['value']) ? _text_sanitize($instances[$id], $langcode, $item, 'value') : '';
-        if ($field['type'] == 'text_with_summary') {
-          $items[$id][$delta]['safe_summary'] = isset($item['summary']) ? _text_sanitize($instances[$id], $langcode, $item, 'summary') : '';
-        }
-      }
-      */
-      
+	foreach ($items as $delta => $item) {
+		// item must have URI
+		if (!empty($item['uri'])) {
+    	$pathinfo = pathinfo($item['uri']);
+    	$basename = str_replace('fileserver://', '', $pathinfo['basename']);
+    	$ext = pathinfo($item['uri'], PATHINFO_EXTENSION);
+    	// check that we have a fileserver URI
+    	if (strpos($item['uri'], 'fileserver://') === false) {
+        $errors[$field['field_name']][$langcode][$delta][] = array(
+          'error' => 'field_fileserver_invalid',
+          'message' => t('Invalid scheme, make sure the URI include valid scheme (e.g., fileserver://example.jpg'),
+        );
+    	}
+    	// check that the URI is not bigger than the allowed MySQL size for varchar with index
+    	if (strlen($item['uri']) > 255) {
+    		$errors[$field['field_name']][$langcode][$delta][] = array(
+    			'error' => 'field_fileserver_invalid',
+    			'message' => t('URI bigger than 255 character'),
+    		);
+    	}
+    	// check that the URI contain a file extension
+    	if (!$ext) {
+    		$errors[$field['field_name']][$langcode][$delta][] = array(
+    			'error' => 'field_fileserver_invalid',
+    			'message' => t('URI dose not include a file extension'),
+    		);
+    	}
+    	else {
+    	  switch ($instance['widget']['type']) {
+    		  case 'field_fileserver_text':
+    		  case 'field_fileserver_link':
+    			  // we only need a valid URI with a file extension
+    			  // if we ever end-up with a fileserver, this will be different and
+    			  // more safe/efficient.
+    		  	// Drupal 7 core file.inc plus jp2 and tiff files
+    		  	// see: https://api.drupal.org/api/drupal/includes%21file.inc/7
+    		  	$valid_extensions = array('jpg', 'jpeg', 'gif', 'png', 'txt', 'doc', 'xls', 'pdf', 'ppt', 'pps', 'odt', 'ods', 'odp', 'jp2', 'tiff',);
+    		  	// do we have a valid extension
+    		  	if (!in_array($ext,$valid_extensions)) {
+    		  		$errors[$field['field_name']][$langcode][$delta][] = array(
+    		  		  'error' => 'field_fileserver_invalid',
+    		  			'message' => t('Invalid extension found @ext', array('@ext' => $ext)),
+    		  		);
+    		  	}
+    			  break;
+    		  case 'field_fileserver_image':
+    			  // check for web-safe file extentions or JP2 or TIFF
+    		  	$valid_extensions = array('jpg', 'jpeg', 'gif', 'png', 'jp2', 'tiff');
+    		  	if (!in_array($ext,$valid_extensions)) {
+    		  		$errors[$field['field_name']][$langcode][$delta][] = array(
+    		  		  'error' => 'field_fileserver_invalid',
+    		  			'message' => t('Invalid mime type @mimetype', array('@mimetype' => $mimetype)),
+    		  		);
+    		  	}
+    			  break;
+    	  }
+    	}
     }
-  }
+	}
 }
 
 /**
  * Implements hook_field_is_empty().
+ *
+ * hook_field_is_emtpy() is where Drupal asks us if this field is empty.
+ * Return TRUE if it does not contain data, FALSE if it does. This lets
+ * the form API flag an error when required fields are empty.
  */
 function field_fileserver_field_is_empty($item, $field) {
-  if (isset($item['value'] ) && ! empty($item['value'] )) {
-    return FALSE;
-  }
-  return TRUE;
+  return empty($item['uri']);
 }
 
 /**
  * Implements hook_field_formatter_info().
+ *
+ * We need to tell Drupal that we have two different types of formatters
+ * for this field.
+ *
+ * @see field_fileserver_field_formatter_view()
  */
 function field_fileserver_field_formatter_info() {
   return array(
-    'fileserver_image_default' => array(
-      'label' => t('Default'),
-      'field types' => array('fileserver_image'),
+    'field_fileserver_text' => array(
+      'label' => t('Text field'),
+      'field types' => array('field_fileserver_uri'),
     ),
- );
+  	'field_fileserver_link' => array(
+  	  'label' => t('Link field'),
+  		'field types' => array('field_fileserver_uri'),
+    ),
+  	'field_fileserver_image' => array(
+  	  'label' => t('Image field'),
+  	  'field types' => array('field_fileserver_uri'),
+    ),
+  );
 }
 
 /**
  * Implements hook_field_formatter_view().
+ *
+ * Four formatters are implemented.
+ * - field_fileserver_text:
+ * - field_fileserver_link
+ * - field_fileserver_image:
+ *
+ * @see field_fileserver_field_formatter_info()
  */
 function field_fileserver_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-
-  $element = array();
-
-  switch($display['type']) {
-    case 'text_default':
+	$element = array();
+  switch ($display['type']) {
+    case 'field_fileserver_text':
       foreach ($items as $delta => $item) {
-        //$output = _text_sanitize($instance, $langcode, $item, 'value');
-        $output = 'hola';
-        $element[$delta] = array('#markup' => $output);
-      }
+    	  $zebra = ($delta % 2 ==  0) ? 'even' : 'odd';
+    	  $value = file_create_url($item['uri']);
+    		$element[$delta] = array(
+    		  '#type' => 'html_tag',
+    			'#tag' => 'span',
+    			'#attributes' => array(
+    				'class' => array('field', 'field-fileserver', 'field-fileserver-text', $zebra),
+    			),
+    		  '#value' => t('@value', array('@value' => $value)),
+    	  );
+    	}
+    	break;
+    case 'field_fileserver_link':
+      foreach ($items as $delta => $item) {
+      	$data = unserialize($item['data']);
+      	$value = ($data && isset($data['label']) && !empty($data['label'])) ? $data['label'] : $data['url'];
+    	  $zebra = ($delta % 2 ==  0) ? 'even' : 'odd';
+    		$uri = file_create_url($item['uri']);
+    		$element[$delta] = array(
+    		  '#type' => 'html_tag',
+    			'#tag' => 'a',
+    			'#attributes' => array(
+    			  'href' => $uri,
+    				'class' => array('field', 'field-fileserver', 'field-fileserver-link', $zebra),
+    			),
+    			'#value' => t('@value', array('@value' => $value)),
+    		);
+    	}
+    	break;
+    case 'field_fileserver_image':
+    	foreach ($items as $delta => $item) {
+    		$element[$delta] = theme('fileserver_image', $item);
+    	}
       break;
   }
-
   return $element;
 }
 
 /**
  * Implements hook_field_widget_info().
+ *
+ * Four widgets are provided.
+ * - field_fileserver_text
+ * - field_fileserver_link
+ * - field_fileserver_image
+ *
+ * These widget types will eventually show up in hook_field_widget_form,
+ * where we will have to flesh them out.
+ *
+ * @see field_fileserver_field_widget_form()
  */
 function field_fileserver_field_widget_info() {
   return array(
-    'fileserver_image_textfield' => array(
+    'field_fileserver_text' => array(
       'label' => t('Text field'),
-      'field types' => array('fileserver_image'),
-      'settings' => array('size' => 60),
+      'field types' => array('field_fileserver_uri'),
     ),
- );
+  	'field_fileserver_link' => array(
+  	  'label' => t('Link field'),
+  		'field types' => array('field_fileserver_uri'),
+  	),
+  	'field_fileserver_image' => array(
+  	  'label' => t('Image field'),
+  		'field types' => array('field_fileserver_uri'),
+  	),
+  );
+}
+
+/**
+ * Implements hook_field_presave().
+ */
+function field_fileserver_field_presave($entity_type, $entity, $field, $instance, $langcode, &$items) {
+	$new_node = (isset($entity->nid)) ? true : false;
+	if ($instance['widget']['module'] == 'field_fileserver') {
+	  foreach ($items as $key => $item) {
+	  	$old_data = (!empty($item['data'])) ? unserialize($item['data']) : array();
+	  	$new_data = array();
+      //check for web-safe file extentions
+		  $pathinfo = pathinfo($item['uri']);
+		  $basename = str_replace('fileserver://', '', $pathinfo['basename']);
+		  $ext = pathinfo($item['uri'], PATHINFO_EXTENSION);
+		  $mimetype = file_get_mimetype($basename);
+		  switch ($instance['widget']['type']) {
+		  	case 'field_fileserver_text':
+		  	case 'field_fileserver_link':
+		  		$new_data['uri'] = $item['uri'];
+		  		$new_data['url'] = file_create_url($item['uri']);
+		  		$default_label = ($new_node && isset($old_data['label'])) ? $old_data['label'] : null;
+		  		$new_data['label'] = (isset($item['label'])) ? $item['label'] : $default_label;
+		  		break;
+		    case 'field_fileserver_image':
+		      // valid JP2 or TIFF file extentions
+		      $valid_hires_extensions = array('jp2', 'tiff', 'jpg'); // test assumptions that our image server can read all JPG images
+		      // valid web-safe extentions
+		      $valid_websafe_extensions = array( 'jpeg', 'gif', 'png');
+		      $new_data['uri'] = $item['uri'];
+		      if (!empty($item['label'])) {
+			      $new_data['label'] = $item['label'];
+		      }
+
+		      if (isset($item['image_style'])) {
+		        $dimmensions = explode("x", $item['image_style']);
+		        if (count($dimmensions) == 2) {
+		          $new_data['width'] = $dimmensions[0];
+		          $new_data['height'] = $dimmensions[1];
+		        }
+		      }
+		      else {
+		      	$new_data['width'] = 0;
+		      	$new_data['height'] = 230;
+		      }
+
+		      // do we have a valid extension?
+		      // check for Hi-Res file extention
+		      if (in_array($ext,$valid_hires_extensions)) {
+		      	// Load Djatoka Image Server utils
+		      	module_load_include('inc', 'dlts_viewer', 'inc/djatoka');
+		      	// Get URL
+			      $new_data['url'] = dlts_viewer_djatoka_url($item);
+		      }
+		      // check for web-safe file extention
+		      elseif (in_array($ext,$valid_websafe_extensions)) {
+			      $new_data['url'] = file_create_url($item['uri']);
+		      }
+		      break;
+		  }
+		  $items[$key]['data'] = serialize($new_data);
+		}
+	}
 }
 
 /**
  * Implements hook_field_widget_form().
+ *
+ * hook_widget_form() is where Drupal tells us to create form elements for
+ * our field's widget.
+ *
+ * We provide one of four different forms, depending on the widget type of
+ * the Form API item provided.
+ *
  */
 function field_fileserver_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-
-  $main_widget = array();
-
-  $main_widget = $element + array(
-    '#type' => 'textfield',
-    '#default_value' => isset($items[$delta]['value']) ? $items[$delta]['value'] : NULL,
-    '#size' => 60,
-    '#maxlength' => $field['settings']['max_length'],
-    '#attributes' => array('class' => array('text-full')),
- );
-  
-  $element['value'] = $main_widget;
-      
+	$uri_value = isset($items[$delta]['uri']) ? trim($items[$delta]['uri']) : '';
+	$data_value = isset($items[$delta]['data']) ? unserialize($items[$delta]['data']) : null;
+	$uri_widget = $element;
+	$data_widget = $element;
+  $widget['#delta'] = $delta;
+  $label_default_value = (isset($data_value['label'])) ? $data_value['label'] : null;
+  $label_widget = array(
+    '#title' => 'Label',
+  	'#suffix' => '<div class="field-fileserver-label"></div>',
+  	'#type' => 'textfield',
+  	'#default_value' => $label_default_value,
+  	'#attributes' => array('class' => array('edit-field-fileserver-label')),
+  	'#size' => 255,
+  	'#maxlength' => 255,
+  	'#description' => t('File label or title'),
+  );
+  $element['label'] = $label_widget;
+  $uri_widget += array(
+    '#title' => 'File identifier',
+  	'#suffix' => '<div class="field-fileserver-uri"></div>',
+  	'#type' => 'textfield',
+  	'#default_value' => $uri_value,
+  	'#attributes' => array('class' => array('edit-field-fileserver-uri')),
+  	'#size' => 255,
+  	'#maxlength' => 255,
+  	'#description' => t('File identifier (e.g., @identifier)', array(' @identifier' => 'fileserver://exmple.jpg')),
+  );
+  $element['uri'] = $uri_widget;
+  $data_widget += array(
+    '#type' => 'hidden',
+    '#default_value' => $data_value
+  );
+  $element['data'] = $data_widget;
+  switch ($instance['widget']['type']) {
+    case 'field_fileserver_image':
+    	$options = array();
+    	$options['oxs'] = 'Original size';
+    	// Laura's default one. Create a image style in Drupal?
+    	// Ask Laura what she needs to get this working as she want.
+    	$options['0x230'] = 'Scale height to 230';
+    	if (isset($data_value['width']) || isset($data_value['height'])) {
+    	  $data_value_width = (isset($data_value['width'])) ? $data_value['width'] : 0;
+    	  $data_value_height = (isset($data_value['height'])) ? $data_value['height'] : 0;
+    	  $default_image_style = $data_value_width . 'x' . $data_value_height;
+    	}
+    	else {
+    		$default_image_style = '0x230';
+    	}
+    	foreach (image_styles() as $key => $style) {
+    		$style = image_style_load($key);
+    		$slice = array_slice($style['effects'], 0, 1);
+    		$effects = array_shift($slice);
+    		if ($effects['name'] === 'image_scale') {
+    		  $width = $effects['data']['width'];
+    			$height = $effects['data']['height'];
+    			$options[$width . 'x' . $height] = $style['label'];
+    		}
+    	}
+    	$image_style_widget = array(
+        '#type' => 'select',
+        '#title' => t('Image style'),
+        '#options' => $options, // Drupal's core style + our modules options
+        '#default_value' => $default_image_style,
+        '#description' => t('Select the <em>image style</em> you want to apply to this image.'),
+      );
+      $element['image_style'] = $image_style_widget;
+      break;
+  }
   return $element;
 }
 
 /**
  * Implements hook_field_widget_error().
+ *
+ * hook_field_widget_error() lets us figure out what to do with errors
+ * we might have generated in hook_field_validate(). Generally, we'll just
+ * call form_error().
+ *
+ * @see field_example_field_validate()
+ * @see form_error()
  */
 function field_fileserver_field_widget_error($element, $error, $form, &$form_state) {
-
-  $error_element = $element[$element['#columns'][0]];
-
-  form_error($error_element, $error['message']);
+  switch ($error['error']) {
+    case 'field_fileserver_invalid':
+      form_error($element, $error['message']);
+      break;
+  }
 }
 
 /**
- * Implements hook_filter_format_update().
+ * Returns HTML for a image server from the image fileserver.
+ *
+ * @param $variables
+ *   An associative array containing:
+ *   - file: A file object to which the link will be created.
+ *
+ * @ingroup themeable
  */
-function field_fileserver_filter_format_update($format) {
-  field_cache_clear();
+function theme_fileserver_image($variables) {
+  $data = unserialize($variables['data']);
+  $attributes = array();
+  $attributes['src'] = $data['url'];
+  $attributes['alt'] = (isset($data['label'])) ? $data['label'] : '';
+  $attributes['class'] = array('field', 'field-fileserver','field-fileserver-image');
+  if (isset($data['width']) && is_numeric($data['width']) && $data['width'] != 0) {
+    $attributes['width'] = $data['width'];
+  }
+  if (isset($data['height']) && is_numeric($data['height']) && $data['height'] != 0) {
+  	$attributes['height'] = $data['height'];
+  }
+  return array('#type' => 'html_tag', '#tag' => 'img', '#attributes' => $attributes);
 }
 
 /**
- * Implements hook_filter_format_disable().
+ * @} End of "defgroup field_fileserver".
  */
-function field_fileserver_filter_format_disable($format) {
-  field_cache_clear();
-}

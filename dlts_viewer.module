@@ -4,7 +4,7 @@
  * @file
  * DLTS Viewer module
  */
- 
+
 /**
  * Include wildcard loaders
  */
@@ -34,6 +34,9 @@ function dlts_viewer_theme() {
       'variables' => array(),
       'file' => 'inc/themes.inc',
     ),
+    'thumbnails_pager' => array(
+  	  'variables' => array('tags' => array(), 'limit' => 10, 'element' => 0, 'parameters' => array(), 'quantity' => 9),
+  	),
     'dlts_viewer_openlayers_image' => array(
       'variables' => array(),
       'file' => 'inc/themes.inc',
@@ -78,6 +81,10 @@ function dlts_viewer_theme() {
       'template' => 'templates/components/component--bookpage',
       'variables' => array(),
     ),
+  	'book_display' => array(
+  	  'template' => 'templates/components/component--display',
+  		'variables' => array(),
+  	),
     'dlts_book_oembed' => array(
       'template' => 'templates/components/component--oembed',
       'variables' => array(),
@@ -111,11 +118,22 @@ function dlts_viewer_theme() {
       'base hook' => 'page',
       'template' => 'templates/node',
     ),
+    'ds_1col__node_metadata' => array(
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/ds-1col--node-metadata',
+    ),
     'node__dlts_book_pjax' => array(
       'render element' => 'content',
       'base hook' => 'page',
       'template' => 'templates/node.pjax',
     ),
+  	'node__display' => array(
+  	  'render element' => 'content',
+  		'base hook' => 'node',
+  		'template' => 'templates/display',
+  	),
+
     'block__content' => array(
       'render element' => 'content',
       'base hook' => 'page',
@@ -134,7 +152,8 @@ function dlts_viewer_theme() {
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_menu/7
  */
 function dlts_viewer_menu() {
-  return array(
+
+  $menu = array(
     /**
      * Convinient way to edit a Book object
      * e.g., http://{{HOST}}/{{SITE}}/books/{{IDENTIFIER}}/edit
@@ -161,6 +180,15 @@ function dlts_viewer_menu() {
       'file' => 'inc/book.inc',
       'type' => MENU_CALLBACK,
     ),
+  	'books/%dlts_book/display' => array(
+  	  'title' => 'Book metadata display',
+  	  'access arguments' => array('access content'),
+  		'page callback' => 'dlts_viewer_dispatcher',
+  	  'page arguments' => array(1, 2),
+  	  'delivery callback' => 'drupal_deliver_html_page',
+  		'file' => 'inc/book.inc',
+  	  'type' => MENU_CALLBACK,
+  	),
     /**
      * Render book pages
      */
@@ -191,7 +219,19 @@ function dlts_viewer_menu() {
       'delivery callback' => 'dlts_viewer_deliver_json',
       'file' => 'inc/endpoints.inc',
     ),
- );
+  );
+  if (module_exists('devel')) {
+    $menu['node/%node/json_view'] = array(
+      'title' => 'JSON',
+      'page callback' => 'dlts_viewer_load_object',
+      'page arguments' => array('node', 1),
+      'access arguments' => array('access content'),
+      'type' => MENU_LOCAL_TASK,
+      'file' => 'inc/book.inc',
+      'weight' => 100,
+    );
+  }
+  return $menu;
 }
 
 /**
@@ -228,6 +268,17 @@ function dlts_viewer_preprocess_html(&$vars) {
   }
 }
 
+function dlts_viewer_process_node(&$vars) {
+	// dpm(__FUNCTION__);
+	// dpm($vars);
+	$is_pjax = dlts_viewer_is_pjax();
+	$args = arg();
+	$count = count($args);
+	if ($count === 3 && $args[2] == 'display') {
+		$vars['theme_hook_suggestions'][] = 'node__display';
+	}
+}
+
 /**
  * Implements template_preprocess_node().
  * https://api.drupal.org/api/drupal/modules%21node%21node.module/function/template_preprocess_node/7
@@ -240,8 +291,16 @@ function dlts_viewer_preprocess_node(&$vars) {
     drupal_goto('books/' . $identifier . '/1');
   }
   $vars['language_dir'] = dlts_viewer_viewer_language($vars);
-  if (dlts_viewer_is_pjax()) {
-    $vars['theme_hook_suggestions'][] = 'node__books_pjax';
+  if ($vars['view_mode'] == 'metadata' && $vars['type'] == 'dlts_book') {
+  	$is_pjax = dlts_viewer_is_pjax();
+  	$args = arg();
+  	$count = count($args);
+    if ($count === 3 && $args[2] == 'display') {
+    	$vars['theme_hook_suggestions'][] = 'node__display';
+    }
+    if ($is_pjax) {
+    	$vars['theme_hook_suggestions'][] = 'node__books_pjax';
+    }
   }
 }
 
@@ -261,7 +320,7 @@ function dlts_viewer_preprocess_page(&$vars) {
  * https://api.drupal.org/api/drupal/includes%21theme.inc/function/template_process_page/7
  */
 function dlts_viewer_process_page(&$vars) {
-  $vars['is_embed'] = FALSE;
+  $vars['is_embed'] = dlts_viewer_is_embed();
   // check if this is a embed request. Don't show title if is embeded
   if (!$vars['is_embed']) {
     $vars['top'] = theme('dlts_book_top', array(
@@ -273,8 +332,8 @@ function dlts_viewer_process_page(&$vars) {
       'title_prefix' => render($vars['title_prefix']),
       'title_suffix' => render($vars['title_suffix']),
       'help' => render($vars['page']['help']),
-    )
- );
+      )
+    );
   }
 }
 
@@ -299,6 +358,10 @@ function dlts_viewer_stream_wrappers() {
   return $wrappers ;
 }
 
+function dlts_viewer_metadata_display($node) {
+	return node_view($node, 'metadata', $node->language);
+}
+
 /**
  * Package and send page callback as JSON/JSONP.
  * See: http://api.drupal.org/api/drupal/includes--common.inc/function/drupal_deliver_html_page/7
@@ -307,12 +370,9 @@ function dlts_viewer_stream_wrappers() {
  * A keyed array to be converted into JSON
  */
 function dlts_viewer_deliver_json($page_callback_result) {
-
   /** Send appropriate HTTP-Header for browsers and search engines. */
   global $language;
-  
   drupal_add_http_header('Content-Language', $language->language);
-
   /** Menu status constants are integers; page content is a string or array. */
   if (is_int($page_callback_result)) {
     switch ($page_callback_result) {
@@ -335,15 +395,12 @@ function dlts_viewer_deliver_json($page_callback_result) {
         break;
     }
   }
-
   // Only add Content-Length if we actually have any content. Some non-standard
   // servers get confused by Content-Length in at least HEAD/GET requests
   $content_length = strlen($data);
-
   if ($content_length > 0) {
     $defaults['Content-Length'] = 'Content-Length: ' . $content_length;
   }
-
   if (isset($page_callback_result)) {
     if (array_key_exists('callback', $_GET)) {
       drupal_add_http_header('Content-Type', 'text/javascript; charset=utf-8');
@@ -354,6 +411,59 @@ function dlts_viewer_deliver_json($page_callback_result) {
       echo drupal_json_encode($page_callback_result);
     }
   }
+}
+
+/**
+ * Override of theme_pager().
+ * Easily one of the most obnoxious theming jobs in Drupal core.
+ * Goals: consolidate functionality into less than 5 functions and
+ * ensure the markup will not conflict with major other styles
+ * (theme_item_list() in particular).
+ */
+function theme_thumbnails_pager($vars) {
+	$tags = $vars['tags'];
+	$element = $vars['element'];
+	$parameters = $vars['parameters'];
+	$quantity = $vars['quantity'];
+	$pager_list = theme('pager_list', $vars);
+
+	$links = array();
+
+	$links['pager-first'] = theme('pager_first', array(
+			'text' => (isset($tags[0]) ? $tags[0] : t('First')),
+			'element' => $element,
+			'parameters' => $parameters
+	));
+
+	$links['pager-previous'] = theme('pager_previous', array(
+			'text' => (isset($tags[1]) ? $tags[1] : t('Prev')),
+			'element' => $element,
+			'interval' => 1,
+			'parameters' => $parameters
+	));
+	$links['pager-next'] = theme('pager_next', array(
+			'text' => (isset($tags[3]) ? $tags[3] : t('Next')),
+			'element' => $element,
+			'interval' => 1,
+			'parameters' => $parameters
+	));
+	$links['pager-last'] = theme('pager_last', array(
+			'text' => (isset($tags[4]) ? $tags[4] : t('Last')),
+			'element' => $element,
+			'parameters' => $parameters
+	));
+
+	$links['close'] = array('title' => t('Close [x]'), 'href'=> '#close', 'attributes' => array('class' => array('close')));
+
+	$links = array_filter($links);
+
+	$pager_links = theme('links', array(
+			'links' => $links,
+			'attributes' => array('class' => 'links pager pager-links')
+	));
+	if ($pager_list) {
+		return '<div class="pager clearfix">' . $pager_list . ' ' . $pager_links . '</div>';
+	}
 }
 
 function dlts_viewer_is_pjax() {
@@ -376,6 +486,22 @@ function dlts_viewer_is_pjax() {
     }
   }
   return $is_pjax;
+}
+
+function dlts_viewer_is_embed() {
+	$is_embed = &drupal_static('is_embed');
+	if (!isset($is_embed)) {
+		$params = drupal_get_query_parameters();
+		if (isset($params['embed'])) {
+		  if ($params['embed'] === '1' || $params['embed'] === 'true') {
+		  	$is_embed = TRUE;
+		  }
+		  else {
+		  	$is_embed = FALSE;
+		  }
+		}
+  }
+	return $is_embed;
 }
 
 function dlts_viewer_viewer_language($vars) {

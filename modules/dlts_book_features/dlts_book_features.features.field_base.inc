@@ -31,7 +31,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'text_with_summary',
- );
+  );
 
   // Exported field_base: 'field_author'.
   $field_bases['field_author'] = array(
@@ -53,7 +53,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_binding_orientation'.
   $field_bases['field_binding_orientation'] = array(
@@ -79,7 +79,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'list_integer',
- );
+  );
 
   // Exported field_base: 'field_book'.
   $field_bases['field_book'] = array(
@@ -118,7 +118,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'node_reference',
- );
+  );
 
   // Exported field_base: 'field_call_number'.
   $field_bases['field_call_number'] = array(
@@ -140,7 +140,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_code'.
   $field_bases['field_code'] = array(
@@ -162,7 +162,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_collection'.
   $field_bases['field_collection'] = array(
@@ -203,7 +203,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'node_reference',
- );
+  );
 
   // Exported field_base: 'field_contributor'.
   $field_bases['field_contributor'] = array(
@@ -225,7 +225,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_creator'.
   $field_bases['field_creator'] = array(
@@ -247,7 +247,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_description'.
   $field_bases['field_description'] = array(
@@ -269,7 +269,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_dimensions'.
   $field_bases['field_dimensions'] = array(
@@ -291,7 +291,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_editor'.
   $field_bases['field_editor'] = array(
@@ -313,7 +313,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_geographic_coordinates'.
   $field_bases['field_geographic_coordinates'] = array(
@@ -337,7 +337,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'geolocation_latlng',
- );
+  );
 
   // Exported field_base: 'field_geographic_subject'.
   $field_bases['field_geographic_subject'] = array(
@@ -365,7 +365,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'taxonomy_term_reference',
- );
+  );
 
   // Exported field_base: 'field_handle'.
   $field_bases['field_handle'] = array(
@@ -395,7 +395,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'link_field',
- );
+  );
 
   // Exported field_base: 'field_identifier'.
   $field_bases['field_identifier'] = array(
@@ -417,7 +417,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_isbn'.
   $field_bases['field_isbn'] = array(
@@ -439,7 +439,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_language'.
   $field_bases['field_language'] = array(
@@ -461,7 +461,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_language_code'.
   $field_bases['field_language_code'] = array(
@@ -483,7 +483,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_multivol'.
   $field_bases['field_multivol'] = array(
@@ -522,7 +522,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'node_reference',
- );
+  );
 
   // Exported field_base: 'field_name'.
   $field_bases['field_name'] = array(
@@ -544,7 +544,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_notes_field'.
   $field_bases['field_notes_field'] = array(
@@ -565,7 +565,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'text_long',
- );
+  );
 
   // Exported field_base: 'field_number'.
   $field_bases['field_number'] = array(
@@ -587,33 +587,28 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_ocr_text'.
   $field_bases['field_ocr_text'] = array(
     'active' => 1,
-    'cardinality' => -1,
+    'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ocr_text',
     'indexes' => array(
-      'fid' => array(
-        0 => 'fid',
+      'uri' => array(
+        0 => 'uri',
       ),
     ),
     'locked' => 0,
-    'module' => 'file',
+    'module' => 'field_fileserver',
     'settings' => array(
-      'display_default' => 0,
-      'display_field' => 0,
-      'entity_translation_sync' => array(
-        0 => 'fid',
-      ),
-      'uri_scheme' => 'public',
+      'entity_translation_sync' => FALSE,
     ),
     'translatable' => 0,
-    'type' => 'file',
- );
+    'type' => 'field_fileserver_uri',
+  );
 
   // Exported field_base: 'field_other_version'.
   $field_bases['field_other_version'] = array(
@@ -643,7 +638,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'link_field',
- );
+  );
 
   // Exported field_base: 'field_page_count'.
   $field_bases['field_page_count'] = array(
@@ -660,7 +655,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'number_integer',
- );
+  );
 
   // Exported field_base: 'field_partner'.
   $field_bases['field_partner'] = array(
@@ -701,7 +696,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'node_reference',
- );
+  );
 
   // Exported field_base: 'field_pdf_file'.
   $field_bases['field_pdf_file'] = array(
@@ -711,23 +706,18 @@ function dlts_book_features_field_default_field_bases() {
     'entity_types' => array(),
     'field_name' => 'field_pdf_file',
     'indexes' => array(
-      'fid' => array(
-        0 => 'fid',
+      'uri' => array(
+        0 => 'uri',
       ),
     ),
     'locked' => 0,
-    'module' => 'file',
+    'module' => 'field_fileserver',
     'settings' => array(
-      'display_default' => 0,
-      'display_field' => 0,
-      'entity_translation_sync' => array(
-        0 => 'fid',
-      ),
-      'uri_scheme' => 'public',
+      'entity_translation_sync' => FALSE,
     ),
-    'translatable' => 1,
-    'type' => 'file',
- );
+    'translatable' => 0,
+    'type' => 'field_fileserver_uri',
+  );
 
   // Exported field_base: 'field_physical_description'.
   $field_bases['field_physical_description'] = array(
@@ -749,7 +739,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_publication_date'.
   $field_bases['field_publication_date'] = array(
@@ -780,7 +770,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'date',
- );
+  );
 
   // Exported field_base: 'field_publication_date_text'.
   $field_bases['field_publication_date_text'] = array(
@@ -802,7 +792,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_publication_location'.
   $field_bases['field_publication_location'] = array(
@@ -824,7 +814,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_publisher'.
   $field_bases['field_publisher'] = array(
@@ -846,7 +836,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_read_order'.
   $field_bases['field_read_order'] = array(
@@ -873,7 +863,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'list_integer',
- );
+  );
 
   // Exported field_base: 'field_representative_image'.
   $field_bases['field_representative_image'] = array(
@@ -883,22 +873,18 @@ function dlts_book_features_field_default_field_bases() {
     'entity_types' => array(),
     'field_name' => 'field_representative_image',
     'indexes' => array(
-      'fid' => array(
-        0 => 'fid',
+      'uri' => array(
+        0 => 'uri',
       ),
     ),
     'locked' => 0,
-    'module' => 'image',
+    'module' => 'field_fileserver',
     'settings' => array(
-      'default_image' => 0,
-      'entity_translation_sync' => array(
-        0 => 'fid',
-      ),
-      'uri_scheme' => 'public',
+      'entity_translation_sync' => FALSE,
     ),
-    'translatable' => 1,
-    'type' => 'image',
- );
+    'translatable' => 0,
+    'type' => 'field_fileserver_uri',
+  );
 
   // Exported field_base: 'field_rights'.
   $field_bases['field_rights'] = array(
@@ -919,7 +905,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'text_long',
- );
+  );
 
   // Exported field_base: 'field_scan_date'.
   $field_bases['field_scan_date'] = array(
@@ -952,7 +938,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'date',
- );
+  );
 
   // Exported field_base: 'field_scan_order'.
   $field_bases['field_scan_order'] = array(
@@ -979,7 +965,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'list_integer',
- );
+  );
 
   // Exported field_base: 'field_scanning_notes'.
   $field_bases['field_scanning_notes'] = array(
@@ -1000,7 +986,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'text_long',
- );
+  );
 
   // Exported field_base: 'field_section_body'.
   $field_bases['field_section_body'] = array(
@@ -1021,7 +1007,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'text_long',
- );
+  );
 
   // Exported field_base: 'field_section_name'.
   $field_bases['field_section_name'] = array(
@@ -1043,7 +1029,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_sequence_count'.
   $field_bases['field_sequence_count'] = array(
@@ -1060,7 +1046,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'number_integer',
- );
+  );
 
   // Exported field_base: 'field_series'.
   $field_bases['field_series'] = array(
@@ -1100,7 +1086,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'node_reference',
- );
+  );
 
   // Exported field_base: 'field_subject'.
   $field_bases['field_subject'] = array(
@@ -1128,7 +1114,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'taxonomy_term_reference',
- );
+  );
 
   // Exported field_base: 'field_subtitle'.
   $field_bases['field_subtitle'] = array(
@@ -1150,7 +1136,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_title'.
   $field_bases['field_title'] = array(
@@ -1172,7 +1158,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_topic'.
   $field_bases['field_topic'] = array(
@@ -1194,7 +1180,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_volume'.
   $field_bases['field_volume'] = array(
@@ -1216,7 +1202,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 1,
     'type' => 'text',
- );
+  );
 
   // Exported field_base: 'field_volume_number'.
   $field_bases['field_volume_number'] = array(
@@ -1233,7 +1219,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'number_integer',
- );
+  );
 
   // Exported field_base: 'field_volume_number_str'.
   $field_bases['field_volume_number_str'] = array(
@@ -1255,7 +1241,7 @@ function dlts_book_features_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'text',
- );
+  );
 
   return $field_bases;
 }

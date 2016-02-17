@@ -22,7 +22,7 @@ function dlts_book_features_locale_default_languages() {
     'domain' => '',
     'prefix' => 'ar',
     'weight' => 0,
- );
+  );
   // Exported language: en.
   $languages['en'] = array(
     'language' => 'en',
@@ -35,6 +35,6 @@ function dlts_book_features_locale_default_languages() {
     'domain' => '',
     'prefix' => '',
     'weight' => 0,
- );
+  );
   return $languages;
 }

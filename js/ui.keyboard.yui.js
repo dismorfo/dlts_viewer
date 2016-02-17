@@ -1,28 +1,24 @@
 // http://yuilibrary.com/yui/docs/event/synth-example.html
 // http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
-Y.use('node', 'event-synthetic', 'event-custom', function(Y) {
-  
+YUI().use('node', 'event-synthetic', 'event-custom', function(Y) {
   Y.Event.define("arrow", {
     // Webkit and IE repeat keydown when you hold down arrow keys.
     // Opera links keypress to page scroll; others keydown.
     // Firefox prevents page scroll via preventDefault() on either
     // keydown or keypress.
     _event:(Y.UA.webkit || Y.UA.ie) ? 'keydown' : 'keypress',
-
     _keys: {
         37: true,
         38: true,
         39: true,
         40: true
     },
-
     _directions: {
         '37': 'w',
         '38': 'n',
         '39': 'e',
         '40': 's'
     },
-
     _keydown: function(e) {
         if (this._keys[e.keyCode]) {
             var node = e.currentTarget,
@@ -40,7 +36,6 @@ Y.use('node', 'event-synthetic', 'event-custom', function(Y) {
             }
         }
     },
-
     _notify: function(e, notifier) {
         if (this._keys[e.keyCode]) {
             var node = e.currentTarget,
@@ -59,13 +54,11 @@ Y.use('node', 'event-synthetic', 'event-custom', function(Y) {
             notifier.fire(e);
         }
     },
-
     _keyup: function(e) {
         if (this._keys[e.keyCode]) {
             var node = e.currentTarget,
                 input = node.getData('-yui3-arrow-dir'),
                 i;
-
             if (input) {
                 for(i = input.length - 1; i >= 0; --i) {
                     if (input[i] === e.keyCode) {
@@ -76,7 +69,6 @@ Y.use('node', 'event-synthetic', 'event-custom', function(Y) {
             }
         }
     },
-
     on: function(node, sub, notifier, filter) {
         var method =(filter) ? 'delegate' : 'on';
         sub._handle = new Y.EventHandle([
@@ -85,19 +77,15 @@ Y.use('node', 'event-synthetic', 'event-custom', function(Y) {
             node[method]('keyup', Y.rbind(this._keyup, this), filter)
         ]);
     },
-
     detach: function(node, sub, notifier) {
         sub._handle.detach();
     },
-
     delegate: function() {
         this.on.apply(this, arguments);
     },
-
     detachDelegate: function() {
         this.detach.apply(this, arguments);
     }
-
   });
     
   function move(e) {
@@ -125,20 +113,15 @@ Y.use('node', 'event-synthetic', 'event-custom', function(Y) {
     }
     // Shift opptions
     else {
-      
       switch(e.direction) {
         case 'e':
           Y.fire('openlayers:next', e);
-          
           break;
-          
         case 'w':
           Y.fire('openlayers:previous', e);
           break;          
         }
     }
-  }
-    
+  } 
   Y.on('arrow', move);
-    
 });

@@ -39,5 +39,5 @@ function dlts_book_features_taxonomy_default_vocabularies() {
       'language' => 'und',
       'i18n_mode' => 0,
     ),
- );
+  );
 }
