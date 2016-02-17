@@ -5,15 +5,30 @@
  * DLTS Viewer drush
  */
 function create_dlts_series_book($node) {
+
   global $user;
+
   /** make sure the parent relationship exist */
-  foreach ($node->isPartOf as $isPartOf) {
-    $series_nid = series_nid($isPartOf->identifier);
-  	if (!$series_nid) {
-  		create_dlts_series($isPartOf);
+  if (is_array($node->isPartOf)) {
+  	foreach ($node->isPartOf as $isPartOf) {
+  		$series_nid = series_nid($isPartOf->identifier);
+  		if (!$series_nid) {
+  			create_dlts_series($isPartOf);
+  		}
   	}
+  	// @TODO: This looks like a bug ...
+  	$series_identifier = $node->isPartOf[0]->identifier;
+  	$exist = series_book_nid($series_identifier, $node->volume_number, $node->collection[0]->identifier);
   }
-  $exist = series_book_nid($node->isPartOf[0]->identifier, $node->volume_number, $node->collection[0]->identifier);
+  else {
+    $series_nid = series_nid($node->isPartOf->identifier);
+    if (!$series_nid) {
+  	  create_dlts_series($node->isPartOf);
+  	}
+  	$series_identifier = $node->isPartOf->identifier;
+  	$exist = series_book_nid($series_identifier, $node->volume_number, $node->collection[0]->identifier);
+  }
+
   if ($exist) {
     // Load the node by NID
     $entity = node_load($exist);
@@ -21,8 +36,6 @@ function create_dlts_series_book($node) {
     $ewrapper = entity_metadata_wrapper('node', $entity);
   }
   else {
-    // entity_create replaces the procedural steps in the first example of
-    // creating a new object $node and setting its 'type' and uid property
     $values = array(
       'type' => 'dlts_series_book',
       'uid' => $user->uid,
@@ -37,7 +50,9 @@ function create_dlts_series_book($node) {
     // to make getting and setting values easier
     $ewrapper = entity_metadata_wrapper('node', $entity);
   }
-  $series_nid = series_nid($node->isPartOf[0]->identifier);
+
+  $series_nid = series_nid($series_identifier);
+
   if (!empty($node->title)) {
   	$ewrapper->title->set($node->title);
   }

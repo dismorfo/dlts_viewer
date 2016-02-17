@@ -37,9 +37,15 @@ function create_dlts_series($node) {
   else {
   	$ewrapper->title->set('Untitled');
   }
+
   $ewrapper->field_identifier->set($node->identifier);
-  $ewrapper->field_handle->set(array('url' => $node->handle));
+
+  if (isset($node->handle)) {
+  	$ewrapper->field_handle->set(array('url' => $node->handle));
+  }
+
   // $ewrapper->representative_image->set(array('url' => $node['representative_image']));
   $ewrapper->save();
+
   return $entity;
 }
