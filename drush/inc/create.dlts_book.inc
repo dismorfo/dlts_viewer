@@ -403,6 +403,7 @@ function dlts_viewer_subject_vocabulary_vid() {
 }
 
 function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE) {
+	if (!$legacy) $legacy = drush_get_option('legacy', FALSE);
 	$out = array('success' => array(), 'error' => array());
   foreach ($books as $value) {
   	if (!file_exists($value->uri)) continue;
