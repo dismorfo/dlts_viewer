@@ -406,28 +406,28 @@ function dlts_viewer_book_metadata_display($node) {
   return node_view($node , 'metadata' , $book->language );
 }
 
-
 /**
  * Menu callback; prints the loaded structure of the current node/user.
  */
 function dlts_viewer_load_object($type, $object, $name = NULL) {
-  // drupal_install_schema('dlts_viewer');
   $out = '';
   $name = isset($name) ? $name : $type;
   $entity = entity_metadata_wrapper('node', $object);
   $identifier = $entity->field_identifier->value();
   $title = $entity->title->value();
   $rows = array();
-  $results = db_query("SELECT * FROM {dlts_viewer_books_json} WHERE nid = :nid ORDER BY created DESC", array(':nid' => $object->nid));
-  $header = array('Node ID', 'Hash', 'Document', 'Language', 'Proceed', 'Created');
+  $results = db_query("SELECT nid, hash, document, language, created, changed FROM {dlts_viewer_books_json} WHERE nid = :nid ORDER BY created DESC", array(':nid' => $object->nid));
+  $header = array('Node ID', 'Hash', 'Document', 'Language', 'Created', 'Changed');
   foreach ($results as $key => $result) {
   	$document = $result->document;
   	if (file_exists($document)) {
+  		$nid = $result->nid;
+  		$result->nid = l($nid,'node/' . $nid);
   	  $result->document = basename($result->document);
   	  $result->created = date('F jS, Y h:i:s A',$result->created);
+  	  $result->changed = date('F jS, Y h:i:s A',$result->changed);
   	  $rows[] = (array) $result;
   	  $out .= theme('table', array('header' => $header, 'rows' => $rows));
-  	  //dpm($document);
   	  $out .= '<h1>' . t('Node object') . '</h1>';
   	  $out .= kdevel_print_object($object, '$'. $name .'->');
   	  $out .= '<h1>' . t('JSON document') . '</h1>';
@@ -437,13 +437,4 @@ function dlts_viewer_load_object($type, $object, $name = NULL) {
   	}
   }
   return $out;
-  
-  // return 
-  
 }
-
-
-
-
-
-

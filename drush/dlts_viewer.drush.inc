@@ -88,30 +88,21 @@ function dlts_viewer_import_book($source = NULL, $create_pages = FALSE) {
   include_once(__DIR__ . '/inc/common.inc');
   include_once(__DIR__ . '/inc/datasource.inc');
   include_once(__DIR__ . '/inc/create.inc');
-  if ($source == NULL) {
+  if (!$source) {
     $source = drush_get_option('source', NULL);
-    if (drush_get_option('pages', FALSE)) $create_pages = TRUE;
-    if (empty($source)) return;
-    if (is_dir($source)) {
-      create_dlts_book_from_json(file_scan_directory($source, '/(.*)\.en.json$/', array('recurse' => FALSE)), $create_pages);
-      create_dlts_book_from_json(file_scan_directory($source, '/(.*)\.ar.json$/', array('recurse' => FALSE)), $create_pages);
-    }
-    else {
-      return create_dlts_book_from_json( array((object) array('uri' => $source)), $create_pages);
+    if (!$source) {
+    	drush_log('No source to import', 'error');
+    	return;
     }
   }
-}
-
-function dlts_viewer_dummy_books() {
-  include_once(__DIR__ . '/inc/common.inc');
-  include_once(__DIR__ . '/inc/datasource.inc');
-  include_once(__DIR__ . '/inc/create.inc');
-  drush_log( dt('Import books from JSON documents inside directory @directory', array('@directory'=> __DIR__ . '/data')) , 'status');
-  watchdog('DRUSH', "Import books from JSON documents inside directory %directory", array('%directory' => __DIR__ . '/data'), WATCHDOG_INFO);
-  $en_data = file_scan_directory(__DIR__ . '/data', '/(.*)\.en.json$/', array('recurse' => FALSE));
-  create_dlts_book_from_json($en_data);
-  $ar_data = file_scan_directory(__DIR__ . '/data', '/(.*)\.ar.json$/', array('recurse' => FALSE));
-  create_dlts_book_from_json($ar_data);
+  if (drush_get_option('pages', FALSE)) $create_pages = TRUE;
+  if (is_dir($source)) {
+  	create_dlts_book_from_json(file_scan_directory($source, '/(.*)\.en.json$/', array('recurse' => FALSE)), $create_pages);
+  	create_dlts_book_from_json(file_scan_directory($source, '/(.*)\.ar.json$/', array('recurse' => FALSE)), $create_pages);
+  }
+  else {
+  	return create_dlts_book_from_json(array((object) array('uri' => $source)), $create_pages);
+  }
 }
 
 function dlts_viewer_free_json_documents_queue() {
@@ -203,4 +194,9 @@ function dlts_viewer_pull_books_from_git_repo() {
   	}
   }
   chdir($pwd);
+}
+
+function dlts_viewer_dummy_books() {
+	drush_log( dt('Import books from JSON documents inside directory @directory', array('@directory'=> __DIR__ . '/data')) , 'ok');
+	dlts_viewer_import_book(__DIR__ . '/data', TRUE);
 }

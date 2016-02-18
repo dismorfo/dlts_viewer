@@ -42,6 +42,7 @@ function dlts_viewer_schema() {
   		'language' => array('type' => 'text'),
   		'proceed' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
   		'created' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+  		'changed' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
   	),
   );
   return $schema;
@@ -64,5 +65,5 @@ function dlts_viewer_uninstall() {
   variable_del('dlts_viewer_openlayers_source');
   variable_del('dlts_viewer_fileserver_host');
   db_query("DELETE * FROM {dlts_viewer_books_json}", array());
-  db_query("DELETE * FROM {dlts_viewer_drush_git_commits}", array());  
+  db_query("DELETE * FROM {dlts_viewer_drush_git_commits}", array());
 }
