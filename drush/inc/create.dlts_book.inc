@@ -404,7 +404,6 @@ function dlts_viewer_subject_vocabulary_vid() {
 
 function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE) {
 	if (!$legacy) $legacy = drush_get_option('legacy', FALSE);
-	$out = array('success' => array(), 'error' => array());
   foreach ($books as $value) {
   	if (!file_exists($value->uri)) continue;
   	$json_document = $value->uri;
@@ -473,7 +472,8 @@ function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE
             'name' => $value->name,
        );
       }
-    }    /** collections the book belong */
+    }
+    /** collections the book belong */
     if (isset($metadata->collection)) {
       foreach ($metadata->collection->value as $value) {
         $collections[] =  array(
@@ -558,7 +558,6 @@ function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE
     if (isset($metadata->scanning_notes) && !empty($metadata->scanning_notes->value)) {
     	$scanning_notes = $metadata->scanning_notes->value[0];
     }
-
     if (isset($metadata->scan_date) && !empty($metadata->scan_date->value)) {
     	$scan_date = $metadata->scan_date->value[0];
     }
@@ -743,11 +742,7 @@ function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE
       'series' => $series,
     	'json_document' => $json_document,
     );
-
     $created = save_dlts_book($node);
-
-    $out['success'][] = $created;
-
     if ($cretePages && $created && isset($created->nid)) {
    	  // we only create pages for books with languages English or Undetermined
    	  if ($entity_language == 'en' || $entity_language == LANGUAGE_NONE) {
@@ -773,5 +768,4 @@ function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE
       }
     }
   }
-  return $out;
 }
