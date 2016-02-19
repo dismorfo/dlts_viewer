@@ -356,36 +356,6 @@ function save_dlts_book($node, $language = 'en') {
   return $entity;
 }
 
-function dlts_viewer_subject_tid($subject,$vid) {
-	$global_subjects = &drupal_static('global_subjects');
-	if (empty($global_subjects)) {
-		$global_subjects = array();
-	}
-	if (!empty($subject)) {
-	  $this_subject = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $subject)));
-	  if (!array_key_exists($this_subject, $global_subjects)) {
-	  	$term = taxonomy_get_term_by_name($this_subject);
-		  if ($term) {
-		  	$this_term = array_pop($term);
-		    $tid = $this_term->tid;
-		  }
-		  else {
-		    $tid = create_taxonomy_term($this_subject, $vid);
-		  }
-      $global_subjects[$this_subject] = $tid;
-	  }
-	}
-	return $global_subjects;
-}
-
-function dlts_viewer_subject_vocabulary_vid() {
-	$global_vocabulary_vid = &drupal_static('global_vocabulary_vid');
-	if (empty($global_vocabulary_vid)) {
-		$global_vocabulary_vid = taxonomy_vocabulary_machine_name_load('subjects')->vid;
-	}
-	return $global_vocabulary_vid;
-}
-
 function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE) {
 	$out = array();
 	if (!$legacy) $legacy = drush_get_option('legacy', FALSE);
@@ -483,20 +453,6 @@ function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE
     if (isset($metadata->sequence_count) && !empty($metadata->sequence_count->value)) {
     	$sequence_count = $metadata->sequence_count->value[0];
     }
-    if (isset($metadata->binding_orientation) && !empty($metadata->binding_orientation->value)) {
-    	switch ($metadata->scan_order->value[0]) {
-    		case 'Vertical' :
-    		case '0' :
-    		case 0 :
-    			$binding_orientation = 0;
-    			break;
-    		case 'Horizontal' :
-    		case '1' :
-    		case 1 :
-    			$binding_orientation = 1;
-    			break;
-    	}
-    }
     if (isset($metadata->call_number) && !empty($metadata->call_number->value)) {
     	$call_number = $metadata->call_number->value[0];
     }
@@ -512,32 +468,49 @@ function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE
     if (isset($metadata->number) && !empty($metadata->number->value)) {
     	$number = $metadata->number->value[0];
     }
-    if (isset($metadata->read_order) && !empty($metadata->read_order->value)) {
-      switch ($metadata->read_order->value[0]) {
-      	case 'Left to right' :
-      	case '0' :
-      	case 0 :
-      		$read_order = 0;
-      		break;
-      	case 'Right to left' :
-      	case '1' :
-      	case 1 :
-    	  	$read_order = 1;
-    		  break;
-      }
+    $binding_orientation = 0;
+    if (isset($metadata->binding_orientation) && !empty($metadata->binding_orientation->value)) {
+    	$binding_orientation_raw = $metadata->binding_orientation->value[0];
+    	if (is_numeric($binding_orientation_raw)) {
+    		$binding_orientation = $binding_orientation_raw;
+    	}
+    	else {
+    		if ($binding_orientation_raw == 'Right to left') {
+    			$binding_orientation = 1;
+    		}
+    		else if ($binding_orientation_raw == 'Left to right') {
+    			$binding_orientation = 0;
+    		}
+    	}
     }
+    $read_order = 0;
+    if (isset($metadata->read_order) && !empty($metadata->read_order->value)) {
+    	$read_order_raw = $metadata->read_order->value[0];
+    	if (is_numeric($read_order_raw)) {
+    		$read_order = $read_order_raw;
+    	}
+    	else {
+    		if ($read_order_raw == 'Right to left') {
+    			$read_order = 1;
+    		}
+    		else if ($read_order_raw == 'Left to right') {
+    			$read_order = 0;
+    		}
+    	}
+    }
+    $scan_order = 0;
     if (isset($metadata->scan_order) && !empty($metadata->scan_order->value)) {
-    	switch ($metadata->scan_order->value[0]) {
-    		case 'Left to right' :
-    		case '0' :
-    		case 0 :
-    			$scan_order = 0;
-    			break;
-    		case 'Right to left' :
-    		case '1' :
-    		case 1 :
+    	$scan_order_raw = $metadata->scan_order->value[0];
+    	if (is_numeric($scan_order_raw)) {
+    		$scan_order = $scan_order_raw;
+    	}
+    	else {
+    		if ($read_order_raw == 'Right to left') {
     			$scan_order = 1;
-    			break;
+    		}
+    		else if ($read_order_raw == 'Left to right') {
+    			$scan_order = 0;
+    		}
     	}
     }
     if (isset($metadata->scanning_notes) && !empty($metadata->scanning_notes->value)) {
@@ -727,10 +700,13 @@ function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE
       'series' => $series,
     	'json_document' => $json_document,
     );
-    $created = save_dlts_book($node);
-    
+    print_r($node);
+
+    return;
+
+    // $created = save_dlts_book($node);
     $out[] = $created;
-    
+
     if ($cretePages && $created && isset($created->nid)) {
    	  // we only create pages for books with languages English or Undetermined
    	  if ($entity_language == 'en' || $entity_language == LANGUAGE_NONE) {
@@ -757,4 +733,34 @@ function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE
     }
   }
   return $out;
+}
+
+function dlts_viewer_subject_tid($subject,$vid) {
+	$global_subjects = &drupal_static('global_subjects');
+	if (empty($global_subjects)) {
+		$global_subjects = array();
+	}
+	if (!empty($subject)) {
+		$this_subject = trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $subject)));
+		if (!array_key_exists($this_subject, $global_subjects)) {
+			$term = taxonomy_get_term_by_name($this_subject);
+			if ($term) {
+				$this_term = array_pop($term);
+				$tid = $this_term->tid;
+			}
+			else {
+				$tid = create_taxonomy_term($this_subject, $vid);
+			}
+			$global_subjects[$this_subject] = $tid;
+		}
+	}
+	return $global_subjects;
+}
+
+function dlts_viewer_subject_vocabulary_vid() {
+	$global_vocabulary_vid = &drupal_static('global_vocabulary_vid');
+	if (empty($global_vocabulary_vid)) {
+		$global_vocabulary_vid = taxonomy_vocabulary_machine_name_load('subjects')->vid;
+	}
+	return $global_vocabulary_vid;
 }
