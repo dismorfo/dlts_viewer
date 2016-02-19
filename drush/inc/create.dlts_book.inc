@@ -700,13 +700,7 @@ function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE
       'series' => $series,
     	'json_document' => $json_document,
     );
-    print_r($node);
-
-    return;
-
-    // $created = save_dlts_book($node);
-    $out[] = $created;
-
+    $created = save_dlts_book($node);
     if ($cretePages && $created && isset($created->nid)) {
    	  // we only create pages for books with languages English or Undetermined
    	  if ($entity_language == 'en' || $entity_language == LANGUAGE_NONE) {
@@ -731,6 +725,7 @@ function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE
         }
       }
     }
+    $out[] = $created;
   }
   return $out;
 }
