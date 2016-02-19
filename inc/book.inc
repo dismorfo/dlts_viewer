@@ -406,6 +406,30 @@ function dlts_viewer_book_metadata_display($node) {
   return node_view($node , 'metadata' , $book->language );
 }
 
+function dlts_viewer_series_book($nid) {
+	$query = new EntityFieldQuery;
+	$result = $query
+	  ->entityCondition('entity_type', 'node')
+	  ->entityCondition('bundle', 'dlts_series_book')
+	  ->fieldCondition('field_book', 'nid', $nid, '=')
+	  ->execute();
+	if (empty($result['node'])) return FALSE;
+	$keys = array_keys($result['node']);
+	return node_load_multiple($keys);
+}
+
+function dlts_viewer_multivolume_book($nid) {
+	$query = new EntityFieldQuery;
+	$result = $query
+	->entityCondition('entity_type', 'node')
+	->entityCondition('bundle', 'dlts_multivol_book')
+	->fieldCondition('field_book', 'nid', $nid, '=')
+	->execute();
+	if (empty($result['node'])) return FALSE;
+	$keys = array_keys($result['node']);
+	return node_load_multiple($keys);
+}
+
 /**
  * Menu callback; prints the loaded structure of the current node/user.
  */
@@ -415,26 +439,59 @@ function dlts_viewer_load_object($type, $object, $name = NULL) {
   $entity = entity_metadata_wrapper('node', $object);
   $identifier = $entity->field_identifier->value();
   $title = $entity->title->value();
-  $rows = array();
-  $results = db_query("SELECT nid, hash, document, language, created, changed FROM {dlts_viewer_books_json} WHERE nid = :nid ORDER BY created DESC", array(':nid' => $object->nid));
-  $header = array('Node ID', 'Hash', 'Document', 'Language', 'Created', 'Changed');
+  $results = db_query("SELECT hash, document, language, created FROM {dlts_viewer_books_json} WHERE nid = :nid ORDER BY created DESC", array(':nid' => $object->nid));
+  $header = array('Hash', 'Document', 'Language', 'Imported');
   foreach ($results as $key => $result) {
   	$document = $result->document;
+  	$hash = $result->hash;
+  	if ($key == 0) {
+  		$json_str = file_get_contents($document);
+  	}
   	if (file_exists($document)) {
-  		$nid = $result->nid;
-  		$result->nid = l($nid,'node/' . $nid);
   	  $result->document = basename($result->document);
   	  $result->created = date('F jS, Y h:i:s A',$result->created);
-  	  $result->changed = date('F jS, Y h:i:s A',$result->changed);
   	  $rows[] = (array) $result;
-  	  $out .= theme('table', array('header' => $header, 'rows' => $rows));
-  	  $out .= '<h1>' . t('Node object') . '</h1>';
-  	  $out .= kdevel_print_object($object, '$'. $name .'->');
-  	  $out .= '<h1>' . t('JSON document') . '</h1>';
-  	  $json_str = file_get_contents($document);
-  	  $json = json_decode($json_str, true);
-  	  $out .= kdevel_print_object($json, '$'. $name .'->');
   	}
   }
+  // entity
+  $out .= theme('table', array('header' => $header, 'rows' => $rows));
+  $out .= '<h1>' . t('Node object') . '</h1>';
+  $out .= kdevel_print_object($object, '$'. $name .'->');
+  $out .= '<h1>' . t('JSON document (@hash)', array('@hash'=>$hash)) . '</h1>';
+  $json = json_decode($json_str, true);
+  $out .= kdevel_print_object($json, '$'. $name .'->');
+
+  $out .= '<h1>' . t('Series book') . '</h1>';
+  $series_book = dlts_viewer_series_book($object->nid);
+  $header = array('Node Id', 'Title', 'Is part of', 'Collections is part of');
+  $rows = array();
+  foreach ($series_book as $book) {
+    $wrapper = entity_metadata_wrapper('node', $book);
+    $collection = $wrapper->field_collection->value();
+    $series = $wrapper->field_series->value();
+    $collections = array();
+    foreach ($collection as $item) {
+    	$collections[] = l($item->title, 'node/' . $item->nid);
+    }
+  	$rows[] = array($book->nid,$book->title,l($series->title, 'node/' . $series->nid), implode(', ',$collections));
+  }
+  $out .= theme('table', array('header' => $header, 'rows' => $rows));
+
+  $out .= '<h1>' . t('Multi Volume book') . '</h1>';
+  $multivol_book = dlts_viewer_multivolume_book($object->nid);
+  $header = array('Node Id', 'Title', 'Is part of', 'Collections is part of');
+  $rows = array();
+  foreach ($multivol_book as $book) {
+  	$wrapper = entity_metadata_wrapper('node', $book);
+  	$collection = $wrapper->field_collection->value();
+  	$series = $wrapper->field_multivol->value();
+  	$collections = array();
+  	foreach ($collection as $item) {
+  		$collections[] = l($item->title, 'node/' . $item->nid);
+  	}
+  	$rows[] = array($book->nid,$book->title,l($book->title, 'node/' . $book->nid), implode(', ',$collections));
+  }
+  $out .= theme('table', array('header' => $header, 'rows' => $rows));
+
   return $out;
 }

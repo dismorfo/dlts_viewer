@@ -167,9 +167,9 @@ function save_dlts_book($node, $language = 'en') {
   			$label = (isset($pdf['label'])) ? $pdf['label'] : '';
   			$serialize_data = serialize(array('label' => $label, 'uri' => $pdf['file'], 'url' => file_create_url($pdf['file'])));
   			$field_pdf_file[] = array(
-  					'uri' => $pdf['file'],
-  					'label' => $label,
-  					'data' => $serialize_data,
+  				'uri' => $pdf['file'],
+  				'label' => $label,
+  				'data' => $serialize_data,
   			);
   		}
   		$ewrapper->field_pdf_file->set($field_pdf_file);
