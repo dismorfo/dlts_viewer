@@ -459,35 +459,42 @@ function dlts_viewer_load_object($type, $object, $name = NULL) {
   $out .= '<h1>' . t('JSON document (@hash)', array('@hash'=>$hash)) . '</h1>';
   $json = json_decode($json_str, true);
   $out .= kdevel_print_object($json, '$'. $name .'->');
-  $out .= '<h1>' . t('Series book') . '</h1>';
+
   $series_book = dlts_viewer_series_book($object->nid);
-  $header = array('Node Id', 'Title', 'Is part of', 'Collections is part of');
-  $rows = array();
-  foreach ($series_book as $book) {
-    $wrapper = entity_metadata_wrapper('node', $book);
-    $collection = $wrapper->field_collection->value();
-    $series = $wrapper->field_series->value();
-    $collections = array();
-    foreach ($collection as $item) {
-    	$collections[] = l($item->title, 'node/' . $item->nid);
+  if (!empty($series_book)) {
+  	$out .= '<h1>' . t('Series book') . '</h1>';
+    $header = array('Node Id', 'Title', 'Is part of', 'Collections is part of');
+    $rows = array();
+    foreach ($series_book as $book) {
+      $wrapper = entity_metadata_wrapper('node', $book);
+      $collection = $wrapper->field_collection->value();
+      $series = $wrapper->field_series->value();
+      $collections = array();
+      foreach ($collection as $item) {
+    	  $collections[] = l($item->title, 'node/' . $item->nid);
+      }
+  	  $rows[] = array($book->nid,$book->title,l($series->title, 'node/' . $series->nid), implode(', ',$collections));
     }
-  	$rows[] = array($book->nid,$book->title,l($series->title, 'node/' . $series->nid), implode(', ',$collections));
+    $out .= theme('table', array('header' => $header, 'rows' => $rows));
   }
-  $out .= theme('table', array('header' => $header, 'rows' => $rows));
-  $out .= '<h1>' . t('Multi Volume book') . '</h1>';
+
+
   $multivol_book = dlts_viewer_multivolume_book($object->nid);
-  $header = array('Node Id', 'Title', 'Is part of', 'Collections is part of');
-  $rows = array();
-  foreach ($multivol_book as $book) {
-  	$wrapper = entity_metadata_wrapper('node', $book);
-  	$collection = $wrapper->field_collection->value();
-  	$series = $wrapper->field_multivol->value();
-  	$collections = array();
-  	foreach ($collection as $item) {
-  		$collections[] = l($item->title, 'node/' . $item->nid);
-  	}
-  	$rows[] = array($book->nid,$book->title,l($book->title, 'node/' . $book->nid), implode(', ',$collections));
+  if (!empty($multivol_book)) {
+  	$out .= '<h1>' . t('Multi Volume book') . '</h1>';
+    $header = array('Node Id', 'Title', 'Is part of', 'Collections is part of');
+    $rows = array();
+    foreach ($multivol_book as $book) {
+  	  $wrapper = entity_metadata_wrapper('node', $book);
+  	  $collection = $wrapper->field_collection->value();
+  	  $series = $wrapper->field_multivol->value();
+  	  $collections = array();
+  	  foreach ($collection as $item) {
+  		  $collections[] = l($item->title, 'node/' . $item->nid);
+  	  }
+  	  $rows[] = array($book->nid,$book->title,l($book->title, 'node/' . $book->nid), implode(', ',$collections));
+    }
+    $out .= theme('table', array('header' => $header, 'rows' => $rows));
   }
-  $out .= theme('table', array('header' => $header, 'rows' => $rows));
   return $out;
 }
