@@ -453,14 +453,12 @@ function dlts_viewer_load_object($type, $object, $name = NULL) {
   	  $rows[] = (array) $result;
   	}
   }
-  // entity
   $out .= theme('table', array('header' => $header, 'rows' => $rows));
   $out .= '<h1>' . t('Node object') . '</h1>';
   $out .= kdevel_print_object($object, '$'. $name .'->');
   $out .= '<h1>' . t('JSON document (@hash)', array('@hash'=>$hash)) . '</h1>';
   $json = json_decode($json_str, true);
   $out .= kdevel_print_object($json, '$'. $name .'->');
-
   $out .= '<h1>' . t('Series book') . '</h1>';
   $series_book = dlts_viewer_series_book($object->nid);
   $header = array('Node Id', 'Title', 'Is part of', 'Collections is part of');
@@ -476,7 +474,6 @@ function dlts_viewer_load_object($type, $object, $name = NULL) {
   	$rows[] = array($book->nid,$book->title,l($series->title, 'node/' . $series->nid), implode(', ',$collections));
   }
   $out .= theme('table', array('header' => $header, 'rows' => $rows));
-
   $out .= '<h1>' . t('Multi Volume book') . '</h1>';
   $multivol_book = dlts_viewer_multivolume_book($object->nid);
   $header = array('Node Id', 'Title', 'Is part of', 'Collections is part of');
@@ -492,6 +489,5 @@ function dlts_viewer_load_object($type, $object, $name = NULL) {
   	$rows[] = array($book->nid,$book->title,l($book->title, 'node/' . $book->nid), implode(', ',$collections));
   }
   $out .= theme('table', array('header' => $header, 'rows' => $rows));
-
   return $out;
 }

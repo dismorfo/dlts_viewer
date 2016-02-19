@@ -75,8 +75,12 @@ function save_dlts_book($node, $language = 'en') {
   }
   $collections_nids = $subjects = array();
   if (!empty($node['entity_title'])) {
-  	// find the max for this field and trunk it
-  	$ewrapper->title->set($node['entity_title']);
+  	$node['entity_title'] = trim($node['entity_title']);
+  	$substr_title = $node['entity_title'];
+  	if (strlen($substr_title) > 255) {
+  		$substr_title = substr($node['entity_title'], 0, 200);
+  	}
+  	$ewrapper->title->set($substr_title);
   }
   else {
   	$ewrapper->title->set('Untitled');
