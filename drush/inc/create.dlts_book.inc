@@ -334,22 +334,6 @@ function save_dlts_book($node, $language = 'en') {
   }
   $saved = $ewrapper->save();
   if ($saved) {
-  	$result = db_query("SELECT * FROM {dlts_viewer_books_json} WHERE nid = :nid", array(':nid' => $entity->nid))->fetchField();
-  	$fields = array(
-  	  'nid' => $entity->nid,
-  		'hash' => 0,
-  		'document'=> $node['json_document'],
-  		'language' => $node_language,
-  		'proceed' => 1,
-  		'created' => $entity->created,
-  		'changed' => $entity->changed
-  	);
-  	if (!$result) {
-  		db_insert('dlts_viewer_books_json')->fields($fields)->execute();
-  	}
-  	else {
-  		db_update('dlts_viewer_books_json')->fields($fields)->condition('nid', $entity->nid, '=')->execute();
-  	}
     /** If book language is EN check for  Multi volume and Series*/
     if ($node_language == 'en') {
   	  /** Multi volume book */
@@ -403,6 +387,7 @@ function dlts_viewer_subject_vocabulary_vid() {
 }
 
 function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE) {
+	$out = array();
 	if (!$legacy) $legacy = drush_get_option('legacy', FALSE);
   foreach ($books as $value) {
   	if (!file_exists($value->uri)) continue;
@@ -743,6 +728,9 @@ function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE
     	'json_document' => $json_document,
     );
     $created = save_dlts_book($node);
+    
+    $out[] = $created;
+    
     if ($cretePages && $created && isset($created->nid)) {
    	  // we only create pages for books with languages English or Undetermined
    	  if ($entity_language == 'en' || $entity_language == LANGUAGE_NONE) {
@@ -768,4 +756,5 @@ function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE
       }
     }
   }
+  return $out;
 }
