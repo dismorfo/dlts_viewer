@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ *   Install and related hooks for apachesolr_search.
+ */
+
+/**
+ * Implements hook_enable().
+ * Set DEV Discovery as default search enviorment
+ */
+function dlts_solr_enable() {
+  db_update('apachesolr_environment')->fields(array('env_id' => 'solr', 'name' => 'Discovery Apache Solr 3.x server', 'url' => 'http://dev-discovery.dlib.nyu.edu:8080/solr3_discovery/core0'))->execute();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function dlts_solr_uninstall() {
+  // Remove variables.
+  variable_del('dlts_solr_field_nyu_collectionId');
+}

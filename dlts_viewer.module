@@ -534,3 +534,37 @@ function dlts_viewer_viewer_language($vars) {
   }
   return $viewer_language;
 }
+
+
+function dlts_viewer_cron_queue_info() {
+  // drupal_set_message(t('dlts_solr_cron_queue_info'));
+  // $queues['dlts_viewer_queue_document_processor'] = array(
+  //  'worker callback' => 'dlts_viewer_document_processor',
+  //  'time' => 60,
+  // );
+  // return $queues;
+}
+
+/**
+ * http://api.drupal.org/api/drupal/modules--aggregator--aggregator.module/function/aggregator_cron/7
+ */
+function dlts_viewer_cron() {
+  // drupal_set_message(t('dlts_solr_cron'));
+}
+
+/**
+ * http://api.drupal.org/api/drupal/modules--system--system.queue.inc/group/queue/7
+ * http://api.drupal.org/api/drupal/modules--system--system.api.php/function/hook_cron_queue_info/7
+ */
+function dlts_viewer_document_processor() {
+  // drupal_set_message(t('dlts_solr_cron_queue_info'));
+  // $queue = DrupalQueue::get('dlts_book_ocr_text');
+  // $queue->createQueue();  // There is no harm in trying to recreate existing.
+  // $items = array();
+  // while ($item = $queue->claimItem() ) {
+  //   $items[] = $item;
+  // }
+  // foreach ($items as $item) {
+  //   $queue->releaseItem($item);
+	// }
+}

@@ -1,0 +1,104 @@
+<?php
+
+/**
+ * Allows a module to modify the delete query. Only delete this site nodes from index
+ *
+ * @param string $query
+ *   Defaults to *:*
+ */
+function dlts_solr_apachesolr_delete_index_alter($query) {
+  $query = 'hash:' . apachesolr_site_hash();
+}
+
+/**
+ * Build the documents before sending them to Solr.
+ * The function is the follow-up for apachesolr_update_index
+ *
+ * @param integer $document_id
+ * @param array $entity
+ * @param string $entity_type
+ */
+function dlts_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $entity, $entity_type, $env_id) {
+  /** wrap node with Entity API */
+  $ewrapper = entity_metadata_wrapper('node', $entity);
+  $document->addField('base_url', base_path());
+  switch ($entity->type) {
+    case 'dlts_book' :
+    	/** load utils */
+    	module_load_include('inc', 'dlts_solr', 'inc/book');
+    	/** pass the document as reference */
+      dlts_solr_index_book($document, $entity, $entity_type, $env_id);
+      break;
+  }
+}
+
+/**
+ * Encode and return the base64 value of a image file
+ */
+function dlts_solr_imagedataURI($image) {
+  if (is_file($image)) {
+    return base64_encode(file_get_contents($image));
+  }
+}
+
+/**
+ * Extract using Solr
+ * Taken from apachesolr_attachments, module is broken
+ */
+function dlts_solr_extract($filepath) {
+  $solr = apachesolr_get_solr(apachesolr_default_environment());
+  /** check that we have a valid filepath. */
+  if (!($filepath) || !is_file($filepath)) {
+    return FALSE;
+  }
+  $params = array(
+    'resource.name' => basename($filepath),
+    'extractFormat' => 'text',
+  );
+  /** construct a multi-part form-data POST body in $data. */
+  $boundary = '--' . md5(uniqid(REQUEST_TIME));
+  $data = "--{$boundary}\r\n";
+  /** the 'filename' used here becomes the property name in the response. */
+  $data .= 'Content-Disposition: form-data; name="file"; filename="extracted"';
+  $data .= "\r\nContent-Type: application/octet-stream\r\n\r\n";
+  $data .= file_get_contents($filepath);
+  $data .= "\r\n--{$boundary}--\r\n";
+  $headers = array('Content-Type' => 'multipart/form-data; boundary=' . $boundary);
+  $options = array(
+    'headers' => $headers,
+    'method' => 'POST',
+    'data' => $data,
+  );
+  $response = $solr->makeServletRequest(DLTS_TIKA, $options);
+  unset($solr);
+  return array($response->extracted);
+}
+
+function dlts_solr_seems_utf8($str) {
+  $length = strlen($str);
+  for ($i=0; $i < $length; $i++) {
+    $c = ord($str[$i]);
+    if ($c < 0x80) $n = 0; # 0bbbbbbb
+    elseif (($c & 0xE0) == 0xC0) $n=1; # 110bbbbb
+    elseif (($c & 0xF0) == 0xE0) $n=2; # 1110bbbb
+    elseif (($c & 0xF8) == 0xF0) $n=3; # 11110bbb
+    elseif (($c & 0xFC) == 0xF8) $n=4; # 111110bb
+    elseif (($c & 0xFE) == 0xFC) $n=5; # 1111110b
+    else return false; # Does not match any model
+    for ($j=0; $j<$n; $j++) { # n bytes matching 10bbbbbb follow ?
+      if ((++$i == $length) || ((ord($str[$i]) & 0xC0) != 0x80)) return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * @TODO: TEST, looks broken.
+ * Converts all accent characters to ASCII characters.
+ *
+ * If there are no accent characters, then the string given is just returned.
+ *
+ * @param string $string Text that might have accent characters
+ * @return string Filtered string with replaced "nice" characters.
+ */
+function dlts_solr_remove_accents($string) {}
