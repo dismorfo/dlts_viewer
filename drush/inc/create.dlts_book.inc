@@ -78,7 +78,8 @@ function save_dlts_book($node, $language = 'en') {
   	$node['entity_title'] = trim($node['entity_title']);
   	$substr_title = $node['entity_title'];
   	if (strlen($substr_title) > 255) {
-  		$substr_title = substr($node['entity_title'], 0, 200);
+  		//$substr_title = substr($node['entity_title'], 0, 200);
+  		$ewrapper->title->set('Title longer that 255 characters');
   	}
   	$ewrapper->title->set($substr_title);
   }
