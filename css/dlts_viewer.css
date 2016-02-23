@@ -1624,9 +1624,6 @@ body.openlayers-loading .olLayerDiv {
   -webkit-flex-flow: row nowrap;
   flex-flow: row nowrap;
   -ms-flex-wrap: nowrap;
-  -webkit-justify-content: space-around;
-  justify-content: space-around;
-  -ms-flex-pack: justify;
 }
 /* line 37, ../sass/partials/book/panes/_pane-thumbnails.scss */
 #thumbnails .view-book-thumbnails .views-row {
