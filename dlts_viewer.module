@@ -453,7 +453,7 @@ function theme_thumbnails_pager($vars) {
 			'parameters' => $parameters
 	));
 
-	$links['close'] = array('title' => t('Close [x]'), 'href'=> '#close', 'attributes' => array('class' => array('close')));
+	$links['close'] = array('title' => t('Close [x]'), 'attributes' => array('class' => array('close')));
 
 	$links = array_filter($links);
 
