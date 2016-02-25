@@ -178,6 +178,8 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   // we have the other bulk of the work done.
   if (!empty($multivolumes)) {
   	$multivolume = $multivolumes[0];
+  	// add reference to entity so that translaletion don't do the same job again.
+  	$entity->solr_multivolume = $multivolume;
   	$volume = '';
   	// volume_number_str can be empty, if so, try volume_number
   	if (isset($multivolume['volume_number_str']) && !empty($multivolume['volume_number_str'])) {

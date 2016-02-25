@@ -1,6 +1,6 @@
 <?php
 
-function dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $env_id, &$searchableFields ) {
+function dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $env_id, &$searchableFields) {
   if ($entity->tnid) {
     $translations = translation_node_get_translations($entity->tnid);
     foreach ($translations as $lang => $translation) {
@@ -10,20 +10,39 @@ function dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $
         $node = node_load($translation->nid);
         $language = $node->language;
         $prefix = '_' . $language;
-        $title = $node->title;
-        // wrapp multi-volume entity with Entity API wrapper
+        // wrapp entity with Entity API wrapper
         $wrapper = entity_metadata_wrapper('node', $node);
         /** Title (field_title) */
         /** single-value field */
         $title_long = $wrapper->field_title->value();
-        if (!empty($title_long)) {
-        	$title = trim($title_long);
-        	$document->addField('ss' . $prefix . '_title_long', $title);
-        	$document->addField('ss' . $prefix . '_stitle', dlts_solr_remove_accents(strtolower($title)));
-        	$document->addField('iass' . $prefix . '_longlabel',  dlts_solr_remove_accents(strtolower($title)));
+        if (isset($entity->solr_multivolume)) {
+        	$multivolume = $entity->solr_multivolume;
+        	$volume = '';
+        	// volume_number_str can be empty, if so, try volume_number
+        	if (isset($multivolume['volume_number_str']) && !empty($multivolume['volume_number_str'])) {
+        		$volume = $multivolume['volume_number_str'];
+        	}
+        	elseif (isset($multivolume['volume_number']) && !empty($multivolume['volume_number'])) {
+        		$volume = t('Vol.') . ' ' .  $multivolume['volume_number'];
+        	}
+        	$title_long = $title_long . ' ' . $volume;
         }
+
+        $title_long = trim($title_long);
+
+        /** the fields are the same but I don't want to remove title_long right now as it might be used somewhere **/
+        /**
+         * aof @TODO: will add for now, we should be using title_long since title is a Drupal thing and not the metadata
+         * this was wrong in the old site
+         */
+        $document->addField('ss' . $prefix . '_title', $title_long);
+
+        $document->addField('ss' . $prefix . '_stitle', dlts_solr_remove_accents(strtolower($title_long)));
+        $document->addField('iass' . $prefix . '_longlabel',  dlts_solr_remove_accents(strtolower($title_long)));
+        $document->addField('ss' . $prefix . '_title_long', $title_long);
+        $searchableFields[] = $title_long;
         unset($title_long);
-        $searchableFields[] = $title;
+
         /** multi-value field */
         dlts_solr_index_book_collection($wrapper->field_collection->value(), $document, $node, $searchableFields);
         /** multi-value field */
@@ -32,8 +51,12 @@ function dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $
         /** multi-value field */
         $authors = $wrapper->field_author->value();
         if (!empty($authors)) {
-        	foreach ($authors as $author) {
+        	foreach ($authors as $index => $author) {
         		$searchableFields[] = $author;
+        		if ($index == 0) {
+        		  $document->addField('ss_' . $prefix . '_s' . $label, dlts_solr_remove_accents(strtolower($author)));
+        		  $document->addField('iass_' . $prefix . '_' . $label, dlts_solr_remove_accents(strtolower($author)));
+        		}
         		$document->addField('sm' . $prefix . '_author', $author);
         	}
         }
