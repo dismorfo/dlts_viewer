@@ -263,8 +263,12 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   /** multi-value field */
   $authors = $wrapper->field_author->value();
   if (!empty($authors)) {
-  	foreach ($authors as $author) {
+  	foreach ($authors as $index => $author) {
   		$searchableFields[] = $author;
+  		if ($index == 0) {
+          $document->addField('ss_sauthor', dlts_solr_remove_accents(strtolower($author)));
+          $document->addField('iass_author', dlts_solr_remove_accents(strtolower($author)));
+         }
   		$document->addField('sm_author', $author);
   	}
   }
@@ -354,9 +358,13 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   /** multi-value field */
   $subjects = $wrapper->field_subject->value();
   if (!empty($subjects)) {
-  	foreach ($subjects as $subject) {
+  	foreach ($subjects as $index =>$subject) {
   		$document->addField('sm_subject_label', $subject->name);
   		$searchableFields[] = $subject->name;
+  		if ($index == 0) {
+           $document->addField('ss_ssubject', dlts_solr_remove_accents(strtolower($subject->name));
+           $document->addField('iass_subject', dlts_solr_remove_accents(strtolower($subject->name)));
+        }
   		$document->addField('zm_subject',json_encode(array('name'=>$subject->name,'tid' => $subject->tid, 'vid' => $subject->vid)));
   	}
   }

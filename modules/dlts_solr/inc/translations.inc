@@ -27,12 +27,6 @@ function dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $
         	$title_long = $title_long . ' ' . $volume;
         }
         $title_long = trim($title_long);
-        /** the fields are the same but I don't want to remove title_long right now as it might be used somewhere **/
-        /**
-         * aof @TODO: will add for now, we should be using title_long since title is a Drupal thing and not the metadata
-         * this was wrong in the old site
-         */
-        $document->addField('ss' . $prefix . '_title', $title_long);
         $document->addField('ss' . $prefix . '_stitle', dlts_solr_remove_accents(strtolower($title_long)));
         $document->addField('iass' . $prefix . '_longlabel',  dlts_solr_remove_accents(strtolower($title_long)));
         $document->addField('ss' . $prefix . '_title_long', $title_long);
@@ -49,8 +43,8 @@ function dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $
         	foreach ($authors as $index => $author) {
         		$searchableFields[] = $author;
         		if ($index == 0) {
-        		  $document->addField('ss_' . $prefix . '_s' . $label, dlts_solr_remove_accents(strtolower($author)));
-        		  $document->addField('iass_' . $prefix . '_' . $label, dlts_solr_remove_accents(strtolower($author)));
+        		  $document->addField('ss_' . $prefix . '_sauthor', dlts_solr_remove_accents(strtolower($author)));
+        		  $document->addField('iass_' . $prefix . '_author', dlts_solr_remove_accents(strtolower($author)));
         		}
         		$document->addField('sm' . $prefix . '_author', $author);
         	}
