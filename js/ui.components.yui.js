@@ -8,6 +8,7 @@ YUI().use(
   , 'pjax'
   , 'gallery-soon'
   , 'widget-anim'
+  , 'crossframe'
   , function(Y) {
     'use strict';
     /** set a X-PJAX HTTP header for all IO requests */
@@ -503,7 +504,7 @@ YUI().use(
     pjax.on('navigate', pjax_navigate, Y.one('.pane.load'));
     
     html.delegate('click', on_button_click, 'a.button');
-    
+
     html.delegate('click', pjax_callback, 'a.paging');
     
     Y.on('pjax:change|openlayers:next|openlayers:previous', pjax_callback);
@@ -533,11 +534,14 @@ YUI().use(
 
     Y.delegate('change', on_toggle_language, 'body', '.language');
     
+    // https://github.com/josephj/yui3-crossframe
     function onSelectMVChange(e) {
       e.halt();
       var currentTarget = e.currentTarget;
       var value = currentTarget.one(':checked').get('value');
-      location.replace(value.substring(value.indexOf('::') + 2, value.length));
+      var url = value.substring(value.indexOf('::') + 2, value.length);
+      var data = { url : url };
+      Y.CrossFrame.postMessage('parent', JSON.stringify({ fire: 'change:option:multivolume', data }));
     }
     
     // we need to remove all events
