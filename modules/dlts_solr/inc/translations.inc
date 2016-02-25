@@ -1,62 +1,97 @@
 <?php
 
-function dlts_solr_index_book_translations ( &$document, &$entity, $entity_type, $env_id, &$searchableFields ) {
-  if ( $entity->tnid ) {
+function dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $env_id, &$searchableFields ) {
+  if ($entity->tnid) {
     $translations = translation_node_get_translations($entity->tnid);
-    foreach ( $translations as $lang => $translation )  {
-      if ($translation->nid != $entity->nid ) {
-        $subjects = array();
-        $tnode = node_load($translation->nid);
-        //$title = dlts_utilities_book_get_title($tnode);
-        //$partners = dlts_utilities_book_get_partner($tnode);
-        //$authors = dlts_utilities_book_get_authors($tnode);
-        //$publishers = dlts_utilities_book_get_publisher($tnode);
-        //$book_translations_field_title = dlts_utilities_book_get_title($tnode);
-        //$publication_location = dlts_utilities_book_get_publication_location($tnode);
-        //$publication_date = dlts_utilities_book_get_field_publication_date_text($tnode);
-        //$subjects_list = dlts_utilities_book_get_subjects($tnode);
-        // $multivol = dlts_utilities_book_get_multivol_book( $tnode )
-        if ($multivol) {
-        	// $volume = dlts_utilities_multibook_get_volume( $multivol )
-          if ($volume) {
-            $title = t('@title Vol. @volume', array( '@title' => $title,'@volume' => $volume ) );
-          }
+    foreach ($translations as $lang => $translation) {
+    	$subjects = array();
+      if ($translation->nid != $entity->nid) {
+        // load node
+        $node = node_load($translation->nid);
+        $language = $node->language;
+        $prefix = '_' . $language;
+        $title = $node->title;
+        // wrapp multi-volume entity with Entity API wrapper
+        $wrapper = entity_metadata_wrapper('node', $node);
+        /** Title (field_title) */
+        /** single-value field */
+        $title_long = $wrapper->field_title->value();
+        if (!empty($title_long)) {
+        	$title = trim($title_long);
+        	$document->addField('ss' . $prefix . '_title_long', $title);
+        	$document->addField('ss' . $prefix . '_stitle', dlts_solr_remove_accents(strtolower($title)));
+        	$document->addField('iass' . $prefix . '_longlabel',  dlts_solr_remove_accents(strtolower($title)));
         }
-        foreach ( $subjects_list as $subject ) {
-          $subjects[] = $subject->name;
-        }
-        $multi_value_fields = array(
-          'partner' => $partners,
-          'author' => $authors,
-          'publisher' => $publishers,
-          'subject' => $subjects,
-        );
-        /** Multi value fields */
-        foreach ($multi_value_fields as $label => $fields) {
-          foreach ($fields as $index => $value) {
-            $searchableFields[] = $value;
-            /** sort does not work with multiple values; just get the first one */
-            /** we might not want this */
-            if ( $index == 0 ) {
-              $document->addField('ss_' . $lang . '_s' . $label, dlts_solr_remove_accents(strtolower($value)));
-              $document->addField('iass_' . $lang . '_' . $label, dlts_solr_remove_accents(strtolower($value)));
-            }
-            $document->addField('sm_' . $lang . '_' . $label, $value);
-          }
-        }
-        /** Single value fields */
-        $document->addField('ss_' . $lang . '_title', $title);
-        $document->addField('ss_' . $lang . '_publocation', $publication_location);
-        $document->addField('ss_' . $lang . '_pubdate', $publication_date);
-        /** sort */
-        $document->addField('ss_' . $lang . '_stitle', dlts_solr_remove_accents( strtolower($title) ) );
-        $document->addField('iass_' . $lang . '_longlabel',  dlts_solr_remove_accents( strtolower($title) ) );
-        $document->addField('ss_' . $lang . '_spublocation', dlts_solr_remove_accents( strtolower($publication_location) ) );
-        $document->addField('ss_' . $lang . '_spubdate', dlts_solr_remove_accents( strtolower($publication_date) ) );
-        /** to be dump to content */
+        unset($title_long);
         $searchableFields[] = $title;
-        $searchableFields[] = $publication_date;
-        $searchableFields[] = $publication_location;
+        /** multi-value field */
+        dlts_solr_index_book_collection($wrapper->field_collection->value(), $document, $node, $searchableFields);
+        /** multi-value field */
+        dlts_solr_index_book_partners($wrapper->field_partner->value(), $document, $node, $searchableFields);
+        /** Author (field_author) */
+        /** multi-value field */
+        $authors = $wrapper->field_author->value();
+        if (!empty($authors)) {
+        	foreach ($authors as $author) {
+        		$searchableFields[] = $author;
+        		$document->addField('sm' . $prefix . '_author', $author);
+        	}
+        }
+        unset($authors);
+        unset($author);
+        /** Creator (field_creator) */
+        /** multi-value field */
+        $creators = $wrapper->field_creator->value();
+        if (!empty($creators)) {
+        	foreach ($creators as $creator) {
+        		$document->addField('sm' . $prefix . '_creator', $creator);
+        		$searchableFields[] = $creator;
+        	}
+        }
+        unset($creators);
+        unset($creator);
+        /** Editor (field_editor) */
+        /** multi-value field */
+        $editors = $wrapper->field_editor->value();
+        if (!empty($editors)) {
+        	foreach ($editors as $editor) {
+        		$document->addField('sm' . $prefix . '_editor', $editor);
+        		$searchableFields[] = $editor;
+        	}
+        }
+        unset($editors);
+        unset($editor);
+        /** Contributor (field_contributor) */
+        /** multi-value field */
+        $contributors = $wrapper->field_contributor->value();
+        if (!empty($contributors)) {
+        	foreach ($contributors as $contributor) {
+        		$document->addField('sm' . $prefix . '_contributor', $contributor);
+        		$searchableFields[] =  $contributor;
+        	}
+        }
+        unset($editors);
+        unset($editor);
+        /** Publisher (field_publisher) */
+        /** multi-value field */
+        $publishers = $wrapper->field_publisher->value();
+        if (!empty($publishers)) {
+        	foreach ($publishers as $publisher) {
+        		$document->addField('sm' . $prefix . '_publisher', $publisher);
+        		$searchableFields[] =  $publisher;
+        	}
+        }
+        unset($publishers);
+        unset($publisher);
+        /** Publication location (field_publication_location) */
+        /** single-value field */
+        $publication_location = $wrapper->field_publication_location->value();
+        if (!empty($publication_location)) {
+        	$searchableFields[] = $publication_location;
+        	$document->addField('ss' . $prefix . '_publication_location', $publication_location);
+        	$document->addField('ss' . $prefix . '_spublocation', dlts_solr_remove_accents(strtolower($publication_location)));
+        }
+        unset($publication_location);
       }
     }
   }

@@ -219,6 +219,15 @@ function dlts_viewer_menu() {
       'delivery callback' => 'dlts_viewer_deliver_json',
       'file' => 'inc/endpoints.inc',
     ),
+
+  	'sources/field/%' => array(
+  	  'title' => 'Cotent types',
+  		'access arguments' => array('access content'),
+  		'page callback' => 'dlts_viewer_content_by_field',
+  		'delivery callback' => 'dlts_viewer_deliver_json',
+  		'page arguments' => array(2),
+    ),
+
   );
   if (module_exists('devel')) {
     $menu['node/%node/json_view'] = array(
@@ -453,7 +462,7 @@ function theme_thumbnails_pager($vars) {
 			'parameters' => $parameters
 	));
 
-	$links['close'] = array('title' => t('Close [x]'), 'attributes' => array('class' => array('close')));
+	$links['close'] = array('title' => t('Close [x]'), 'href'=> '#', 'attributes' => array('class' => array('close')));
 
 	$links = array_filter($links);
 
@@ -567,4 +576,60 @@ function dlts_viewer_document_processor() {
   // foreach ($items as $item) {
   //   $queue->releaseItem($item);
 	// }
+}
+
+
+function dlts_viewer_content_by_field ($field_name) {
+	$out = array();
+	$field_name = filter_xss ( $field_name );
+	$info = field_info_field( $field_name );
+	$query_parameters = drupal_get_query_parameters();
+	if ( $info ) {
+		$m = array_keys( $info['storage']['details']['sql']['FIELD_LOAD_CURRENT'] );
+		$table = $m[0];
+		$c = array_keys( $info['columns'] );
+		$columns = $c[0];
+		if  ( $columns == 'fid' ) return array();
+		$seek = $field_name . '_' . $columns;
+		$table = 'field_data_' . $field_name;
+		$query = 'SELECT DISTINCT ' . $seek . ' AS value FROM {' . $table . '}';
+		$result = db_query($query);
+		foreach ( $result as $record ) {
+			if ( $columns == 'nid' ) {
+				$node = node_load( $record->value );
+				$raw_value = $record->value;
+				$value = $node->title;
+			}
+			elseif ( $columns == 'tid' ) {
+				$term = taxonomy_term_load( $record->value );
+				$raw_value = $record->value;
+				$value = $term->name;
+			}
+			else {
+				$raw_value = $value = $record->value;
+			}
+			$out[] = array(
+					'value' => $value,
+					'raw_value' => $raw_value,
+			);
+		}
+	}
+	return $out;
+}
+
+function dlts_viewer_views_pre_render(&$view) {
+	if ($view->name == 'mv') {
+		$results = $view->result;
+		foreach ($results as $key => $result) {
+			if (isset($result->_field_data['field_multivol_node_nid']['entity'])) {
+				$node = $result->_field_data['field_multivol_node_nid']['entity'];
+				$wrapper = entity_metadata_wrapper('node', $node);
+				$number = $wrapper->field_volume_number_str->value();
+				$markup = $result->field_field_book_1[0]['rendered']['#markup'];
+				if (!strpos($markup, $number) !== false) {
+					$result->field_field_book_1[0]['rendered']['#markup'] = $markup . ' ' . $number;
+				}
+			}
+		}
+	}
 }

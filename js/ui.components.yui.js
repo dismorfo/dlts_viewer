@@ -40,7 +40,7 @@ YUI().use(
       slider.set('length' ,(Y.one('#pager').get('offsetWidth') - 120 ));
        var viewportHeight = this.get('winHeight'),
         adminBarHeight = 0,
-        topHeight = Y.one('#top').get('offsetHeight'),
+        // topHeight = Y.one('#top').get('offsetHeight'),
         navbarHeight = Y.one('#navbar').get('offsetHeight'),
         pageHeight = Y.one('#pager').get('offsetHeight'),
         nodeAdminMenu = Y.one('#admin-menu'),
@@ -49,7 +49,8 @@ YUI().use(
       if (nodeAdminMenu) {
         adminBarHeight =  nodeAdminMenu.get('offsetHeight') ;
       }
-      sidebarHeight = viewportHeight - (adminBarHeight + topHeight + navbarHeight + pageHeight);
+      //sidebarHeight = viewportHeight - (adminBarHeight + topHeight + navbarHeight + pageHeight);
+      sidebarHeight = viewportHeight - (adminBarHeight + navbarHeight + pageHeight);
       Y.one('#pagemeta').setStyles({
         'height': sidebarHeight
       });
@@ -389,6 +390,7 @@ YUI().use(
     }
 
     function onButtonThumbnailsOn(e) {
+      e.halt();
       var thumbnails = Y.one('#thumbnails');
       var thumbnailsParams = Y.one('#thumbnails-params');
       var data = {};
@@ -402,6 +404,7 @@ YUI().use(
     }
     
     function onButtonThumbnailsOff(e) {
+      e.halt();
       var thumbnails = Y.one('#thumbnails');
       var button = Y.one('#button-thumbnails');
       // in case event was triggered by other means

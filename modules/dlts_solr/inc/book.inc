@@ -16,7 +16,87 @@ function dlts_solr_series_book_by_book_nid($entity) {
   return $keys;
 }
 
+function dlts_solr_index_book_collection($collections, &$document, &$entity, &$searchableFields) {
+	$language = $entity->language;
+	$prefix = '';
+	if ($language != 'en') {
+		$prefix = $language . '_';
+	}
+	foreach ($collections as $collection) {
+		$collection_wrapper = entity_metadata_wrapper('node', $collection);
+		// sigle-value
+		$collections_code = $collection_wrapper->field_code->value();
+		if (!empty($collections_code)) {
+			$document->addField('sm_' . $prefix . 'collection_code', $collections_code);
+		}
+		// sigle-value
+		$collections_identifier = $collection_wrapper->field_identifier->value();
+		if (!empty($collections_identifier)) {
+			$document->addField('sm_' . $prefix . 'collection_identifier', $collections_identifier);
+		}
+		// sigle-value
+		$collections_label = $collection_wrapper->field_name->value();
+		if (!empty($collections_label)) {
+			$document->addField('sm_' . $prefix . 'collection_label', $collections_label);
+		}
+		// multi-value
+		$collections_partner = $collection_wrapper->field_partner->value();
+		if ($collections_partner) {
+			foreach ($collections_partner as $partner) {
+				$collection_partner_wrapper = entity_metadata_wrapper('node', $partner);
+				// sigle-value
+				$collections_partner_code = $collection_partner_wrapper->field_code->value();
+				if (!empty($collections_partner_code)) {
+					$document->addField('sm_' . $prefix . 'collection_partner_code', $collections_partner_code);
+				}
+				// sigle-value
+				$collections_partner_identifier = $collection_partner_wrapper->field_identifier->value();
+				if (!empty($collections_identifier)) {
+					$document->addField('sm_' . $prefix . 'collection_partner_identifier', $collections_partner_identifier);
+				}
+				// sigle-value
+				$collections_partner_label = $collection_partner_wrapper->field_name->value();
+				if (!empty($collections_partner_label)) {
+					$searchableFields[] = $collections_partner_label;
+					$document->addField('sm_' . $prefix . 'collection_partner_label', $collections_partner_label);
+				}
+			}
+		}
+	}
+}
+
+/** Provider (field_partner) */
+function dlts_solr_index_book_partners($items = array(), &$document, &$entity, &$searchableFields) {
+	$language = $entity->language;
+	$prefix = '';
+	if ($language != 'en') {
+		$prefix = $language . '_';
+	}
+	foreach ($items as $item) {
+		$wrapper = entity_metadata_wrapper('node', $item);
+		// sigle-value
+		$code = $wrapper->field_code->value();
+		if (!empty($code)) {
+			$document->addField('sm_' . $prefix . 'provider_code', $code);
+		}
+		// sigle-value
+		$identifier = $wrapper->field_identifier->value();
+		if (!empty($identifier)) {
+			$document->addField('sm_' . $prefix . 'provider_identifier', $identifier);
+		}
+		// sigle-value
+		$label = $wrapper->field_name->value();
+		if (!empty($label)) {
+			$searchableFields[] = $label;
+			$document->addField('sm_' . $prefix . 'provider_label', $label);
+		}
+	}
+}
+
 function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
+	$language = $entity->language;
+	// skip if entity language is not English
+	if ($language != 'en') return;
 	/** add translations helper */
 	module_load_include('inc', 'dlts_solr', 'inc/translations');
 	/** add image server helper */
@@ -33,91 +113,12 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   /** searchable content; dump all you want to be searchable in this array */
   $searchableFields = array($document->content);
   /** content type fields */
+  /** Collection (field_collection) */
   /** multi-value field */
-  $collections = $wrapper->field_collection->value();
-  foreach ($collections as $collection) {
-    $collection_wrapper = entity_metadata_wrapper('node', $collection);
-    // sigle-value
-    $collections_code = $collection_wrapper->field_code->value();
-    if (!empty($collections_code)) {
-      $document->addField('sm_collection_code', $collections_code);
-  	}
-  	// sigle-value
-  	$collections_identifier = $collection_wrapper->field_identifier->value();
-  	if (!empty($collections_identifier)) {
-  		$document->addField('sm_collection_identifier', $collections_identifier);
-  	}
-  	// sigle-value
-  	$collections_label = $collection_wrapper->field_name->value();
-  	if (!empty($collections_label)) {
-  		$document->addField('sm_collection_label', $collections_label);
-  	}
-  	// multi-value
-  	$collections_partner = $collection_wrapper->field_partner->value();
-  	if ($collections_partner) {
-  		foreach ($collections_partner as $partner) {
-  			$collection_partner_wrapper = entity_metadata_wrapper('node', $partner);
-  			// sigle-value
-  			$collections_partner_code = $collection_partner_wrapper->field_code->value();
-  			if (!empty($collections_partner_code)) {
-  				$document->addField('sm_collection_partner_code', $collections_partner_code);
-  			}
-  			// sigle-value
-  			$collections_partner_identifier = $collection_partner_wrapper->field_identifier->value();
-  			if (!empty($collections_identifier)) {
-  				$document->addField('sm_collection_partner_identifier', $collections_partner_identifier);
-  			}
-  			// sigle-value
-  			$collections_partner_label = $collection_partner_wrapper->field_name->value();
-  			if (!empty($collections_partner_label)) {
-  				$searchableFields[] = $collections_partner_label;
-  				$document->addField('sm_collection_partner_label', $collections_partner_label);
-  			}
-  		}
-  	}
-  }
-  unset($collections);
-  unset($collection);
-  unset($collection_wrapper);
-  unset($collections_code);
-  unset($collections_identifier);
-  unset($collections_label);
-  unset($collections_partner);
-  unset($collection_partner_wrapper);
-  unset($partner);
-  unset($collections_partner_code);
-  unset($collections_partner_identifier);
-  unset($collections_partner_label);
+  dlts_solr_index_book_collection($wrapper->field_collection->value(), $document, $entity, $searchableFields);
   /** Provider (field_partner) */
   /** multi-value field */
-  $providers = $wrapper->field_partner->value();
-  if (!empty($providers)) {
-    foreach ($providers as $provider) {
-    	$provider_wrapper = entity_metadata_wrapper('node', $provider);
-    	// sigle-value
-    	$provider_code = $provider_wrapper->field_code->value();
-    	if (!empty($provider_code)) {
-    		$document->addField('sm_provider_code', $provider_code);
-    	}
-    	// sigle-value
-    	$provider_identifier = $provider_wrapper->field_identifier->value();
-    	if (!empty($provider_identifier)) {
-    		$document->addField('sm_provider_identifier', $provider_identifier);
-    	}
-    	// sigle-value
-    	$provider_label = $provider_wrapper->field_name->value();
-    	if (!empty($provider_label)) {
-    		$searchableFields[] = $provider_label;
-    		$document->addField('sm_provider_label', $provider_label);
-    	}
-    }
-  }
-  unset($providers);
-  unset($provider);
-  unset($provider_wrapper);
-  unset($provider_code);
-  unset($provider_identifier);
-  unset($provider_label);
+  dlts_solr_index_book_partners($wrapper->field_partner->value(), $document, $entity, $searchableFields);
   /** ISBN (field_isbn) */
   /** multi-value field */
   $isbns = $wrapper->field_isbn->value();
@@ -315,24 +316,24 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   unset($topic);
   /** Language code (field_language_code) */
   /** multi-value field */
-  $language_code = $wrapper->field_language_code->value();
+  $language_codes = $wrapper->field_language_code->value();
   if (!empty($language_codes)) {
   	foreach ($language_codes as $language_code) {
   		$document->addField('sm_language_code', $language_code);
   	}
   }
   unset($language_codes);
-  //unset(language_code);
+  unset($language_code);
   /** Language (field_language) */
   /** multi-value field */
-  //$language = $wrapper->field_language->value();
-  //if (!empty($language)) {
-  	//foreach ($language as $language) {
-  		//$document->addField('sm_language', $language);
-  	//}
-  //}
-  //unset($language);
-  //unset(language);
+  $field_language = $wrapper->field_language->value();
+  if (!empty($field_language)) {
+  	foreach ($field_language as $language) {
+  		$document->addField('sm_language', $language);
+  	}
+  }
+  unset($field_language);
+  unset($language);
 
   /**
   if ( $multivol = dlts_utilities_book_get_multivol_book( $entity ) ) {
@@ -364,34 +365,6 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   }
   */
 
-  /** to be dump to content */
-
-
-  /**
-  $multi_value_fields = array(
-  		'partner' => $partners,
-  		'isbn' => $isbns,
-  		'author' => $authors,
-  		'creator' => $creators,
-  		'editor' => $editors,
-  		'contributor' => $contributors,
-  		'publisher' => $publishers,
-  		'subject' => $subjects,
-  );
-  foreach ( $multi_value_fields as $label => $fields ) {
-    foreach ( $fields as $index => $value ) {
-      $searchableFields[] = $value;
-      // sort does not work with multiple values; just get the first one
-      if ( $index == 0 ) {
-        $field_value = dlts_solr_remove_accents( strtolower( $value ) ) ;
-        $document->addField('ss_s' . $label, $field_value );
-        $document->addField('iass_s' . $label, $field_value );
-      }
-      $document->addField('sm_' . $label, $value);
-    }
-  }
-  */
-
   /** Single value fields */
   $document->addField('ss_title', $book_field_title);
   // Strip HTML Tags
@@ -412,7 +385,7 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   $document->addField('iass_longlabel', $title_sort);
 
   /** add translations */
-  // dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $env_id, $searchableFields);
+  dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $env_id, $searchableFields);
 
   unset($document->content);
 
