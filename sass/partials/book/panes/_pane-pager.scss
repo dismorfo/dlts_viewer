@@ -18,14 +18,14 @@
     display: inline;
     float: left;
     font-family: $pager-fonts;
-    width: 100% /($navbar-columns + 2);
+    width: 100% / ($navbar-columns + 2);
     min-width: 48px;
     opacity: $normal-opacity;
     &.pager-current,
     &.pager-ellipsis {
       float: left;
       display: block;
-      width: 100% /($navbar-columns + 2);
+      width: 100% / ($navbar-columns + 2);
       min-width: 48px;
       height: 46px;
       font-size: 1.4em;
@@ -55,6 +55,13 @@
         font-weight: normal;
         speak: none;
         -webkit-font-smoothing: antialiased;
+      }
+    }
+    &.close a {
+      overflow: hidden;
+      &:before {
+        content: "\e000";
+        color: $thumbnail-nav-link-color;
       }
     }
     &.pager-previous a {

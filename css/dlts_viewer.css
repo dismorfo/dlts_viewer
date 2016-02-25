@@ -1,4 +1,4 @@
-/* line 5, ../../../../../../../.rvm/gems/ruby-2.1.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 5, ../../../.rvm/gems/ruby-2.1.0/gems/compass-core-1.1.0.alpha.0/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -20,45 +20,45 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* line 22, ../../../../../../../.rvm/gems/ruby-2.1.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../../../.rvm/gems/ruby-2.1.0/gems/compass-core-1.1.0.alpha.0/stylesheets/compass/reset/_utilities.scss */
 html {
   line-height: 1;
 }
 
-/* line 24, ../../../../../../../.rvm/gems/ruby-2.1.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 24, ../../../.rvm/gems/ruby-2.1.0/gems/compass-core-1.1.0.alpha.0/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 26, ../../../../../../../.rvm/gems/ruby-2.1.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 26, ../../../.rvm/gems/ruby-2.1.0/gems/compass-core-1.1.0.alpha.0/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 28, ../../../../../../../.rvm/gems/ruby-2.1.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 28, ../../../.rvm/gems/ruby-2.1.0/gems/compass-core-1.1.0.alpha.0/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 30, ../../../../../../../.rvm/gems/ruby-2.1.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 30, ../../../.rvm/gems/ruby-2.1.0/gems/compass-core-1.1.0.alpha.0/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none;
 }
-/* line 103, ../../../../../../../.rvm/gems/ruby-2.1.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 103, ../../../.rvm/gems/ruby-2.1.0/gems/compass-core-1.1.0.alpha.0/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
   content: none;
 }
 
-/* line 32, ../../../../../../../.rvm/gems/ruby-2.1.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 32, ../../../.rvm/gems/ruby-2.1.0/gems/compass-core-1.1.0.alpha.0/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
 
-/* line 116, ../../../../../../../.rvm/gems/ruby-2.1.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 116, ../../../.rvm/gems/ruby-2.1.0/gems/compass-core-1.1.0.alpha.0/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
   display: block;
 }
@@ -528,8 +528,8 @@ strong {
 
 @font-face {
   font-family: "book-viewer";
-  src: url('../fonts/book-viewer.eot?1445359889');
-  src: url('../fonts/book-viewer.eot?&1445359889#iefix') format('embedded-opentype'), url('../fonts/book-viewer.woff?1445359889') format('woff'), url('../fonts/book-viewer.ttf?1445359889') format('truetype');
+  src: url('../fonts/book-viewer.eot?1450294295');
+  src: url('../fonts/book-viewer.eot?&1450294295#iefix') format('embedded-opentype'), url('../fonts/book-viewer.woff?1450294295') format('woff'), url('../fonts/book-viewer.ttf?1450294295') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -547,23 +547,23 @@ html a {
   text-decoration: none;
   color: #952c2f;
 }
-/* line 4, ../../../../../../../.rvm/gems/ruby-2.1.1/gems/compass-core-1.0.3/stylesheets/compass/typography/links/_hover-link.scss */
+/* line 4, ../../../.rvm/gems/ruby-2.1.0/gems/compass-core-1.1.0.alpha.0/stylesheets/compass/typography/links/_hover-link.scss */
 html a:hover, html a:focus {
   text-decoration: underline;
 }
-/* line 18, ../../../../../../../.rvm/gems/ruby-2.1.1/gems/compass-core-1.0.3/stylesheets/compass/typography/links/_link-colors.scss */
+/* line 18, ../../../.rvm/gems/ruby-2.1.0/gems/compass-core-1.1.0.alpha.0/stylesheets/compass/typography/links/_link-colors.scss */
 html a:visited {
   color: #823f41;
 }
-/* line 21, ../../../../../../../.rvm/gems/ruby-2.1.1/gems/compass-core-1.0.3/stylesheets/compass/typography/links/_link-colors.scss */
+/* line 21, ../../../.rvm/gems/ruby-2.1.0/gems/compass-core-1.1.0.alpha.0/stylesheets/compass/typography/links/_link-colors.scss */
 html a:focus {
   color: #9f2226;
 }
-/* line 24, ../../../../../../../.rvm/gems/ruby-2.1.1/gems/compass-core-1.0.3/stylesheets/compass/typography/links/_link-colors.scss */
+/* line 24, ../../../.rvm/gems/ruby-2.1.0/gems/compass-core-1.1.0.alpha.0/stylesheets/compass/typography/links/_link-colors.scss */
 html a:hover {
   color: #9f2226;
 }
-/* line 27, ../../../../../../../.rvm/gems/ruby-2.1.1/gems/compass-core-1.0.3/stylesheets/compass/typography/links/_link-colors.scss */
+/* line 27, ../../../.rvm/gems/ruby-2.1.0/gems/compass-core-1.1.0.alpha.0/stylesheets/compass/typography/links/_link-colors.scss */
 html a:active {
   color: #9f2226;
 }
@@ -1539,37 +1539,46 @@ body.openlayers-loading .olLayerDiv {
   -webkit-font-smoothing: antialiased;
 }
 /* line 60, ../sass/partials/book/panes/_pane-pager.scss */
-.pager li.pager-previous a {
+.pager li.close a {
   overflow: hidden;
 }
 /* line 62, ../sass/partials/book/panes/_pane-pager.scss */
+.pager li.close a:before {
+  content: "\e000";
+  color: #ffffff;
+}
+/* line 67, ../sass/partials/book/panes/_pane-pager.scss */
+.pager li.pager-previous a {
+  overflow: hidden;
+}
+/* line 69, ../sass/partials/book/panes/_pane-pager.scss */
 .pager li.pager-previous a:before {
   content: "\e013";
   color: #ffffff;
 }
-/* line 67, ../sass/partials/book/panes/_pane-pager.scss */
+/* line 74, ../sass/partials/book/panes/_pane-pager.scss */
 .pager li.pager-next a {
   overflow: hidden;
 }
-/* line 69, ../sass/partials/book/panes/_pane-pager.scss */
+/* line 76, ../sass/partials/book/panes/_pane-pager.scss */
 .pager li.pager-next a:before {
   content: "\e012";
   color: #ffffff;
 }
-/* line 74, ../sass/partials/book/panes/_pane-pager.scss */
+/* line 81, ../sass/partials/book/panes/_pane-pager.scss */
 .pager li.pager-first a {
   overflow: hidden;
 }
-/* line 76, ../sass/partials/book/panes/_pane-pager.scss */
+/* line 83, ../sass/partials/book/panes/_pane-pager.scss */
 .pager li.pager-first a:before {
   content: "\e010";
   color: #ffffff;
 }
-/* line 81, ../sass/partials/book/panes/_pane-pager.scss */
+/* line 88, ../sass/partials/book/panes/_pane-pager.scss */
 .pager li.pager-last a {
   overflow: hidden;
 }
-/* line 83, ../sass/partials/book/panes/_pane-pager.scss */
+/* line 90, ../sass/partials/book/panes/_pane-pager.scss */
 .pager li.pager-last a:before {
   content: "\e011";
   color: #ffffff;
@@ -1615,9 +1624,6 @@ body.openlayers-loading .olLayerDiv {
   -webkit-flex-flow: row nowrap;
   flex-flow: row nowrap;
   -ms-flex-wrap: nowrap;
-  -webkit-justify-content: space-around;
-  justify-content: space-around;
-  -ms-flex-pack: justify;
 }
 /* line 37, ../sass/partials/book/panes/_pane-thumbnails.scss */
 #thumbnails .view-book-thumbnails .views-row {
