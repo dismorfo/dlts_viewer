@@ -16,6 +16,33 @@ function dlts_solr_series_book_by_book_nid($entity) {
   return $keys;
 }
 
+function dlts_solr_multivolume_book_by_book_nid($entity) {
+  /** deal only with books */
+	if ($entity->type == 'dlts_book') {
+		$query = new EntityFieldQuery;
+		$keys = array();
+		$volumes = array();
+		$result = $query->entityCondition('entity_type', 'node')
+		  ->entityCondition('bundle', 'dlts_multivol_book')
+		  ->fieldCondition('field_book', 'nid', array($entity->nid))
+		  ->execute();
+		if (!empty($result['node'])) {
+			$keys = array_keys($result['node']);
+			$nodes = node_load_multiple($keys);
+			if ($nodes) {
+				foreach ($nodes as $node) {
+					$wrapper = entity_metadata_wrapper('node', $node);
+					$multivol = $wrapper->field_multivol->value();
+					$volume_number = $wrapper->field_volume_number->value();
+					$volume_number_str = $wrapper->field_volume_number_str->value();
+					$volumes[] = array( 'multivol' => $multivol->nid, 'volume_number' => $volume_number, 'volume_number_str' => $volume_number_str,);
+				}
+			}
+		}
+	}
+	return $volumes;
+}
+
 function dlts_solr_index_book_collection($collections, &$document, &$entity, &$searchableFields) {
 	$language = $entity->language;
 	$prefix = '';
@@ -136,14 +163,44 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   	$document->addField('ss_handle', $handle['url']);
   }
   unset($handle);
+
   /** Title (field_title) */
   /** single-value field */
   $title_long = $wrapper->field_title->value();
   if (!empty($title_long)) {
   	$book_field_title = trim($title_long);
-  	$document->addField('ss_title_long', $book_field_title);
   }
   unset($title_long);
+
+  /** figure out if this is a Multi Volume book */
+  $multivolumes = dlts_solr_multivolume_book_by_book_nid($entity);
+  // @TODO: Size might be > that 0. For now just deal with 0 and then fix after
+  // we have the other bulk of the work done.
+  if (!empty($multivolumes)) {
+  	$multivolume = $multivolumes[0];
+  	$volume = '';
+  	// volume_number_str can be empty, if so, try volume_number
+  	if (isset($multivolume['volume_number_str']) && !empty($multivolume['volume_number_str'])) {
+  		$volume = $multivolume['volume_number_str'];
+  	}
+  	elseif (isset($multivolume['volume_number']) && !empty($multivolume['volume_number'])) {
+  		$volume = 'Vol. ' . $multivolume['volume_number'];
+  	}
+  	$book_field_title = t('@title @volume', array( '@title' => $book_field_title, '@volume' => $volume));
+  	$document->addField('is_ispartof_multivol', 1);
+  	if (!empty($volume)) {
+  		$document->addField('ss_multivol_number', $volume);
+  	}
+  	$document->addField('ss_multivol_label', $book_field_title);
+  }
+  else {
+  	$document->addField('is_ispartof_multivol', 0) ;
+  }
+
+  // we need to wait until we figure out if this is a multi volume.
+  // by now, we already test for multi volume and title should be the right one.
+  $document->addField('ss_title_long', $book_field_title);
+
   $searchableFields[] = $book_field_title;
   /** Subtitle (field_subtitle) */
   /** single-value field */
@@ -334,20 +391,6 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   }
   unset($field_language);
   unset($language);
-
-  /**
-  if ( $multivol = dlts_utilities_book_get_multivol_book( $entity ) ) {
-  	if ( $volume = dlts_utilities_multibook_get_volume( $multivol ) ) {
-  		$book_field_title = t('@title Vol. @volume', array( '@title' => $book_field_title, '@volume' => $volume ) );
-  		$document->addField('is_ispartof_multivol', 1) ;
-  		$document->addField('ss_multivol_number', $volume) ;
-  		$document->addField('ss_multivol_label', $book_field_title) ;
-  	}
-  }
-  else {
-  	$document->addField('is_ispartof_multivol', 0) ;
-  }
-  */
 
   /**
   if ($books_series) {
