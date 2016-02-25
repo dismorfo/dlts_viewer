@@ -1,5 +1,4 @@
-/**
- 
+
 YUI.use(
     'node'
   , 'event'
@@ -26,6 +25,7 @@ YUI.use(
     });
 
     Y.on('button:button-fullscreen:on', function(e) {
+        console.log("fullscreen on");
         Y.CrossFrame.postMessage("parent", JSON.stringify({
             fire: 'button:button-fullscreen:on',
             data: {}
@@ -64,4 +64,3 @@ YUI.use(
 
 });
 
-*/

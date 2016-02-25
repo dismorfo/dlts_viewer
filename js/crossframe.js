@@ -183,7 +183,7 @@ YUI.add("crossframe", function(Y) {
      * @return void
      */
     _init = function() {
-        Y.log("_init(): is executed", "info", MODULE_ID);
+        Y.log("_init(): is now executed", "info", MODULE_ID);
         if (typeof window.addEventListener !== "undefined") { // W3C browsers.
             window.addEventListener("message", _onMessage, false);
         } else if (typeof window.attachEvent !== "undefined" && Y.UA.ie >= 8) { // IE browsers.
