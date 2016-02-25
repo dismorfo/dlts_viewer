@@ -532,5 +532,17 @@ YUI().use(
     Y.one('body').delegate('click', onThumbnailsPagePagerClick, '#thumbnails .pager a');
 
     Y.delegate('change', on_toggle_language, 'body', '.language');
+    
+    function onSelectMVChange(e) {
+      e.halt();
+      var currentTarget = e.currentTarget;
+      var value = currentTarget.one(':checked').get('value');
+      location.replace(value.substring(value.indexOf('::') + 2, value.length));
+    }
+    
+    // we need to remove all events
+    jQuery('.field-name-mv-2016 *').unbind();
+    
+    Y.delegate('change', onSelectMVChange, 'body', '.field-name-mv-2016 form');
 
 });
