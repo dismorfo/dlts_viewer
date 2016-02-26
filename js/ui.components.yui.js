@@ -66,11 +66,17 @@ YUI().use(
           complete: function(id, e) {
             var node = Y.one('#pagemeta');
             var dir;
+            var titlebar = Y.one('#titlebar');
+            var pagetitle = Y.one('#page-title');
             node.set('innerHTML', e.response);
             dir = node.one('.node-dlts-book').getAttribute('data-dir');
             Y.one('.pane.main').set('dir', dir);
-            Y.one('#titlebar').set('dir', dir);
-            Y.one('#page-title').set('innerHTML', node.one('.field-name-title .field-item').get('text'));
+            if (titlebar) {
+            	titlebar.set('dir', dir);
+            }
+            if (pagetitle) {
+              pagetitle.set('innerHTML', node.one('.field-name-title .field-item').get('text'));
+            }
           }
         }
       });
