@@ -4,7 +4,6 @@
  * @file
  * Books
  */
-
 function dlts_viewer_is_multivolume_book($entity) {
   $query = new EntityFieldQuery;
 	$result = $query
@@ -367,6 +366,7 @@ function dlts_viewer_dispatcher($entity, $arg) {
 
   	$entity->book_page = theme('dlts_viewer_openlayers_image' , array('file' => $arg));
   }
+
   // types of returns
   switch ($display_type) {
   	case 'book_page':

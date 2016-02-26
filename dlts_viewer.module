@@ -10,6 +10,49 @@
  */
 include_once 'inc/loaders.inc';
 
+/**
+ * Implements hook_flush_caches().
+ *
+ * Using this as a way to get certain phrases into the t() workflow, that don't
+ * seem to otherwise make it. To get these items to show up in the Translate
+ * interface, go to a different language and in the Drupal admin clear the
+ * Drupal cache. (ie, at /admin/config/development/performance
+ */
+function mymodule_flush_caches() {
+	// Translatables
+	// Included for use with string extractors like potx.
+	t('Author');
+	t('Place of publication');
+	t('Publisher');
+	t('Date of Publication');
+	t('Subject');
+	t('Collection');
+	t('Language');
+	t('Provider');
+	t('Permanent link');
+	t('PDF');
+	t('High resolution');
+	t('Low resolution');
+	t('Vol.');
+
+	locale('Available languages');
+	locale('Author');
+	locale('Place of publication');
+	locale('Publisher');
+	locale('Date of Publication');
+	locale('Subject');
+	locale('Collection');
+	locale('Language');
+	locale('Provider');
+	locale('Permanent link');
+	locale('PDF');
+	locale('High resolution');
+	locale('Low resolution');
+	locale('Vol.');
+
+}
+
+
 function dlts_viewer_init() {
   drupal_add_http_header('Access-Control-Allow-Origin', '*');
 }
@@ -22,6 +65,17 @@ function dlts_viewer_custom_theme() {
   if (arg(0) == 'books') {
     return 'tao';
   }
+}
+
+function dlts_viewer_theme_registry_alter(&$theme_registry) {
+	if (!empty($theme_registry['field'])) {
+		$theme_registry['field']['function'] = 'dlts_viewer_theme_field';
+	}
+}
+
+function wp_comments_form_element($element, $value) {
+	// Here, we provide our customized version of the
+	// theme_form_element function from theme.inc...
 }
 
 /**
@@ -278,8 +332,6 @@ function dlts_viewer_preprocess_html(&$vars) {
 }
 
 function dlts_viewer_process_node(&$vars) {
-	// dpm(__FUNCTION__);
-	// dpm($vars);
 	$is_pjax = dlts_viewer_is_pjax();
 	$args = arg();
 	$count = count($args);
@@ -632,4 +684,25 @@ function dlts_viewer_views_pre_render(&$view) {
 			}
 		}
 	}
+}
+
+function dlts_viewer_theme_field($variables) {
+	$lang_language = $variables['element']['#object']->language;
+	$dir = dlts_viewer_viewer_language();
+	$label = locale($variables['label'], NULL, $lang_language);
+	$output = '';
+	// Render the label, if it's not hidden.
+	if (!$variables['label_hidden']) {
+		$output .= '<div dir=". $dir ." class="field-label"' . $variables['title_attributes'] . '>' . $label . ':&nbsp;</div>';
+	}
+	// Render the items.
+	$output .= '<div dir=". $dir ." class="field-items"' . $variables['content_attributes'] . '>';
+	foreach ($variables['items'] as $delta => $item) {
+		$classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
+		$output .= '<div dir=". $dir ." class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>' . drupal_render($item) . '</div>';
+	}
+	$output .= '</div>';
+	// Render the top-level DIV.
+	$output = '<div dir=". $dir ." class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
+	return $output;
 }
