@@ -28,7 +28,7 @@ function dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $
         }
         $title_long = trim($title_long);
           /** Added temprarly to accomodate search options should be remove later-@ekate */
-          $document->addField('ss' . $prefix . '_stitle', dlts_solr_remove_accents(strtolower($title_long)));
+          $document->addField('ss' . $prefix . '_title', dlts_solr_remove_accents(strtolower($title_long)));
           $document->addField('ss' . $prefix . '_stitle', dlts_solr_remove_accents(strtolower($title_long)));
         $document->addField('iass' . $prefix . '_longlabel',  dlts_solr_remove_accents(strtolower($title_long)));
         $document->addField('ss' . $prefix . '_title_long', $title_long);
