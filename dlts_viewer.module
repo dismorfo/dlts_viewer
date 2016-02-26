@@ -693,16 +693,16 @@ function dlts_viewer_theme_field($variables) {
 	if (!$variables['label_hidden']) {
 		$lang_language = $variables['element']['#object']->language;
 		$label = locale($variables['label'], NULL, $lang_language);
-		$output .= '<div dir=". $dir ." class="field-label"' . $variables['title_attributes'] . '>' . $label . ':&nbsp;</div>';
+		$output .= '<div dir="'. $dir .'" class="field-label"' . $variables['title_attributes'] . '>' . $label . ':&nbsp;</div>';
 	}
 	// Render the items.
-	$output .= '<div dir=". $dir ." class="field-items"' . $variables['content_attributes'] . '>';
+	$output .= '<div dir="'. $dir .'" class="field-items"' . $variables['content_attributes'] . '>';
 	foreach ($variables['items'] as $delta => $item) {
 		$classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
-		$output .= '<div dir=". $dir ." class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>' . drupal_render($item) . '</div>';
+		$output .= '<div dir="'. $dir .'" class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>' . drupal_render($item) . '</div>';
 	}
 	$output .= '</div>';
 	// Render the top-level DIV.
-	$output = '<div dir=". $dir ." class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
+	$output = '<div dir="'. $dir .'" class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
 	return $output;
 }
