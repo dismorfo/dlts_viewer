@@ -352,8 +352,8 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   		$document->addField('sm_subject_label', $subject->name);
   		$searchableFields[] = $subject->name;
 		if ($index == 0) {
-			$document->addField('ss_ssubject', dlts_solr_remove_accents(strtolower($subject)));
-			$document->addField('iass_subject', dlts_solr_remove_accents(strtolower($subject)));
+			$document->addField('ss_ssubject', dlts_solr_remove_accents(strtolower($subject->name)));
+			$document->addField('iass_subject', dlts_solr_remove_accents(strtolower($subject->name)));
 		}
   		$document->addField('zm_subject',json_encode(array('name'=>$subject->name,'tid' => $subject->tid, 'vid' => $subject->vid)));
   	}
