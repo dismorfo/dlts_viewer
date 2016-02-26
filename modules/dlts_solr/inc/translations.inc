@@ -27,7 +27,7 @@ function dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $
         	$title_long = $title_long . ' ' . $volume;
         }
         $title_long = trim($title_long);
-          /** Added temprarly to accomodate search options should be remove later-@ekate */
+          /** Added temporarily to accomodate search options should be removed later-@ekate */
           $document->addField('ss' . $prefix . '_title', dlts_solr_remove_accents(strtolower($title_long)));
           $document->addField('ss' . $prefix . '_stitle', dlts_solr_remove_accents(strtolower($title_long)));
         $document->addField('iass' . $prefix . '_longlabel',  dlts_solr_remove_accents(strtolower($title_long)));
@@ -104,7 +104,7 @@ function dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $
         	$searchableFields[] = $publication_location;
         	$document->addField('ss' . $prefix . '_publication_location', $publication_location);
         	$document->addField('ss' . $prefix . '_spublocation', dlts_solr_remove_accents(strtolower($publication_location)));
-            /** add temporally to accomodate current search options will remove later- @ekate */
+            /** add temporarily to accomodate current search options will remove later- @ekate */
             $document->addField('ss' . $prefix . '_publocation', dlts_solr_remove_accents(strtolower($publication_location)));
         }
         unset($publication_location);
