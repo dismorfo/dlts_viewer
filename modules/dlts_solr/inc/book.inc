@@ -1,8 +1,6 @@
 <?php
-
 // Batch process has consumed in excess of 50% of available memory. Starting new thread
 // look for this
-
 function dlts_solr_series_book_by_book_nid($entity) {
   $query = new EntityFieldQuery;
   $keys = array();
@@ -15,7 +13,6 @@ function dlts_solr_series_book_by_book_nid($entity) {
   }
   return $keys;
 }
-
 function dlts_solr_multivolume_book_by_book_nid($entity) {
   /** deal only with books */
 	if ($entity->type == 'dlts_book') {
@@ -42,7 +39,6 @@ function dlts_solr_multivolume_book_by_book_nid($entity) {
 	}
 	return $volumes;
 }
-
 function dlts_solr_index_book_collection($collections, &$document, &$entity, &$searchableFields) {
 	$language = $entity->language;
 	$prefix = '';
@@ -91,7 +87,6 @@ function dlts_solr_index_book_collection($collections, &$document, &$entity, &$s
 		}
 	}
 }
-
 /** Provider (field_partner) */
 function dlts_solr_index_book_partners($items = array(), &$document, &$entity, &$searchableFields) {
 	$language = $entity->language;
@@ -119,7 +114,6 @@ function dlts_solr_index_book_partners($items = array(), &$document, &$entity, &
 		}
 	}
 }
-
 function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
 	$language = $entity->language;
 	// skip if entity language is not English
@@ -163,7 +157,6 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   	$document->addField('ss_handle', $handle['url']);
   }
   unset($handle);
-
   /** Title (field_title) */
   /** single-value field */
   $title_long = $wrapper->field_title->value();
@@ -171,7 +164,6 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   	$book_field_title = trim($title_long);
   }
   unset($title_long);
-
   /** figure out if this is a Multi Volume book */
   $multivolumes = dlts_solr_multivolume_book_by_book_nid($entity);
   // @TODO: Size might be > that 0. For now just deal with 0 and then fix after
@@ -198,11 +190,9 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   else {
   	$document->addField('is_ispartof_multivol', 0) ;
   }
-
   // we need to wait until we figure out if this is a multi volume.
   // by now, we already test for multi volume and title should be the right one.
   $document->addField('ss_title_long', $book_field_title);
-
   $searchableFields[] = $book_field_title;
   /** Subtitle (field_subtitle) */
   /** single-value field */
@@ -263,8 +253,12 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   /** multi-value field */
   $authors = $wrapper->field_author->value();
   if (!empty($authors)) {
-  	foreach ($authors as $author) {
+	  foreach ($authors as $index => $author) {
   		$searchableFields[] = $author;
+		  if ($index == 0) {
+			  $document->addField('ss_sauthor', dlts_solr_remove_accents(strtolower($author)));
+			  $document->addField('iass_author', dlts_solr_remove_accents(strtolower($author)));
+		  }
   		$document->addField('sm_author', $author);
   	}
   }
@@ -346,7 +340,7 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   if (!empty($publication_location)) {
   	$searchableFields[] = $publication_location;
   	$document->addField('ss_publication_location', $publication_location);
-  	$document->addField('ss_publocation', $publication_location); // remove this?
+  	$document->addField('ss_publocation',dlts_solr_remove_accents(strtolower($publication_location))); // remove this? @kate- when search options are fixed
   	$document->addField('ss_spublocation', dlts_solr_remove_accents(strtolower($publication_location)));
   }
   unset($publication_location);
@@ -354,9 +348,13 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   /** multi-value field */
   $subjects = $wrapper->field_subject->value();
   if (!empty($subjects)) {
-  	foreach ($subjects as $subject) {
+  	foreach ($subjects as $index=>$subject) {
   		$document->addField('sm_subject_label', $subject->name);
   		$searchableFields[] = $subject->name;
+		if ($index == 0) {
+			$document->addField('ss_ssubject', dlts_solr_remove_accents(strtolower($subject->name)));
+			$document->addField('iass_subject', dlts_solr_remove_accents(strtolower($subject->name)));
+		}
   		$document->addField('zm_subject',json_encode(array('name'=>$subject->name,'tid' => $subject->tid, 'vid' => $subject->vid)));
   	}
   }
@@ -393,7 +391,6 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   }
   unset($field_language);
   unset($language);
-
   /**
   if ($books_series) {
   	$document->addField( 'is_ispartof_series', 1 ) ;
@@ -409,7 +406,6 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   	}
   }
   */
-
   /** Single value fields */
   $document->addField('ss_title', $book_field_title);
   // Strip HTML Tags
@@ -428,16 +424,11 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   /** Sort fields */
   $document->addField('ss_longlabel', $title_sort);
   $document->addField('iass_longlabel', $title_sort);
-
   /** add translations */
-  dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $env_id, $searchableFields);
-
+  dlts_solr_index_book_translations($document, $entity, $entity_type, $env_id, $searchableFields);
   unset($document->content);
-
   $document->addField('content', implode($searchableFields, ' '));
-
 }
-
 function mbstring_binary_safe_encoding( $reset = false ) {
 	static $encodings = array();
 	static $overloaded = null;
@@ -455,7 +446,6 @@ function mbstring_binary_safe_encoding( $reset = false ) {
 		mb_internal_encoding( $encoding );
 	}
 }
-
 function reset_mbstring_encoding() {
 	mbstring_binary_safe_encoding( true );
 }
