@@ -10,33 +10,34 @@ YUI().use(
   , 'widget-anim'
   , 'crossframe'
   , function(Y) {
-    'use strict';
-    /** set a X-PJAX HTTP header for all IO requests */
-    Y.io.header('X-PJAX', 'true');
-    var PJAX_INVALID = -1;
-    var PJAX_UNKNOWN_ERROR = -2;    
-    var html = Y.one('html');
-    var top = Y.one('#top');
-    var pagemeta = Y.one('.pane.pagemeta');
-    var display = Y.one('#display');
-    var pager = Y.one('#pager');
-    var displayData = display.getData();
-    var land_dir = pager.get('dir');
-    var bookUrl = displayData['url'];
-    var sequenceCount = parseInt(displayData['sequence-count'] , 10);
-    var sequence = parseInt(displayData['sequence'] , 10);
-    var slider_datasource = Y.one('#slider_value');
-    /** slider object */
-    var slider = new Y.Slider({
-      axis: 'x', 
-      min: 1,
-      dir: land_dir, 
-      clickableRail: false, 
-      max: sequenceCount, 
-      value: sequence, 
-      length:(Y.one('#pager').get('offsetWidth') - 120) + 'px' 
-    });
-    /** nodes */
+
+  'use strict';
+  /** set a X-PJAX HTTP header for all IO requests */
+  Y.io.header('X-PJAX', 'true');
+  var PJAX_INVALID = -1;
+  var PJAX_UNKNOWN_ERROR = -2;    
+  var html = Y.one('html');
+  var top = Y.one('#top');
+  var pagemeta = Y.one('.pane.pagemeta');
+  var display = Y.one('#display');
+  var pager = Y.one('#pager');
+  var displayData = display.getData();
+  var land_dir = pager.get('dir');
+  var bookUrl = displayData['url'];
+  var sequenceCount = parseInt(displayData['sequence-count'] , 10);
+  var sequence = parseInt(displayData['sequence'] , 10);
+  var slider_datasource = Y.one('#slider_value');
+  /** slider object */
+  var slider = new Y.Slider({
+    axis: 'x', 
+    min: 1,
+    dir: land_dir, 
+    clickableRail: false, 
+    max: sequenceCount, 
+    value: sequence, 
+    length:(Y.one('#pager').get('offsetWidth') - 120) + 'px' 
+  });
+  /** nodes */
     function resizePageMeta() {
       slider.set('length' ,(Y.one('#pager').get('offsetWidth') - 120 ));
        var viewportHeight = this.get('winHeight'),
@@ -119,7 +120,6 @@ YUI().use(
       }
       Y.fire(event_prefix + ':toggle', e);
     }
-
     /** TODO: I don't like this, find a more elegant solution */
     function pager_form(e) {
       e.preventDefault();
@@ -212,11 +212,8 @@ YUI().use(
         url = this.get('href');
       }
       /** request URL */
-      pjax.navigate(url);
-      
-      if (currentTarget.hasClass('next') || currentTarget.hasClass('next')) {
-        Y.fire('button:button-thumbnails:off');
-      }
+      pjax.navigate(url);      
+      Y.fire('button:button-thumbnails:off');
     }
     
     function PjaxException(value) {
@@ -405,7 +402,6 @@ YUI().use(
     }
     
     function onButtonThumbnailsOff(e) {
-      e.halt();
       var thumbnails = Y.one('#thumbnails');
       var button = Y.one('#button-thumbnails');
       // in case event was triggered by other means
@@ -427,6 +423,10 @@ YUI().use(
       e.preventDefault();
       /** test if the target is not active */
       if (e.currentTarget.hasClass('inactive')) { 
+        return false;
+      }
+      if (e.currentTarget.hasClass('close')) {
+    	Y.fire('button:button-thumbnails:off', e);
         return false;
       }
       /** if event has referenceTarget, then event was trigger by reference */
@@ -544,7 +544,7 @@ YUI().use(
       Y.CrossFrame.postMessage('parent', JSON.stringify({ fire: 'change:option:multivolume', data }));
     }
     
-    // we need to remove all events
+    // we need to remove all jQuery events for this node (DOM)
     jQuery('.field-name-mv-2016 *').unbind();
     
     Y.delegate('change', onSelectMVChange, 'body', '.field-name-mv-2016 form');
