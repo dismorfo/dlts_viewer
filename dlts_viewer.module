@@ -10,49 +10,6 @@
  */
 include_once 'inc/loaders.inc';
 
-/**
- * Implements hook_flush_caches().
- *
- * Using this as a way to get certain phrases into the t() workflow, that don't
- * seem to otherwise make it. To get these items to show up in the Translate
- * interface, go to a different language and in the Drupal admin clear the
- * Drupal cache. (ie, at /admin/config/development/performance
- */
-function mymodule_flush_caches() {
-	// Translatables
-	// Included for use with string extractors like potx.
-	t('Author');
-	t('Place of publication');
-	t('Publisher');
-	t('Date of Publication');
-	t('Subject');
-	t('Collection');
-	t('Language');
-	t('Provider');
-	t('Permanent link');
-	t('PDF');
-	t('High resolution');
-	t('Low resolution');
-	t('Vol.');
-
-	locale('Available languages');
-	locale('Author');
-	locale('Place of publication');
-	locale('Publisher');
-	locale('Date of Publication');
-	locale('Subject');
-	locale('Collection');
-	locale('Language');
-	locale('Provider');
-	locale('Permanent link');
-	locale('PDF');
-	locale('High resolution');
-	locale('Low resolution');
-	locale('Vol.');
-
-}
-
-
 function dlts_viewer_init() {
   drupal_add_http_header('Access-Control-Allow-Origin', '*');
 }
@@ -596,6 +553,31 @@ function dlts_viewer_viewer_language($vars) {
   return $viewer_language;
 }
 
+/**
+ * Implements hook_flush_caches().
+ *
+ * Using this as a way to get certain phrases into the t() workflow, that don't
+ * seem to otherwise make it. To get these items to show up in the Translate
+ * interface, go to a different language and in the Drupal admin clear the
+ * Drupal cache. (ie, at /admin/config/development/performance
+ */
+function dlts_viewer_flush_caches() {
+	// Translatables
+	// Included for use with string extractors like potx.
+	t('Author');
+	t('Place of publication');
+	t('Publisher');
+	t('Date of Publication');
+	t('Subject');
+	t('Collection');
+	t('Language');
+	t('Provider');
+	t('Permanent link');
+	t('PDF');
+	t('High resolution');
+	t('Low resolution');
+	t('Vol.');
+}
 
 function dlts_viewer_cron_queue_info() {
   // drupal_set_message(t('dlts_solr_cron_queue_info'));
@@ -687,7 +669,7 @@ function dlts_viewer_views_pre_render(&$view) {
 }
 
 function dlts_viewer_theme_field($variables) {
-	$dir = dlts_viewer_viewer_language();
+	$dir = dlts_viewer_viewer_language((array)$variables['element']['#object']);
 	$output = '';
 	// Render the label, if it's not hidden.
 	if (!$variables['label_hidden']) {

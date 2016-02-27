@@ -1,6 +1,10 @@
 <?php
-// Batch process has consumed in excess of 50% of available memory. Starting new thread
-// look for this
+
+/**
+ * @TODO: Batch process has consumed in excess of 50% of available memory.
+ * Starting new thread
+ */
+
 function dlts_solr_series_book_by_book_nid($entity) {
   $query = new EntityFieldQuery;
   $keys = array();
@@ -13,6 +17,7 @@ function dlts_solr_series_book_by_book_nid($entity) {
   }
   return $keys;
 }
+
 function dlts_solr_multivolume_book_by_book_nid($entity) {
   /** deal only with books */
 	if ($entity->type == 'dlts_book') {
@@ -90,6 +95,8 @@ function dlts_solr_index_book_collection($collections, &$document, &$entity, &$s
 /** Provider (field_partner) */
 function dlts_solr_index_book_partners($items = array(), &$document, &$entity, &$searchableFields) {
 	$language = $entity->language;
+	$label = '';
+	$code = '';
 	$prefix = '';
 	if ($language != 'en') {
 		$prefix = $language . '_';
@@ -112,6 +119,7 @@ function dlts_solr_index_book_partners($items = array(), &$document, &$entity, &
 			$searchableFields[] = $label;
 			$document->addField('sm_' . $prefix . 'provider_label', $label);
 		}
+		$document->addField('zm_partner',json_encode(array('name'=>$label,'code' => $code, 'nid' => $item->nid)));
 	}
 }
 function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
