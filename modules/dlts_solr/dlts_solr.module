@@ -1,5 +1,42 @@
 <?php
 
+function dlts_solr_node_update($node) {
+  if ($node->type == 'dlts_book' && $node->language != 'en' && !$node->is_new) {
+  	$type = 'node';
+  	$bundle = 'dlts_book';
+  	$wrapper = entity_metadata_wrapper('node', $node);
+  	$identifier = $wrapper->field_identifier->value();
+  	$query = new EntityFieldQuery;
+  	$keys = array();
+  	$result = $query->entityCondition('entity_type', $type)
+  	  ->entityCondition('bundle', $bundle)
+  	  ->fieldCondition('field_identifier', 'value',  $identifier)
+  	  ->propertyCondition('status', 1) // only load books that are published
+  	  ->propertyCondition('language', 'en')
+  	  ->execute();
+
+  	if (!empty($result['node'])) {
+  		$keys = array_keys($result['node']);
+  		$id = $keys[0];
+  		$indexer_table = apachesolr_get_indexer_table($type);
+  		db_merge($indexer_table)->key(array('entity_type' => $type, 'entity_id' => $id ))
+  		  // insertFields acts only on insert.
+  		  ->insertFields(array(
+  		    'entity_type' => $type,
+  		    'entity_id' => $id,
+  		    'bundle' => $bundle,
+  		    'status' => 1,
+  		  )
+  		)
+  		/// fields acts on insert or update.
+  		->fields(array(
+  		'changed' => REQUEST_TIME,
+  		))
+  		->execute();
+  	}
+  }
+}
+
 /**
  * Allows a module to modify the delete query. Only delete this site nodes from index
  *

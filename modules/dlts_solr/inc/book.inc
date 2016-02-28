@@ -119,7 +119,9 @@ function dlts_solr_index_book_partners($items = array(), &$document, &$entity, &
 			$searchableFields[] = $label;
 			$document->addField('sm_' . $prefix . 'provider_label', $label);
 		}
-		$document->addField('zm_partner',json_encode(array('name'=>$label,'code' => $code, 'nid' => $item->nid)));
+		if ($language == 'en') {
+		  $document->addField('zm_partner',json_encode(array('name'=>$label,'code' => $code, 'nid' => $item->nid)));
+		}
 	}
 }
 function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
