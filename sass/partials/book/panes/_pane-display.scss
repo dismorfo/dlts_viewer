@@ -33,7 +33,6 @@ body {
     .pager-right {
       right: -20px;
     }
-    
     .button {
       &.toggle-page {
         display: none;
@@ -94,11 +93,10 @@ body {
       }
     }
   }
-  
   .pane.main[dir="rtl"] .pane.display {
     // when the metadata panel is on the right
     .paging.pager-right {
-      right: 220px;
+      right: 260px;
     }
     .paging.pager-left {
       left: -20px;
