@@ -34,6 +34,7 @@ body.pagemeta-hidden .pane.load {
 body.openlayers-loading .pane.load.loading {
   opacity: 1;
   transition: opacity .5s;
+  z-index: 100;
 }
 
 .olLayerDiv {
