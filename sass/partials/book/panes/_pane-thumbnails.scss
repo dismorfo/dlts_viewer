@@ -32,9 +32,6 @@
     -webkit-flex-flow: row nowrap;
     flex-flow: row nowrap;
     -ms-flex-wrap: nowrap;
-    // -webkit-justify-content: space-around;
-    // justify-content: space-around;
-    // -ms-flex-pack: justify;
     .views-row {
       position: relative;
       -ms-flex: 0 1 auto;
@@ -42,6 +39,7 @@
       flex: 0 1 auto;
       margin: 0 1%;
       overflow: hidden;
+      max-width: 8%;
     }
     .thumbHolder {
       position: relative;
