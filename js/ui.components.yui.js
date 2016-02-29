@@ -307,6 +307,7 @@ YUI().use(
       if (metadata) {
         metadata.removeClass('on');      
       }
+      Y.CrossFrame.postMessage("parent", JSON.stringify({fire: 'button:button-fullscreen:on'}));
     }
 
     function fullscreenOff(e) {
@@ -330,6 +331,7 @@ YUI().use(
       if (top) {
         top.removeClass('hidden');      
       }
+      Y.CrossFrame.postMessage("parent", JSON.stringify({fire: 'button:button-fullscreen:off'}));
     }    
 
     function change_page(config) {
@@ -350,6 +352,8 @@ YUI().use(
         imgMetadata: config.metadata
       });
       Y.on('contentready', function() {
+    	Y.CrossFrame.postMessage("parent", JSON.stringify({fire: 'openlayers:change', data: config }));
+    	Y.fire('openlayers:change', config);
         Y.later(1000, Y.one('.pane.load'), function() {
           this.hide();
         });
@@ -359,11 +363,13 @@ YUI().use(
     function onButtonMetadataOn(e) {
       this.removeClass('hidden');
       this.ancestor('.pane-body').removeClass('pagemeta-hidden');
+      Y.CrossFrame.postMessage("parent", JSON.stringify({fire: 'button:button-metadata:on'}));
     }
     
     function onButtonMetadataOff(e) {
       this.addClass('hidden');
-      this.ancestor('.pane-body').addClass('pagemeta-hidden');    
+      this.ancestor('.pane-body').addClass('pagemeta-hidden');   
+      Y.CrossFrame.postMessage("parent", JSON.stringify({fire: 'button:button-metadata:off'}));
     }    
     
     function openLayersTilesLoading() {

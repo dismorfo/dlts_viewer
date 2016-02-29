@@ -53,7 +53,6 @@ function dlts_viewer_full_book_view(&$entity) {
   drupal_add_css($module_path . '/css/dlts_viewer.css', $css_common_config);
   drupal_add_js('http://yui.yahooapis.com/3.18.1/build/yui/yui-min.js', 'external', array('group' => JS_LIBRARY, 'weight' => -100));
   drupal_add_js($module_path . '/js/crossframe.js', $js_common_config);
-  drupal_add_js($module_path . '/js/ui.crossframe.js', $js_common_config);
   drupal_add_js($module_path . '/js/modules/slider-base.js', $js_common_config);
   drupal_add_js($module_path . '/js/ui.keyboard.yui.js', $js_common_config);
   drupal_add_js($module_path . '/js/ui.components.yui.js', $js_common_config);
