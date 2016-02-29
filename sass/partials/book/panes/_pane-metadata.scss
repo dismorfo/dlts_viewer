@@ -56,7 +56,6 @@
       color: #000;
       margin-right: .2em;
     }
-
     .field-name-field-pdf-file .field-item:last-child a:after {
       content: "";
     }
@@ -122,6 +121,9 @@
     border-right: none;
     border-left: 1px solid #ccc;
     direction: rtl;
+  }
+  .field-label-inline .field-label, .field-label-inline .field-items {
+    float: none;
   }
 }
 
