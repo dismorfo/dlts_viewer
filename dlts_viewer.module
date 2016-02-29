@@ -30,11 +30,6 @@ function dlts_viewer_theme_registry_alter(&$theme_registry) {
 	}
 }
 
-function wp_comments_form_element($element, $value) {
-	// Here, we provide our customized version of the
-	// theme_form_element function from theme.inc...
-}
-
 /**
  * Implementation of hook_theme().
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_theme/7
@@ -47,6 +42,7 @@ function dlts_viewer_theme() {
     ),
     'thumbnails_pager' => array(
   	  'variables' => array('tags' => array(), 'limit' => 10, 'element' => 0, 'parameters' => array(), 'quantity' => 9),
+    	'file' => 'inc/themes.inc',
   	),
     'dlts_viewer_openlayers_image' => array(
       'variables' => array(),
@@ -163,7 +159,6 @@ function dlts_viewer_theme() {
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_menu/7
  */
 function dlts_viewer_menu() {
-
   $menu = array(
     /**
      * Convinient way to edit a Book object
@@ -431,59 +426,6 @@ function dlts_viewer_deliver_json($page_callback_result) {
   }
 }
 
-/**
- * Override of theme_pager().
- * Easily one of the most obnoxious theming jobs in Drupal core.
- * Goals: consolidate functionality into less than 5 functions and
- * ensure the markup will not conflict with major other styles
- * (theme_item_list() in particular).
- */
-function theme_thumbnails_pager($vars) {
-	$tags = $vars['tags'];
-	$element = $vars['element'];
-	$parameters = $vars['parameters'];
-	$quantity = $vars['quantity'];
-	$pager_list = theme('pager_list', $vars);
-
-	$links = array();
-
-	$links['pager-first'] = theme('pager_first', array(
-			'text' => (isset($tags[0]) ? $tags[0] : t('First')),
-			'element' => $element,
-			'parameters' => $parameters
-	));
-
-	$links['pager-previous'] = theme('pager_previous', array(
-			'text' => (isset($tags[1]) ? $tags[1] : t('Prev')),
-			'element' => $element,
-			'interval' => 1,
-			'parameters' => $parameters
-	));
-	$links['pager-next'] = theme('pager_next', array(
-			'text' => (isset($tags[3]) ? $tags[3] : t('Next')),
-			'element' => $element,
-			'interval' => 1,
-			'parameters' => $parameters
-	));
-	$links['pager-last'] = theme('pager_last', array(
-			'text' => (isset($tags[4]) ? $tags[4] : t('Last')),
-			'element' => $element,
-			'parameters' => $parameters
-	));
-
-	$links['close'] = array('title' => t('Close [x]'), 'href'=> '#', 'attributes' => array('class' => array('close')));
-
-	$links = array_filter($links);
-
-	$pager_links = theme('links', array(
-			'links' => $links,
-			'attributes' => array('class' => 'links pager pager-links')
-	));
-	if ($pager_list) {
-		return '<div class="pager clearfix">' . $pager_list . ' ' . $pager_links . '</div>';
-	}
-}
-
 function dlts_viewer_is_pjax() {
   $is_pjax = &drupal_static('is_pjax');
   if (!isset($is_pjax) && function_exists('getallheaders')) {
@@ -592,7 +534,33 @@ function dlts_viewer_cron_queue_info() {
  * http://api.drupal.org/api/drupal/modules--aggregator--aggregator.module/function/aggregator_cron/7
  */
 function dlts_viewer_cron() {
-  // drupal_set_message(t('dlts_solr_cron'));
+
+	/**
+	if (function_exists('drush_log')) {
+	  $query = 'SELECT n.nid, pdf.field_pdf_file_data AS data FROM node n LEFT JOIN field_data_field_pdf_file pdf ON pdf.entity_id = n.nid WHERE n.language = :language AND n.type = :type AND n.nid > 4700 GROUP BY n.nid';
+	  $result = db_query($query, array(':language' => 'ar', ':type' => 'dlts_book'));
+	  foreach ($result as $record) {
+	  	$node = node_load($record->nid);
+	  	drush_log($record->nid, 'ok');
+	  	$wrapper = entity_metadata_wrapper('node', $node);
+	  	$pdfs = $wrapper->field_pdf_file->value();
+	  	$data = array();
+	  	foreach ($pdfs as $key => $pdf) {
+	  		$data[$key] = unserialize($pdf['data']);
+	  		if (strpos($data[$key]['uri'], '_hi')) {
+	  			$data[$key]['label'] = t('High resolution');
+	  		}
+	  		elseif (strpos($data[$key]['uri'], '_lo')) {
+	  			$data[$key]['label'] = t('Low resolution');
+	  		}
+	  		$pdfs[$key] = array('uri' => $pdfs[$key]['uri'], 'data' => serialize($data));
+	  	}
+	  	$wrapper->field_pdf_file->set($pdfs);
+	  	$wrapper->save();
+	  }
+	}
+	*/
+
 }
 
 /**

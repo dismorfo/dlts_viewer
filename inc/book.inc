@@ -4,20 +4,8 @@
  * @file
  * Books
  */
-function dlts_viewer_is_multivolume_book($entity) {
-  $query = new EntityFieldQuery;
-	$result = $query
-	  ->entityCondition('entity_type', 'node')
-		->entityCondition('bundle', 'dlts_multivol_book')
-		->fieldCondition('field_book', 'nid', array($entity->nid))
-		->execute();
-	if (!empty($result['node'])) {
-	  $keys = array_keys($result['node']);
-	  $nid = array_pop($keys);
-		return node_load($nid);
-  }
-  return FALSE;
-}
+
+module_load_include('inc', 'dlts_viewer', 'inc/datasource'); // see if I can include just when needed
 
 function dlts_viewer_dispatch_thumbnails($identifier) {
 	/**
@@ -149,6 +137,19 @@ function dlts_viewer_dispatcher($entity, $arg) {
 		$volume_number_str = $wrapper->field_volume_number_str->value();
 		// change entity title
 		$entity->title = t('@title @volume', array('@title' => $multivolume_book->title, '@volume' => $volume_number_str));
+	}
+
+	// check if this books is part of a series
+	$series_book = dlts_viewer_is_series_book($entity);
+  // not sure if this is right. the book can part of multiple series book
+  // figure out the right way to pick the title
+	// maybe we can do something along the lines of: Book Title (also known as Series book title 1, Series book title 2)
+	if ($entity->isSeriesBook) {
+		foreach ($entity->seriesBook as $series_book) {
+			// for now just get the last one (since we just have one for now)
+			// talk about this with the group and fix later.
+			$entity->title = $series_book['volume_label'];
+		}
 	}
   // set entity title
 	drupal_set_title($entity->title);
@@ -404,30 +405,6 @@ function _dlts_viewer_book_edit_redirect($node) {
 
 function dlts_viewer_book_metadata_display($node) {
   return node_view($node , 'metadata' , $book->language );
-}
-
-function dlts_viewer_series_book($nid) {
-	$query = new EntityFieldQuery;
-	$result = $query
-	  ->entityCondition('entity_type', 'node')
-	  ->entityCondition('bundle', 'dlts_series_book')
-	  ->fieldCondition('field_book', 'nid', $nid, '=')
-	  ->execute();
-	if (empty($result['node'])) return FALSE;
-	$keys = array_keys($result['node']);
-	return node_load_multiple($keys);
-}
-
-function dlts_viewer_multivolume_book($nid) {
-	$query = new EntityFieldQuery;
-	$result = $query
-	->entityCondition('entity_type', 'node')
-	->entityCondition('bundle', 'dlts_multivol_book')
-	->fieldCondition('field_book', 'nid', $nid, '=')
-	->execute();
-	if (empty($result['node'])) return FALSE;
-	$keys = array_keys($result['node']);
-	return node_load_multiple($keys);
 }
 
 /**
