@@ -287,8 +287,12 @@ YUI().use(
     
     function fullscreenOn(e) {
       var docElm = document.documentElement;
-      var metadata = Y.one('.metadata');
+      var metadata = Y.one('.pagemeta');
       var top = Y.one('.top');
+      var button = Y.one('#button-metadata');
+      if (button) {
+    	button.removeClass('on');
+      }
       if (docElm.requestFullscreen) {
         docElm.requestFullscreen();
       }
@@ -300,12 +304,9 @@ YUI().use(
       }
       else if (docElm.webkitRequestFullScreen) {
         docElm.webkitRequestFullScreen();
-      }      
+      }
       if (top) {
         top.addClass('hidden');      
-      }
-      if (metadata) {
-        metadata.removeClass('on');      
       }
       Y.CrossFrame.postMessage("parent", JSON.stringify({fire: 'button:button-fullscreen:on'}));
     }
@@ -368,7 +369,7 @@ YUI().use(
     
     function onButtonMetadataOff(e) {
       this.addClass('hidden');
-      this.ancestor('.pane-body').addClass('pagemeta-hidden');   
+      this.ancestor('.pane-body').addClass('pagemeta-hidden');
       Y.CrossFrame.postMessage("parent", JSON.stringify({fire: 'button:button-metadata:off'}));
     }    
     
