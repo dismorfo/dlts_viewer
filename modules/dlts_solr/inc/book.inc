@@ -44,6 +44,8 @@ function dlts_solr_multivolume_book_by_book_nid($entity) {
 	}
 	return $volumes;
 }
+
+
 function dlts_solr_index_book_collection($collections, &$document, &$entity, &$searchableFields) {
 	$language = $entity->language;
 	$prefix = '';
@@ -92,6 +94,8 @@ function dlts_solr_index_book_collection($collections, &$document, &$entity, &$s
 		}
 	}
 }
+
+
 /** Provider (field_partner) */
 function dlts_solr_index_book_partners($items = array(), &$document, &$entity, &$searchableFields) {
 	$language = $entity->language;
@@ -124,7 +128,29 @@ function dlts_solr_index_book_partners($items = array(), &$document, &$entity, &
 		}
 	}
 }
+
+function dlts_solr_index_book_series($document, $entity, $searchableFields) {
+	$language = $entity->language;
+	$prefix = '';
+	if ($language != 'en') {
+		$prefix = $language . '_';
+	}
+	/** check if this books is part of a series */
+	dlts_viewer_is_series_book($entity);
+	if ($entity->isSeriesBook) {
+		$document->addField('is_ispartofseries', 1);
+		foreach ($entity->seriesBook as $series_book) {
+		  $label = t('@label part of series @series', array('@label'=> $series_book['volume_label'], '@series' => $series_book['series']));
+		  $searchableFields[] = $label;
+		  $document->addField('sm_' . $prefix . 'series', $series_book['series']);
+		  $document->addField('sm_' . $prefix . 'series_label', $series_book['volume_label']);
+		  $document->addField('sm_' . $prefix . 'series_book', $label);
+	  }
+  }
+}
+
 function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
+	module_load_include('inc', 'dlts_viewer', 'inc/datasource');
 	$language = $entity->language;
 	// skip if entity language is not English
 	if ($language != 'en') return;
@@ -150,6 +176,9 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   /** Provider (field_partner) */
   /** multi-value field */
   dlts_solr_index_book_partners($wrapper->field_partner->value(), $document, $entity, $searchableFields);
+
+  dlts_solr_index_book_series($document, $entity, $searchableFields);
+
   /** ISBN (field_isbn) */
   /** multi-value field */
   $isbns = $wrapper->field_isbn->value();

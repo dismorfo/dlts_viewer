@@ -11,6 +11,7 @@ function dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $
         $prefix = '_' . $language;
         // wrapp entity with Entity API wrapper
         $wrapper = entity_metadata_wrapper('node', $node);
+
         /** Title (field_title) */
         /** single-value field */
         $title_long = $wrapper->field_title->value();
@@ -26,10 +27,11 @@ function dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $
         	}
         	$title_long = $title_long . ' ' . $volume;
         }
+
         $title_long = trim($title_long);
-          /** Added temporarily to accomodate search options should be removed later-@ekate */
-          $document->addField('ss' . $prefix . '_title', dlts_solr_remove_accents(strtolower($title_long)));
-          $document->addField('ss' . $prefix . '_stitle', dlts_solr_remove_accents(strtolower($title_long)));
+        /** Added temporarily to accomodate search options should be removed later-@ekate */
+        $document->addField('ss' . $prefix . '_title', dlts_solr_remove_accents(strtolower($title_long)));
+        $document->addField('ss' . $prefix . '_stitle', dlts_solr_remove_accents(strtolower($title_long)));
         $document->addField('iass' . $prefix . '_longlabel',  dlts_solr_remove_accents(strtolower($title_long)));
         $document->addField('ss' . $prefix . '_title_long', $title_long);
         $searchableFields[] = $title_long;

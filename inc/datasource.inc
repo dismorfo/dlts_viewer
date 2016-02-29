@@ -51,30 +51,34 @@ function dlts_viewer_is_series_book(&$entity) {
 		$result = $query
 		  ->entityCondition('entity_type', $entity_type)
 		  ->entityCondition('bundle', $bundle)
-		  ->fieldCondition('field_book', 'nid', array($book_nid)) // single-value field
+		  ->fieldCondition('field_book', 'nid', $book_nid, '=')
 		  ->fieldCondition('field_collection', 'nid', array($collection->nid)) // multi-value field
 		  ->execute();
 		if (!empty($result['node'])) {
 			$entity->isSeriesBook = true;
-			$keys = array_keys($result['node']);
-			$nid = array_pop($keys);
-			$series_book_node = node_load($nid);
-			$series_book_wrapper = entity_metadata_wrapper($entity_type, $series_book_node);
-			$volume_number = $series_book_wrapper->field_volume_number->value();
-			$volume_number_str = $series_book_wrapper->field_volume_number_str->value();
-			if (!empty($volume_number_str)) {
-				$book_long_title = $book_long_title . ' ' . $volume_number_str;
+			$nids = array_keys($result['node']);
+			foreach ($nids as $nid) {
+				$title = $book_long_title;
+				$series_book_node = node_load($nid);
+				$series_book_wrapper = entity_metadata_wrapper($entity_type, $series_book_node);
+				$series = $series_book_wrapper->field_series->value(); // single-value field
+				$volume_number = $series_book_wrapper->field_volume_number->value(); // single-value field
+				$volume_number_str = $series_book_wrapper->field_volume_number_str->value(); // single-value field
+				if (!empty($volume_number_str)) {
+					$title = $book_long_title . ' ' . $volume_number_str;
+				}
+				elseif (!empty($volume_number)) {
+					$title = $book_long_title . ' ' . $volume_number;
+				}
+				$is_part_of[] = array(
+				  'series' => $series->title,
+					'volume_label' => $title,
+					'volume_number' => $volume_number,
+					'volume_number_str' => $volume_number_str,
+					'collection_label' => $collection_label,
+					'collection_code' => $collection_code,
+				);
 			}
-			elseif (!empty($volume_number)) {
-				$book_long_title = $book_long_title . ' ' . $volume_number;
-			}
-			$is_part_of[] = array(
-				'volume_label' => $book_long_title,
-			  'volume_number' => $volume_number,
-			  'volume_number_str' => $volume_number_str,
-				'collection_label' => $collection_label,
-				'collection_code' => $collection_code,
-			);
 		}
 	}
 	$entity->seriesBook = $is_part_of;
