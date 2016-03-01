@@ -8,39 +8,41 @@ YUI().use(
   , 'pjax'
   , 'gallery-soon'
   , 'widget-anim'
+  , 'crossframe'
   , function(Y) {
-    'use strict';
-    /** set a X-PJAX HTTP header for all IO requests */
-    Y.io.header('X-PJAX', 'true');
-    var PJAX_INVALID = -1;
-    var PJAX_UNKNOWN_ERROR = -2;    
-    var html = Y.one('html');
-    var top = Y.one('#top');
-    var pagemeta = Y.one('.pane.pagemeta');
-    var display = Y.one('#display');
-    var pager = Y.one('#pager');
-    var displayData = display.getData();
-    var land_dir = pager.get('dir');
-    var bookUrl = displayData['url'];
-    var sequenceCount = parseInt(displayData['sequence-count'] , 10);
-    var sequence = parseInt(displayData['sequence'] , 10);
-    var slider_datasource = Y.one('#slider_value');
-    /** slider object */
-    var slider = new Y.Slider({
-      axis: 'x', 
-      min: 1,
-      dir: land_dir, 
-      clickableRail: false, 
-      max: sequenceCount, 
-      value: sequence, 
-      length:(Y.one('#pager').get('offsetWidth') - 120) + 'px' 
-    });
-    /** nodes */
+
+  'use strict';
+  /** set a X-PJAX HTTP header for all IO requests */
+  Y.io.header('X-PJAX', 'true');
+  var PJAX_INVALID = -1;
+  var PJAX_UNKNOWN_ERROR = -2;    
+  var html = Y.one('html');
+  var top = Y.one('#top');
+  var pagemeta = Y.one('.pane.pagemeta');
+  var display = Y.one('#display');
+  var pager = Y.one('#pager');
+  var displayData = display.getData();
+  var land_dir = pager.get('dir');
+  var bookUrl = displayData['url'];
+  var sequenceCount = parseInt(displayData['sequence-count'] , 10);
+  var sequence = parseInt(displayData['sequence'] , 10);
+  var slider_datasource = Y.one('#slider_value');
+  /** slider object */
+  var slider = new Y.Slider({
+    axis: 'x', 
+    min: 1,
+    dir: land_dir, 
+    clickableRail: false, 
+    max: sequenceCount, 
+    value: sequence, 
+    length:(Y.one('#pager').get('offsetWidth') - 120) + 'px' 
+  });
+  /** nodes */
     function resizePageMeta() {
       slider.set('length' ,(Y.one('#pager').get('offsetWidth') - 120 ));
        var viewportHeight = this.get('winHeight'),
         adminBarHeight = 0,
-        topHeight = Y.one('#top').get('offsetHeight'),
+        // topHeight = Y.one('#top').get('offsetHeight'),
         navbarHeight = Y.one('#navbar').get('offsetHeight'),
         pageHeight = Y.one('#pager').get('offsetHeight'),
         nodeAdminMenu = Y.one('#admin-menu'),
@@ -49,7 +51,8 @@ YUI().use(
       if (nodeAdminMenu) {
         adminBarHeight =  nodeAdminMenu.get('offsetHeight') ;
       }
-      sidebarHeight = viewportHeight - (adminBarHeight + topHeight + navbarHeight + pageHeight);
+      //sidebarHeight = viewportHeight - (adminBarHeight + topHeight + navbarHeight + pageHeight);
+      sidebarHeight = viewportHeight - (adminBarHeight + navbarHeight + pageHeight);
       Y.one('#pagemeta').setStyles({
         'height': sidebarHeight
       });
@@ -63,11 +66,17 @@ YUI().use(
           complete: function(id, e) {
             var node = Y.one('#pagemeta');
             var dir;
+            var titlebar = Y.one('#titlebar');
+            var pagetitle = Y.one('#page-title');
             node.set('innerHTML', e.response);
             dir = node.one('.node-dlts-book').getAttribute('data-dir');
             Y.one('.pane.main').set('dir', dir);
-            Y.one('#titlebar').set('dir', dir);
-            Y.one('#page-title').set('innerHTML', node.one('.field-name-title .field-item').get('text'));
+            if (titlebar) {
+            	titlebar.set('dir', dir);
+            }
+            if (pagetitle) {
+              pagetitle.set('innerHTML', node.one('.field-name-title .field-item').get('text'));
+            }
           }
         }
       });
@@ -117,7 +126,6 @@ YUI().use(
       }
       Y.fire(event_prefix + ':toggle', e);
     }
-
     /** TODO: I don't like this, find a more elegant solution */
     function pager_form(e) {
       e.preventDefault();
@@ -210,11 +218,8 @@ YUI().use(
         url = this.get('href');
       }
       /** request URL */
-      pjax.navigate(url);
-      
-      if (currentTarget.hasClass('next') || currentTarget.hasClass('next')) {
-        Y.fire('button:button-thumbnails:off');
-      }
+      pjax.navigate(url);      
+      Y.fire('button:button-thumbnails:off');
     }
     
     function PjaxException(value) {
@@ -282,8 +287,12 @@ YUI().use(
     
     function fullscreenOn(e) {
       var docElm = document.documentElement;
-      var metadata = Y.one('.metadata');
+      var metadata = Y.one('.pagemeta');
       var top = Y.one('.top');
+      var button = Y.one('#button-metadata');
+      if (button) {
+    	button.removeClass('on');
+      }
       if (docElm.requestFullscreen) {
         docElm.requestFullscreen();
       }
@@ -295,13 +304,11 @@ YUI().use(
       }
       else if (docElm.webkitRequestFullScreen) {
         docElm.webkitRequestFullScreen();
-      }      
+      }
       if (top) {
         top.addClass('hidden');      
       }
-      if (metadata) {
-        metadata.removeClass('on');      
-      }
+      Y.CrossFrame.postMessage("parent", JSON.stringify({fire: 'button:button-fullscreen:on'}));
     }
 
     function fullscreenOff(e) {
@@ -325,6 +332,7 @@ YUI().use(
       if (top) {
         top.removeClass('hidden');      
       }
+      Y.CrossFrame.postMessage("parent", JSON.stringify({fire: 'button:button-fullscreen:off'}));
     }    
 
     function change_page(config) {
@@ -345,6 +353,8 @@ YUI().use(
         imgMetadata: config.metadata
       });
       Y.on('contentready', function() {
+    	Y.CrossFrame.postMessage("parent", JSON.stringify({fire: 'openlayers:change', data: config }));
+    	Y.fire('openlayers:change', config);
         Y.later(1000, Y.one('.pane.load'), function() {
           this.hide();
         });
@@ -354,11 +364,13 @@ YUI().use(
     function onButtonMetadataOn(e) {
       this.removeClass('hidden');
       this.ancestor('.pane-body').removeClass('pagemeta-hidden');
+      Y.CrossFrame.postMessage("parent", JSON.stringify({fire: 'button:button-metadata:on'}));
     }
     
     function onButtonMetadataOff(e) {
       this.addClass('hidden');
-      this.ancestor('.pane-body').addClass('pagemeta-hidden');    
+      this.ancestor('.pane-body').addClass('pagemeta-hidden');
+      Y.CrossFrame.postMessage("parent", JSON.stringify({fire: 'button:button-metadata:off'}));
     }    
     
     function openLayersTilesLoading() {
@@ -389,6 +401,7 @@ YUI().use(
     }
 
     function onButtonThumbnailsOn(e) {
+      e.halt();
       var thumbnails = Y.one('#thumbnails');
       var thumbnailsParams = Y.one('#thumbnails-params');
       var data = {};
@@ -423,6 +436,10 @@ YUI().use(
       e.preventDefault();
       /** test if the target is not active */
       if (e.currentTarget.hasClass('inactive')) { 
+        return false;
+      }
+      if (e.currentTarget.hasClass('close')) {
+    	Y.fire('button:button-thumbnails:off', e);
         return false;
       }
       /** if event has referenceTarget, then event was trigger by reference */
@@ -500,7 +517,7 @@ YUI().use(
     pjax.on('navigate', pjax_navigate, Y.one('.pane.load'));
     
     html.delegate('click', on_button_click, 'a.button');
-    
+
     html.delegate('click', pjax_callback, 'a.paging');
     
     Y.on('pjax:change|openlayers:next|openlayers:previous', pjax_callback);
@@ -529,5 +546,20 @@ YUI().use(
     Y.one('body').delegate('click', onThumbnailsPagePagerClick, '#thumbnails .pager a');
 
     Y.delegate('change', on_toggle_language, 'body', '.language');
+    
+    // https://github.com/josephj/yui3-crossframe
+    function onSelectMVChange(e) {
+      e.halt();
+      var currentTarget = e.currentTarget;
+      var value = currentTarget.one(':checked').get('value');
+      var url = value.substring(value.indexOf('::') + 2, value.length);
+      var data = { url : url };
+      Y.CrossFrame.postMessage('parent', JSON.stringify({ fire: 'change:option:multivolume', data }));
+    }
+    
+    // we need to remove all jQuery events for this node (DOM)
+    jQuery('.field-name-mv-2016 *').unbind();
+    
+    Y.delegate('change', onSelectMVChange, 'body', '.field-name-mv-2016 form');
 
 });

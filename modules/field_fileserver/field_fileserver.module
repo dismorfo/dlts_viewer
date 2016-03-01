@@ -126,6 +126,16 @@ function fileserver_field_item_property_info() {
 		'label' => t('File data'),
 		'setter callback' => 'entity_property_verbatim_set',
 	);
+	$properties['label'] = array(
+		'type' => 'text',
+		'label' => t('File label'),
+	  'setter callback' => 'entity_property_verbatim_set',
+	);
+	$properties['image_style'] = array(
+	  'type' => 'text',
+		'label' => t('File image style'),
+		'setter callback' => 'entity_property_verbatim_set',
+	);
 	return $properties;
 }
 
@@ -266,7 +276,7 @@ function field_fileserver_field_formatter_view($entity_type, $entity, $field, $i
     			'#attributes' => array(
     				'class' => array('field', 'field-fileserver', 'field-fileserver-text', $zebra),
     			),
-    		  '#value' => t('@value', array('@value' => $value)),
+    		  '#value' => locale($value, NULL, $entity->language),
     	  );
     	}
     	break;
@@ -283,7 +293,7 @@ function field_fileserver_field_formatter_view($entity_type, $entity, $field, $i
     			  'href' => $uri,
     				'class' => array('field', 'field-fileserver', 'field-fileserver-link', $zebra),
     			),
-    			'#value' => t('@value', array('@value' => $value)),
+    			'#value' => locale($value, NULL, $entity->language),
     		);
     	}
     	break;
@@ -333,33 +343,36 @@ function field_fileserver_field_presave($entity_type, $entity, $field, $instance
 	$new_node = (isset($entity->nid)) ? true : false;
 	if ($instance['widget']['module'] == 'field_fileserver') {
 	  foreach ($items as $key => $item) {
-	  	$old_data = (!empty($item['data'])) ? unserialize($item['data']) : array();
-	  	$new_data = array();
       //check for web-safe file extentions
 		  $pathinfo = pathinfo($item['uri']);
 		  $basename = str_replace('fileserver://', '', $pathinfo['basename']);
-		  $ext = pathinfo($item['uri'], PATHINFO_EXTENSION);
+		  $ext = pathinfo($items[$key]['uri'], PATHINFO_EXTENSION);
 		  $mimetype = file_get_mimetype($basename);
+		  $label = '';
 		  switch ($instance['widget']['type']) {
 		  	case 'field_fileserver_text':
 		  	case 'field_fileserver_link':
-		  		$new_data['uri'] = $item['uri'];
-		  		$new_data['url'] = file_create_url($item['uri']);
-		  		$default_label = ($new_node && isset($old_data['label'])) ? $old_data['label'] : null;
-		  		$new_data['label'] = (isset($item['label'])) ? $item['label'] : $default_label;
+		  		if ($items[$key]['data']) {
+		  	  	$data = unserialize($items[$key]['data']);
+		  	  	// this is wrong
+		  	  	$label = $data[$key]['label'];
+		  	  }
+		  		$new_data['uri'] = $items[$key]['uri'];
+		  		$new_data['url'] = file_create_url($items[$key]['uri']);
+		  		$new_data['label'] = $label;
 		  		break;
 		    case 'field_fileserver_image':
 		      // valid JP2 or TIFF file extentions
 		      $valid_hires_extensions = array('jp2', 'tiff', 'jpg'); // test assumptions that our image server can read all JPG images
 		      // valid web-safe extentions
 		      $valid_websafe_extensions = array( 'jpeg', 'gif', 'png');
-		      $new_data['uri'] = $item['uri'];
-		      if (!empty($item['label'])) {
-			      $new_data['label'] = $item['label'];
+		      $new_data['uri'] = $items[$key]['uri'];
+		      if (!empty($items[$key]['label'])) {
+			      $new_data['label'] = $items[$key]['label'];
 		      }
 
-		      if (isset($item['image_style'])) {
-		        $dimmensions = explode("x", $item['image_style']);
+		      if (isset($items[$key]['image_style'])) {
+		        $dimmensions = explode("x", $items[$key]['image_style']);
 		        if (count($dimmensions) == 2) {
 		          $new_data['width'] = $dimmensions[0];
 		          $new_data['height'] = $dimmensions[1];
@@ -376,11 +389,11 @@ function field_fileserver_field_presave($entity_type, $entity, $field, $instance
 		      	// Load Djatoka Image Server utils
 		      	module_load_include('inc', 'dlts_viewer', 'inc/djatoka');
 		      	// Get URL
-			      $new_data['url'] = dlts_viewer_djatoka_url($item);
+			      $new_data['url'] = dlts_viewer_djatoka_url($items[$key]);
 		      }
 		      // check for web-safe file extention
 		      elseif (in_array($ext,$valid_websafe_extensions)) {
-			      $new_data['url'] = file_create_url($item['uri']);
+			      $new_data['url'] = file_create_url($items[$key]['uri']);
 		      }
 		      break;
 		  }

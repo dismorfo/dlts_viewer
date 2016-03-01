@@ -102,3 +102,50 @@ function theme_dlts_viewer_openlayers_image($variables) {
   return t('<div id="@id" class="dlts_image_map dlts_viewer_map" data-pageView="@pageView" data-uri="@uri" data-width="@width" data-height="@height" data-levels="@levels" data-dwtLevels="@dwtLevels" data-compositing-layer="@layer"></div>', $options);
 }
 
+/**
+ * Override of theme_pager().
+ * Easily one of the most obnoxious theming jobs in Drupal core.
+ * Goals: consolidate functionality into less than 5 functions and
+ * ensure the markup will not conflict with major other styles
+ * (theme_item_list() in particular).
+ */
+function theme_thumbnails_pager($vars) {
+	$tags = $vars['tags'];
+	$element = $vars['element'];
+	$parameters = $vars['parameters'];
+	$quantity = $vars['quantity'];
+	$pager_list = theme('pager_list', $vars);
+	$links = array();
+	$links['pager-first'] = theme('pager_first', array(
+			'text' => (isset($tags[0]) ? $tags[0] : t('First')),
+			'element' => $element,
+			'parameters' => $parameters
+	));
+	$links['pager-previous'] = theme('pager_previous', array(
+			'text' => (isset($tags[1]) ? $tags[1] : t('Prev')),
+			'element' => $element,
+			'interval' => 1,
+			'parameters' => $parameters
+	));
+	$links['pager-next'] = theme('pager_next', array(
+			'text' => (isset($tags[3]) ? $tags[3] : t('Next')),
+			'element' => $element,
+			'interval' => 1,
+			'parameters' => $parameters
+	));
+	$links['pager-last'] = theme('pager_last', array(
+			'text' => (isset($tags[4]) ? $tags[4] : t('Last')),
+			'element' => $element,
+			'parameters' => $parameters
+	));
+	$links['close'] = array('title' => t('Close [x]'), 'href'=> '#', 'attributes' => array('class' => array('close')));
+	$links = array_filter($links);
+	$pager_links = theme('links', array(
+			'links' => $links,
+			'attributes' => array('class' => 'links pager pager-links')
+	));
+	if ($pager_list) {
+		return '<div class="pager clearfix">' . $pager_list . ' ' . $pager_links . '</div>';
+	}
+}
+

@@ -24,6 +24,12 @@ function dlts_viewer_custom_theme() {
   }
 }
 
+function dlts_viewer_theme_registry_alter(&$theme_registry) {
+	if (!empty($theme_registry['field'])) {
+		$theme_registry['field']['function'] = 'dlts_viewer_theme_field';
+	}
+}
+
 /**
  * Implementation of hook_theme().
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_theme/7
@@ -36,6 +42,7 @@ function dlts_viewer_theme() {
     ),
     'thumbnails_pager' => array(
   	  'variables' => array('tags' => array(), 'limit' => 10, 'element' => 0, 'parameters' => array(), 'quantity' => 9),
+    	'file' => 'inc/themes.inc',
   	),
     'dlts_viewer_openlayers_image' => array(
       'variables' => array(),
@@ -152,7 +159,6 @@ function dlts_viewer_theme() {
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_menu/7
  */
 function dlts_viewer_menu() {
-
   $menu = array(
     /**
      * Convinient way to edit a Book object
@@ -219,6 +225,15 @@ function dlts_viewer_menu() {
       'delivery callback' => 'dlts_viewer_deliver_json',
       'file' => 'inc/endpoints.inc',
     ),
+
+  	'sources/field/%' => array(
+  	  'title' => 'Cotent types',
+  		'access arguments' => array('access content'),
+  		'page callback' => 'dlts_viewer_content_by_field',
+  		'delivery callback' => 'dlts_viewer_deliver_json',
+  		'page arguments' => array(2),
+    ),
+
   );
   if (module_exists('devel')) {
     $menu['node/%node/json_view'] = array(
@@ -269,8 +284,6 @@ function dlts_viewer_preprocess_html(&$vars) {
 }
 
 function dlts_viewer_process_node(&$vars) {
-	// dpm(__FUNCTION__);
-	// dpm($vars);
 	$is_pjax = dlts_viewer_is_pjax();
 	$args = arg();
 	$count = count($args);
@@ -413,59 +426,6 @@ function dlts_viewer_deliver_json($page_callback_result) {
   }
 }
 
-/**
- * Override of theme_pager().
- * Easily one of the most obnoxious theming jobs in Drupal core.
- * Goals: consolidate functionality into less than 5 functions and
- * ensure the markup will not conflict with major other styles
- * (theme_item_list() in particular).
- */
-function theme_thumbnails_pager($vars) {
-	$tags = $vars['tags'];
-	$element = $vars['element'];
-	$parameters = $vars['parameters'];
-	$quantity = $vars['quantity'];
-	$pager_list = theme('pager_list', $vars);
-
-	$links = array();
-
-	$links['pager-first'] = theme('pager_first', array(
-			'text' => (isset($tags[0]) ? $tags[0] : t('First')),
-			'element' => $element,
-			'parameters' => $parameters
-	));
-
-	$links['pager-previous'] = theme('pager_previous', array(
-			'text' => (isset($tags[1]) ? $tags[1] : t('Prev')),
-			'element' => $element,
-			'interval' => 1,
-			'parameters' => $parameters
-	));
-	$links['pager-next'] = theme('pager_next', array(
-			'text' => (isset($tags[3]) ? $tags[3] : t('Next')),
-			'element' => $element,
-			'interval' => 1,
-			'parameters' => $parameters
-	));
-	$links['pager-last'] = theme('pager_last', array(
-			'text' => (isset($tags[4]) ? $tags[4] : t('Last')),
-			'element' => $element,
-			'parameters' => $parameters
-	));
-
-	$links['close'] = array('title' => t('Close [x]'), 'href'=> '#close', 'attributes' => array('class' => array('close')));
-
-	$links = array_filter($links);
-
-	$pager_links = theme('links', array(
-			'links' => $links,
-			'attributes' => array('class' => 'links pager pager-links')
-	));
-	if ($pager_list) {
-		return '<div class="pager clearfix">' . $pager_list . ' ' . $pager_links . '</div>';
-	}
-}
-
 function dlts_viewer_is_pjax() {
   $is_pjax = &drupal_static('is_pjax');
   if (!isset($is_pjax) && function_exists('getallheaders')) {
@@ -533,4 +493,166 @@ function dlts_viewer_viewer_language($vars) {
     }
   }
   return $viewer_language;
+}
+
+/**
+ * Implements hook_flush_caches().
+ *
+ * Using this as a way to get certain phrases into the t() workflow, that don't
+ * seem to otherwise make it. To get these items to show up in the Translate
+ * interface, go to a different language and in the Drupal admin clear the
+ * Drupal cache. (ie, at /admin/config/development/performance
+ */
+function dlts_viewer_flush_caches() {
+	// Translatables
+	// Included for use with string extractors like potx.
+	t('Author');
+	t('Place of publication');
+	t('Publisher');
+	t('Date of Publication');
+	t('Subject');
+	t('Collection');
+	t('Language');
+	t('Provider');
+	t('Permanent link');
+	t('PDF');
+	t('High resolution');
+	t('Low resolution');
+	t('Vol.');
+}
+
+function dlts_viewer_cron_queue_info() {
+  // drupal_set_message(t('dlts_solr_cron_queue_info'));
+  // $queues['dlts_viewer_queue_document_processor'] = array(
+  //  'worker callback' => 'dlts_viewer_document_processor',
+  //  'time' => 60,
+  // );
+  // return $queues;
+}
+
+/**
+ * http://api.drupal.org/api/drupal/modules--aggregator--aggregator.module/function/aggregator_cron/7
+ */
+function dlts_viewer_cron() {
+
+	/**
+	if (function_exists('drush_log')) {
+	  $query = 'SELECT n.nid, pdf.field_pdf_file_data AS data FROM node n LEFT JOIN field_data_field_pdf_file pdf ON pdf.entity_id = n.nid WHERE n.language = :language AND n.type = :type AND n.nid > 4700 GROUP BY n.nid';
+	  $result = db_query($query, array(':language' => 'ar', ':type' => 'dlts_book'));
+	  foreach ($result as $record) {
+	  	$node = node_load($record->nid);
+	  	drush_log($record->nid, 'ok');
+	  	$wrapper = entity_metadata_wrapper('node', $node);
+	  	$pdfs = $wrapper->field_pdf_file->value();
+	  	$data = array();
+	  	foreach ($pdfs as $key => $pdf) {
+	  		$data[$key] = unserialize($pdf['data']);
+	  		if (strpos($data[$key]['uri'], '_hi')) {
+	  			$data[$key]['label'] = t('High resolution');
+	  		}
+	  		elseif (strpos($data[$key]['uri'], '_lo')) {
+	  			$data[$key]['label'] = t('Low resolution');
+	  		}
+	  		$pdfs[$key] = array('uri' => $pdfs[$key]['uri'], 'data' => serialize($data));
+	  	}
+	  	$wrapper->field_pdf_file->set($pdfs);
+	  	$wrapper->save();
+	  }
+	}
+	*/
+
+}
+
+/**
+ * http://api.drupal.org/api/drupal/modules--system--system.queue.inc/group/queue/7
+ * http://api.drupal.org/api/drupal/modules--system--system.api.php/function/hook_cron_queue_info/7
+ */
+function dlts_viewer_document_processor() {
+  // drupal_set_message(t('dlts_solr_cron_queue_info'));
+  // $queue = DrupalQueue::get('dlts_book_ocr_text');
+  // $queue->createQueue();  // There is no harm in trying to recreate existing.
+  // $items = array();
+  // while ($item = $queue->claimItem() ) {
+  //   $items[] = $item;
+  // }
+  // foreach ($items as $item) {
+  //   $queue->releaseItem($item);
+	// }
+}
+
+
+function dlts_viewer_content_by_field ($field_name) {
+	$out = array();
+	$field_name = filter_xss ( $field_name );
+	$info = field_info_field( $field_name );
+	$query_parameters = drupal_get_query_parameters();
+	if ( $info ) {
+		$m = array_keys( $info['storage']['details']['sql']['FIELD_LOAD_CURRENT'] );
+		$table = $m[0];
+		$c = array_keys( $info['columns'] );
+		$columns = $c[0];
+		if  ( $columns == 'fid' ) return array();
+		$seek = $field_name . '_' . $columns;
+		$table = 'field_data_' . $field_name;
+		$query = 'SELECT DISTINCT ' . $seek . ' AS value FROM {' . $table . '}';
+		$result = db_query($query);
+		foreach ( $result as $record ) {
+			if ( $columns == 'nid' ) {
+				$node = node_load( $record->value );
+				$raw_value = $record->value;
+				$value = $node->title;
+			}
+			elseif ( $columns == 'tid' ) {
+				$term = taxonomy_term_load( $record->value );
+				$raw_value = $record->value;
+				$value = $term->name;
+			}
+			else {
+				$raw_value = $value = $record->value;
+			}
+			$out[] = array(
+					'value' => $value,
+					'raw_value' => $raw_value,
+			);
+		}
+	}
+	return $out;
+}
+
+function dlts_viewer_views_pre_render(&$view) {
+	if ($view->name == 'mv') {
+		$results = $view->result;
+		foreach ($results as $key => $result) {
+			if (isset($result->_field_data['field_multivol_node_nid']['entity'])) {
+				$node = $result->_field_data['field_multivol_node_nid']['entity'];
+				$wrapper = entity_metadata_wrapper('node', $node);
+				$number = $wrapper->field_volume_number_str->value();
+				$markup = $result->field_field_book_1[0]['rendered']['#markup'];
+				if (!strpos($markup, $number) !== false) {
+					$result->field_field_book_1[0]['rendered']['#markup'] = $markup . ' ' . $number;
+				}
+			}
+		}
+	}
+}
+
+function dlts_viewer_theme_field($variables) {
+	$dir = dlts_viewer_viewer_language((array)$variables['element']['#object']);
+	$output = '';
+	// Render the label, if it's not hidden.
+	if (!$variables['label_hidden']) {
+		$lang_language = $variables['element']['#object']->language;
+		$label = locale($variables['label'], NULL, $lang_language);
+		$output .= '<div dir="'. $dir .'" class="field-label"' . $variables['title_attributes'] . '>' . $label . ':&nbsp;</div>';
+	}
+	// Render the items.
+	$output .= '<div dir="'. $dir .'" class="field-items"' . $variables['content_attributes'] . '>';
+	foreach ($variables['items'] as $delta => $item) {
+		$classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
+		$output .= '<div dir="'. $dir .'" class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>' . drupal_render($item) . '</div>';
+	}
+	$output .= '</div>';
+	// Render the top-level DIV.
+	$output = '<div dir="'. $dir .'" class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
+	return $output;
 }

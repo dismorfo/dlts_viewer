@@ -40,18 +40,22 @@ function dlts_viewer_drush_command() {
       'git-worktree' => dt('Git repo directory  work tree'),
       'git-branch' => dt('Project branch'), // @TODO: not implemented
   	),
+  );  
+  $items['import-add-book-queue'] = array(
+    'callback' => 'dlts_viewer_add_json_documents_queue',
+    'description' => dt('Something nice will be here'),
+    'options' => array(
+      'source' => dt('Book source'),
+      'legacy' => dt('Create book using legacy JSON documents.'),       
+    ),
   );
-  $items['import-queue'] = array(
+  $items['import-free-queue'] = array(
     'callback' => 'dlts_viewer_free_json_documents_queue',
     'description' => dt('Import book from a git repository'),
     'options' => array(
-      'pages' => dt('Create pages.'),
+      'pages' => dt('Create pages.'),     
     ),
   );
-  $items['import-dummy-books'] = array(
-    'callback' => 'dlts_viewer_dummy_books',
-    'description' => dt('Import dummy book.'),
- );
   return $items;
 }
 
@@ -72,13 +76,13 @@ function dlts_viewer_drush_help($section) {
     case 'drush:import-book':
       return dt("Some day someone will document this module");
       break;
-    case 'drush:import-dummy-books':
-      return dt("Some day someone will document this module");
-      break;
     case 'drush:git-pull-books':
       return dt("Some day someone will document this module");
       break;
     case 'drush:import-book-free-queue':
+      return dt("Some day someone will document this module");
+      break;
+    case 'drush:import-add-book-queue':
       return dt("Some day someone will document this module");
       break;
   }
@@ -88,58 +92,109 @@ function dlts_viewer_import_book($source = NULL, $create_pages = FALSE) {
   include_once(__DIR__ . '/inc/common.inc');
   include_once(__DIR__ . '/inc/datasource.inc');
   include_once(__DIR__ . '/inc/create.inc');
-  if ($source == NULL) {
+  if (!$source) {
     $source = drush_get_option('source', NULL);
-    if (drush_get_option('pages', FALSE)) $create_pages = TRUE;
-    if (empty($source)) return;
-    if (is_dir($source)) {
-      create_dlts_book_from_json(file_scan_directory($source, '/(.*)\.en.json$/', array('recurse' => FALSE)), $create_pages);
-      create_dlts_book_from_json(file_scan_directory($source, '/(.*)\.ar.json$/', array('recurse' => FALSE)), $create_pages);
+    if (!$source) {
+    	drush_log('No source to import', 'error');
+    	return;
     }
-    else {
-      return create_dlts_book_from_json( array((object) array('uri' => $source)), $create_pages);
-    }
+  }
+  if (drush_get_option('pages', FALSE)) $create_pages = TRUE;
+  if (is_dir($source)) {
+  	create_dlts_book_from_json(file_scan_directory($source, '/(.*)\.en.json$/', array('recurse' => FALSE)), $create_pages);
+  	create_dlts_book_from_json(file_scan_directory($source, '/(.*)\.ar.json$/', array('recurse' => FALSE)), $create_pages);
+  }
+  else {
+  	return create_dlts_book_from_json(array((object) array('uri' => $source)), $create_pages);
   }
 }
 
-function dlts_viewer_dummy_books() {
+function dlts_viewer_json_documents($language = 'en', $limit = 100) {
+  $query = db_select('dlts_viewer_books_json', 'b')
+	  ->fields('b', array(
+	    'document',
+	    'legacy',
+	    'identifier'
+	  ))
+	  ->condition('proceed', '0')
+	  ->condition('language', $language)
+    ->orderBy('created', 'DESC')
+    ->range(0,$limit);	  
+  return $query->execute()->fetchAll();
+}
+
+function dlts_viewer_free_json_documents_queue($limit = 100) {
   include_once(__DIR__ . '/inc/common.inc');
   include_once(__DIR__ . '/inc/datasource.inc');
   include_once(__DIR__ . '/inc/create.inc');
-  drush_log( dt('Import books from JSON documents inside directory @directory', array('@directory'=> __DIR__ . '/data')) , 'status');
-  watchdog('DRUSH', "Import books from JSON documents inside directory %directory", array('%directory' => __DIR__ . '/data'), WATCHDOG_INFO);
-  $en_data = file_scan_directory(__DIR__ . '/data', '/(.*)\.en.json$/', array('recurse' => FALSE));
-  create_dlts_book_from_json($en_data);
-  $ar_data = file_scan_directory(__DIR__ . '/data', '/(.*)\.ar.json$/', array('recurse' => FALSE));
-  create_dlts_book_from_json($ar_data);
-}
-
-function dlts_viewer_free_json_documents_queue() {
-	$results = db_query("SELECT document FROM {dlts_viewer_books_json} WHERE proceed = :proceed AND language = :language GROUP BY document ORDER BY created DESC", array(':proceed' => 0, ':language' => 'en'));
+  $language = 'en';
+  $results = dlts_viewer_json_documents($language, $limit);
+  if (count($results) < 1) {
+    $language = 'ar';  
+    $results = dlts_viewer_json_documents($language, $limit);
+    if (count($results) < 1) return;
+  }
 	foreach ($results as $key => $result) {
-		$nodes = dlts_viewer_import_book($result->document);
-	  if (isset($nodes['success'][0])) {
-	  	$node = $nodes['success'][0];
-	  	if ($node->nid) {
-	  		db_update('dlts_viewer_books_json')->fields(array('nid' => $node->nid,'proceed' => 1, 'created' => $node->timestamp))->condition('document', $result->document, '=')->execute();
-	  	}
+  	if (file_exists($result->document)) {
+      $created = create_dlts_book_from_json(array((object) array('uri' => $result->document)), FALSE, $result->legacy);
+	    if (isset($created[0])) {
+	  	  $node = $created[0];
+	  	  if ($node->nid) {
+  	      $fields = array(
+  	        'nid' => $node->nid,
+  		      'proceed' => 1,
+  		      'created' =>  $node->created,
+  		      'changed' => $node->changed	    
+  	      );
+	  		  db_update('dlts_viewer_books_json')->fields($fields)->condition('identifier', $result->identifier, '=')->condition('language', $language, '=')->execute();
+	  	  }
+	  	  else {
+  	  	  db_update('dlts_viewer_books_json')->fields(array('proceed' => 2))->condition('identifier', $result->identifier, '=')->condition('language', $language, '=')->execute();
+	  	  }
+	    }
+	    else {
+        db_update('dlts_viewer_books_json')->fields(array('proceed' => 3))->condition('identifier', $result->identifier, '=')->condition('language', $language, '=')->execute();
+	    }
 	  }
 	  else {
-	  	drush_log(dt('Error importing document @document.', array('@document'=> $nodes['error'][0])), 'error');
+	    db_delete('dlts_viewer_books_json')->condition('identifier', $result->identifier)->condition('language', $language)->execute();
 	  }
 	}
-	$results = db_query("SELECT document FROM {dlts_viewer_books_json} WHERE proceed = :proceed AND language = :language GROUP BY document ORDER BY created DESC", array(':proceed' => 0, ':language' => 'ar'));
-	foreach ($results as $key => $result) {
-		$nodes = dlts_viewer_import_book($result->document);
-	  if (isset($nodes['success'][0])) {
-	  	$node = $nodes['success'][0];
-	  	if ($node->nid) {
-	  		db_update('dlts_viewer_books_json')->fields(array('nid' => $node->nid,'proceed' => 1, 'created' => $node->timestamp))->condition('document', $result->document, '=')->execute();
-	  	}
-    }
-    else {
-      drush_log(dt('Error importing document @document.', array('@document'=> $nodes['error'][0])), 'error');
-    }
+}
+
+function dlts_viewer_add_json_documents_queue() {
+  $source = drush_get_option('source', NULL);
+  $legacy = (drush_get_option('legacy', FALSE)) ? 1 : 0;
+  if (is_dir($source)) {
+    $uniqid = uniqid();
+    $files = file_scan_directory($source, '/\.json/', array('recurse' => FALSE));  
+    foreach ($files as $file) {
+      $json_string = file_get_contents($file->uri);
+      if ($json_string) {
+        $json_string = str_replace(array('\r', '\n'), '', $json_string);
+        $data = json_decode($json_string);
+        $language = 'en';
+        $entity_language = (isset($data->entity_language) ? $data->entity_language : $language);
+        /** force EN language */
+        if ($entity_language == LANGUAGE_NONE) {
+  	      $entity_language = 'en';
+        }
+  	    $fields = array(
+  	      'nid' => 0,
+  		    'hash' => $uniqid,
+  		    'identifier' => $data->identifier,  		    
+  		    'document'=> $file->uri,
+  		    'language' => $entity_language,
+  		    'proceed' => 0,
+  		    'created' => 0,
+  		    'changed' => 0,
+  		    'legacy' => $legacy,  		    
+  	    );
+  		  db_insert('dlts_viewer_books_json')->fields($fields)->execute();
+        unset($json_string);
+        unset($data);
+      }
+  	}
   }
 }
 
@@ -203,4 +258,9 @@ function dlts_viewer_pull_books_from_git_repo() {
   	}
   }
   chdir($pwd);
+}
+
+function dlts_viewer_dummy_books() {
+	drush_log( dt('Import books from JSON documents inside directory @directory', array('@directory'=> __DIR__ . '/data')) , 'ok');
+	dlts_viewer_import_book(__DIR__ . '/data', TRUE);
 }

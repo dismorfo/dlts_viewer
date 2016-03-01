@@ -5,20 +5,7 @@
  * Books
  */
 
-function dlts_viewer_is_multivolume_book($entity) {
-  $query = new EntityFieldQuery;
-	$result = $query
-	  ->entityCondition('entity_type', 'node')
-		->entityCondition('bundle', 'dlts_multivol_book')
-		->fieldCondition('field_book', 'nid', array($entity->nid))
-		->execute();
-	if (!empty($result['node'])) {
-	  $keys = array_keys($result['node']);
-	  $nid = array_pop($keys);
-		return node_load($nid);
-  }
-  return FALSE;
-}
+module_load_include('inc', 'dlts_viewer', 'inc/datasource'); // see if I can include just when needed
 
 function dlts_viewer_dispatch_thumbnails($identifier) {
 	/**
@@ -66,7 +53,6 @@ function dlts_viewer_full_book_view(&$entity) {
   drupal_add_css($module_path . '/css/dlts_viewer.css', $css_common_config);
   drupal_add_js('http://yui.yahooapis.com/3.18.1/build/yui/yui-min.js', 'external', array('group' => JS_LIBRARY, 'weight' => -100));
   drupal_add_js($module_path . '/js/crossframe.js', $js_common_config);
-  drupal_add_js($module_path . '/js/ui.crossframe.js', $js_common_config);
   drupal_add_js($module_path . '/js/modules/slider-base.js', $js_common_config);
   drupal_add_js($module_path . '/js/ui.keyboard.yui.js', $js_common_config);
   drupal_add_js($module_path . '/js/ui.components.yui.js', $js_common_config);
@@ -151,6 +137,20 @@ function dlts_viewer_dispatcher($entity, $arg) {
 		// change entity title
 		$entity->title = t('@title @volume', array('@title' => $multivolume_book->title, '@volume' => $volume_number_str));
 	}
+	// check if this books is part of a series
+	// $series_book = dlts_viewer_is_series_book($entity);
+  // not sure if this is right. the book can part of multiple series book
+  // figure out the right way to pick the title
+	// maybe we can do something along the lines of: Book Title (also known as Series book title 1, Series book title 2)
+	//if ($entity->isSeriesBook) {
+		//dpm($entity->seriesBook);
+		//foreach ($entity->seriesBook as $series_book) {
+			// for now just get the last one (since we just have one for now)
+			// talk about this with the group and fix later.
+			//$entity->title = $series_book['volume_label'];
+		//}
+	//}
+
   // set entity title
 	drupal_set_title($entity->title);
 	// wrapp book entity with Entity API wrapper
@@ -367,6 +367,7 @@ function dlts_viewer_dispatcher($entity, $arg) {
 
   	$entity->book_page = theme('dlts_viewer_openlayers_image' , array('file' => $arg));
   }
+
   // types of returns
   switch ($display_type) {
   	case 'book_page':
@@ -406,44 +407,69 @@ function dlts_viewer_book_metadata_display($node) {
   return node_view($node , 'metadata' , $book->language );
 }
 
-
 /**
  * Menu callback; prints the loaded structure of the current node/user.
  */
 function dlts_viewer_load_object($type, $object, $name = NULL) {
-  // drupal_install_schema('dlts_viewer');
   $out = '';
   $name = isset($name) ? $name : $type;
   $entity = entity_metadata_wrapper('node', $object);
   $identifier = $entity->field_identifier->value();
   $title = $entity->title->value();
-  $rows = array();
-  $results = db_query("SELECT * FROM {dlts_viewer_books_json} WHERE nid = :nid ORDER BY created DESC", array(':nid' => $object->nid));
-  $header = array('Node ID', 'Hash', 'Document', 'Language', 'Proceed', 'Created');
+  $results = db_query("SELECT hash, document, language, created FROM {dlts_viewer_books_json} WHERE nid = :nid ORDER BY created DESC", array(':nid' => $object->nid));
+  $header = array('Hash', 'Document', 'Language', 'Imported');
   foreach ($results as $key => $result) {
   	$document = $result->document;
+  	$hash = $result->hash;
+  	if ($key == 0) {
+  		$json_str = file_get_contents($document);
+  	}
   	if (file_exists($document)) {
   	  $result->document = basename($result->document);
   	  $result->created = date('F jS, Y h:i:s A',$result->created);
   	  $rows[] = (array) $result;
-  	  $out .= theme('table', array('header' => $header, 'rows' => $rows));
-  	  //dpm($document);
-  	  $out .= '<h1>' . t('Node object') . '</h1>';
-  	  $out .= kdevel_print_object($object, '$'. $name .'->');
-  	  $out .= '<h1>' . t('JSON document') . '</h1>';
-  	  $json_str = file_get_contents($document);
-  	  $json = json_decode($json_str, true);
-  	  $out .= kdevel_print_object($json, '$'. $name .'->');
   	}
   }
+  $out .= theme('table', array('header' => $header, 'rows' => $rows));
+  $out .= '<h1>' . t('Node object') . '</h1>';
+  $out .= kdevel_print_object($object, '$'. $name .'->');
+  $out .= '<h1>' . t('JSON document (@hash)', array('@hash'=>$hash)) . '</h1>';
+  $json = json_decode($json_str, true);
+  $out .= kdevel_print_object($json, '$'. $name .'->');
+
+  $series_book = dlts_viewer_series_book($object->nid);
+  if (!empty($series_book)) {
+  	$out .= '<h1>' . t('Series book') . '</h1>';
+    $header = array('Node Id', 'Title', 'Is part of', 'Collections is part of');
+    $rows = array();
+    foreach ($series_book as $book) {
+      $wrapper = entity_metadata_wrapper('node', $book);
+      $collection = $wrapper->field_collection->value();
+      $series = $wrapper->field_series->value();
+      $collections = array();
+      foreach ($collection as $item) {
+    	  $collections[] = l($item->title, 'node/' . $item->nid);
+      }
+  	  $rows[] = array($book->nid,$book->title,l($series->title, 'node/' . $series->nid), implode(', ',$collections));
+    }
+    $out .= theme('table', array('header' => $header, 'rows' => $rows));
+  }
+  $multivol_book = dlts_viewer_multivolume_book($object->nid);
+  if (!empty($multivol_book)) {
+  	$out .= '<h1>' . t('Multi Volume book') . '</h1>';
+    $header = array('Node Id', 'Title', 'Is part of', 'Collections is part of');
+    $rows = array();
+    foreach ($multivol_book as $book) {
+  	  $wrapper = entity_metadata_wrapper('node', $book);
+  	  $collection = $wrapper->field_collection->value();
+  	  $series = $wrapper->field_multivol->value();
+  	  $collections = array();
+  	  foreach ($collection as $item) {
+  		  $collections[] = l($item->title, 'node/' . $item->nid);
+  	  }
+  	  $rows[] = array($book->nid,$book->title,l($book->title, 'node/' . $book->nid), implode(', ',$collections));
+    }
+    $out .= theme('table', array('header' => $header, 'rows' => $rows));
+  }
   return $out;
-  
-  // return 
-  
 }
-
-
-
-
-
-

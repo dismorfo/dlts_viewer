@@ -784,8 +784,7 @@ function dlts_book_features_views_default_views() {
   $handler->display->display_options['fields']['field_book_1']['field'] = 'field_book';
   $handler->display->display_options['fields']['field_book_1']['relationship'] = 'reverse_field_multivol_node';
   $handler->display->display_options['fields']['field_book_1']['label'] = '';
-  $handler->display->display_options['fields']['field_book_1']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_book_1']['alter']['text'] = '[field_book_1]  Vol. [field_volume_number_1]';
+  $handler->display->display_options['fields']['field_book_1']['alter']['text'] = '[field_book_1]';
   $handler->display->display_options['fields']['field_book_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_book_1']['type'] = 'node_reference_plain';
   /* Sort criterion: Content: Volume Number (field_volume_number) */
@@ -825,7 +824,7 @@ function dlts_book_features_views_default_views() {
     t('Desc'),
     t('field_book'),
     t('field_multivol'),
-    t('[field_book_1]  Vol. [field_volume_number_1]'),
+    t('[field_book_1]'),
     t('All'),
     t('Block'),
     t('Multivolume Select'),
