@@ -1,6 +1,8 @@
 .pagemeta {
   @include box-shadow(none);
+
   @include bv-box-shadow($metadata-box-shadow);
+
   font-size: 14px;
   width: $metadata-pane-width;
   height: 100%;
@@ -13,97 +15,124 @@
   overflow-y: auto;
   display: block;
   border-top: 1px solid rgba(0, 0, 0, 0.3);
+
   /* multivol */
   .view-mv select {
     max-width: 98%;
   }
+
   .container {
     padding: 0 0 0;
     margin: .6rem;
+
     .field {
       line-height: 1.4;
       margin-bottom: 5px;
     }
+
     .field-name-title {
       font-weight: bold;
       font-size: 1.3em;
       margin: .7rem 0 .5rem;
       line-height: 1.3;
     }
+
     .field-name-field-subtitle {
       border-bottom: 1px solid #ccc;
       font-weight: bold;
       font-size: 1.1em;
+
       // line-height: 1.25;
       margin: .5em 0;
       padding: 0 0 .5em 0;
     }
+
     .field-name-field-rights {
       margin-top: .5em;
       border-top: 1px solid #ccc;
       padding-top: .5em;
       font-size: .8em;
+
+      .field-item {
+        direction: ltr;
+        text-align: right;
+      }
     }
+
     .field .field-label {
       font-weight: bold;
     }
+
     .field-name-field-pdf-file .field-item a:after {
       content: ", ";
       text-decoration: none;
       color: #000;
       margin-right: .2em;
     }
+
     .field-name-field-pdf-file .field-item:last-child a:after {
       content: "";
     }
+
     .metapane-dropdowns {
       border-bottom: 1px solid #ccc;
       padding-bottom: 1em;
       margin-bottom: .5em;
     }
+
     .lang-options {
       margin-bottom: 0;
     }
+
     .field-name-field-representative-image {
       img {
         max-width: 100%;
       }
     }
+
     .field-label-inline {
       word-wrap: break-word;
     }
+
     .field-label {
       display: inline-block;
       white-space: nowrap;
     }
+
     .field-items {
       display: inline-block;
       word-wrap: break-word;
     }
+
     .field-name-mv-2016 {
       .field-items, .field-item {
         display: block;
       }
+
       .ctools-jump-menu-hide {
         height: 0;
         width: 0;
       }
     }
+
     .field-item {
       display: inline-block;
     }
+
     .field-name-field-author {
       .field-item {
         display: block;
         float: left;
         clear: left;
       }
+
       .field-item:first-child {
         display: inline;
         float: none;
         clear: none;
       }
     }
+
     .field-type-link-field {
       margin-top: .5em;
       border-top: 1px solid #ccc;
@@ -119,6 +148,7 @@
     border-left: 1px solid #ccc;
     direction: rtl;
   }
+
   .field-label-inline .field-label, .field-label-inline .field-items {
     float: none;
   }
