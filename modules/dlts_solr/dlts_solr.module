@@ -1,9 +1,9 @@
 <?php
 
 function dlts_solr_node_update($node) {
-  if ($node->type == 'dlts_book' && $node->language != 'en' && !$node->is_new) {
-  	$type = 'node';
-  	$bundle = 'dlts_book';
+	$bundle = 'dlts_book';
+  if ($node->type == $bundle && $node->language != 'en') {
+    $type = 'node';
   	$wrapper = entity_metadata_wrapper('node', $node);
   	$identifier = $wrapper->field_identifier->value();
   	$query = new EntityFieldQuery;

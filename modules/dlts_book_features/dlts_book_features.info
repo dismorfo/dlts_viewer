@@ -63,6 +63,7 @@ dependencies[] = views
 dependencies[] = views_content
 dependencies[] = views_json
 dependencies[] = views_ui
+dependencies[] = xmlrpc_server
 datestamp = 1453788011
 features[apachesolr_environment][] = solr
 features[ctools][] = apachesolr:apachesolr_environments:1

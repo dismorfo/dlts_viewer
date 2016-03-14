@@ -283,6 +283,7 @@ function field_fileserver_field_formatter_view($entity_type, $entity, $field, $i
     case 'field_fileserver_link':
       foreach ($items as $delta => $item) {
       	$data = unserialize($item['data']);
+      	//print_r($data);
       	$value = ($data && isset($data['label']) && !empty($data['label'])) ? $data['label'] : $data['url'];
     	  $zebra = ($delta % 2 ==  0) ? 'even' : 'odd';
     		$uri = file_create_url($item['uri']);
@@ -360,6 +361,7 @@ function field_fileserver_field_presave($entity_type, $entity, $field, $instance
 		  		$new_data['uri'] = $items[$key]['uri'];
 		  		$new_data['url'] = file_create_url($items[$key]['uri']);
 		  		$new_data['label'] = $label;
+		  		
 		  		break;
 		    case 'field_fileserver_image':
 		      // valid JP2 or TIFF file extentions
