@@ -101,6 +101,9 @@ function save_dlts_book($node, $language = 'en') {
   			$nid = partner_nid($partner['identifier']);
   			if (!$nid) {
   				$partner_entity = create_dlts_partner($partner);
+  				if ($partner_entity) {
+  					$nid = $partner_entity->nid;
+  				}
   			}
   			if ($nid) {
   				$partners_nids[] = $nid;
@@ -114,6 +117,9 @@ function save_dlts_book($node, $language = 'en') {
   			// create collection
   			if (!$nid) {
   				$collection_entity = create_dlts_collection($collection);
+  				if ($collection_entity) {
+  					$nid = $collection_entity->nid;
+  				}
   			}
   			if ($nid) {
   				$collections_nids[] = $nid;
