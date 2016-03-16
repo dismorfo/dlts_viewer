@@ -28,9 +28,13 @@ function field_fileserver_field_schema($field) {
       'length' => 255,
       'not null' => FALSE,
     ),
-    'data' => array(
-      'type' => 'text',
-      'not null' => FALSE,
+		'label' => array(
+		  'type' => 'text',
+			'not null' => FALSE,
+    ),
+		'data' => array(
+			'type' => 'text',
+		  'not null' => FALSE,
     ),
   );
   $indexes = array(

@@ -1,5 +1,7 @@
 <?php
 
+// https://api.drupal.org/api/examples/batch_example!batch_example.module/7
+
 /**
  * @file
  * DLTS Viewer module
@@ -521,53 +523,20 @@ function dlts_viewer_flush_caches() {
 	t('Vol.');
 }
 
-function dlts_viewer_cron_queue_info() {
-  // drupal_set_message(t('dlts_solr_cron_queue_info'));
-  // $queues['dlts_viewer_queue_document_processor'] = array(
-  //  'worker callback' => 'dlts_viewer_document_processor',
-  //  'time' => 60,
-  // );
-  // return $queues;
-}
+//function dlts_viewer_cron_queue_info() {}
 
 /**
  * http://api.drupal.org/api/drupal/modules--aggregator--aggregator.module/function/aggregator_cron/7
  */
 function dlts_viewer_cron() {
-
-	/**
-	if (function_exists('drush_log')) {
-	  $query = 'SELECT n.nid, pdf.field_pdf_file_data AS data FROM node n LEFT JOIN field_data_field_pdf_file pdf ON pdf.entity_id = n.nid WHERE n.language = :language AND n.type = :type AND n.nid > 4700 GROUP BY n.nid';
-	  $result = db_query($query, array(':language' => 'ar', ':type' => 'dlts_book'));
-	  foreach ($result as $record) {
-	  	$node = node_load($record->nid);
-	  	drush_log($record->nid, 'ok');
-	  	$wrapper = entity_metadata_wrapper('node', $node);
-	  	$pdfs = $wrapper->field_pdf_file->value();
-	  	$data = array();
-	  	foreach ($pdfs as $key => $pdf) {
-	  		$data[$key] = unserialize($pdf['data']);
-	  		if (strpos($data[$key]['uri'], '_hi')) {
-	  			$data[$key]['label'] = t('High resolution');
-	  		}
-	  		elseif (strpos($data[$key]['uri'], '_lo')) {
-	  			$data[$key]['label'] = t('Low resolution');
-	  		}
-	  		$pdfs[$key] = array('uri' => $pdfs[$key]['uri'], 'data' => serialize($data));
-	  	}
-	  	$wrapper->field_pdf_file->set($pdfs);
-	  	$wrapper->save();
-	  }
-	}
-	*/
-
+ if (function_exists('drush_log')) drush_log(__FUNCTION__,'ok');
 }
 
 /**
  * http://api.drupal.org/api/drupal/modules--system--system.queue.inc/group/queue/7
  * http://api.drupal.org/api/drupal/modules--system--system.api.php/function/hook_cron_queue_info/7
  */
-function dlts_viewer_document_processor() {
+//function dlts_viewer_document_processor() {
   // drupal_set_message(t('dlts_solr_cron_queue_info'));
   // $queue = DrupalQueue::get('dlts_book_ocr_text');
   // $queue->createQueue();  // There is no harm in trying to recreate existing.
@@ -578,8 +547,7 @@ function dlts_viewer_document_processor() {
   // foreach ($items as $item) {
   //   $queue->releaseItem($item);
 	// }
-}
-
+//}
 
 function dlts_viewer_content_by_field ($field_name) {
 	$out = array();
@@ -656,3 +624,4 @@ function dlts_viewer_theme_field($variables) {
 	$output = '<div dir="'. $dir .'" class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
 	return $output;
 }
+

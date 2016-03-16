@@ -108,7 +108,6 @@ function fileserver_field_item_create() {
 	  'uri' => NULL,
 		'data' => NULL,
 		'label' => NULL,
-		'image_style' => NULL,
 	);
 }
 
@@ -130,11 +129,6 @@ function fileserver_field_item_property_info() {
 		'type' => 'text',
 		'label' => t('File label'),
 	  'setter callback' => 'entity_property_verbatim_set',
-	);
-	$properties['image_style'] = array(
-	  'type' => 'text',
-		'label' => t('File image style'),
-		'setter callback' => 'entity_property_verbatim_set',
 	);
 	return $properties;
 }
@@ -270,11 +264,13 @@ function field_fileserver_field_formatter_view($entity_type, $entity, $field, $i
       foreach ($items as $delta => $item) {
     	  $zebra = ($delta % 2 ==  0) ? 'even' : 'odd';
     	  $value = file_create_url($item['uri']);
+    	  $label = (!empty($item['label'])) ? $item['label'] : '';
     		$element[$delta] = array(
     		  '#type' => 'html_tag',
     			'#tag' => 'span',
     			'#attributes' => array(
     				'class' => array('field', 'field-fileserver', 'field-fileserver-text', $zebra),
+    				'data-label' => $label,
     			),
     		  '#value' => locale($value, NULL, $entity->language),
     	  );
@@ -282,10 +278,9 @@ function field_fileserver_field_formatter_view($entity_type, $entity, $field, $i
     	break;
     case 'field_fileserver_link':
       foreach ($items as $delta => $item) {
-      	$data = unserialize($item['data']);
-      	$value = ($data && isset($data['label']) && !empty($data['label'])) ? $data['label'] : $data['url'];
+      	$uri = file_create_url($item['uri']);
+      	$label = (isset($item['label']) && !empty($item['label'])) ? $item['label'] : $uri;
     	  $zebra = ($delta % 2 ==  0) ? 'even' : 'odd';
-    		$uri = file_create_url($item['uri']);
     		$element[$delta] = array(
     		  '#type' => 'html_tag',
     			'#tag' => 'a',
@@ -293,7 +288,7 @@ function field_fileserver_field_formatter_view($entity_type, $entity, $field, $i
     			  'href' => $uri,
     				'class' => array('field', 'field-fileserver', 'field-fileserver-link', $zebra),
     			),
-    			'#value' => locale($value, NULL, $entity->language),
+    			'#value' => locale($label, NULL, $entity->language),
     		);
     	}
     	break;
@@ -352,14 +347,8 @@ function field_fileserver_field_presave($entity_type, $entity, $field, $instance
 		  switch ($instance['widget']['type']) {
 		  	case 'field_fileserver_text':
 		  	case 'field_fileserver_link':
-		  		if ($items[$key]['data']) {
-		  	  	$data = unserialize($items[$key]['data']);
-		  	  	// this is wrong
-		  	  	$label = $data[$key]['label'];
-		  	  }
 		  		$new_data['uri'] = $items[$key]['uri'];
-		  		$new_data['url'] = file_create_url($items[$key]['uri']);
-		  		$new_data['label'] = $label;
+		  		$new_data['label'] = $items[$key]['label'];
 		  		break;
 		    case 'field_fileserver_image':
 		      // valid JP2 or TIFF file extentions
@@ -370,7 +359,6 @@ function field_fileserver_field_presave($entity_type, $entity, $field, $instance
 		      if (!empty($items[$key]['label'])) {
 			      $new_data['label'] = $items[$key]['label'];
 		      }
-
 		      if (isset($items[$key]['image_style'])) {
 		        $dimmensions = explode("x", $items[$key]['image_style']);
 		        if (count($dimmensions) == 2) {
@@ -381,19 +369,6 @@ function field_fileserver_field_presave($entity_type, $entity, $field, $instance
 		      else {
 		      	$new_data['width'] = 0;
 		      	$new_data['height'] = 230;
-		      }
-
-		      // do we have a valid extension?
-		      // check for Hi-Res file extention
-		      if (in_array($ext,$valid_hires_extensions)) {
-		      	// Load Djatoka Image Server utils
-		      	module_load_include('inc', 'dlts_viewer', 'inc/djatoka');
-		      	// Get URL
-			      $new_data['url'] = dlts_viewer_djatoka_url($items[$key]);
-		      }
-		      // check for web-safe file extention
-		      elseif (in_array($ext,$valid_websafe_extensions)) {
-			      $new_data['url'] = file_create_url($items[$key]['uri']);
 		      }
 		      break;
 		  }
@@ -418,18 +393,19 @@ function field_fileserver_field_widget_form(&$form, &$form_state, $field, $insta
 	$uri_widget = $element;
 	$data_widget = $element;
   $widget['#delta'] = $delta;
-  $label_default_value = (isset($data_value['label'])) ? $data_value['label'] : null;
+  $label = (!empty($items[$delta]['label'])) ? $items[$delta]['label'] : '';
+
   $label_widget = array(
     '#title' => 'Label',
   	'#suffix' => '<div class="field-fileserver-label"></div>',
   	'#type' => 'textfield',
-  	'#default_value' => $label_default_value,
+  	'#default_value' => $label,
   	'#attributes' => array('class' => array('edit-field-fileserver-label')),
   	'#size' => 255,
   	'#maxlength' => 255,
   	'#description' => t('File label or title'),
   );
-  $element['label'] = $label_widget;
+
   $uri_widget += array(
     '#title' => 'File identifier',
   	'#suffix' => '<div class="field-fileserver-uri"></div>',
@@ -440,12 +416,16 @@ function field_fileserver_field_widget_form(&$form, &$form_state, $field, $insta
   	'#maxlength' => 255,
   	'#description' => t('File identifier (e.g., @identifier)', array(' @identifier' => 'fileserver://exmple.jpg')),
   );
-  $element['uri'] = $uri_widget;
+
   $data_widget += array(
     '#type' => 'hidden',
     '#default_value' => $data_value
   );
+
+  $element['label'] = $label_widget;
+  $element['uri'] = $uri_widget;
   $element['data'] = $data_widget;
+
   switch ($instance['widget']['type']) {
     case 'field_fileserver_image':
     	$options = array();
@@ -514,7 +494,11 @@ function field_fileserver_field_widget_error($element, $error, $form, &$form_sta
 function theme_fileserver_image($variables) {
   $data = unserialize($variables['data']);
   $attributes = array();
+
   $attributes['src'] = $data['url'];
+
+  dpm($variables);
+
   $attributes['alt'] = (isset($data['label'])) ? $data['label'] : '';
   $attributes['class'] = array('field', 'field-fileserver','field-fileserver-image');
   if (isset($data['width']) && is_numeric($data['width']) && $data['width'] != 0) {
@@ -524,6 +508,35 @@ function theme_fileserver_image($variables) {
   	$attributes['height'] = $data['height'];
   }
   return array('#type' => 'html_tag', '#tag' => 'img', '#attributes' => $attributes);
+}
+
+/**
+ * Returns all fields created on the system of the type defined in mymodule.
+ */
+function field_fileserver_get_fields() {
+	$types = array_keys(field_fileserver_field_info());
+	$fields = array();
+	foreach (field_info_fields() as $field) {
+		if (in_array($field['type'], $types)) {
+			$fields[] = $field;
+		}
+	}
+	return $fields;
+}
+
+/**
+ * Add newcol field to {mytable1} table.
+ */
+function field_fileserver_update_7100() {
+	$fields = field_fileserver_get_fields();
+	foreach ($fields as $field) {
+	  $table_prefixes = array(_field_sql_storage_tablename($field), _field_sql_storage_revision_tablename($field));
+		foreach ($table_prefixes as $table_prefix) {
+		  $field_name = $field['field_name'];
+		  $table = $table_prefix;
+		  db_add_field($table, $field_name . '_label', array('type' => 'text', 'not null' => FALSE));
+		}
+	}
 }
 
 /**
