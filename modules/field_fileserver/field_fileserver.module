@@ -104,11 +104,11 @@ function fileserver_field_property_info_callback(&$info, $entity_type, $field, $
  * @see link_field_property_info_callback()
  */
 function fileserver_field_item_create() {
-	return array(
-	  'uri' => NULL,
-		'data' => NULL,
-		'label' => NULL,
-	);
+  return array(
+    'uri' => NULL,
+    'data' => NULL,
+    'label' => NULL,
+  );
 }
 
 /**
@@ -137,7 +137,7 @@ function fileserver_field_item_property_info() {
  * Entity property info getter callback for fileserver attributes.
  */
 function fileserver_field_attribute_property_get($data, array $options, $name, $type, $info) {
-	return isset($data[$name]) ? array_filter($data[$name]) : array();
+  return isset($data[$name]) ? array_filter($data[$name]) : array();
 }
 
 /**
@@ -494,11 +494,7 @@ function field_fileserver_field_widget_error($element, $error, $form, &$form_sta
 function theme_fileserver_image($variables) {
   $data = unserialize($variables['data']);
   $attributes = array();
-
   $attributes['src'] = $data['url'];
-
-  dpm($variables);
-
   $attributes['alt'] = (isset($data['label'])) ? $data['label'] : '';
   $attributes['class'] = array('field', 'field-fileserver','field-fileserver-image');
   if (isset($data['width']) && is_numeric($data['width']) && $data['width'] != 0) {
@@ -511,32 +507,25 @@ function theme_fileserver_image($variables) {
 }
 
 /**
- * Returns all fields created on the system of the type defined in mymodule.
- */
-function field_fileserver_get_fields() {
-	$types = array_keys(field_fileserver_field_info());
-	$fields = array();
-	foreach (field_info_fields() as $field) {
-		if (in_array($field['type'], $types)) {
-			$fields[] = $field;
-		}
-	}
-	return $fields;
-}
-
-/**
  * Add newcol field to {mytable1} table.
  */
 function field_fileserver_update_7100() {
-	$fields = field_fileserver_get_fields();
-	foreach ($fields as $field) {
-	  $table_prefixes = array(_field_sql_storage_tablename($field), _field_sql_storage_revision_tablename($field));
-		foreach ($table_prefixes as $table_prefix) {
-		  $field_name = $field['field_name'];
-		  $table = $table_prefix;
-		  db_add_field($table, $field_name . '_label', array('type' => 'text', 'not null' => FALSE));
-		}
-	}
+  /** fields created on the system of the type defined in mymodule. */
+  $types = array_keys(field_fileserver_field_info());
+  $fields = array();
+  foreach (field_info_fields() as $field) {
+    if (in_array($field['type'], $types)) {
+      $fields[] = $field;
+    }
+  }
+  foreach ($fields as $field) {
+    $table_prefixes = array(_field_sql_storage_tablename($field), _field_sql_storage_revision_tablename($field));
+    foreach ($table_prefixes as $table_prefix) {
+      $field_name = $field['field_name'];
+      $table = $table_prefix;
+      db_add_field($table, $field_name . '_label', array('type' => 'text', 'not null' => FALSE));
+    }
+  }
 }
 
 /**
