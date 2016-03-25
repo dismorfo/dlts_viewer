@@ -3,10 +3,6 @@
 // see: http://www.drupalcontrib.org/api/drupal/contributions%21apachesolr%21apachesolr.index.inc/function/apachesolr_index_send_to_solr/7
 // http://www.drupalcontrib.org/api/drupal/contributions%21apachesolr%21apachesolr.index.inc/7
 
-function dlts_solr_cron() {
-  dlts_solr_index_ocr();
-}
-
 function dlts_solr_index_status() {
 
   /** load MongoDB helper */
