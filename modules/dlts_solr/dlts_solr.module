@@ -115,6 +115,7 @@ function seems_utf8( $str ) {
  * If there are no accent characters, then the string given is just returned.
  *
  * @since 1.2.1
+ * This function didn't remove combining diacritics, so I've added a string  which does it- Kate
  *
  * @param string $string Text that might have accent characters
  * @return string Filtered string with replaced "nice" characters.
@@ -298,6 +299,8 @@ function dlts_solr_remove_accents($string) {
 				chr(199).chr(153) => 'U', chr(199).chr(154) => 'u',
 				// grave accent
 				chr(199).chr(155) => 'U', chr(199).chr(156) => 'u',
+                                //turkish characters
+                                'Ğ'=>'G', 'İ'=>'I', 'Ş'=>'S', 'ğ'=>'g', 'ı'=>'i', 'ş'=>'s', 'ü'=>'u'
 		);
 		// Used for locale-specific rules
 		$locale = 'en_US';
@@ -324,6 +327,7 @@ function dlts_solr_remove_accents($string) {
 		$double_chars['out'] = array('OE', 'oe', 'AE', 'DH', 'TH', 'ss', 'ae', 'dh', 'th');
 		$string = str_replace($double_chars['in'], $double_chars['out'], $string);
 	}
-
+         //remove combining diacritics
+         preg_replace('/[\x{0300}-\x{036f}]+/u', '', $string); 
 	return $string;
 }
