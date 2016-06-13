@@ -80,6 +80,14 @@
       display: inline-block;
       white-space: nowrap;
     }
+    .field-name-field-subject {
+      .field-item {
+        &::after {
+          content: ",";
+          padding-right: 3px;
+        }
+      }
+    }
     .field-name-series-for-this-book {
       .field-label {
         display: block;
