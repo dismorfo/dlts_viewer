@@ -353,6 +353,7 @@ function dlts_solr_remove_accents($string) {
 		$double_chars['out'] = array('OE', 'oe', 'AE', 'DH', 'TH', 'ss', 'ae', 'dh', 'th');
 		$string = str_replace($double_chars['in'], $double_chars['out'], $string);
 	}
-
+               //remove combined diacritics
+                 $string=preg_replace('/[\x{0300}-\x{036f}]+/u','',$string);
 	return $string;
 }
