@@ -232,7 +232,7 @@ function dlts_solr_index_book(&$document, &$entity) {
   // we need to wait until we figure out if this is a multi volume.
   // by now, we already test for multi volume and title should be the right one.
   $document->addField('ss_title_long', $book_field_title);
-  $searchableFields[] = $book_field_title;
+  $searchableFields[] = dlts_solr_remove_accents($book_field_title);
   /** Subtitle (field_subtitle) */
   /** single-value field */
   $subtitle = $wrapper->field_subtitle->value();
@@ -294,8 +294,10 @@ function dlts_solr_index_book(&$document, &$entity) {
   if (!empty($authors)) {
 	  foreach ($authors as $index => $author) {
   		$searchableFields[] = $author;
+  		$searchableFields[] = dlts_solr_remove_accents($author);
 		  if ($index == 0) {
-			  $document->addField('ss_sauthor', dlts_solr_remove_accents(strtolower($author)));
+			  //$document->addField('ss_sauthor', dlts_solr_remove_accents(strtolower($author)));
+			  $document->addField('ss_sauthor', strtolower(dlts_solr_remove_accents($author)));
 			  $document->addField('iass_author', dlts_solr_remove_accents(strtolower($author)));
 		  }
   		$document->addField('sm_author', $author);
@@ -342,7 +344,7 @@ function dlts_solr_index_book(&$document, &$entity) {
   if (!empty($publishers)) {
   	foreach ($publishers as $publisher) {
   		$document->addField('sm_publisher', $publisher);
-  		$searchableFields[] =  $publisher;
+  		$searchableFields[] =  dlts_solr_remove_accents($publisher);
   	}
   }
   unset($publishers);
@@ -377,10 +379,10 @@ function dlts_solr_index_book(&$document, &$entity) {
   /** single-value field */
   $publication_location = $wrapper->field_publication_location->value();
   if (!empty($publication_location)) {
-  	$searchableFields[] = $publication_location;
+  	$searchableFields[] = dlts_solr_remove_accents($publication_location);
   	$document->addField('ss_publication_location', $publication_location);
-  	$document->addField('ss_publocation',dlts_solr_remove_accents(strtolower($publication_location))); // remove this? @kate- when search options are fixed
-  	$document->addField('ss_spublocation', dlts_solr_remove_accents(strtolower($publication_location)));
+  	$document->addField('ss_publocation',dlts_solr_remove_accents($publication_location)); // remove this? @kate- when search options are fixed
+  	$document->addField('ss_spublocation', dlts_solr_remove_accents($publication_location));
   }
   unset($publication_location);
   /** Subject (field_subject) */
@@ -389,10 +391,10 @@ function dlts_solr_index_book(&$document, &$entity) {
   if (!empty($subjects)) {
   	foreach ($subjects as $index=>$subject) {
   		$document->addField('sm_subject_label', $subject->name);
-  		$searchableFields[] = $subject->name;
+  		$searchableFields[] = dlts_solr_remove_accents($subject->name);
 		if ($index == 0) {
-			$document->addField('ss_ssubject', dlts_solr_remove_accents(strtolower($subject->name)));
-			$document->addField('iass_subject', dlts_solr_remove_accents(strtolower($subject->name)));
+	                $document->addField('ss_ssubject', strtolower(dlts_solr_remove_accents($subject->name)));
+			$document->addField('iass_subject', strtolower(dlts_solr_remove_accents($subject->name)));
 		}
   		$document->addField('zm_subject',json_encode(array('name'=>$subject->name,'tid' => $subject->tid, 'vid' => $subject->vid)));
   	}
@@ -446,6 +448,7 @@ function dlts_solr_index_book(&$document, &$entity) {
   }
   */
   /** Single value fields */
+  //Remove combining diacritics
   $document->addField('ss_title', $book_field_title);
   // Strip HTML Tags
   $title_sort = strip_tags($book_field_title);
