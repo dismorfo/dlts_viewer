@@ -1,5 +1,6 @@
 <?php
-function dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $env_id, &$searchableFields) {
+
+function dlts_solr_index_book_translations(&$document, &$entity, &$searchableFields) {
   if ($entity->tnid) {
     $translations = translation_node_get_translations($entity->tnid);
     foreach ($translations as $lang => $translation) {

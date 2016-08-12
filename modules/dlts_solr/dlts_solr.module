@@ -1,5 +1,125 @@
 <?php
 
+// see: http://www.drupalcontrib.org/api/drupal/contributions%21apachesolr%21apachesolr.index.inc/function/apachesolr_index_send_to_solr/7
+// http://www.drupalcontrib.org/api/drupal/contributions%21apachesolr%21apachesolr.index.inc/7
+
+function dlts_solr_index_status() {
+
+  /** load MongoDB helper */
+  module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
+
+  // table to search
+  $collection_name = 'dlts_books_page';
+
+  // find document not marked as processed
+  $query = array('ocr.processed' => 0);
+
+  // instantiate a MongoCollection object
+  $cursor = mongodb_collection($collection_name)->find($query);
+
+  // documents marks as processed count
+  $count = $cursor->count();
+
+  return $count;
+
+}
+
+function dlts_solr_index_ocr($rows = 50) {
+
+  /** load MongoDB helper */
+  module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
+
+  // table to search
+  $collection_name = 'dlts_books_page';
+
+  // Apache Solr search index name
+  // see: admin/config/search/apachesolr/settings/search_book_pages/edit
+  $env_id = 'search_book_pages';
+
+  // Apache Solr hash id
+  $hash = apachesolr_site_hash();
+
+  // array to hold documents to send to index
+  $documents = array();
+
+  // find document not marked as processed
+  $query = array('ocr.processed' => 0);
+
+  // instantiate a MongoCollection object
+  $cursor = mongodb_collection($collection_name)->find($query);
+
+  // documents marks as processed count
+  $count = $cursor->count();
+
+  // limit the amount of documents to work with
+  $cursor->limit($rows);
+
+  drush_log(dt('DLTS Solr: Found @count documents not marked as processed.', array('@count' => $count)),'ok');
+
+  // represent a Solr Document along with any associated boost values.
+  // http://www.drupalcontrib.org/api/drupal/contributions%21apachesolr%21Apache_Solr_Document.php/class/ApacheSolrDocument/7
+  foreach ($cursor as $id => $value) {
+    $doc = new ApacheSolrDocument();
+    $doc->addField('id', $id);
+    $doc->addField('hash', $hash);
+    $doc->addField('entity_type', 'ocr');
+    foreach ($value['sequence'] as $sequence) {
+      $doc->addField('sm_sequence', $sequence);
+    }
+    $doc->addField('ss_ispartof', $value['isPartOf']);
+    $doc->addField('ss_realpagenumber', $value['realPageNumber']);
+    $doc->addField('ss_uri', $value['cm']['uri']);
+    $doc->addField('content', dlts_solr_extract($value['ocr']['uri']));
+    $documents[] = $doc;
+  }
+
+  unset($id);
+  unset($value);
+  unset($count);
+  unset($query);
+  unset($hash);
+
+  try {
+    // http://www.drupalcontrib.org/api/drupal/contributions!apachesolr!apachesolr.module/function/apachesolr_get_solr/7
+    // Get the $solr object
+    $solr = apachesolr_get_solr($env_id);
+    // If there is no server available, don't continue.
+    if (!$solr->ping(variable_get('apachesolr_ping_timeout', 4))) {
+      throw new Exception(t('DLTS Solr: No Solr instance available during indexing.'));
+    }
+  }
+  catch (Exception $e) {
+    drush_log('DLTS Solr: @error', array('@error' => nl2br(check_plain($e->getMessage()))), 'error');
+    return FALSE;
+  }
+  // Send the document off to Solr.
+  drush_log(dt('DLTS Solr: Adding @count documents.', array('@count' => count($documents))),'ok');
+  try {
+    $docs_chunk = array_chunk($documents, 20);
+    foreach ($docs_chunk as $docs) {
+      $solr->addDocuments($docs);
+      drush_log(dt('DLTS Solr: Indexing succeeded on @count documents', array('@count' => count($docs))), 'success');
+    }
+  }
+  catch (Exception $e) {
+    drush_log(dt('DLTS Solr', 'Indexing failed @message', array('@message' => nl2br(strip_tags($e->getMessage())))), 'error');
+    return FALSE;
+  }
+
+  unset($solr);
+
+  // no errors, mark this documets as processed
+  foreach ($cursor as $document) {
+    $document['ocr']['processed'] = 1;
+    dlts_viewer_mongodb_update_sequence($document, $collection_name);
+  }
+
+  unset($cursor);
+  unset($document);
+  unset($documents);
+
+}
+
 function dlts_solr_node_update($node) {
 	$bundle = 'dlts_book';
   if ($node->type == $bundle && $node->language != 'en') {
@@ -48,25 +168,20 @@ function dlts_solr_apachesolr_delete_index_alter($query) {
  * @param string $entity_type
  */
 function dlts_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $entity, $entity_type, $env_id) {
+  /** load utils */
+  foreach (array('book', 'series') as $util) module_load_include('inc', 'dlts_solr', 'inc/' . $util);
   /** wrap node with Entity API */
   $ewrapper = entity_metadata_wrapper('node', $entity);
+  /** add the base url to the document */
   $document->addField('base_url', base_path());
+  /** index each document taking into consideration the Object type */
   switch ($entity->type) {
     case 'dlts_book' :
-    	/** load utils */
-    	module_load_include('inc', 'dlts_solr', 'inc/book');
-    	/** pass the document as reference */
       dlts_solr_index_book($document, $entity, $entity_type, $env_id);
       break;
-  }
-}
-
-/**
- * Encode and return the base64 value of a image file
- */
-function dlts_solr_imagedataURI($image) {
-  if (is_file($image)) {
-    return base64_encode(file_get_contents($image));
+    case 'dlts_series' :
+      dlts_solr_index_series($document, $entity);
+      break;
   }
 }
 
@@ -74,33 +189,13 @@ function dlts_solr_imagedataURI($image) {
  * Extract using Solr
  * Taken from apachesolr_attachments, module is broken
  */
-function dlts_solr_extract($filepath) {
-  $solr = apachesolr_get_solr(apachesolr_default_environment());
-  /** check that we have a valid filepath. */
-  if (!($filepath) || !is_file($filepath)) {
-    return FALSE;
+function dlts_solr_extract($uri) {
+	$text = file_get_contents(file_create_url($uri));
+	$content = preg_replace( '/\r|\n/', ' ', $text);
+  if (!empty($content)) {
+  	$content = filter_xss($content);
   }
-  $params = array(
-    'resource.name' => basename($filepath),
-    'extractFormat' => 'text',
-  );
-  /** construct a multi-part form-data POST body in $data. */
-  $boundary = '--' . md5(uniqid(REQUEST_TIME));
-  $data = "--{$boundary}\r\n";
-  /** the 'filename' used here becomes the property name in the response. */
-  $data .= 'Content-Disposition: form-data; name="file"; filename="extracted"';
-  $data .= "\r\nContent-Type: application/octet-stream\r\n\r\n";
-  $data .= file_get_contents($filepath);
-  $data .= "\r\n--{$boundary}--\r\n";
-  $headers = array('Content-Type' => 'multipart/form-data; boundary=' . $boundary);
-  $options = array(
-    'headers' => $headers,
-    'method' => 'POST',
-    'data' => $data,
-  );
-  $response = $solr->makeServletRequest(DLTS_TIKA, $options);
-  unset($solr);
-  return array($response->extracted);
+  return nl2br(check_plain($content));
 }
 
 /**

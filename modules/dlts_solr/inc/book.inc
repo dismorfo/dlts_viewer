@@ -149,7 +149,7 @@ function dlts_solr_index_book_series($document, $entity, $searchableFields) {
   }
 }
 
-function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
+function dlts_solr_index_book(&$document, &$entity) {
 	module_load_include('inc', 'dlts_viewer', 'inc/datasource');
 	$language = $entity->language;
 	// skip if entity language is not English
@@ -464,7 +464,7 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   $document->addField('ss_longlabel', $title_sort);
   $document->addField('iass_longlabel', $title_sort);
   /** add translations */
-  dlts_solr_index_book_translations($document, $entity, $entity_type, $env_id, $searchableFields);
+  dlts_solr_index_book_translations($document, $entity, $searchableFields);
   unset($document->content);
   $document->addField('content', implode($searchableFields, ' '));
 }
