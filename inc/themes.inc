@@ -9,18 +9,15 @@
  * Themes functions
  */
 function theme_dlts_viewer_pager_button($variables) {
-  $classes = array('paging');
+
+	$classes = array('paging');
+
   if (isset($variables['classes'])) {
     $classes = array_merge($classes, $variables['classes']);
   }
+
   if (dlts_viewer_is_pjax()) {
     $classes[] = 'pjax';
-  }
-  if (isset($variables['active'])) {
-    $classes[] = 'active';
-  }
-  else {
-    $classes[] = 'inactive';
   }
 
   $render_array = array(

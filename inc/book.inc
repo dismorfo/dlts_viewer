@@ -212,54 +212,55 @@ function dlts_viewer_dispatcher($entity, $arg) {
   	$previous_page = $sequence_min - 1;
   	$previous_page_active = TRUE;
   	$next_page_active = TRUE;
+
   	if ($previous_page < 1) {
   		$previous_page = 1;
   	}
+
   	if ($next_page > $sequence_count) {
   		$next_page = $sequence_count;
   	}
+
   	if ($next_page >= $sequence_count) {
   		$next_page_active = FALSE;
   	}
+
   	if ($sequence_max == 1) {
   		$previous_page_active = FALSE;
   	}
+
   	if ($next_page >= $sequence_count ) {
   		$next_page_active = FALSE;
   	}
 
   	/** next page */
   	$next_pager_side = ($entity->read_order === 'ltr') ? 'pager-right' : 'pager-left';
+
   	$button_next = theme('dlts_viewer_pager_button' , array(
-  			'id' => 'next-page',
-  			'active' => $next_page_active,
-  			'text' => t('Go to next page'),
-  			'url' => $book_url . '/' . $next_page . ((!$is_single_page) ? '?page_view=double' : ''),
-  			'classes' => array('next', $next_pager_side)
-  	)
-  	);
+  	  'id' => 'next-page',
+  		'text' => t('Go to next page'),
+  		'url' => $book_url . '/' . $next_page . ((!$is_single_page) ? '?page_view=double' : ''),
+  		'classes' => array('next', $next_pager_side, ($next_page_active ? 'active' : 'inactive'))
+  	));
 
   	/** prev page */
   	$previous_pager_side = ($entity->read_order === 'ltr') ? 'pager-left' : 'pager-right';
   	$button_previous = theme('dlts_viewer_pager_button' , array(
-  			'id' => 'previous-page',
-  			'active' => $previous_page_active,
-  			'type' => 'dlts_book_page',
-  			'text' => t('Go to previous page'),
-  			'url' => $book_url . '/' . $previous_page . ((! $is_single_page ) ? '?page_view=double' : ''),
-  			'classes' => array('previous', $previous_pager_side),
-  	)
-  	);
+      'id' => 'previous-page',
+  		'type' => 'dlts_book_page',
+  		'text' => t('Go to previous page'),
+  		'url' => $book_url . '/' . $previous_page . ((! $is_single_page ) ? '?page_view=double' : ''),
+  		'classes' => array('previous', $previous_pager_side, ($previous_page_active ? 'active' : 'inactive'))
+  	));
 
   	/** Toggle between Single and Double page button */
   	$button_togglepage_operation = ($is_single_page) ? ' page-double' : ' page-single';
   	$button_togglepage = theme('dlts_viewer_pager_button' , array(
   			'id' => 'toggle-page',
-  			'active' => TRUE,
   			'type' => 'dlts_book_page',
   			'text' => t('Toggle between single or double page'),
   			'url' => $book_url . '/' . $sequence_min . (($is_single_page ) ? '?page_view=double' : ''),
-  			'classes' => array('toggle', $button_togglepage_operation),
+  			'classes' => array('toggle', 'active', $button_togglepage_operation),
   	)
   	);
 
@@ -268,10 +269,10 @@ function dlts_viewer_dispatcher($entity, $arg) {
   			'title' => t('Metadata'),
   			'path' => 'node/' . $entity->nid,
   			'attributes' => array(
-  					'data-title' => t('Metadata'),
-  					'title' => t('Show/hide metadata'),
-  					'class' => array('button', 'metadata', 'on',),
-  					'id' => array('button-metadata',)
+  				'data-title' => t('Metadata'),
+  				'title' => t('Show/hide metadata'),
+  				'class' => array('button', 'metadata', 'on'),
+  				'id' => array('button-metadata')
   			),
   			'fragment' => 'metadata',
   	)
