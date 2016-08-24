@@ -26,6 +26,15 @@ function dlts_solr_book_get_series_book($entity) {
   return FALSE;
 }
 
+function dlts_solr_multibook_get_volume($entity) {
+  $value = array();
+  if (isset($entity->field_volume_number)) {
+    $ewp = entity_metadata_wrapper('node', $entity);
+    $value = $ewp->field_volume_number->value();
+  }
+  return $value;
+}
+
 function dlts_solr_book_get_multivol_book($entity) {
   $query = new EntityFieldQuery;
   $keys = array();
@@ -265,26 +274,20 @@ function dlts_solr_index_series(&$document, &$entity) {
 				  $sd['books'][$bi]['publication_date'] = $publication_date;
 
           /** $bri stand for book representativeimage */
-          $bri = $book_wp->field_representative_image->value();
-
-          if (!empty($bri)) {
-          	$pathinfo = pathinfo($bri['uri']);
-          	/** load Image Server util */
-            $bri_i = '';
-          	if ($pathinfo['extension'] == 'jpg') {
-          		$bri_i = file_create_url($bri['uri']);
-          	}
-          	elseif ($pathinfo['extension'] == 'jp2') {
-          		$bri_i = dlts_viewer_djatoka_url($bri);
-          	}
-          	$document->addField('ss_representative_image', $bri_i);
-          }
-
-          //$book_representative_image =
-          //if ($book_representative_image) {
-			      //$sd['books'][$bi]['representative_image_medium'] = image_style_url('medium', $book_representative_image['uri']);
-				    //$sd['books'][$bi]['representative_image_thumbnail'] = image_style_url('thumbnail', $book_representative_image['uri']);
-			    //}
+          //$bri = $book_wp->field_representative_image->value();
+          //if (!empty($bri)) {
+          //	$pathinfo = pathinfo($bri['uri']);
+          //	/** load Image Server util */
+          //  $bri_i = '';
+          //	if ($pathinfo['extension'] == 'jpg') {
+          //		$bri_i = file_create_url($bri['uri']);
+          //	}
+          //	elseif ($pathinfo['extension'] == 'jp2') {
+          //		$bri_i = dlts_viewer_djatoka_url($bri);
+          //	}
+          //	$document->addField('ss_representative_image', $bri_i);
+          //}
+          
 			  }
 			}
 		}

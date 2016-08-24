@@ -168,12 +168,13 @@ function dlts_solr_apachesolr_delete_index_alter($query) {
  * @param string $entity_type
  */
 function dlts_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $entity, $entity_type, $env_id) {
+  global $base_url;
   /** load utils */
   foreach (array('book', 'series') as $util) module_load_include('inc', 'dlts_solr', 'inc/' . $util);
   /** wrap node with Entity API */
   $ewrapper = entity_metadata_wrapper('node', $entity);
   /** add the base url to the document */
-  $document->addField('base_url', base_path());
+  $document->addField('base_url', $base_url);  
   /** index each document taking into consideration the Object type */
   switch ($entity->type) {
     case 'dlts_book' :
