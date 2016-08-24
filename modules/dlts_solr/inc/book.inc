@@ -148,7 +148,7 @@ function dlts_solr_index_book_series($document, $entity, $searchableFields) {
 		  $document->addField('sm_' . $prefix . 'series_book', $label);
 		  $document->addField('sm_' . $prefix . 'series_volume_number', $series_book['volume_number']);
 		  $document->addField('sm_' . $prefix . 'series_volume_number_str', $series_book['volume_number_str']);
-		  print_r($series_book);
+		  $document->addField('sm_series_identifier', $series_book['identifier']);
 	  }
   }
 }
