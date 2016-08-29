@@ -9,13 +9,17 @@
  * Themes functions
  */
 function theme_dlts_viewer_pager_button($variables) {
+
 	$classes = array('paging');
+
   if (isset($variables['classes'])) {
     $classes = array_merge($classes, $variables['classes']);
   }
+
   if (dlts_viewer_is_pjax()) {
     $classes[] = 'pjax';
   }
+
   $render_array = array(
     'markup' => array(
       '#theme' => 'html_tag',
@@ -141,3 +145,4 @@ function theme_thumbnails_pager($vars) {
 		return '<div class="pager clearfix">' . $pager_list . ' ' . $pager_links . '</div>';
 	}
 }
+
