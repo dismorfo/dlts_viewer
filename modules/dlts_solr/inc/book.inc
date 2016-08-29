@@ -138,18 +138,22 @@ function dlts_solr_index_book_series($document, $entity, $searchableFields) {
 	/** check if this books is part of a series */
 	dlts_viewer_is_series_book($entity);
 	if ($entity->isSeriesBook) {
-		$document->addField('is_ispartofseries', 1);
+		$document->addField('is_ispartofseries', 1); // remove later on (aof Aug 24, 2016)
+		$document->addField('is_ispartof_series', 1); // we want to use this one; the other one was a typo (aof Aug 24, 2016)
 		foreach ($entity->seriesBook as $series_book) {
 		  $label = t('@label part of series @series', array('@label'=> $series_book['volume_label'], '@series' => $series_book['series']));
 		  $searchableFields[] = $label;
 		  $document->addField('sm_' . $prefix . 'series', $series_book['series']);
 		  $document->addField('sm_' . $prefix . 'series_label', $series_book['volume_label']);
 		  $document->addField('sm_' . $prefix . 'series_book', $label);
+		  $document->addField('sm_' . $prefix . 'series_volume_number', $series_book['volume_number']);
+		  $document->addField('sm_' . $prefix . 'series_volume_number_str', $series_book['volume_number_str']);
+		  $document->addField('sm_series_identifier', $series_book['identifier']);
 	  }
   }
 }
 
-function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
+function dlts_solr_index_book(&$document, &$entity) {
 	module_load_include('inc', 'dlts_viewer', 'inc/datasource');
 	$language = $entity->language;
 	// skip if entity language is not English
@@ -467,7 +471,7 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   $document->addField('ss_longlabel', $title_sort);
   $document->addField('iass_longlabel', $title_sort);
   /** add translations */
-  dlts_solr_index_book_translations($document, $entity, $entity_type, $env_id, $searchableFields);
+  dlts_solr_index_book_translations($document, $entity, $searchableFields);
   unset($document->content);
   $document->addField('content', implode($searchableFields, ' '));
 }
