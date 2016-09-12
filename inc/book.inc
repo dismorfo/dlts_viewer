@@ -8,12 +8,16 @@
 module_load_include('inc', 'dlts_viewer', 'inc/datasource'); // see if I can include just when needed
 
 function dlts_viewer_dispatch_thumbnails($identifier) {
+
 	/**
 	 * Load helpers
 	 */
 	module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
   // hold query arguments
 	$query_parameters = drupal_get_query_parameters();
+	if (isset($query_parameters['sequence'])) {
+    $sequence = $query_parameters['sequence'];
+	}
   // start page
 	$page = 0;
   // default amount of items to request
@@ -38,7 +42,7 @@ function dlts_viewer_dispatch_thumbnails($identifier) {
     $current_page = pager_default_initialize($count, $per_page);
     // Pager
     $pager = theme('thumbnails_pager', array('quantity' => $count));
-    $output = theme('dlts_book_thumbnails',  array('items' => $items, 'pager' => $pager));
+    $output = theme('dlts_book_thumbnails',  array('items' => $items, 'pager' => $pager, 'sequence' => $sequence));
     return $output;
   }
   else {

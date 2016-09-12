@@ -10,7 +10,6 @@ YUI().use(
   , 'widget-anim'
   , 'crossframe'
   , function(Y) {
-
   'use strict';
   /** set a X-PJAX HTTP header for all IO requests */
   Y.io.header('X-PJAX', 'true');
@@ -385,12 +384,26 @@ YUI().use(
     function onPjaxLoadAvailable(conf) {
       var page_title = Y.one('#page-title') ;
       var sequence = conf.sequence;
+      var thumbnails = false;
+      var currentPage = false;   
+      var node = false;   
       if (page_title) {
         page_title.set('text', conf.title);
       }
       slider.triggerBy = 'pjax:load:available';
       slider.set('value', parseInt(sequence, 10));
       Y.one('#slider_value').set('value', sequence);      
+      var thumbnails = Y.one('.view-book-thumbnails');
+      if (thumbnails) {
+        currentPage = thumbnails.one('.current-page');
+        if (currentPage) {
+          currentPage.removeClass('current-page');
+        }
+        node = thumbnails.one('[data-sequence="'+ sequence +'"]');
+        if (node) {
+          node.addClass('current-page');
+        }
+      }
     }
     
     function onButtonThumbnailsOnIOStart(e) {
@@ -405,9 +418,11 @@ YUI().use(
       var thumbnails = Y.one('#thumbnails');
       var thumbnailsParams = Y.one('#thumbnails-params');
       var data = {};
+      var olmap = Y.one('.olMap');
+      var olmapdata = olmap.getData();
       if (thumbnailsParams) {
         data = thumbnailsParams.getData();
-        Y.io(data.url + '?page=' + data.page + '&rows=' + data.rows,
+        Y.io(data.url + '?page=' + data.page + '&rows=' + data.rows + '&sequence=' + olmapdata.sequence,
           { on: { start: onButtonThumbnailsOnIOStart ,
                   complete: onThumbnailsOnSuccess } }
         );
@@ -417,12 +432,17 @@ YUI().use(
     function onButtonThumbnailsOff(e) {
       var thumbnails = Y.one('#thumbnails');
       var button = Y.one('#button-thumbnails');
+      var currentPage = false;
       // in case event was triggered by other means
       if (button.hasClass('on')) {
         button.removeClass('on');
       }
       if (thumbnails) {
         thumbnails.addClass('hidden'); 
+        currentPage = thumbnails.one('.current-page');
+        if (currentPage) {
+          currentPage.removeClass('current-page');
+        }
       }
     }
 
