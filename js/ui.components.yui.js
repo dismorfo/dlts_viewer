@@ -415,18 +415,14 @@ YUI().use(
 
     function onButtonThumbnailsOn(e) {
       e.halt();
-      var thumbnails = Y.one('#thumbnails');
-      var thumbnailsParams = Y.one('#thumbnails-params');
-      var data = {};
-      var olmap = Y.one('.olMap');
-      var olmapdata = olmap.getData();
-      if (thumbnailsParams) {
-        data = thumbnailsParams.getData();
-        Y.io(data.url + '?page=' + data.page + '&rows=' + data.rows + '&sequence=' + olmapdata.sequence,
-          { on: { start: onButtonThumbnailsOnIOStart ,
-                  complete: onThumbnailsOnSuccess } }
-        );
-      }
+      var map = Y.one('.dlts_viewer_map').getData();
+      Y.io(map['thumbnails-url'], {
+        data: 'page=' + map['thumbnails-page'] + '&rows=' + map['thumbnails-rows'] + '&sequence=' + map['sequence'],
+        on: { 
+          start: onButtonThumbnailsOnIOStart,
+          complete: onThumbnailsOnSuccess } 
+        }
+      );
     }
     
     function onButtonThumbnailsOff(e) {

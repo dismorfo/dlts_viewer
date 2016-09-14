@@ -8,7 +8,6 @@
 module_load_include('inc', 'dlts_viewer', 'inc/datasource'); // see if I can include just when needed
 
 function dlts_viewer_dispatch_thumbnails($identifier) {
-
 	/**
 	 * Load helpers
 	 */
@@ -42,7 +41,17 @@ function dlts_viewer_dispatch_thumbnails($identifier) {
     $current_page = pager_default_initialize($count, $per_page);
     // Pager
     $pager = theme('thumbnails_pager', array('quantity' => $count));
-    $output = theme('dlts_book_thumbnails',  array('items' => $items, 'pager' => $pager, 'sequence' => $sequence));
+    
+    $placeholder = $GLOBALS['base_url'] . '/' . drupal_get_path('module', 'dlts_viewer') . '/images/loadhold.png';
+    
+    $output = theme('dlts_book_thumbnails', array(
+      'items' => $items, 
+      'pager' => $pager, 
+      'sequence' => $sequence,
+      'placeholder' => $placeholder,
+      )
+    );
+
     return $output;
   }
   else {
@@ -369,8 +378,15 @@ function dlts_viewer_dispatcher($entity, $arg) {
   	$entity->pageView = ($is_single_page) ? 'single' : 'double';
 
   	$arg['pageView'] = $entity->pageView;
+  	
+  	$arg['thumbnailsUrl'] = $entity->thumbnailsURL;
+  	
+  	$arg['thumbnailsRows'] = $entity->thumbnailsRows;
+  	
+  	$arg['thumbnailsPage'] = $entity->thumbnailsPage;
 
   	$entity->book_page = theme('dlts_viewer_openlayers_image' , array('file' => $arg));
+
   }
 
   // types of returns
