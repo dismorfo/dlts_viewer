@@ -7,7 +7,7 @@
       <?php if (isset($content)) print render($content); ?>
     </div>
   </div>
-  <div id="display" class="pane display" data-url="<?php print $url ?>" data-identifier="<?php print $identifier ?>" data-sequence-count="<?php print $sequence_count ?>" data-sequence="<?php print $book_page_sequence_number ?>" data-title="<?php print $title ?>" data-thumbnails-url="<?php print $thumbnailsURL ?>" data-thumbnails-rows="<?php print $thumbnailsRows ?>" data-thumbnails-page="<?php print $thumbnailsPage ?>">
+  <div id="display" class="pane display" data-url="<?php print $url ?>" data-identifier="<?php print $identifier ?>" data-sequence-count="<?php print $sequence_count ?>" data-sequence="<?php print $book_page_sequence_number ?>" data-title="<?php print $title ?>">
     <?php print $book_page ?>
     <?php print $button_previous ?>
     <?php print $button_next ?>
