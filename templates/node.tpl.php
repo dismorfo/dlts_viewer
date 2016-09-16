@@ -12,17 +12,12 @@
     <?php print $button_previous ?>
     <?php print $button_next ?>
   </div>
-  <div class="pane load loading">
-    <?php if (isset($loading ) ) print $loading ; ?>
-  </div>
+  <div class="pane load loading"><?php if (isset($loading)) print $loading; ?></div>
 </div>
-<?php if (isset($read_order ) ) : ?>
-  <div dir="<?php if (isset($read_order ) ) print $read_order ; else print 'ltr' ?>" id="pager" class="pane pager">
-    <?php if (isset($slider ) ) : print $slider ; endif ; ?>
+
+<?php if (isset($read_order)) : ?>
+  <div dir="<?php if (isset($read_order)) print $read_order ; else print 'ltr' ?>" id="pager" class="pane pager">
+    <?php if (isset($slider)) : print $slider ; endif; ?>
   </div>
 <?php endif; ?>
-<div id="thumbnails" class="views-g pane thumbnails hidden" data-url="<?php print $thumbnailsURL ?>" data-rows="<?php print $thumbnailsRows ?>" data-page="<?php print $thumbnailsPage ?>">
-<?php if (isset($thumbnails ) ) : ?>
-  <?php print $thumbnails; ?>
-<?php endif; ?>
-</div>
+<div id="thumbnails" class="views-g pane thumbnails hidden"><?php if (isset($thumbnails)) :  print $thumbnails; endif; ?></div>

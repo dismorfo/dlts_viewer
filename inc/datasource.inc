@@ -62,24 +62,14 @@ function dlts_viewer_is_series_book(&$entity) {
 				$series_book_node = node_load($nid);
 				$series_book_wrapper = entity_metadata_wrapper($entity_type, $series_book_node);
 				$series = $series_book_wrapper->field_series->value(); // single-value field
-				
-				$_series_wrapper = entity_metadata_wrapper($entity_type, $series);
-				
-        $_series_identifier = $_series_wrapper->field_identifier->value();
-				
 				$volume_number = $series_book_wrapper->field_volume_number->value(); // single-value field
-				
 				$volume_number_str = $series_book_wrapper->field_volume_number_str->value(); // single-value field
-				
 				if (!empty($volume_number_str)) {
 					$title = $book_long_title . ' ' . $volume_number_str;
 				}
 				elseif (!empty($volume_number)) {
 					$title = $book_long_title . ' ' . $volume_number;
 				}
-				
-				// check if this is ok. I'm not sure the book belongs to just one series.
-				
 				$is_part_of[] = array(
 				  'series' => $series->title,
 					'volume_label' => $title,
@@ -87,9 +77,7 @@ function dlts_viewer_is_series_book(&$entity) {
 					'volume_number_str' => $volume_number_str,
 					'collection_label' => $collection_label,
 					'collection_code' => $collection_code,
-					'identifier' => $_series_identifier,
 				);
-				
 			}
 		}
 	}
