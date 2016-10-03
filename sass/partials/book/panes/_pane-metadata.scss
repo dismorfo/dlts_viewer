@@ -79,12 +79,19 @@
     .field-label {
       display: inline-block;
       white-space: nowrap;
+      float:none;
     }
     .field-name-field-subject {
       .field-item {
         &::after {
           content: ",";
           padding-right: 3px;
+        }
+      }
+      .field-item:last-child {
+        &::after {
+          content: "";
+          padding-right: 0px;
         }
       }
     }
@@ -100,6 +107,7 @@
     .field-items {
       display: inline-block;
       word-wrap: break-word;
+      float: none;
     }
     .field-name-mv-2016 {
       .field-items,
