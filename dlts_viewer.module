@@ -335,6 +335,7 @@ function dlts_viewer_preprocess_page(&$vars) {
  * https://api.drupal.org/api/drupal/includes%21theme.inc/function/template_process_page/7
  */
 function dlts_viewer_process_page(&$vars) {
+  header_remove('X-Frame-Options');
   $vars['is_embed'] = dlts_viewer_is_embed();
   // check if this is a embed request. Don't show title if is embeded
   if (!$vars['is_embed']) {

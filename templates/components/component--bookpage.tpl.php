@@ -11,13 +11,11 @@
      data-height="<?php print $height ?>"
      data-levels="<?php print $levels ?>"
      data-dwtLevels="<?php print $dwtLevels ?>"
-     data-compositingLayerCount="<?php print $compositingLayerCount ?>">
+     data-compositingLayerCount="<?php print $compositingLayerCount ?>"
+     data-thumbnails-url="<?php print $thumbnailsURL ?>"
+     data-thumbnails-rows="<?php print $thumbnailsRows ?>"
+     data-thumbnails-page="<?php print $thumbnailsPage ?>">
   </div>
   <?php print $button_next ?>
   <?php print $button_togglepage ?>
-  <span id="thumbnails-params"
-        data-url="<?php print $thumbnailsURL ?>"
-        data-rows="<?php print $thumbnailsRows ?>"
-        data-page="<?php print $thumbnailsPage ?>">
-  </span>
 </div>

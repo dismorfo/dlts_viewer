@@ -26,7 +26,7 @@ function dlts_viewer_schema() {
   $schema['dlts_viewer_drush_git_commits'] = array(
     'description' => 'Table for Git commit hashs',
     'fields' => array(
-      'hash' => array('type' => 'varchar', 'length' => 255, 'not null' => FALSE),
+      'hash' => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE),
     	'label' => array('type' => 'text'),
     	'created' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
     	'proceed' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
@@ -38,13 +38,13 @@ function dlts_viewer_schema() {
   	'fields' => array(
   	  'nid' => array('type' => 'varchar', 'length' => 255, 'not null' => FALSE),
   		'hash' => array('type' => 'varchar', 'length' => 255, 'not null' => FALSE),
-  		'identifier' => array('type' => 'varchar', 'length' => 255, 'not null' => FALSE),  		
+  		'identifier' => array('type' => 'varchar', 'length' => 255, 'not null' => FALSE),
   		'document' => array('type' => 'text'),
   		'language' => array('type' => 'text'),
   		'proceed' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
   		'created' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
   		'changed' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
-  		'legacy' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),  		  		
+  		'legacy' => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
   	)
   );
   return $schema;

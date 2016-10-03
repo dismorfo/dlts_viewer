@@ -65,12 +65,17 @@ function theme_dlts_viewer_navbar_item($variables) {
  * @ingroup themable
  */
 function theme_dlts_viewer_openlayers_image($variables) {
+
   $file = $variables['file'];
+
   $fid = 'id-' . $file['fid'];
+
   $file_uri = file_create_url($file['uri']);
+
   if (isset($file['timestamp'])) {
   	$file_uri = $file_uri . '?v=' . $file['timestamp'];
   }
+  
   $openlayers_options = array(
     'service' => variable_get('dlts_viewer_djatoka_service', 'http://dl-imgdev.home.nyu.edu/adore-djatoka'),
     'imgMetadata' => array(
@@ -82,10 +87,15 @@ function theme_dlts_viewer_openlayers_image($variables) {
     ),
     'zoom' => isset($file['zoom']) ? $file['zoom'] : 1,
   );
+  
   $json_data = json_encode($openlayers_options);
+
   $js_inline = '(function(O){O.DLTS.Page("' . $fid . '","' .  $file_uri . '",' . $json_data . ')})(OpenLayers);';
+
   $js_options = array('group' => JS_DEFAULT, 'type' => 'inline', 'every_page' => FALSE, 'weight' => 5, 'scope' => 'footer', 'cache' => TRUE, 'defer' => TRUE);
+
   drupal_add_js($js_inline, $js_options);
+  
   $options = array(
     '@id' => $fid,
     '@uri' => $file_uri,
@@ -94,9 +104,28 @@ function theme_dlts_viewer_openlayers_image($variables) {
     '@levels' => $file['levels'],
     '@dwtLevels' => $file['dwtLevels'],
     '@layer' => $file['compositingLayerCount'],
+  	'@sequence' => array_shift($file['sequence']),
+  	'@thumbnailsUrl' => $file['thumbnailsUrl'],
+    '@thumbnailsRows' => $file['thumbnailsRows'],
+    '@thumbnailsPage' => $file['thumbnailsPage'],
   	'@pageView' => 'single',
   );
-  return t('<div id="@id" class="dlts_image_map dlts_viewer_map" data-pageView="@pageView" data-uri="@uri" data-width="@width" data-height="@height" data-levels="@levels" data-dwtLevels="@dwtLevels" data-compositing-layer="@layer"></div>', $options);
+
+  return t('<div 
+    id="@id" 
+    class="dlts_image_map dlts_viewer_map" 
+    data-sequence="@sequence" 
+    data-pageView="@pageView" 
+    data-uri="@uri" 
+    data-width="@width" 
+    data-height="@height" 
+    data-levels="@levels" 
+    data-dwtLevels="@dwtLevels" 
+    data-compositing-layer="@layer"
+    data-thumbnails-url="@thumbnailsUrl"
+    data-thumbnails-rows="@thumbnailsRows"
+    data-thumbnails-page="@thumbnailsPage"
+  ></div>', $options);
 }
 
 /**
