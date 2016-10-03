@@ -43,10 +43,6 @@
       border-top: 1px solid #ccc;
       padding-top: .5em;
       font-size: .8em;
-      .field-item {
-        direction: ltr;
-        text-align: right;
-      }
     }
     .field .field-label {
       font-weight: bold;
@@ -79,7 +75,7 @@
     .field-label {
       display: inline-block;
       white-space: nowrap;
-      float:none;
+      float: none;
     }
     .field-name-field-subject {
       .field-item {
@@ -98,7 +94,7 @@
     .field-name-series-for-this-book {
       .field-label {
         display: block;
-        float: left;
+      
       }
       .field-items {
         display: block;
@@ -148,6 +144,12 @@
     border-right: none;
     border-left: 1px solid #ccc;
     direction: rtl;
+    .field-name-field-rights {
+      .field-item {
+        direction: ltr;
+        text-align: right;
+      }
+    }
   }
   .field-label-inline .field-label,
   .field-label-inline .field-items {
