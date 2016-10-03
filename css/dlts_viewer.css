@@ -927,68 +927,60 @@ html body, html #main, html #page {
 .pagemeta .container .field-name-series-for-this-book .field-label {
   display: block;
 }
-/* line 99, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 98, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-name-series-for-this-book .field-items {
   display: block;
 }
-/* line 103, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 102, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-items {
   display: inline-block;
   word-wrap: break-word;
   float: none;
 }
-/* line 109, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 107, ../sass/partials/book/panes/_pane-metadata.scss */
+.pagemeta .container .field-item {
+  display: inline-block;
+}
+/* line 111, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-name-mv-2016 .field-items,
 .pagemeta .container .field-name-mv-2016 .field-item {
   display: block;
 }
-/* line 113, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 115, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-name-mv-2016 .ctools-jump-menu-hide {
   height: 0;
   width: 0;
 }
-/* line 118, ../sass/partials/book/panes/_pane-metadata.scss */
-.pagemeta .container .field-item {
-  display: inline-block;
-}
-/* line 122, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 121, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-name-field-author .field-item {
   display: block;
-  float: left;
-  clear: left;
 }
-/* line 127, ../sass/partials/book/panes/_pane-metadata.scss */
-.pagemeta .container .field-name-field-author .field-item:first-child {
-  display: inline;
-  float: none;
-  clear: none;
-}
-/* line 133, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 125, ../sass/partials/book/panes/_pane-metadata.scss */
 .pagemeta .container .field-type-link-field {
   margin-top: .5em;
   border-top: 1px solid #ccc;
   padding-top: .5em;
 }
 
-/* line 142, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 134, ../sass/partials/book/panes/_pane-metadata.scss */
 .main[dir="rtl"] .pagemeta {
   float: right;
   border-right: none;
   border-left: 1px solid #ccc;
   direction: rtl;
 }
-/* line 148, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 140, ../sass/partials/book/panes/_pane-metadata.scss */
 .main[dir="rtl"] .pagemeta .field-name-field-rights .field-item {
   direction: ltr;
   text-align: right;
 }
-/* line 154, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 146, ../sass/partials/book/panes/_pane-metadata.scss */
 .main[dir="rtl"] .field-label-inline .field-label,
 .main[dir="rtl"] .field-label-inline .field-items {
   float: none;
 }
 
-/* line 161, ../sass/partials/book/panes/_pane-metadata.scss */
+/* line 153, ../sass/partials/book/panes/_pane-metadata.scss */
 .main[dir="ltr"] .pagemeta {
   float: left;
   border-left: none;

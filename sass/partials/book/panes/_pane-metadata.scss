@@ -94,7 +94,6 @@
     .field-name-series-for-this-book {
       .field-label {
         display: block;
-      
       }
       .field-items {
         display: block;
@@ -104,6 +103,9 @@
       display: inline-block;
       word-wrap: break-word;
       float: none;
+    }
+    .field-item {
+      display: inline-block;
     }
     .field-name-mv-2016 {
       .field-items,
@@ -115,19 +117,9 @@
         width: 0;
       }
     }
-    .field-item {
-      display: inline-block;
-    }
     .field-name-field-author {
       .field-item {
         display: block;
-        float: left;
-        clear: left;
-      }
-      .field-item:first-child {
-        display: inline;
-        float: none;
-        clear: none;
       }
     }
     .field-type-link-field {
