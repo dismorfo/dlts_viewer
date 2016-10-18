@@ -603,6 +603,11 @@ html .page {
   flex-direction: column;
 }
 
+/* line 11, ../sass/partials/book/panes/_pane-base.scss */
+html body.admin-menu {
+  height: calc(100vh - 29px) !important;
+}
+
 /* line 1, ../sass/partials/book/panes/_pane-top.scss */
 #titlebar {
   background-color: #5a1b1c;

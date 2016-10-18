@@ -7,3 +7,9 @@ html .page {
   display: flex;
   flex-direction: column;
 }
+
+html body.admin-menu  {
+	// 29px is a number hard-coded by Drupal;
+  height: calc(100vh - 29px) !important;
+}
+
