@@ -1,18 +1,19 @@
 $break-small: 600px;
 $break-medium: 700px;
 $break-large: 1200px;
-
 #navbar {
   background-color: $navbar-overlay;
   overflow: hidden;
-  padding: 5px 0;
+  padding: 5px 0 0;
+  flex: 0 0 55px;
+  max-width: 100vw;
   .navbar-left,
   .navbar-middle,
   .navbar-right,
   .navbar-arrows,
   .navbar-fullscreen {
     width: auto;
-    overflow: hidden;
+    overflow: auto;
     height: 46px;
   }
   .navbar-left,
@@ -23,10 +24,10 @@ $break-large: 1200px;
   }
   .navbar-fullscreen {
     float: right;
+    margin-right: 20px;
   }
   .navbar-fullscreen .navbar-item {
-    float: right;
-    margin: 0 0.5em 0 0;
+    float: none;
   }
   .navbar-item {
     min-width: 50px;
@@ -34,7 +35,11 @@ $break-large: 1200px;
     float: left;
     margin: 0 0 0 .5em;
     font-size: 2.3em;
-    a, a.active, span, .olControlDLTSZoomInItemInactive, .olControlDLTSZoomOutItemInactive {
+    a,
+    a.active,
+    span,
+    .olControlDLTSZoomInItemInactive,
+    .olControlDLTSZoomOutItemInactive {
       display: block;
       margin: 0 auto;
       width: 44px;
@@ -48,7 +53,8 @@ $break-large: 1200px;
       @include transition-property((border, box-shadow));
       @include transition-duration(100ms);
       @include transition-timing-function(ease-in);
-      &:focus, &:visited {
+      &:focus,
+      &:visited {
         text-decoration: none;
         color: $navbar-icon-color;
         opacity: $normal-opacity;
@@ -81,7 +87,9 @@ $break-large: 1200px;
         -webkit-font-smoothing: antialiased;
       }
     }
-    .inactive, .zoom_in_max, .zoom_out_max {
+    .inactive,
+    .zoom_in_max,
+    .zoom_out_max {
       opacity: $dimmed-opacity;
       @include box-shadow(none !important);
       cursor: default !important;
@@ -158,19 +166,24 @@ $break-large: 1200px;
 }
 
 @media screen and (max-width: $break-medium) {
-  .navbar-left, .navbar-middle, .navbar-arrows {
+  .navbar-left,
+  .navbar-middle,
+  .navbar-arrows {
     padding: 0;
   }
-  .navbar-fullscreen .navbar-item, .navbar-item {
+  .navbar-fullscreen .navbar-item,
+  .navbar-item {
     margin: 0 .2em;
   }
 }
 
 @media screen and (max-width: $break-small) {
-  .navbar-fullscreen .navbar-item, .navbar-item {
+  .navbar-fullscreen .navbar-item,
+  .navbar-item {
     margin: 0 .2em;
   }
-  .navbar-middle, .navbar-arrows {
+  .navbar-middle,
+  .navbar-arrows {
     display: none;
   }
 }

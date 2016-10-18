@@ -37,25 +37,7 @@ YUI().use(
     length:(Y.one('#pager').get('offsetWidth') - 120) + 'px' 
   });
   /** nodes */
-    function resizePageMeta() {
-      slider.set('length' ,(Y.one('#pager').get('offsetWidth') - 120 ));
-       var viewportHeight = this.get('winHeight'),
-        adminBarHeight = 0,
-        // topHeight = Y.one('#top').get('offsetHeight'),
-        navbarHeight = Y.one('#navbar').get('offsetHeight'),
-        pageHeight = Y.one('#pager').get('offsetHeight'),
-        nodeAdminMenu = Y.one('#admin-menu'),
-        sidebarHeight
-      ; /** definition list end */
-      if (nodeAdminMenu) {
-        adminBarHeight =  nodeAdminMenu.get('offsetHeight') ;
-      }
-      //sidebarHeight = viewportHeight - (adminBarHeight + topHeight + navbarHeight + pageHeight);
-      sidebarHeight = viewportHeight - (adminBarHeight + navbarHeight + pageHeight);
-      Y.one('#pagemeta').setStyles({
-        'height': sidebarHeight
-      });
-    }
+    
     function on_toggle_language(e) {
       var current_target = e.currentTarget;
       var data_target = current_target.get('value');
@@ -547,10 +529,6 @@ YUI().use(
     Y.on('button:button-fullscreen:off', fullscreenOff);
 
     Y.once('contentready', openLayersTilesLoading, '.dlts_viewer_map');
-
-    Y.on('contentready', resizePageMeta, '#pagemeta');
-
-    Y.on('windowresize', resizePageMeta);
 
     /** Thumbnails related events */
     Y.on('button:button-thumbnails:on', onButtonThumbnailsOn);

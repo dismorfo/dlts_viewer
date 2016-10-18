@@ -2,3 +2,8 @@
   background-color: $pane-background;
   @include bv-box-shadow($pane-box-shadow);
 }
+
+html .page {
+  display: flex;
+  flex-direction: column;
+}
