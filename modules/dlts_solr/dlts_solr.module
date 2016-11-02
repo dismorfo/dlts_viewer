@@ -355,5 +355,7 @@ function dlts_solr_remove_accents($string) {
 	}
                //remove combined diacritics
                  $string=preg_replace('/[\x{0300}-\x{036f}]+/u','',$string);
+               //remove modified letter turn comma
+                 $string=preg_replace('/\x{02BB}+/u','',$string);
 	return $string;
 }
