@@ -549,12 +549,10 @@ YUI().use(
       var value = currentTarget.one(':checked').get('value');
       var url = value.substring(value.indexOf('::') + 2, value.length);
       var data = { url : url };
-      var parts = data.url.split('/');
       if (window.self === window.top) {
         pjax.navigate(url);
       }
       else {
-        Y.log('Post message CrossFrame');
         Y.CrossFrame.postMessage('parent', JSON.stringify({ fire: 'change:option:multivolume', data }));
       }
     }
