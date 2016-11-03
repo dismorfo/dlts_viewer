@@ -1,14 +1,14 @@
 // YUI Slider see http://yuilibrary.com/yui/docs/slider/
-
-.yui3-skin-sam .yui3-slider-x .yui3-slider-rail, .yui3-skin-sam .yui3-slider-x .yui3-slider-rail-cap-left, .yui3-skin-sam .yui3-slider-x .yui3-slider-rail-cap-right {
+.yui3-skin-sam .yui3-slider-x .yui3-slider-rail,
+.yui3-skin-sam .yui3-slider-x .yui3-slider-rail-cap-left,
+.yui3-skin-sam .yui3-slider-x .yui3-slider-rail-cap-right {
   background-image: url(../images/slider/rail-x.png) !important;
 }
 
 #pager {
   width: 100%;
-  position: fixed;
-  bottom: 0;
-  z-index: 999999;
+  flex: 0 0 40px;
+  height:40px;
   background-color: $light-background;
   @include embossed-gradient($slider-overlay, $slider-topbackground, $slider-bottombackground);
   color: #333;
@@ -22,7 +22,7 @@
     text-align: center;
     padding: 0;
     border: 1px solid;
-    border-color: #aaa  #fff #fff #aaa;
+    border-color: #aaa #fff #fff #aaa;
     @include border-radius(3px);
     cursor: text;
     color: #444;
@@ -31,7 +31,8 @@
   form {
     display: inline;
   }
-  form + span, form + span + span {
+  form + span,
+  form + span + span {
     @include bv-text-shadow(embossed-text-shadow);
     font-weight: bold;
     color: #444;
