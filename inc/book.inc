@@ -41,12 +41,12 @@ function dlts_viewer_dispatch_thumbnails($identifier) {
     $current_page = pager_default_initialize($count, $per_page);
     // Pager
     $pager = theme('thumbnails_pager', array('quantity' => $count));
-    
+
     $placeholder = $GLOBALS['base_url'] . '/' . drupal_get_path('module', 'dlts_viewer') . '/images/loadhold.png';
-    
+
     $output = theme('dlts_book_thumbnails', array(
-      'items' => $items, 
-      'pager' => $pager, 
+      'items' => $items,
+      'pager' => $pager,
       'sequence' => $sequence,
       'placeholder' => $placeholder,
       )
@@ -222,9 +222,12 @@ function dlts_viewer_dispatcher($entity, $arg) {
   	$entity->read_order = ($int_read_order == 1) ? 'rtl' : 'ltr';
 
   	$next_page = $sequence_max + 1;
-  	$previous_page = $sequence_min - 1;
-  	$previous_page_active = TRUE;
-  	$next_page_active = TRUE;
+
+		$previous_page = $sequence_min - 1;
+
+		$previous_page_active = TRUE;
+
+		$next_page_active = TRUE;
 
   	if ($previous_page < 1) {
   		$previous_page = 1;
@@ -232,18 +235,11 @@ function dlts_viewer_dispatcher($entity, $arg) {
 
   	if ($next_page > $sequence_count) {
   		$next_page = $sequence_count;
-  	}
-
-  	if ($next_page >= $sequence_count) {
   		$next_page_active = FALSE;
   	}
 
   	if ($sequence_max == 1) {
   		$previous_page_active = FALSE;
-  	}
-
-  	if ($next_page >= $sequence_count ) {
-  		$next_page_active = FALSE;
   	}
 
   	/** next page */
@@ -378,11 +374,11 @@ function dlts_viewer_dispatcher($entity, $arg) {
   	$entity->pageView = ($is_single_page) ? 'single' : 'double';
 
   	$arg['pageView'] = $entity->pageView;
-  	
+
   	$arg['thumbnailsUrl'] = $entity->thumbnailsURL;
-  	
+
   	$arg['thumbnailsRows'] = $entity->thumbnailsRows;
-  	
+
   	$arg['thumbnailsPage'] = $entity->thumbnailsPage;
 
   	$entity->book_page = theme('dlts_viewer_openlayers_image' , array('file' => $arg));
