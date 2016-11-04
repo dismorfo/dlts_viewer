@@ -177,6 +177,30 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   /** multi-value field */
   dlts_solr_index_book_partners($wrapper->field_partner->value(), $document, $entity, $searchableFields);
 
+
+  // start for now
+  // move from here aof( Aug 24, 2016)
+  /**
+  $books_series = dlts_solr_series_book_by_book_nid($entity);
+  if ($books_series) {
+  	//$document->addField( 'is_ispartof_series', 1 ) ;
+  	foreach ( $books_series as $book_series ) {
+  		$entity_book_series = node_load ( $book_series ) ;
+  		$series = dlts_solr_series_book_get_series ( $entity_book_series ) ;
+  		$series_volume = dlts_solr_series_get_volume ( $entity_book_series ) ;
+      $series_identifier = trim ( dlts_solr_series_get_identifier( $series ) ) ;  		
+  		$document->addField( 'sm_series_label', $series->title . ' v. ' . $series_volume ) ;
+  		$document->addField( 'sm_series_identifier', $series_identifier ) ;
+  		$document->addField('iass_series_' . $series_identifier, $series_volume );
+  		$document->addField('zm_series_data' , json_encode ( array ( 'label' => $series->title , 'identifier' =>  $series_identifier, 'volume' => $series_volume ) ) ) ;
+  	}
+  }
+  unset($books_series);
+  unset($entity_book_series);  
+  unset($series);    
+  unset($series_identifier);
+  // end for now
+  */
   dlts_solr_index_book_series($document, $entity, $searchableFields);
 
   /** ISBN (field_isbn) */
@@ -432,21 +456,7 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   }
   unset($field_language);
   unset($language);
-  /**
-  if ($books_series) {
-  	$document->addField( 'is_ispartof_series', 1 ) ;
-  	foreach ( $books_series as $book_series ) {
-  		$entity_book_series = node_load ( $book_series ) ;
-  		$series = dlts_utilities_series_book_get_series ( $entity_book_series ) ;
-  		$series_volume = dlts_utilities_series_get_volume ( $entity_book_series ) ;
-  		$series_identifier = trim ( dlts_utilities_series_get_identifier ( $series ) ) ;
-  		$document->addField( 'sm_series_label', $series->title . ' v. ' . $series_volume ) ;
-  		$document->addField( 'sm_series_identifier', $series_identifier ) ;
-  		$document->addField('iass_series_' . $series_identifier, $series_volume );
-  		$document->addField('zm_series_data' , json_encode ( array ( 'label' => $series->title , 'identifier' =>  $series_identifier, 'volume' => $series_volume ) ) ) ;
-  	}
-  }
-  */
+
   /** Single value fields */
   //Remove combining diacritics
   $document->addField('ss_title', $book_field_title);
