@@ -11,10 +11,11 @@ YUI().use(
   , 'crossframe'
   , function(Y) {
   'use strict';
+
   /** set a X-PJAX HTTP header for all IO requests */
   Y.io.header('X-PJAX', 'true');
   var PJAX_INVALID = -1;
-  var PJAX_UNKNOWN_ERROR = -2;    
+  var PJAX_UNKNOWN_ERROR = -2;
   var html = Y.one('html');
   var top = Y.one('#top');
   var pagemeta = Y.one('.pane.pagemeta');
@@ -28,34 +29,16 @@ YUI().use(
   var slider_datasource = Y.one('#slider_value');
   /** slider object */
   var slider = new Y.Slider({
-    axis: 'x', 
+    axis: 'x',
     min: 1,
-    dir: land_dir, 
-    clickableRail: false, 
-    max: sequenceCount, 
-    value: sequence, 
-    length:(Y.one('#pager').get('offsetWidth') - 120) + 'px' 
+    dir: land_dir,
+    clickableRail: false,
+    max: sequenceCount,
+    value: sequence,
+    length:(Y.one('#pager').get('offsetWidth') - 120) + 'px'
   });
   /** nodes */
-    function resizePageMeta() {
-      slider.set('length' ,(Y.one('#pager').get('offsetWidth') - 120 ));
-       var viewportHeight = this.get('winHeight'),
-        adminBarHeight = 0,
-        // topHeight = Y.one('#top').get('offsetHeight'),
-        navbarHeight = Y.one('#navbar').get('offsetHeight'),
-        pageHeight = Y.one('#pager').get('offsetHeight'),
-        nodeAdminMenu = Y.one('#admin-menu'),
-        sidebarHeight
-      ; /** definition list end */
-      if (nodeAdminMenu) {
-        adminBarHeight =  nodeAdminMenu.get('offsetHeight') ;
-      }
-      //sidebarHeight = viewportHeight - (adminBarHeight + topHeight + navbarHeight + pageHeight);
-      sidebarHeight = viewportHeight - (adminBarHeight + navbarHeight + pageHeight);
-      Y.one('#pagemeta').setStyles({
-        'height': sidebarHeight
-      });
-    }
+
     function on_toggle_language(e) {
       var current_target = e.currentTarget;
       var data_target = current_target.get('value');
@@ -85,8 +68,8 @@ YUI().use(
       e.preventDefault();
       var self = this;
       var current_target = e.currentTarget;
-      var event_prefix; 
-      var event_id; 
+      var event_prefix;
+      var event_id;
       var node_target;
       var data_target;
       /** don't waste time if the button is inactive */
@@ -113,7 +96,7 @@ YUI().use(
           });
         }
         Y.fire(event_prefix + ':off', e);
-      } 
+      }
       else {
         self.addClass('on');
         if (Y.Lang.isObject(node_target)) {
@@ -133,17 +116,17 @@ YUI().use(
       var css_class;
       if (value.match(/\D/)) {
         css_class = 'error';
-      } 
+      }
       else {
         value = parseInt(value, 10);
         if (value !== current &&(value > 0 && value <= sequenceCount )) {
           css_class = 'ok';
           pjax.navigate(bookUrl + '/' +  value);
-        } 
+        }
         else {
           if (value !== current) {
             css_class = 'error';
-          } 
+          }
           else {
             css_class = 'warning';
           }
@@ -180,7 +163,7 @@ YUI().use(
       if (!Y.Lang.isValue(slider.triggerBy)) {
         pjax.navigate(request);
         /** slider set focus to the slider rail, blur as soon as possible so that user can use the keyboard to read the book */
-        Y.soon(function() { 
+        Y.soon(function() {
           slider.thumb.blur();
         });
       }
@@ -194,13 +177,13 @@ YUI().use(
       var msg = e.url.replace(bookUrl, '' ).replace('/' , '');
       if (/(^[\d]+$){1}/.test(msg ) || /(^[\d]+-[\d]+$){1}/.test(msg)) {
         this.one('.current_page').set('text', msg);
-      } 
+      }
       this.addClass('loading').show();
     }
 
-    /** 
-     * pjax callback can be call by clicking a pjax 
-     * enable link or by reference with data-url 
+    /**
+     * pjax callback can be call by clicking a pjax
+     * enable link or by reference with data-url
      */
     function pjax_callback(e) {
       var url;
@@ -217,24 +200,24 @@ YUI().use(
         url = this.get('href');
       }
       /** request URL */
-      pjax.navigate(url);      
+      pjax.navigate(url);
       Y.fire('button:button-thumbnails:off');
     }
-    
+
     function PjaxException(value) {
       this.value = value;
       this.message = "does not conform to the expected format for a PJAX request";
       this.toString = function() {
         return this.value + ' ' + this.message;
       };
-    }    
+    }
 
     function pjax_load(e) {
-      var config = {};    
+      var config = {};
       var node = e.content.node;
       var toggle = Y.one('.navbar-item .toggle');
       var next = Y.one('.navbar-item .next');
-      var previous = Y.one('.navbar-item .previous');      
+      var previous = Y.one('.navbar-item .previous');
       try {
         /** check if request include a map object */
         var map = node.one('.dlts_viewer_map');
@@ -277,13 +260,13 @@ YUI().use(
       catch(e) {
         if (e instanceof PjaxException) {
           return PJAX_INVALID;
-        } 
+        }
         else {
           return PJAX_UNKNOWN_ERROR;
-        }        
+        }
       }
     }
-    
+
     function fullscreenOn(e) {
       var docElm = document.documentElement;
       var metadata = Y.one('.pagemeta');
@@ -305,7 +288,7 @@ YUI().use(
         docElm.webkitRequestFullScreen();
       }
       if (top) {
-        top.addClass('hidden');      
+        top.addClass('hidden');
       }
       Y.CrossFrame.postMessage("parent", JSON.stringify({fire: 'button:button-fullscreen:on'}));
     }
@@ -315,7 +298,7 @@ YUI().use(
       var top = Y.one('.top');
       if (document.exitFullscreen) {
         document.exitFullscreen();
-      }      
+      }
       else if (document.msExitFullscreen) {
         document.msExitFullscreen();
       }
@@ -329,10 +312,10 @@ YUI().use(
         fullscreenButton.blur();
       }
       if (top) {
-        top.removeClass('hidden');      
+        top.removeClass('hidden');
       }
       Y.CrossFrame.postMessage("parent", JSON.stringify({fire: 'button:button-fullscreen:off'}));
-    }    
+    }
 
     function change_page(config) {
       var map;
@@ -359,19 +342,19 @@ YUI().use(
         });
       }, '#' + config.id);
     }
-    
+
     function onButtonMetadataOn(e) {
       this.removeClass('hidden');
       this.ancestor('.pane-body').removeClass('pagemeta-hidden');
       Y.CrossFrame.postMessage("parent", JSON.stringify({fire: 'button:button-metadata:on'}));
     }
-    
+
     function onButtonMetadataOff(e) {
       this.addClass('hidden');
       this.ancestor('.pane-body').addClass('pagemeta-hidden');
       Y.CrossFrame.postMessage("parent", JSON.stringify({fire: 'button:button-metadata:off'}));
-    }    
-    
+    }
+
     function openLayersTilesLoading() {
       if (Y.one('body').hasClass('openlayers-loading' )) {
         Y.later(500, Y.one('.pane.load'), openLayersTilesLoading);
@@ -385,14 +368,14 @@ YUI().use(
       var page_title = Y.one('#page-title') ;
       var sequence = conf.sequence;
       var thumbnails = false;
-      var currentPage = false;   
-      var node = false;   
+      var currentPage = false;
+      var node = false;
       if (page_title) {
         page_title.set('text', conf.title);
       }
       slider.triggerBy = 'pjax:load:available';
       slider.set('value', parseInt(sequence, 10));
-      Y.one('#slider_value').set('value', sequence);      
+      Y.one('#slider_value').set('value', sequence);
       var thumbnails = Y.one('.view-book-thumbnails');
       if (thumbnails) {
         currentPage = thumbnails.one('.current-page');
@@ -405,7 +388,7 @@ YUI().use(
         }
       }
     }
-    
+
     function onButtonThumbnailsOnIOStart(e) {
       var thumbnails = Y.one('#thumbnails');
       if (thumbnails) {
@@ -418,13 +401,13 @@ YUI().use(
       var map = Y.one('.dlts_viewer_map').getData();
       Y.io(map['thumbnails-url'], {
         data: 'page=' + map['thumbnails-page'] + '&rows=' + map['thumbnails-rows'] + '&sequence=' + map['sequence'],
-        on: { 
+        on: {
           start: onButtonThumbnailsOnIOStart,
-          complete: onThumbnailsOnSuccess } 
+          complete: onThumbnailsOnSuccess }
         }
       );
     }
-    
+
     function onButtonThumbnailsOff(e) {
       var thumbnails = Y.one('#thumbnails');
       var button = Y.one('#button-thumbnails');
@@ -434,7 +417,7 @@ YUI().use(
         button.removeClass('on');
       }
       if (thumbnails) {
-        thumbnails.addClass('hidden'); 
+        thumbnails.addClass('hidden');
         currentPage = thumbnails.one('.current-page');
         if (currentPage) {
           currentPage.removeClass('current-page');
@@ -446,12 +429,12 @@ YUI().use(
       e.preventDefault();
       pjax.navigate(e.currentTarget.get('href'));
     }
-    
+
     function onThumbnailsPagePagerClick(e) {
       var url;
       e.preventDefault();
       /** test if the target is not active */
-      if (e.currentTarget.hasClass('inactive')) { 
+      if (e.currentTarget.hasClass('inactive')) {
         return false;
       }
       if (e.currentTarget.hasClass('close')) {
@@ -467,16 +450,16 @@ YUI().use(
         url = this.get('href');
       }
       /** request new page */
-      Y.io(url, { on : { 
-    	  start: onThumbnailsPageStart, 
-    	  end: onThumbnailsPageEnd, 
-    	  complete: onThumbnailsPageComplete, 
-    	  success: onThumbnailsPageSuccess, 
-    	  failure: onThumbnailsPageFailure 
-    	} 
+      Y.io(url, { on : {
+    	  start: onThumbnailsPageStart,
+    	  end: onThumbnailsPageEnd,
+    	  complete: onThumbnailsPageComplete,
+    	  success: onThumbnailsPageSuccess,
+    	  failure: onThumbnailsPageFailure
+    	}
       });
     }
-    
+
     // remove content
     function onThumbnailsPageComplete(id, response, args) {
       Y.one('.thumbnails-container').empty();
@@ -487,7 +470,7 @@ YUI().use(
       Y.one('.thumbnails-container').addClass('io-loading');
     }
 
-    // remove loading effect        
+    // remove loading effect
     function onThumbnailsPageEnd() {
       Y.one('.thumbnails-container').removeClass('io-loading');
     }
@@ -498,7 +481,7 @@ YUI().use(
 
     function onThumbnailsPageFailure(id, request)  {
       Y.log('failure');
-    }    
+    }
 
     function onThumbnailsOnSuccess(id, request) {
       var node = Y.one('#thumbnails');
@@ -507,11 +490,11 @@ YUI().use(
         node.addClass('active');
       }
     }
-    
+
     /** render the slider and plug-ins */
 
     /** events listeners */
-    
+
     slider.render('#slider');
 
     slider.after('valueChange', slide_value_change);
@@ -522,20 +505,20 @@ YUI().use(
 
     Y.one('.pane.pager').delegate('submit', pager_form, 'form', slider_datasource);
 
-    /** 
-     * Pjax object to request new book pages; the content from 
-     * successful requests will be appended to "display" pane 
+    /**
+     * Pjax object to request new book pages; the content from
+     * successful requests will be appended to "display" pane
      */
     var pjax = new Y.Pjax({ container: '.pane.display' });
 
     pjax.on('load', pjax_load);
 
     pjax.on('navigate', pjax_navigate, Y.one('.pane.load'));
-    
+
     html.delegate('click', on_button_click, 'a.button');
 
     html.delegate('click', pjax_callback, 'a.paging');
-    
+
     Y.on('pjax:change|openlayers:next|openlayers:previous', pjax_callback);
 
     Y.on('button:button-metadata:on', onButtonMetadataOn , pagemeta);
@@ -548,10 +531,6 @@ YUI().use(
 
     Y.once('contentready', openLayersTilesLoading, '.dlts_viewer_map');
 
-    Y.on('contentready', resizePageMeta, '#pagemeta');
-
-    Y.on('windowresize', resizePageMeta);
-
     /** Thumbnails related events */
     Y.on('button:button-thumbnails:on', onButtonThumbnailsOn);
 
@@ -562,7 +541,7 @@ YUI().use(
     Y.one('body').delegate('click', onThumbnailsPagePagerClick, '#thumbnails .pager a');
 
     Y.delegate('change', on_toggle_language, 'body', '.language');
-    
+
     // https://github.com/josephj/yui3-crossframe
     function onSelectMVChange(e) {
       e.halt();
@@ -570,12 +549,17 @@ YUI().use(
       var value = currentTarget.one(':checked').get('value');
       var url = value.substring(value.indexOf('::') + 2, value.length);
       var data = { url : url };
-      Y.CrossFrame.postMessage('parent', JSON.stringify({ fire: 'change:option:multivolume', data }));
+      if (window.self === window.top) {
+        pjax.navigate(url);
+      }
+      else {
+        Y.CrossFrame.postMessage('parent', JSON.stringify({ fire: 'change:option:multivolume', data }));
+      }
     }
-    
+
     // we need to remove all jQuery events for this node (DOM)
     jQuery('.field-name-mv-2016 *').unbind();
-    
+
     Y.delegate('change', onSelectMVChange, 'body', '.field-name-mv-2016 form');
 
 });
