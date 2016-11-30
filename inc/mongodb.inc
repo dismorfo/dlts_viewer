@@ -31,6 +31,18 @@ function dlts_viewer_mongodb_new_sequence($arguments, $collection_name = 'dlts_b
 	return dlts_viewer_mongodb_update_sequence($arguments, $collection_name);
 }
 
+function dlts_viewer_mongodb_load_by_identifier($identifier, $collection_name) {
+
+  $query = (object) array('identifier' => $identifier);
+
+  $cursor = mongodb_collection($collection_name);
+
+  $result = $cursor->findOne($query);
+
+  return $result;
+
+}
+
 function dlts_viewer_mongodb_load_sequence($sequence, $isPartOf, $collection_name = 'dlts_books_page') {
 	// make sure we have a number
 	$sequence = (int) $sequence;

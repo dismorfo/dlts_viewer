@@ -26,7 +26,7 @@
  *
  * Helper variables:
  * - $classes_array: Array of html class attribute values. It is flattened
- *   into a string within the variable $classes.  
+ *   into a string within the variable $classes.
  * - $block_zebra: Outputs 'odd' and 'even' dependent on each block region.
  * - $zebra: Same output as $block_zebra but independent of any block region.
  * - $block_id: Counter dependent on each block region.

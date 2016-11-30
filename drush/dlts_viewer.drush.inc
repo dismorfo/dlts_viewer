@@ -40,20 +40,20 @@ function dlts_viewer_drush_command() {
       'git-worktree' => dt('Git repo directory  work tree'),
       'git-branch' => dt('Project branch'), // @TODO: not implemented
   	),
-  );  
+  );
   $items['import-add-book-queue'] = array(
     'callback' => 'dlts_viewer_add_json_documents_queue',
     'description' => dt('Something nice will be here'),
     'options' => array(
       'source' => dt('Book source'),
-      'legacy' => dt('Create book using legacy JSON documents.'),       
+      'legacy' => dt('Create book using legacy JSON documents.'),
     ),
   );
   $items['import-free-queue'] = array(
     'callback' => 'dlts_viewer_free_json_documents_queue',
     'description' => dt('Import book from a git repository'),
     'options' => array(
-      'pages' => dt('Create pages.'),     
+      'pages' => dt('Create pages.'),
     ),
   );
   return $items;
@@ -119,7 +119,7 @@ function dlts_viewer_json_documents($language = 'en', $limit = 100) {
 	  ->condition('proceed', '0')
 	  ->condition('language', $language)
     ->orderBy('created', 'DESC')
-    ->range(0,$limit);	  
+    ->range(0,$limit);
   return $query->execute()->fetchAll();
 }
 
@@ -130,7 +130,7 @@ function dlts_viewer_free_json_documents_queue($limit = 100) {
   $language = 'en';
   $results = dlts_viewer_json_documents($language, $limit);
   if (count($results) < 1) {
-    $language = 'ar';  
+    $language = 'ar';
     $results = dlts_viewer_json_documents($language, $limit);
     if (count($results) < 1) return;
   }
@@ -144,7 +144,7 @@ function dlts_viewer_free_json_documents_queue($limit = 100) {
   	        'nid' => $node->nid,
   		      'proceed' => 1,
   		      'created' =>  $node->created,
-  		      'changed' => $node->changed	    
+  		      'changed' => $node->changed
   	      );
 	  		  db_update('dlts_viewer_books_json')->fields($fields)->condition('identifier', $result->identifier, '=')->condition('language', $language, '=')->execute();
 	  	  }
@@ -167,7 +167,7 @@ function dlts_viewer_add_json_documents_queue() {
   $legacy = (drush_get_option('legacy', FALSE)) ? 1 : 0;
   if (is_dir($source)) {
     $uniqid = uniqid();
-    $files = file_scan_directory($source, '/\.json/', array('recurse' => FALSE));  
+    $files = file_scan_directory($source, '/\.json/', array('recurse' => FALSE));
     foreach ($files as $file) {
       $json_string = file_get_contents($file->uri);
       if ($json_string) {
@@ -182,13 +182,13 @@ function dlts_viewer_add_json_documents_queue() {
   	    $fields = array(
   	      'nid' => 0,
   		    'hash' => $uniqid,
-  		    'identifier' => $data->identifier,  		    
+  		    'identifier' => $data->identifier,
   		    'document'=> $file->uri,
   		    'language' => $entity_language,
   		    'proceed' => 0,
   		    'created' => 0,
   		    'changed' => 0,
-  		    'legacy' => $legacy,  		    
+  		    'legacy' => $legacy,
   	    );
   		  db_insert('dlts_viewer_books_json')->fields($fields)->execute();
         unset($json_string);

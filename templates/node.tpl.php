@@ -14,7 +14,6 @@
   </div>
   <div class="pane load loading"><?php if (isset($loading)) print $loading; ?></div>
 </div>
-
 <?php if (isset($read_order)) : ?>
   <div dir="<?php if (isset($read_order)) print $read_order ; else print 'ltr' ?>" id="pager" class="pane pager">
     <?php if (isset($slider)) : print $slider ; endif; ?>

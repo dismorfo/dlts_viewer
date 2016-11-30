@@ -17,7 +17,6 @@ dependencies[] = date_all_day
 dependencies[] = date_api
 dependencies[] = dblog
 dependencies[] = diff
-dependencies[] = dlts_nodeapi
 dependencies[] = ds
 dependencies[] = ds_extras
 dependencies[] = ds_ui

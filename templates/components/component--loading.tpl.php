@@ -8,4 +8,4 @@
   <span id="squaresWaveG_7" class="squaresWaveG"></span>
   <span id="squaresWaveG_8" class="squaresWaveG"></span>
 </div>
-<p><?php print t('Loading Page') ?> <span class="current_page"><?php print $sequence_number; ?></span></p>
+<p><?php print t('Loading Page') ?> <span class="current_page"><?php print $sequence_number ?></span></p>
