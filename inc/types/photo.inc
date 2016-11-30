@@ -38,9 +38,9 @@ function dlts_viewer_full_photo_view(&$entity) {
 		'levels' => $entity->data['levels'],
 		'dwtLevels' => $entity->data['dwtLevels'],
 		'compositingLayerCount' => $entity->data['compositingLayerCount'],
-		'thumbnails-url' => $thumbnailsURL,
-		'thumbnails-rows' => $thumbnailsRows,
-		'thumbnails-page' => $thumbnailsPage,
+		'thumbnails-url' => $entity->thumbnailsURL,
+		'thumbnails-rows' => $entity->thumbnailsRows,
+		'thumbnails-page' => $entity->thumbnailsPage,
 	);
 
 	$vars = array(
@@ -60,19 +60,17 @@ function dlts_viewer_full_photo_view(&$entity) {
 		'data_attributes' => $data_attributes,
   );
 
-	//$book_page = theme('viewer_map', $vars);
-
   $viewer = array(
 	  'slider' => $entity->slider,
-    'book_page' => $entity->book_page,
+    'book_page' => $entity->map,
+		'map' => theme('viewer_map', $vars),
 		'language_dir' => $entity->lang_dir,
 		'pagemeta' => NULL,
 		'navbar' => $entity->navbar,
-		'url' => $url,
-		'identifier' => $identifier,
-		'title' => $title,
-		'loading' => $loading,
-		'thumbnails' => $thumbnails,
+		'url' => $entity->url,
+		'identifier' => $entity->identifier,
+		'title' => $entity->title,
+		'loading' => $entity->loading,
 	);
 
   return theme('viewer', $viewer);
@@ -85,10 +83,17 @@ function dlts_viewer_pjax_photo_view(&$entity) {
 
 function dlts_viewer_photo_dispatcher($entity) {
 
+	$sequence = array(1); // for now
+
+  $sequence_count = count($sequence);
+
+	$sequence_number = array_shift($sequence);
+
 	// check request type
 	$is_pjax = dlts_viewer_is_pjax();
 
-  $lang_dir = dlts_viewer_viewer_language();
+	// get query parameters
+	$query_parameters = drupal_get_query_parameters();
 
 	// type of request
   $display_type = 'photo_page';
@@ -103,22 +108,15 @@ function dlts_viewer_photo_dispatcher($entity) {
 
 	$entity->data = $data;
 
-  // identifier
-	$identifier = $entity->identifier;
-
-	// get query parameters
-	$query_parameters = drupal_get_query_parameters();
+	$entity->lang_dir = dlts_viewer_viewer_language();
 
   // set entity title
-	drupal_set_title($identifier);
+	drupal_set_title($entity->identifier);
 
-	$entity->title = $identifier;
+	$entity->title = $entity->identifier;
 
-	// book URL
-	$url = url('photos/' . $identifier, array('absolute' => TRUE));
-
-	// set $url so that .tpl.php can use it
-	$entity->url = $url;
+	// Book URL. Set $url so that .tpl.php can use it
+	$entity->url = url('photos/' . $entity->identifier, array('absolute' => TRUE));
 
 	$thumbnails_rows_per_page = 10;
 
@@ -128,7 +126,7 @@ function dlts_viewer_photo_dispatcher($entity) {
 
 	$button_fullscreen_options = array(
   	'title' => t('Toggle fullscreen'),
-  	'path' => $url,
+  	'path' => $entity->url,
   	'attributes' => array(
   		'data-title' => t('Toggle fullscreen'),
   		'title' => t('Toggle fullscreen'),
@@ -140,7 +138,7 @@ function dlts_viewer_photo_dispatcher($entity) {
 
 	$button_thumbnails_options = array(
   	'title' => t('Pages'),
-  	'path' => $url,
+  	'path' => $entity->url,
   	'attributes' => array(
   		'data-title' => t('Select page'),
   		'title' => t('Select page'),
@@ -172,33 +170,31 @@ function dlts_viewer_photo_dispatcher($entity) {
 
 	$slider_options = array(
 		'slider_id' => 'slider',
-		'uri' => $url,
-		'lang_dir' => $lang_dir,
-		'sequence_number' => 1,
-		'sequence_count' => 1
+		'uri' => $entity->url,
+		'lang_dir' => $entity->lang_dir,
+		'sequence_number' => $sequence_number,
+		'sequence_count' => $sequence_count
 	);
 
-	$page = 1;
-
-	$entity->lang_dir = $lang_dir;
-
-	$entity->thumbnailsPage = ceil($page / $thumbnails_rows_per_page) - 1;
+	$entity->thumbnailsPage = ceil($sequence_number / $thumbnails_rows_per_page) - 1;
 
 	$entity->thumbnailsRows = $thumbnails_rows_per_page;
 
-	$entity->thumbnailsURL = $url . '/thumbnails';
+	$entity->thumbnailsURL = $entity->url . '/thumbnails';
 
-	$arg['thumbnailsUrl'] = $entity->thumbnailsURL;
+	$data['thumbnailsUrl'] = $entity->thumbnailsURL;
 
-	$arg['thumbnailsRows'] = $entity->thumbnailsRows;
+	$data['thumbnailsRows'] = $entity->thumbnailsRows;
 
-	$arg['thumbnailsPage'] = $entity->thumbnailsPage;
+	$data['thumbnailsPage'] = $entity->thumbnailsPage;
+
+	$data['sequence'] = $sequence;
 
 	$book_page_options = array(
 		'file' => $data
 	);
 
-	$entity->book_page = theme('dlts_viewer_openlayers_image', $book_page_options);
+	$entity->map = theme('dlts_viewer_openlayers_image', $book_page_options);
 
 	$entity->slider = theme('dlts_viewer_slider', $slider_options);
 
@@ -212,4 +208,12 @@ function dlts_viewer_photo_dispatcher($entity) {
   		break;
   }
 
+}
+
+function dlts_viewer_preprocess_html_photos(&$vars) {
+  dlts_viewer_preprocess_html_photo($vars);
+}
+
+function dlts_viewer_preprocess_html_photo(&$vars) {
+  $vars['classes_array'][] = 'photo';
 }

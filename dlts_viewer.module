@@ -6,8 +6,6 @@
  * https://github.com/NYULibraries/dlts_viewer
  */
 
-define("DLTS_VIEWER_MODULE", drupal_get_path('module', 'dlts_viewer'));
-
 /**
  * Load MongoDB helper
  */
@@ -84,7 +82,12 @@ function dlts_viewer_custom_theme() {
    * Use Tao as the base theme
    * https://www.drupal.org/project/tao
    */
-  if (arg(0) != 'admin') {
+  $arg = arg(0);
+
+  if ($arg == 'user' || $arg == 'admin') {
+    return 'rubik';
+  }
+  else {
     return 'tao';
   }
 }
@@ -153,6 +156,23 @@ function dlts_viewer_preprocess_html(&$vars) {
     /** default Viewer PJAX HTML template */
     $vars['theme_hook_suggestions'][] = 'html__viewer_pjax';
   }
+
+  $vars['classes_array'][] = 'yui3-skin-sam';
+
+  /**
+   * We use Drupal to render objects from MongoDB that don't have a record register
+   * in Drupal's database. We don't want Drupal to manage this records. We need a
+   * way to "HOOK" in different stages when the objects it's being render. In this
+   * case we want to allowed changes to hook_preprocess_html
+   */
+   $call_suggestion = array_shift($vars['theme_hook_suggestions']);
+   if ($call_suggestion) {
+     $call_suggestion = str_replace('html__', '', $call_suggestion);
+     $function_to_call = __FUNCTION__ . '_' . $call_suggestion;
+     if (function_exists($function_to_call)) {
+   	  $function_to_call($vars);
+   	}
+   }
 }
 
 /**

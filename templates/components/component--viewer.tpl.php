@@ -11,14 +11,7 @@
       </div>
     </div>
   <?php endif; ?>
-  <div id="display"
-       class="pane display"
-       data-title="<?php print $title ?>"
-       data-url="<?php print $url ?>"
-       data-identifier="<?php print $identifier ?>"
-       data-sequence-count="<?php print $sequence_count ?>"
-       data-sequence="<?php print $book_page_sequence_number ?>"
-  >
+  <div id="display" class="pane display">
     <?php if (isset($book_page)) : ?>
       <?php print $book_page ?>
     <?php endif; ?>

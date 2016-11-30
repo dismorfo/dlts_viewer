@@ -12,7 +12,7 @@
  */
 function dlts_viewer_menu() {
   $menu = array();
-  foreach (file_scan_directory(DLTS_VIEWER_MODULE . '/inc/routes', '/.*\.inc$/') as $absolute => $file) {
+  foreach (file_scan_directory(drupal_get_path('module', 'dlts_viewer') . '/inc/routes', '/.*\.inc$/') as $absolute => $file) {
     include_once $absolute;
     $callback = '_dlts_viewer_menu_' . $file->name;
     if (function_exists($callback)) {

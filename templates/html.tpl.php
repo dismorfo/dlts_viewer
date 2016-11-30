@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="<?php print $language_dir ?>" class="yui3-skin-sam">
+<html dir="<?php print $language_dir ?>" class="<?php print $classes; ?>">
 <head>
   <?php print $head ?>
   <title><?php print $head_title ?></title>

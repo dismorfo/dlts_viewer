@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Views (module) 
+ * Views (module)
  *
  * https://www.drupal.org/project/views
  * https://api.drupal.org/api/views/views.api.php
@@ -26,4 +26,3 @@ function dlts_viewer_views_pre_render(&$view) {
 		}
 	}
 }
-
