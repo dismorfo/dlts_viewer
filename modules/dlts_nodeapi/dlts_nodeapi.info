@@ -1,0 +1,8 @@
+name = DLTS Drupal Node API
+description = Supports API for RSTAR and other DLTS Services
+package = DLTS
+project = "dlts"
+
+
+core = "7.x"
+version = "7.x-dev"
