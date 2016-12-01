@@ -13,7 +13,7 @@ function _dlts_viewer_menu_admin() {
       'page callback' => 'drupal_get_form',
       'page arguments' => array('dlts_viewer_admin'),
       'access arguments' => array('administer fileserver'),
-      'file' => DLTS_VIEWER_MODULE . '/inc/admin.inc',
+      'file' => 'inc/admin.inc',
     ),
   );
 
