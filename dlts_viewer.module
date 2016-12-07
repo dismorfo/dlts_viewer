@@ -530,7 +530,10 @@ function dlts_viewer_flush_caches() {
  * http://api.drupal.org/api/drupal/modules--aggregator--aggregator.module/function/aggregator_cron/7
  */
 function dlts_viewer_cron() {
- if (function_exists('drush_log')) drush_log(__FUNCTION__,'ok');
+ //if (function_exists('drush_log')) drush_log(__FUNCTION__,'ok');
+ //$env_id = 'solr';
+ //$bundle = 'dlts_series';
+ //apachesolr_index_node_solr_reindex($env_id, $bundle); 
 }
 
 /**
