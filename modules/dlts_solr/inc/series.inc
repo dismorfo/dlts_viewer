@@ -64,9 +64,7 @@ function dlts_solr_index_series($document, $entity, $entity_type, $env_id) {
 
 // leave around until I can remove
 // remove this aof1
-function ____FNOT_TO_BE_USE () {
-/** needs work */
-
+function ____NOT_TO_BE_USE () {
 $series_data = array () ;
 
 $series_data['collections'] = array () ;

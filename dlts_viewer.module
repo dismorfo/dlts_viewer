@@ -531,9 +531,9 @@ function dlts_viewer_flush_caches() {
  */
 function dlts_viewer_cron() {
  //if (function_exists('drush_log')) drush_log(__FUNCTION__,'ok');
+ //$env_id = 'solr';
  //$bundle = 'dlts_series';
- //$bundle = 'dlts_book'; 
- //apachesolr_index_node_solr_reindex(apachesolr_default_environment(), $bundle);
+ //apachesolr_index_node_solr_reindex($env_id, $bundle); 
 }
 
 /**
