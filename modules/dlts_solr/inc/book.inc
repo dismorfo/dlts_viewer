@@ -130,23 +130,75 @@ function dlts_solr_index_book_partners($items = array(), &$document, &$entity, &
 }
 
 function dlts_solr_index_book_series($document, $entity, $searchableFields) {
+	
 	$language = $entity->language;
+	
 	$prefix = '';
+	
 	if ($language != 'en') {
 		$prefix = $language . '_';
 	}
-	/** check if this books is part of a series */
+	
+	/** 
+	 * Pass entity as reference and check if this books is part of a series.
+	 * If book belong to a series, populat isSeriesBook
+	 */
 	dlts_viewer_is_series_book($entity);
+	
 	if ($entity->isSeriesBook) {
+		/**
+	   * Book is part of a series
+	   */
 		$document->addField('is_ispartofseries', 1);
+		
 		foreach ($entity->seriesBook as $series_book) {
+
 		  $label = t('@label part of series @series', array('@label'=> $series_book['volume_label'], '@series' => $series_book['series']));
+		  
 		  $searchableFields[] = $label;
+
+		  $document->addField('sm_' . $prefix . 'series_book', $label);		  
+
 		  $document->addField('sm_' . $prefix . 'series', $series_book['series']);
+
 		  $document->addField('sm_' . $prefix . 'series_label', $series_book['volume_label']);
-		  $document->addField('sm_' . $prefix . 'series_book', $label);
+
+		  $document->addField('sm_' . $prefix . 'series_identifier', $series_book['series_identifier']);
+
+		  $document->addField('zm_' . $prefix . 'series_data', json_encode(
+		    array(
+		      'label' => $label, 
+		      'identifier' => $series_book['series_identifier'], 
+		      'volume' => $series_book['volume_number'],
+		      'volume_number_str' => $series_book['volume_number_str']
+		  )));
 	  }
   }
+  
+  // start for now
+  // move from here aof( Aug 24, 2016)
+  /**
+  $books_series = dlts_solr_series_book_by_book_nid($entity);
+  if ($books_series) {
+  	//$document->addField( 'is_ispartof_series', 1 ) ;
+  	foreach ( $books_series as $book_series ) {
+  		$entity_book_series = node_load ( $book_series ) ;
+  		$series = dlts_solr_series_book_get_series ( $entity_book_series ) ;
+  		$series_volume = dlts_solr_series_get_volume ( $entity_book_series ) ;
+      $series_identifier = trim ( dlts_solr_series_get_identifier( $series ) ) ;  		
+  		$document->addField( 'sm_series_label', $series->title . ' v. ' . $series_volume ) ;
+  		$document->addField( 'sm_series_identifier', $series_identifier ) ;
+  		$document->addField('iass_series_' . $series_identifier, $series_volume );
+  		$document->addField('zm_series_data' , json_encode ( array ( 'label' => $series->title , 'identifier' =>  $series_identifier, 'volume' => $series_volume ) ) ) ;
+  	}
+  }
+  unset($books_series);
+  unset($entity_book_series);  
+  unset($series);    
+  unset($series_identifier);
+  // end for now
+  */  
+  
 }
 
 function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
@@ -174,33 +226,10 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   /** multi-value field */
   dlts_solr_index_book_collection($wrapper->field_collection->value(), $document, $entity, $searchableFields);
   /** Provider (field_partner) */
+
   /** multi-value field */
   dlts_solr_index_book_partners($wrapper->field_partner->value(), $document, $entity, $searchableFields);
 
-
-  // start for now
-  // move from here aof( Aug 24, 2016)
-  /**
-  $books_series = dlts_solr_series_book_by_book_nid($entity);
-  if ($books_series) {
-  	//$document->addField( 'is_ispartof_series', 1 ) ;
-  	foreach ( $books_series as $book_series ) {
-  		$entity_book_series = node_load ( $book_series ) ;
-  		$series = dlts_solr_series_book_get_series ( $entity_book_series ) ;
-  		$series_volume = dlts_solr_series_get_volume ( $entity_book_series ) ;
-      $series_identifier = trim ( dlts_solr_series_get_identifier( $series ) ) ;  		
-  		$document->addField( 'sm_series_label', $series->title . ' v. ' . $series_volume ) ;
-  		$document->addField( 'sm_series_identifier', $series_identifier ) ;
-  		$document->addField('iass_series_' . $series_identifier, $series_volume );
-  		$document->addField('zm_series_data' , json_encode ( array ( 'label' => $series->title , 'identifier' =>  $series_identifier, 'volume' => $series_volume ) ) ) ;
-  	}
-  }
-  unset($books_series);
-  unset($entity_book_series);  
-  unset($series);    
-  unset($series_identifier);
-  // end for now
-  */
   dlts_solr_index_book_series($document, $entity, $searchableFields);
 
   /** ISBN (field_isbn) */
