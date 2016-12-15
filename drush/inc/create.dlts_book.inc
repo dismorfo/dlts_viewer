@@ -153,6 +153,9 @@ function save_dlts_book($node, $language = 'en') {
   	if (!empty($node['number'])) {
   		$ewrapper->field_number->set($node['number']);
   	}
+  	if (!empty($node['volume'])) {
+  		$ewrapper->field_volume->set($node['volume']);
+  	}
   	if (!empty($node['call_number'])) {
   		$ewrapper->field_call_number->set($node['call_number']);
   	}
@@ -239,6 +242,10 @@ function save_dlts_book($node, $language = 'en') {
   	  $field_number = $source_node_ewrapper->field_number->value();
   	  if (!empty($field_number)) {
   	  	$ewrapper->field_number->set($field_number);
+  	  }
+  	  $field_volume = $source_node_ewrapper->field_volume->value();
+  	  if (!empty($field_volume)) {
+  	  	$ewrapper->field_volume->set($field_volume);
   	  }
   	  $field_call_number = $source_node_ewrapper->field_call_number->value();
   	  if (!empty($field_call_number)) {
@@ -679,6 +686,7 @@ function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE
       'sequence_count' => $sequence_count,
       'binding_orientation' => $binding_orientation,
       'call_number' => $call_number,
+      'volume' => $volume,
       'description' => $description,
       'dimensions' => $dimensions,
       'handle' => $handle,
