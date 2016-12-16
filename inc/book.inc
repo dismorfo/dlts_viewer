@@ -490,3 +490,170 @@ function dlts_viewer_load_object($type, $object, $name = NULL) {
   }
   return $out;
 }
+
+function dlts_book_api_book_metadata($book) {
+
+  module_load_include('inc', 'dlts_utilities', 'inc/dlts_utilities.book');
+  module_load_include('inc', 'dlts_utilities', 'inc/dlts_utilities.collection');
+
+  $type = dlts_utilities_content_types_type( $book->type );
+
+  $fields = array();
+
+  if (!is_object($book)) {
+    return array(
+      'argument' => $book,
+      'code' => 1,
+      'message' => t('Invalid book'),
+      'status' =>t('fail'),
+    );
+  }
+
+  $metadata = $subjects = $partners = $dlts_collections=array();
+
+  $ewrapper = entity_metadata_wrapper('node', $book);
+
+  foreach ( $type['fields'] as $field ) {
+
+    $name = str_replace('field_', '', $field['field_name']);
+
+    $raw_value = $ewrapper->$field['field_name']->value();
+
+    if ( $field['type'] == 'options_buttons' ) {
+      $value = $field['settings']['allowed_values'][$raw_value];
+      //convert values to binaries for some fields
+      $raw_values=array( 
+                       'scan_order'=>'Left to right',
+                       'read_order'=>'Left to right',
+                       'binding_orientation'=>'Horizontl', 
+                       );
+        if( array_key_exists($name,$raw_values)) {
+          if( in_array($value,$raw_values) ) {
+            $value='0';
+          }
+          else {
+            $value='1';
+          }
+        }
+    }
+
+    else if ( $field['type'] == 'link_field' && isset( $raw_value['url'] ) ) {
+
+      $value = $raw_value['url'];
+
+    }
+
+    else if ( $field['type'] == 'field_fileserver_link' ) {
+
+      $value = array();
+
+      foreach ( (array) $raw_value as $pdf_file) {
+        if($name=='pdf_file') {
+          $value[] = $pdf_file['uri'];
+        }
+        else {
+          $value = $raw_value['uri'];
+        }
+      }
+    }
+
+    else if ( $field['type'] == 'field_fileserver_image' ) {
+          $value = $raw_value['uri'];
+    }
+
+    else if ( $field['type'] == 'date_text' ) {
+          $value = $raw_value['value'];
+    }
+
+    else if ( $field['type'] == 'taxonomy_autocomplete' ) {
+
+      $value = array();
+
+      foreach ($raw_value as $taxonomy) {
+        $value[] = $taxonomy->name;
+      }
+
+    }
+
+    else if ( $field['type'] == 'node_reference_autocomplete' ) {
+
+      $value = array( );
+
+      foreach ($raw_value as $dlts_ref_node) {
+        $ref_node_value = array(
+                  'title'=>$dlts_ref_node->title,
+                  'type'=>$dlts_ref_node->type,
+                  'language'=> $dlts_ref_node->language,
+                  'identifier'=> $dlts_ref_node->field_identifier['und'][0]['safe_value'],
+                  'code'=>$dlts_ref_node->field_code['und'][0]['safe_value'],
+                  'name'=>$dlts_ref_node->field_name['und'][0]['safe_value'],
+                   );
+       if( $dlts_ref_node->type=='dlts_collection' ) {
+         $ref_node_value['partner']=$dlts_ref_node->field_partner['und'][0]['nid'];
+       }
+       $value[]=$ref_node_value;
+      }
+   }
+
+    else {
+       $value = $raw_value;
+    }
+
+
+    $fields[$name] = array (
+      'label' => $field['label'],
+      'value' => (array) $value,
+       'type' => $field['type'],
+       'machine_name' => $field['field_name'],
+    );
+
+  }
+    //add partner information to collection
+    $dlts_partners=$fields['partner']['value'];
+    $dlts_collections=$fields['collection']['value'];
+
+    foreach( $dlts_collections as &$dlts_collection) {
+      $dlts_partner=dlts_book_get_partner_by_nid($dlts_collection['partner']);
+      $dlts_collection['partner']= array(
+                                     'title'=>$dlts_partner->title,
+                                     'type'=>$dlts_partner->type,
+                                     'language'=> $dlts_partner->language,
+                                     'identifier'=> $dlts_partner->field_identifier['und'][0]['safe_value'],
+                                     'code'=>$dlts_partner->field_code['und'][0]['safe_value'],
+                                     'name'=>$dlts_partner->field_name['und'][0]['safe_value'],
+                                   );
+
+    }
+
+    $fields['collection']['value']=$dlts_collections;
+
+    $identifier = $fields['identifier']['value'][0];
+
+  return array(
+    'entity_title' => !empty($title) ? $title : $book->title,
+    'identifier' => $identifier,
+    'entity_language' => $book->language,
+    'entity_status' => $book->status,
+    'entity_type' => $book->type,
+    'metadata' => $fields,
+  );
+
+}
+
+
+function dlts_book_get_partner_by_nid ( $nid ) {
+
+  $query = new EntityFieldQuery;
+
+  $result = $query->entityCondition('entity_type', 'node')
+                  ->entityCondition('entity_id', $nid)
+                  ->entityCondition('bundle', 'dlts_partner')
+                  ->execute();
+
+ if ( ! empty ( $result['node'] ) ) {
+    $keys = array_keys( $result['node'] );
+
+    return node_load ( array_shift( $keys ) );
+  }
+
+}

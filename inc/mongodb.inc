@@ -74,3 +74,24 @@ function dlts_viewer_mongodb_load_thumbnails($isPartOf, $page = 0, $per_page = 1
 	}
 	return FALSE;
 }
+
+//returns metadata for all pages in a book from mongodb 
+function dlts_viewer_mongodb_return_all_pages($isPartOf) {
+  $collection_name = 'dlts_books_page';
+  $book_pages = array();
+  $query = (object) array('isPartOf' => $isPartOf);
+  $cursor = mongodb_collection($collection_name)->find($query);
+  // no need to continue if request does not have pages 
+  $count = $cursor->count();
+  if ($cursor->count() > 0) {
+         $cursor->sort(array('sequence' => 1));
+         $pages = iterator_to_array($cursor);
+     //use the same format as we used in publication script 
+     foreach ($cursor as $page) {
+       $book_page= array('isPartOf'=>$isPartOf,'sequence'=>$page['sequence'],'realPageNumber'=>$page['realPageNumber'],'cm'=>array('uri'=>$page['cm']['uri'],'width'=>'','height'=>'','levels'=>'','dwtLevels'=>'','compositingLayerCount'=>'','timestamp'=>$page['cm']['timestamp'])); 
+       $book_pages[]=$book_page;
+     }
+ }
+  return $book_pages;
+}
+
