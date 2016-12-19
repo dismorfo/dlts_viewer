@@ -9,15 +9,20 @@
  * @TODO: Support for fields: publication_date, geographic_coordinates, geographic_subject
  */
 function save_dlts_book($node, $language = 'en') {
-  // Get the current user
+
+	// Get the current user
   // --user=uid OR --user=1 for super user
 	global $user;
+
   $node_language = (isset($node['entity_language']) ? $node['entity_language'] : $language);
+
   /** force EN language */
   if ($node_language == LANGUAGE_NONE) {
   	$node_language = 'en';
   }
+
   $book_exist = book_nid($node['identifier'], $node_language);
+
   if ($book_exist) {
     // Load the node by NID
     $entity = node_load($book_exist);
@@ -364,7 +369,9 @@ function save_dlts_book($node, $language = 'en') {
   	  }
     }
   }
+
   return $entity;
+
 }
 
 function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE) {
@@ -373,6 +380,7 @@ function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE
   foreach ($books as $value) {
   	if (!file_exists($value->uri)) continue;
   	$json_document = $value->uri;
+		$json_filename = $value->filename;
   	$dimensions =
   	  $number =
   	  $scanning_notes =
@@ -406,10 +414,14 @@ function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE
     $json_string = str_replace(array('\r', '\n'), '', $json_string);
     $data = json_decode($json_string);
     $entity_title = $data->entity_title;
+
     drush_log(dt('Importing @title from JSON document @document',array('@title'=>$entity_title, '@document'=>basename ($value->uri))), 'ok');
+
     $entity_language = $data->entity_language;
-    $entity_identifier = $data->identifier;
-    if (!isset($data->metadata)) {
+
+		$entity_identifier = $data->identifier;
+
+		if (!isset($data->metadata)) {
     	$metadata = (object) array();
     }
     else {
@@ -711,7 +723,33 @@ function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE
       'series' => $series,
     	'json_document' => $json_document,
     );
+
     $created = save_dlts_book($node);
+
+		$filesdir = drupal_realpath('public://') . '/json/' . $json_filename;
+
+    $record = db_query("SELECT identifier from {dlts_viewer_books_json} WHERE identifier = :identifier LIMIT 1", array(":identifier" => $entity_identifier))->fetchField();
+
+    $dir = drupal_realpath('public://') . '/json';
+
+		$isdirready = file_prepare_directory($dir, 775);
+
+		$document = file_unmanaged_save_data($json_string, $filesdir);
+
+		if ($created) {
+	    db_insert('dlts_viewer_books_json')->fields(array(
+				'nid' => $created->nid,
+				'hash' => $created->changed,
+				'identifier' => $entity_identifier,
+				'document'=> $document,
+				'language' => $created->language,
+				'proceed' => 1,
+				'created' => $created->created,
+				'changed' => $created->changed,
+				)
+			)->execute();
+		}
+
     if ($cretePages && $created && isset($created->nid)) {
    	  // we only create pages for books with languages English or Undetermined
    	  if ($entity_language == 'en' || $entity_language == LANGUAGE_NONE) {

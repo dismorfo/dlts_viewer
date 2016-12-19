@@ -626,3 +626,13 @@ function dlts_viewer_theme_field($variables) {
 	return $output;
 }
 
+// here we need to make sure we delete the record from Apache Solr
+function dlts_viewer_node_delete($node) {
+  $records = db_query("SELECT document from {dlts_viewer_books_json} WHERE nid = :nid", array(":nid" => $node->nid));
+  foreach ($records as $record) {
+    if (file_exists($record->document)) {
+      file_unmanaged_delete($record->document);
+    }
+  }
+  db_delete('dlts_viewer_books_json')->condition('nid', $node->nid)->execute();
+}
