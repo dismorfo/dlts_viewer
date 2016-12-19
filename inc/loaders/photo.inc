@@ -55,11 +55,21 @@ function dlts_photo_load($identifier) {
        /**
         * Update sequence record
         */
+       if (!isset($result['cm']['timestamp'])) {
+         $result['cm']['timestamp'] = time();
+       }
        dlts_viewer_mongodb_update_sequence($result, $collection_name);
        /**
         * Return sequence object
         */
+
+       // db.collection.find( { a: 5, b: 5 } ).count()
+
        return array(
+         'isPartOf' => $result['isPartOf'],
+         'sequence' => $result['sequence'],
+         'handle' => $result['handle'],
+         'title' => $result['title'],
          'fid' => (string) $result['_id'],
          'identifier' => $result['identifier'],
          'uri' => file_create_url($result['cm']['uri']),
@@ -73,7 +83,18 @@ function dlts_photo_load($identifier) {
      }
    }
    else {
+
+      if (!isset($result['cm']['timestamp'])) {
+        $result['cm']['timestamp'] = time();
+      }
+
+      // db.collection.find( { a: 5, b: 5 } ).count()
+
       return array(
+        'isPartOf' => $result['isPartOf'],
+        'sequence' => $result['sequence'],
+        'handle' => $result['handle'],
+        'title' => $result['title'],
         'fid' => (string) $result['_id'],
         'identifier' => $result['identifier'],
         'uri' => file_create_url($result['cm']['uri']),

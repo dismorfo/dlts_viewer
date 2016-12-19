@@ -83,11 +83,13 @@ function dlts_viewer_pjax_photo_view(&$entity) {
 
 function dlts_viewer_photo_dispatcher($entity) {
 
-	$sequence = array(1); // for now
+	//print_r($entity);
 
-  $sequence_count = count($sequence);
+	//$sequence = array(1); // for now
 
-	$sequence_number = array_shift($sequence);
+  //$sequence_count = count($sequence);
+
+	//$sequence_number = array_shift($sequence);
 
 	// check request type
 	$is_pjax = dlts_viewer_is_pjax();
@@ -121,8 +123,69 @@ function dlts_viewer_photo_dispatcher($entity) {
 	$thumbnails_rows_per_page = 10;
 
 	if (isset($query_parameters['rows'])) {
-  	$thumbnails_rows_per_page = filter_xss($query_parameters['rows']);
-  }
+		$thumbnails_rows_per_page = filter_xss($query_parameters['rows']);
+	}
+
+	if (is_array($entity->sequence)) {
+		/** get the first page of the requested sequence */
+		$page = min($entity->sequence);
+		$sequence = $page;
+		$sequence_max = max($entity->sequence);
+		$sequence_min = min($entity->sequence);
+		/** check if this is a double page view */
+		if (count($entity->sequence) > 1) {
+			$is_single_page = FALSE;
+		}
+	}
+	else {
+		/** get the first page of the requested sequence */
+		$page = $sequence_max = $sequence_min = $entity->sequence;
+		$is_single_page = TRUE;
+	}
+
+	$sequence_count = count($entity->sequence); // wrong
+
+	$next_page = $sequence_max + 1;
+
+	$previous_page = $sequence_min - 1;
+
+	$previous_page_active = TRUE;
+
+	$next_page_active = TRUE;
+
+	if ($previous_page < 1) {
+		$previous_page = 1;
+	}
+
+	if ($next_page > $sequence_count) {
+		$next_page = $sequence_count;
+		$next_page_active = FALSE;
+	}
+
+	if ($sequence_max == 1) {
+		$previous_page_active = FALSE;
+	}
+
+	/** next page */
+	$next_pager_side = ($entity->lang_dir === 'ltr') ? 'pager-right' : 'pager-left';
+
+	/** prev page */
+	$previous_pager_side = ($entity->lang_dir === 'ltr') ? 'pager-left' : 'pager-right';
+
+	$button_previous_options = array(
+		'id' => 'previous-page',
+		'type' => 'dlts_book_page',
+		'text' => t('Go to previous page'),
+		'url' => $entity->url . '/' . $previous_page,
+		'classes' => array('previous', $previous_pager_side, ($previous_page_active ? 'active' : 'inactive'))
+	);
+
+	$button_next_options = array(
+		'id' => 'next-page',
+		'text' => t('Go to next page'),
+		'url' => $entity->url . '/' . $next_page,
+		'classes' => array('next', $next_pager_side, ($next_page_active ? 'active' : 'inactive'))
+	);
 
 	$button_fullscreen_options = array(
   	'title' => t('Toggle fullscreen'),
@@ -148,13 +211,31 @@ function dlts_viewer_photo_dispatcher($entity) {
   	'fragment' => 'thumbnails',
   );
 
+	$button_previous = theme('dlts_viewer_pager_button', $button_previous_options);
+
+	$button_next = theme('dlts_viewer_pager_button', $button_next_options);
+
   /** fullscreen button */
   $button_fullscreen = theme('dlts_viewer_navbar_item', $button_fullscreen_options);
 
   /** thumbnails button */
   $button_thumbnails = theme('dlts_viewer_navbar_item', $button_thumbnails_options);
 
-	$controlpanel_button = theme('dlts_viewer_controlpanel');
+	//$controlpanel_button = theme('dlts_viewer_controlpanel');
+
+	/** Set navbar pager buttons according to read direction */
+	$nav_pager_button_left_arrow = $button_previous;
+
+	$nav_pager_button_right_arrow = $button_next;
+
+	if ($entity->read_order == 'rtl') {
+		$nav_pager_button_left_arrow = $button_next;
+		$nav_pager_button_right_arrow = $button_previous;
+	}
+
+	$nav_pager_button_left_arrow = '<li class="navbar-item navbar-pager-left">' . $nav_pager_button_left_arrow . '</li>';
+
+	$nav_pager_button_right_arrow = '<li class="navbar-item navbar-pager-right">' . $nav_pager_button_right_arrow . '</li>';
 
 	$navbar_options = array(
   	'nav_buttons_left' => array($button_thumbnails),
