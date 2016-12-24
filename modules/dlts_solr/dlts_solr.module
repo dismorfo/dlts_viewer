@@ -1,5 +1,38 @@
 <?php
 
+/**
+ * http://api.drupal.org/api/drupal/modules--aggregator--aggregator.module/function/aggregator_cron/7
+ */
+function dlts_solr_cron() {
+  //$type = 'node';
+  //$env_id = 'solr';
+  
+  //$bundle = 'dlts_series';
+  //apachesolr_index_node_solr_reindex($env_id, $bundle);
+  // while I test https://jira.nyu.edu/jira/browse/AWDL-207
+  
+  //$bundle = 'dlts_book';
+  //$indexer_table = apachesolr_get_indexer_table($type);
+  
+  //$id = 8090;
+  //db_merge($indexer_table)->key(array('entity_type' => $type, 'entity_id' => $id))
+    //->insertFields(array('entity_type' => $type, 'entity_id' => $id, 'bundle' => $bundle, 'status' => 1))
+    //->fields(array('changed' => REQUEST_TIME))
+    //->execute();
+    
+  //$id = 8091;    
+  //db_merge($indexer_table)->key(array('entity_type' => $type, 'entity_id' => $id))
+    //->insertFields(array('entity_type' => $type, 'entity_id' => $id, 'bundle' => $bundle, 'status' => 1))
+    //->fields(array('changed' => REQUEST_TIME))
+    //->execute();
+  
+  //$id = 2840;    
+  //db_merge($indexer_table)->key(array('entity_type' => $type, 'entity_id' => $id))
+    //->insertFields(array('entity_type' => $type, 'entity_id' => $id, 'bundle' => $bundle, 'status' => 1))
+    //->fields(array('changed' => REQUEST_TIME))
+    //->execute();        
+}
+
 function dlts_solr_node_update($node) {
 	$bundle = 'dlts_book';
   if ($node->type == $bundle && $node->language != 'en') {
@@ -58,6 +91,13 @@ function dlts_solr_apachesolr_index_document_build(ApacheSolrDocument $document,
     	/** pass the document as reference */
       dlts_solr_index_book($document, $entity, $entity_type, $env_id);
       break;
+    case 'dlts_series' :
+    	/** load utils */
+    	module_load_include('inc', 'dlts_solr', 'inc/series');
+    	/** pass the document as reference */
+      dlts_solr_index_series($document, $entity, $entity_type, $env_id);
+      break;
+      
   }
 }
 

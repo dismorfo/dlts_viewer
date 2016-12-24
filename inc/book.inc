@@ -150,19 +150,6 @@ function dlts_viewer_dispatcher($entity, $arg) {
 		// change entity title
 		$entity->title = t('@title @volume', array('@title' => $multivolume_book->title, '@volume' => $volume_number_str));
 	}
-	// check if this books is part of a series
-	// $series_book = dlts_viewer_is_series_book($entity);
-  // not sure if this is right. the book can part of multiple series book
-  // figure out the right way to pick the title
-	// maybe we can do something along the lines of: Book Title (also known as Series book title 1, Series book title 2)
-	//if ($entity->isSeriesBook) {
-		//dpm($entity->seriesBook);
-		//foreach ($entity->seriesBook as $series_book) {
-			// for now just get the last one (since we just have one for now)
-			// talk about this with the group and fix later.
-			//$entity->title = $series_book['volume_label'];
-		//}
-	//}
 
   // set entity title
 	drupal_set_title($entity->title);

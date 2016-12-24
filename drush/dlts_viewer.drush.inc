@@ -32,40 +32,7 @@ function dlts_viewer_drush_command() {
       'legacy' => dt('Create book using legacy JSON documents.'),
     ),
   );
-  /**
-  $items['git-pull-books'] = array(
-    'callback' => 'dlts_viewer_pull_books_from_git_repo',
-  	'description' => dt('Import book from a git repository'),
-  	'options' => array(
-      'git-dir' => dt('Git repo directory path'),
-      'git-worktree' => dt('Git repo directory  work tree'),
-      'git-branch' => dt('Project branch'), // @TODO: not implemented
-  	),
-  );
-  */
-  /**
-  $items['import-add-book-queue'] = array(
-    'callback' => 'dlts_viewer_add_json_documents_queue',
-    'description' => dt('Something nice will be here'),
-    'options' => array(
-      'source' => dt('Book source'),
-      'legacy' => dt('Create book using legacy JSON documents.'),
-    ),
-  );
-  */
-
-  /**
-  $items['import-free-queue'] = array(
-    'callback' => 'dlts_viewer_free_json_documents_queue',
-    'description' => dt('Import book from a git repository'),
-    'options' => array(
-      'pages' => dt('Create pages.'),
-    ),
-  );
-  */
-
   return $items;
-
 }
 
 /**
@@ -83,15 +50,6 @@ function dlts_viewer_drush_command() {
 function dlts_viewer_drush_help($section) {
   switch ($section) {
     case 'drush:import-book':
-      return dt("Some day someone will document this module");
-      break;
-    case 'drush:git-pull-books':
-      return dt("Some day someone will document this module");
-      break;
-    case 'drush:import-book-free-queue':
-      return dt("Some day someone will document this module");
-      break;
-    case 'drush:import-add-book-queue':
       return dt("Some day someone will document this module");
       break;
   }
@@ -268,9 +226,4 @@ function dlts_viewer_pull_books_from_git_repo() {
   	}
   }
   chdir($pwd);
-}
-
-function dlts_viewer_dummy_books() {
-	drush_log( dt('Import books from JSON documents inside directory @directory', array('@directory'=> __DIR__ . '/data')) , 'ok');
-	dlts_viewer_import_book(__DIR__ . '/data', TRUE);
 }
