@@ -161,7 +161,6 @@ function dlts_viewer_theme() {
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_menu/7
  */
 function dlts_viewer_menu() {
-  drush_log(__FUNCTION__,'ok');
   $menu = array(
     /**
      * Convinient way to edit a Book object
@@ -198,16 +197,6 @@ function dlts_viewer_menu() {
   		'file' => 'inc/book.inc',
   	  'type' => MENU_CALLBACK,
   	),
-    /**
-     * Render book pages
-     */
-    'books/%dlts_book' => array(
-      'title' => 'Book redirect',
-      'access arguments' => array('access content'),
-      'page callback' => 'dlts_viewer_book_redirect',
-      'page arguments' => array(1),
-      'type' => MENU_CALLBACK,
-    ),
     /**
      * Render book pages
      */
@@ -417,14 +406,6 @@ function dlts_viewer_stream_wrappers() {
 
 function dlts_viewer_metadata_display($node) {
 	return node_view($node, 'metadata', $node->language);
-}
-
-function dlts_viewer_book_redirect($arg) {
-
-  //drupal_goto('books/' . $identifier . '/1');
-
-  die('such was life');
-
 }
 
 /**
