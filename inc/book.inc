@@ -522,19 +522,19 @@ function dlts_book_api_book_metadata($book) {
     if ( $field['type'] == 'options_buttons' ) {
       $value = $field['settings']['allowed_values'][$raw_value];
       //convert values to binaries for some fields
-      $raw_values=array( 
-                       'scan_order'=>'Left to right',
-                       'read_order'=>'Left to right',
-                       'binding_orientation'=>'Horizontl', 
-                       );
-        if( array_key_exists($name,$raw_values)) {
-          if( in_array($value,$raw_values) ) {
-            $value='0';
-          }
-          else {
-            $value='1';
-          }
-        }
+      //$raw_values=array( 
+        //               'scan_order'=>'Left to right',
+          //             'read_order'=>'Left to right',
+            //           'binding_orientation'=>'Horizontal', 
+              //         );
+       // if( array_key_exists($name,$raw_values)) {
+         // if( in_array($value,$raw_values) ) {
+           // $value='1';
+          //}
+          //else {
+            //$value='0';
+          //}
+        //}
     }
 
     else if ( $field['type'] == 'link_field' && isset( $raw_value['url'] ) ) {
@@ -656,4 +656,143 @@ function dlts_book_get_partner_by_nid ( $nid ) {
     return node_load ( array_shift( $keys ) );
   }
 
+}
+
+function dlts_book_api_series($entity) {
+	$nodes = array();
+	$query = new EntityFieldQuery();
+	$entities = $query->entityCondition('entity_type', 'node')
+	  ->entityCondition('bundle', 'dlts_series_book')
+	  ->propertyCondition('status', 1)
+	  //->fieldCondition('field_book', 'nid', array('799003'), '=') // to test, we know this book (nyu_aco000177 and nid 799003 in stage) have series books
+	  ->fieldCondition('field_book', 'nid', array($entity->nid), '=')
+	  ->execute();
+	if ($entities) {
+		$keys = array_keys($entities['node']);
+		$objects = entity_load('node', $keys);
+		foreach($objects as $object) {
+			$wrapper = entity_metadata_wrapper('node', $object);
+			$book = $wrapper->field_book->value();
+			$collections = array();
+			$series = $wrapper->field_series->value();
+			$series_wrapper = entity_metadata_wrapper('node', $series);
+			$isPartOf = array(
+        'title' => $series->title,
+        'type' => $series->type,
+        'language' => $series->language,
+        'identifier' => $series_wrapper->field_identifier->value(),
+			);
+			foreach ((array)$wrapper->field_collection->value() as $collection) {
+				$collection_wrapper = entity_metadata_wrapper('node', $collection);
+				$partners = array();
+				foreach ((array)$collection_wrapper->field_partner->value() as $partner) {
+					$partner_wrapper = entity_metadata_wrapper('node', $partner);
+					$partners[] = array(
+						'title' => $partner->title,
+						'type' => $partner->type,
+						'language' => $partner->language,
+						'identifier' =>  $partner_wrapper->field_identifier->value(),
+						'code' => $partner_wrapper->field_code->value(),
+						'name' => $partner_wrapper->field_name->value(),
+					);
+				}
+				$collections[] = array(
+				  'title' => $collection->title,
+          'type' => $collection->type,
+          'language' => $collection->language,
+          'identifier' => $collection_wrapper->field_identifier->value(),
+          'code' => $collection_wrapper->field_code->value(),
+					'name' => $collection_wrapper->field_name->value(),
+					'partner' => $partners, // number of value is set to unlimited
+				);
+			}
+			$nodes[] = array(
+				'identifier' => $wrapper->field_identifier->value(),
+				'type' => $object->type,
+				'title' => $object->title,
+			  'book' => $book->nid,
+			  'volume_number' => $wrapper->field_volume_number_str->value().trim(),
+			  'volume_number_str' => $wrapper->field_volume_number_str->value(),
+				'isPartOf' => $isPartOf, // number of value is set to 1. map to field_series
+				'collection' => $collections, // number of value is set to unlimited
+			);
+		}
+	}
+	return array('series' => $nodes);
+}
+
+function dlts_book_api_book($node, $listPages = FALSE) {
+        $metadata = (array) dlts_book_api_book_metadata($node);
+        $multivol = (array) dlts_book_api_book_multivol($node);
+        //$series = (array) dlts_viewer_series_book($node->nid);
+        $series = (array) dlts_book_api_series($node);
+        $pages = array();
+        $stitched = array();
+  /*$query_parameters = drupal_get_query_parameters();
+  if ($listPages || isset($query_parameters['listPages'])) {
+    $pages =  (array) dlts_book_api_book_pages($node);
+    $stitched = (array) dlts_book_api_dlts_book_stitched_page($node);
+  }*/
+  return array_merge($metadata, $multivol, $series, $pages, $stitched);
+}
+
+function dlts_book_api_book_multivol($entity) {
+   $multivol = array('multivolume' => array('volume' => array()));
+  $query = new EntityFieldQuery();
+  $entities = $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'dlts_multivol_book')
+    ->propertyCondition('status', 1)
+    ->fieldCondition('field_book', 'nid', array($entity->nid), '=')
+    ->execute();
+  if ($entities) {
+    $nid = array_pop(array_keys($entities['node']));
+    $nodes = entity_load('node',array($nid));
+    $node_wrapper = entity_metadata_wrapper('node', array_pop($nodes));
+    $book_wrapper = entity_metadata_wrapper('node', $entity);
+    $field_collection = $book_wrapper->field_collection->value();
+    $collections = array();
+    if ($field_collection) {
+      foreach ($field_collection as $collection) {
+        $collection_wrapper = entity_metadata_wrapper('node', $collection);
+        $partner = $collection_wrapper->field_partner->value() ;
+        $partner_wrapper = entity_metadata_wrapper('node', $partner[0]);
+        $collections[] = array (
+          'title' => $collection_wrapper->title->value(),
+          'type' => $collection_wrapper->type->value(),
+          'language' => $collection_wrapper->language->value(),
+          'identifier' => $collection_wrapper->field_identifier->value(),
+          'code' => $collection_wrapper->field_code->value(),
+          'name' => $collection_wrapper->field_name->value(),
+          'partner' => array(
+            'title' => $partner_wrapper->title->value(),
+            'type' => $partner_wrapper->type->value(),
+            'language' => $partner_wrapper->language->value(),
+            'identifier' => $partner_wrapper->field_identifier->value(),
+            'code' => $partner_wrapper->field_code->value(),
+            'name' => $partner_wrapper->field_name->value(),
+          )
+        );
+      }
+    }
+    $field_multivol = $node_wrapper->field_multivol->value();
+    $multivolume = array();
+    if ($field_multivol) {
+      $m_wrapper = entity_metadata_wrapper('node', $field_multivol);
+      $multivolume[] = array(
+        'title' => $m_wrapper->title->value(),
+        'type' => $m_wrapper->type->value(),
+        'language' => $m_wrapper->language->value(),
+        'identifier' => $m_wrapper->field_identifier->value(),
+      );
+    }
+    $multivol['multivolume']['volume'][] = array(
+      'identifier' => $node_wrapper->field_identifier->value(),
+      'volume_number' =>  $node_wrapper->field_volume_number->value(),
+      'volume_number_str' => $node_wrapper->field_volume_number_str->value(),
+      'collection' => $collections,
+      'isPartOf' => $multivolume,
+    );
+
+  }
+  return $multivol;
 }

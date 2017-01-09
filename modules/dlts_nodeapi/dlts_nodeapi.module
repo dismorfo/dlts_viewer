@@ -26,6 +26,13 @@ function dlts_nodeapi_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
+  $items['content/%/books.json'] = array(
+    'title' => 'Return json for book',
+    'page callback' => 'dlts_book_load_json',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
@@ -45,7 +52,6 @@ function return_nodeid_json($dlts_id, $lang_code = NULL) {
   echo drupal_json_encode($nodeids);
   die;
 }
-
 function return_page_nodeids_json($dlts_id) {
   // @TODO: broken, we no longer have this content types
   return;
