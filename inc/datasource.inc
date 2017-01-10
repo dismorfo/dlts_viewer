@@ -71,16 +71,26 @@ function dlts_viewer_is_series_book(&$entity) {
 				$title = $book_long_title;
 				$series_book_node = node_load($nid);
 				$series_book_wrapper = entity_metadata_wrapper($entity_type, $series_book_node);
+				
 				$series = $series_book_wrapper->field_series->value(); // single-value field
+				
 				$volume_number = $series_book_wrapper->field_volume_number->value(); // single-value field
+				
 				$volume_number_str = $series_book_wrapper->field_volume_number_str->value(); // single-value field
+				
 				if (!empty($volume_number_str)) {
 					$title = $book_long_title . ' ' . $volume_number_str;
 				}
 				elseif (!empty($volume_number)) {
 					$title = $book_long_title . ' ' . $volume_number;
 				}
+				
+			  $series_wrapper = entity_metadata_wrapper($entity_type, $series);
+			  
+			  $series_identifier = $series_wrapper->field_identifier->value();
+				
 				$is_part_of[] = array(
+				  'series_identifier' => $series_identifier,
 				  'series' => $series->title,
 					'volume_label' => $title,
 					'volume_number' => $volume_number,
