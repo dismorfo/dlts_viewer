@@ -550,7 +550,7 @@ YUI().use(
       var url = value.substring(value.indexOf('::') + 2, value.length);
       var data = { url : url };
       if (window.self === window.top) {
-        pjax.navigate(url);
+        window.location.replace(url);
       }
       else {
         Y.CrossFrame.postMessage('parent', JSON.stringify({ fire: 'change:option:multivolume', data }));
