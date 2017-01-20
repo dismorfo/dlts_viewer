@@ -4,34 +4,27 @@
  * http://api.drupal.org/api/drupal/modules--aggregator--aggregator.module/function/aggregator_cron/7
  */
 function dlts_solr_cron() {
-  
-  drush_log(__FUNCTION__,'ok');
-  $type = 'node';
-  $env_id = 'solr';
-  $bundle = 'dlts_series';
+  //drush_log(__FUNCTION__,'ok');
+  //$type = 'node';
+  //$env_id = 'solr';
+  //$bundle = 'dlts_series';
   // apachesolr_index_node_solr_reindex($env_id, $bundle);
   // while I test https://jira.nyu.edu/jira/browse/AWDL-207
-  
-  $bundle = 'dlts_book';
-  $indexer_table = apachesolr_get_indexer_table($type);
-  
+  //$bundle = 'dlts_book';
+  //$indexer_table = apachesolr_get_indexer_table($type);
   //$id = 810;
-  
   // https://jira.nyu.edu/jira/browse/DLTSVIEWER-60
   // http://stage-dl-pa.home.nyu.edu/viewer/books/brill_awdl000003/1  
-  $id = 2836;
-
-  db_merge($indexer_table)->key(array('entity_type' => $type, 'entity_id' => $id))
-    ->insertFields(array('entity_type' => $type, 'entity_id' => $id, 'bundle' => $bundle, 'status' => 1))
-    ->fields(array('changed' => REQUEST_TIME))
-    ->execute();
-    
+  //$id = 2836;
+  //db_merge($indexer_table)->key(array('entity_type' => $type, 'entity_id' => $id))
+    //->insertFields(array('entity_type' => $type, 'entity_id' => $id, 'bundle' => $bundle, 'status' => 1))
+    //->fields(array('changed' => REQUEST_TIME))
+    //->execute();
   //$id = 8091;    
   //db_merge($indexer_table)->key(array('entity_type' => $type, 'entity_id' => $id))
     //->insertFields(array('entity_type' => $type, 'entity_id' => $id, 'bundle' => $bundle, 'status' => 1))
     //->fields(array('changed' => REQUEST_TIME))
     //->execute();
-  
   //$id = 2840;    
   //db_merge($indexer_table)->key(array('entity_type' => $type, 'entity_id' => $id))
     //->insertFields(array('entity_type' => $type, 'entity_id' => $id, 'bundle' => $bundle, 'status' => 1))
@@ -87,9 +80,6 @@ function dlts_solr_apachesolr_delete_index_alter($query) {
  * @param string $entity_type
  */
 function dlts_solr_apachesolr_index_document_build(ApacheSolrDocument $document, $entity, $entity_type, $env_id) {
-
-  drush_log(__FUNCTION__, 'ok');
-  
   /** wrap node with Entity API */
   $ewrapper = entity_metadata_wrapper('node', $entity);
   $document->addField('base_url', base_path());

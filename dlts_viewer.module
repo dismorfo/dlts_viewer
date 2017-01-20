@@ -554,35 +554,6 @@ function dlts_viewer_flush_caches() {
 	t('Vol.');
 }
 
-//function dlts_viewer_cron_queue_info() {}
-
-/**
- * http://api.drupal.org/api/drupal/modules--aggregator--aggregator.module/function/aggregator_cron/7
- */
-function dlts_viewer_cron() {
- //if (function_exists('drush_log')) drush_log(__FUNCTION__,'ok');
- //$env_id = 'solr';
- //$bundle = 'dlts_series';
- //apachesolr_index_node_solr_reindex($env_id, $bundle); 
-}
-
-/**
- * http://api.drupal.org/api/drupal/modules--system--system.queue.inc/group/queue/7
- * http://api.drupal.org/api/drupal/modules--system--system.api.php/function/hook_cron_queue_info/7
- */
-//function dlts_viewer_document_processor() {
-  // drupal_set_message(t('dlts_solr_cron_queue_info'));
-  // $queue = DrupalQueue::get('dlts_book_ocr_text');
-  // $queue->createQueue();  // There is no harm in trying to recreate existing.
-  // $items = array();
-  // while ($item = $queue->claimItem() ) {
-  //   $items[] = $item;
-  // }
-  // foreach ($items as $item) {
-  //   $queue->releaseItem($item);
-	// }
-//}
-
 function dlts_viewer_content_by_field ($field_name) {
 	$out = array();
 	$field_name = filter_xss ( $field_name );
@@ -718,3 +689,27 @@ function return_page_nodeids_json($dlts_id) {
   drupal_json_output((object) $nodeids);
   exit;
 }
+
+//function dlts_viewer_cron_queue_info() {}
+
+/**
+ * http://api.drupal.org/api/drupal/modules--aggregator--aggregator.module/function/aggregator_cron/7
+ */
+//function dlts_viewer_cron() {}
+
+/**
+ * http://api.drupal.org/api/drupal/modules--system--system.queue.inc/group/queue/7
+ * http://api.drupal.org/api/drupal/modules--system--system.api.php/function/hook_cron_queue_info/7
+ */
+//function dlts_viewer_document_processor() {
+  // drupal_set_message(t('dlts_solr_cron_queue_info'));
+  // $queue = DrupalQueue::get('dlts_book_ocr_text');
+  // $queue->createQueue();  // There is no harm in trying to recreate existing.
+  // $items = array();
+  // while ($item = $queue->claimItem() ) {
+  //   $items[] = $item;
+  // }
+  // foreach ($items as $item) {
+  //   $queue->releaseItem($item);
+	// }
+//}
