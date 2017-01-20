@@ -54,6 +54,7 @@ function dlts_book_load($identifier) {
  * @return object MongoDB book page object
  */
 function dlts_book_page_load($sequence) {
+
 	/**
 	 * Load MongoDB helper
 	 */

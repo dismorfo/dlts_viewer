@@ -150,19 +150,6 @@ function dlts_viewer_dispatcher($entity, $arg) {
 		// change entity title
 		$entity->title = t('@title @volume', array('@title' => $multivolume_book->title, '@volume' => $volume_number_str));
 	}
-	// check if this books is part of a series
-	// $series_book = dlts_viewer_is_series_book($entity);
-  // not sure if this is right. the book can part of multiple series book
-  // figure out the right way to pick the title
-	// maybe we can do something along the lines of: Book Title (also known as Series book title 1, Series book title 2)
-	//if ($entity->isSeriesBook) {
-		//dpm($entity->seriesBook);
-		//foreach ($entity->seriesBook as $series_book) {
-			// for now just get the last one (since we just have one for now)
-			// talk about this with the group and fix later.
-			//$entity->title = $series_book['volume_label'];
-		//}
-	//}
 
   // set entity title
 	drupal_set_title($entity->title);
@@ -428,33 +415,57 @@ function dlts_viewer_book_metadata_display($node) {
  * Menu callback; prints the loaded structure of the current node/user.
  */
 function dlts_viewer_load_object($type, $object, $name = NULL) {
-  $out = '';
-  $name = isset($name) ? $name : $type;
-  $entity = entity_metadata_wrapper('node', $object);
-  $identifier = $entity->field_identifier->value();
-  $title = $entity->title->value();
-  $results = db_query("SELECT hash, document, language, created FROM {dlts_viewer_books_json} WHERE nid = :nid ORDER BY created DESC", array(':nid' => $object->nid));
-  $header = array('Hash', 'Document', 'Language', 'Imported');
-  foreach ($results as $key => $result) {
+
+	$out = '';
+
+	$name = isset($name) ? $name : $type;
+
+	$entity = entity_metadata_wrapper('node', $object);
+
+	$identifier = $entity->field_identifier->value();
+
+	$title = $entity->title->value();
+
+	$results = db_query("SELECT hash, document, language, created, changed FROM {dlts_viewer_books_json} WHERE nid = :nid ORDER BY changed DESC", array(':nid' => $object->nid));
+
+	$header = array('Hash', 'Document', 'Language', 'Imported', 'Changed', 'Active');
+
+	$json_documents = array();
+
+	foreach ($results as $key => $result) {
   	$document = $result->document;
   	$hash = $result->hash;
-  	if ($key == 0) {
-  		$json_str = file_get_contents($document);
-  	}
+		$active = FALSE;
   	if (file_exists($document)) {
+			if ($key===0) $active = TRUE;
   	  $result->document = basename($result->document);
+			$result->changed = date('F jS, Y h:i:s A',$result->changed);
   	  $result->created = date('F jS, Y h:i:s A',$result->created);
+			$result->active = $active ? 'True' : 'False';
   	  $rows[] = (array) $result;
+			$json_documents[] = array(
+				'data' => file_get_contents($document),
+				'label' => $result->document,
+				'active' => $active,
+			);
   	}
   }
+
+	$out .= '<h1>' . t('Node object') . '</h1>';
+
+	$out .= kdevel_print_object($object, '$'. $name .'->');
+
+	$out .= '<h1>' . t('JSON documents') .'</h1><br/>';
+
   $out .= theme('table', array('header' => $header, 'rows' => $rows));
-  $out .= '<h1>' . t('Node object') . '</h1>';
-  $out .= kdevel_print_object($object, '$'. $name .'->');
-  $out .= '<h1>' . t('JSON document (@hash)', array('@hash'=>$hash)) . '</h1>';
-  $json = json_decode($json_str, true);
-  $out .= kdevel_print_object($json, '$'. $name .'->');
+
+  foreach ($json_documents as $document) {
+		$out .= '<h2>' . $document['label'] . (($document['active']) ? ' (active JSON document)' : '') . '</h2>';
+	  $out .= kdevel_print_object(json_decode($document['data'], true), '$'. $document['label'] .'->');
+	}
 
   $series_book = dlts_viewer_series_book($object->nid);
+
   if (!empty($series_book)) {
   	$out .= '<h1>' . t('Series book') . '</h1>';
     $header = array('Node Id', 'Title', 'Is part of', 'Collections is part of');
@@ -471,8 +482,10 @@ function dlts_viewer_load_object($type, $object, $name = NULL) {
     }
     $out .= theme('table', array('header' => $header, 'rows' => $rows));
   }
+
   $multivol_book = dlts_viewer_multivolume_book($object->nid);
-  if (!empty($multivol_book)) {
+
+	if (!empty($multivol_book)) {
   	$out .= '<h1>' . t('Multi Volume book') . '</h1>';
     $header = array('Node Id', 'Title', 'Is part of', 'Collections is part of');
     $rows = array();
@@ -488,5 +501,7 @@ function dlts_viewer_load_object($type, $object, $name = NULL) {
     }
     $out .= theme('table', array('header' => $header, 'rows' => $rows));
   }
+
   return $out;
+
 }
