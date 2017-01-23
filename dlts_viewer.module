@@ -177,7 +177,6 @@ function dlts_viewer_menu() {
       'books/%dlts_book/book.json' => array(
       'title' => 'Book pages',
       'access arguments' => array('request book metadata'),
-      //'page callback' => 'dlts_book_api_book_metadata',
       'page callback' => 'dlts_book_api_book',
   	  'page arguments' => array(1),
       'delivery callback' => 'dlts_utilities_deliver_json',

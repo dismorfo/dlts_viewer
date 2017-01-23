@@ -660,10 +660,11 @@ function dlts_book_get_partner_by_nid ( $nid ) {
 
 function dlts_book_api_series($entity) {
 	$nodes = array();
+        $entity_wrapper =  entity_metadata_wrapper('node', $entity);
 	$query = new EntityFieldQuery();
 	$entities = $query->entityCondition('entity_type', 'node')
 	  ->entityCondition('bundle', 'dlts_series_book')
-	  ->propertyCondition('status', 1)
+	  //->propertyCondition('status', 1)
 	  //->fieldCondition('field_book', 'nid', array('799003'), '=') // to test, we know this book (nyu_aco000177 and nid 799003 in stage) have series books
 	  ->fieldCondition('field_book', 'nid', array($entity->nid), '=')
 	  ->execute();
@@ -682,7 +683,7 @@ function dlts_book_api_series($entity) {
         'language' => $series->language,
         'identifier' => $series_wrapper->field_identifier->value(),
 			);
-			foreach ((array)$wrapper->field_collection->value() as $collection) {
+			foreach ((array)$entity_wrapper->field_collection->value() as $collection) {
 				$collection_wrapper = entity_metadata_wrapper('node', $collection);
 				$partners = array();
 				foreach ((array)$collection_wrapper->field_partner->value() as $partner) {
