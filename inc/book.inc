@@ -148,7 +148,7 @@ function dlts_viewer_dispatcher($entity, $arg) {
 		// get volume value
 		$volume_number_str = $wrapper->field_volume_number_str->value();
 		// change entity title
-		$entity->title = t('@title @volume', array('@title' => $multivolume_book->title, '@volume' => $volume_number_str));
+		$entity->title = html_entity_decode(t('@title @volume', array('@title' => $multivolume_book->title, '@volume' => $volume_number_str)),ENT_QUOTES);
 	}
 
   // set entity title
