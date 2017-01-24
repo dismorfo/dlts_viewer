@@ -106,7 +106,8 @@ function dlts_viewer_book_metadata($book) {
     $fields[$name] = array('label' => $field['label'], 'value' => (array) $value);
   }
   return array(
-    'entity_title' => !empty($title) ? $title : $book->title,
+    //'entity_title' => !empty($title) ? $title : html_entity_decode($book->title,ENT_QUOTES),
+    'entity_title' => 'Hyi',
     'identifier' => $fields['identifier']['value'][0],
     'entity_path' => url('books/' . $identifier . '/1', array('absolute' => TRUE)),
     'base_url' => url('', array('absolute' => TRUE)),

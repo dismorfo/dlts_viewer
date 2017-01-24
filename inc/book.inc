@@ -148,7 +148,8 @@ function dlts_viewer_dispatcher($entity, $arg) {
 		// get volume value
 		$volume_number_str = $wrapper->field_volume_number_str->value();
 		// change entity title
-		$entity->title = t('@title @volume', array('@title' => $multivolume_book->title, '@volume' => $volume_number_str));
+		//$entity->title = t('@title @volume', array('@title' => html_entity_decode($multivolume_book->title, ENT_QUOTES), '@volume' => $volume_number_str));
+		$entity->title = html_entity_decode(t('@title @volume', array('@title' => $multivolume_book->title, '@volume' => $volume_number_str)),ENT_QUOTES);
 	}
 	// check if this books is part of a series
 	// $series_book = dlts_viewer_is_series_book($entity);
