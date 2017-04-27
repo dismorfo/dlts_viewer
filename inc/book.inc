@@ -523,19 +523,19 @@ function dlts_book_api_book_metadata($book) {
     if ( $field['type'] == 'options_buttons' ) {
       $value = $field['settings']['allowed_values'][$raw_value];
       //convert values to binaries for some fields
-      //$raw_values=array( 
-        //               'scan_order'=>'Left to right',
-          //             'read_order'=>'Left to right',
-            //           'binding_orientation'=>'Horizontal', 
-              //         );
-       // if( array_key_exists($name,$raw_values)) {
-         // if( in_array($value,$raw_values) ) {
-           // $value='1';
-          //}
-          //else {
-            //$value='0';
-          //}
-        //}
+      $raw_values=array( 
+                       'scan_order'=>'Left to right',
+                       'read_order'=>'Left to right',
+                       'binding_orientation'=>'Horizontal', 
+                       );
+        if( array_key_exists($name,$raw_values)) {
+          if( in_array($value,$raw_values) ) {
+            $value='1';
+          }
+          else {
+            $value='0';
+          }
+        }
     }
 
     else if ( $field['type'] == 'link_field' && isset( $raw_value['url'] ) ) {
@@ -559,7 +559,7 @@ function dlts_book_api_book_metadata($book) {
     }
 
     else if ( $field['type'] == 'field_fileserver_image' ) {
-          $value = $raw_value['uri'];
+          $value =  $raw_value['uri'] ;
     }
 
     else if ( $field['type'] == 'date_text' ) {

@@ -553,7 +553,7 @@ function create_dlts_book_from_json($books, $cretePages = FALSE, $legacy = FALSE
     	$publication_date_text = $metadata->publication_date_text->value[0];
     }
     if (isset($metadata->representative_image) && !empty($metadata->representative_image)) {
-    	if (!$legacy) {
+    	if (!$legacy && !empty($metadata->representative_image->cm)) {
     	  $representative_image = array(
     	    'uri' => $metadata->representative_image->cm->uri,
     	    'timestamp' => $metadata->representative_image->cm->timestamp,
