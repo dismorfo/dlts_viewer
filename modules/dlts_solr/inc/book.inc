@@ -131,6 +131,8 @@ function dlts_solr_index_book_partners($items = array(), &$document, &$entity, &
 			$document->addField('sm_' . $prefix . 'provider_label', $label);
 		}
 		if ($language == 'en') {
+			$document->addField('sm_sprovider_label', strtolower($label));
+			$document->addField('tum_provider_label', $label);
 		  $document->addField('zm_partner',json_encode(array('name'=>$label,'code' => $code, 'nid' => $item->nid)));
 		  $document->addField('zm_provider',json_encode(array('name'=>$label,'code' => $code, 'nid' => $item->nid)));
 		}
@@ -323,6 +325,8 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   // we need to wait until we figure out if this is a multi volume.
   // by now, we already test for multi volume and title should be the right one.
   $document->addField('ss_title_long', $book_field_title);
+  $document->addField('ss_stitle_long', strtolower(dlts_solr_remove_accents($book_field_title)));
+    $document->addField('tus_stitle_long', strtolower(dlts_solr_remove_accents($book_field_title)));
   $searchableFields[] = dlts_solr_remove_accents($book_field_title);
   /** Subtitle (field_subtitle) */
   /** single-value field */
@@ -392,6 +396,8 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
 			  $document->addField('iass_author', dlts_solr_remove_accents(strtolower($author)));
 		  }
   		$document->addField('sm_author', $author);
+		  $document->addField('tum_author', dlts_solr_remove_accents($author));
+		  $document->addField('sm_sauthor', strtolower(dlts_solr_remove_accents($author)));
   	}
   }
   unset($authors);
@@ -434,7 +440,9 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   $publishers = $wrapper->field_publisher->value();
   if (!empty($publishers)) {
   	foreach ($publishers as $publisher) {
-  		$document->addField('sm_publisher', $publisher);
+  		$document->addField('sm_publisher',  $publisher);
+        $document->addField('tum_publisher', dlts_solr_remove_accents($publisher));
+        $document->addField('sm_spublisher', strtolower(dlts_solr_remove_accents($publisher)));
   		$searchableFields[] =  dlts_solr_remove_accents($publisher);
   	}
   }
@@ -443,6 +451,7 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   /** Publication date (field_publication_date) */
   /** single-value field */
   $publication_date = $wrapper->field_publication_date->value();
+  $publication_date_text = $wrapper->field_publication_date_text->value();
   if (!empty($publication_date) && !empty($publication_date['value'])) {
   	/** convert ISO format into UNIX  timestamp */
   	$timestamp = strtotime($publication_date['value']);
@@ -453,17 +462,36 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   		$document->addField('sort_pubyear', $publication_year);
   		$document->addField('iass_pubyear', $publication_year);
   		$document->addField('iass_timestamp', $timestamp);
-  	}
+  	} else {
+        if (!empty($publication_date_text)) {
+            $publication_date_text_norm=preg_replace('(u|?)','0',$publication_date_text);
+            preg_match_all('\b\d{4}\b', $publication_date_text_norm, $years);
+            if(!empty($years)) {
+                foreach ($years as $index => $publication_year) {
+                    $searchableFields[] = $publication_year;
+                    if ($index == 0) {
+                        $document->addField('sort_pubyear', $publication_year);
+                        $document->addField('iass_pubyear', $publication_year);
+                    }
+                    $document->addField('dm_pubyear', date('Y-m-d\TG:i:s', strtotime($publication_year)));
+                }
+            }
+        }
+
+      }
   }
   unset($publication_date);
+  unset($publication_year);
   /** Publication date (field_publication_date) */
   /** single-value field */
-  $publication_date_text = $wrapper->field_publication_date_text->value();
+
   if (!empty($publication_date_text)) {
   	/** @TODO: Find the right field for this field */
   	$document->addField('ss_publication_date_text', $publication_date_text);
   	$document->addField('ss_pubdate', $publication_date_text); // remove this?
   	$document->addField('ss_spubdate', strtolower($publication_date_text));
+  } else {
+
   }
   unset($publication_date_text);
   /** Publication location (field_publication_location) */
@@ -472,8 +500,9 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   if (!empty($publication_location)) {
   	$searchableFields[] = dlts_solr_remove_accents($publication_location);
   	$document->addField('ss_publication_location', $publication_location);
-  	$document->addField('ss_publocation',dlts_solr_remove_accents($publication_location)); // remove this? @kate- when search options are fixed
-  	$document->addField('ss_spublocation', dlts_solr_remove_accents($publication_location));
+  	$document->addField('ss_spublocation', strtolower(dlts_solr_remove_accents($publication_location)));
+  	$document->addField('ss_publocation', $publication_location); // remove this? @kate- when search options are fixed
+  	$document->addField('tus_spublocation', dlts_solr_remove_accents($publication_location));
   }
   unset($publication_location);
   /** Subject (field_subject) */
@@ -482,6 +511,8 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   if (!empty($subjects)) {
   	foreach ($subjects as $index=>$subject) {
   		$document->addField('sm_subject_label', $subject->name);
+  		$document->addField('sm_ssubject_label', strtolower(dlts_solr_remove_accents($subject->name)));
+  		$document->addField('tum_ssubject_label', strtolower(dlts_solr_remove_accents($subject->name)));
   		$searchableFields[] = dlts_solr_remove_accents($subject->name);
 		if ($index == 0) {
 	                $document->addField('ss_ssubject', strtolower(dlts_solr_remove_accents($subject->name)));
@@ -543,6 +574,7 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   /** Sort fields */
   $document->addField('ss_longlabel', $title_sort);
   $document->addField('iass_longlabel', $title_sort);
+    $document->addField('tus_longlabel', $title_sort);
   /** add translations */
   dlts_solr_index_book_translations($document, $entity, $entity_type, $env_id, $searchableFields);
   unset($document->content);

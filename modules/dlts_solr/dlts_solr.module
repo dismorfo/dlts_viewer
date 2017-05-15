@@ -1,37 +1,5 @@
 <?php
 
-/**
- * http://api.drupal.org/api/drupal/modules--aggregator--aggregator.module/function/aggregator_cron/7
- */
-function dlts_solr_cron() {
-  //drush_log(__FUNCTION__,'ok');
-  //$type = 'node';
-  //$env_id = 'solr';
-  //$bundle = 'dlts_series';
-  // apachesolr_index_node_solr_reindex($env_id, $bundle);
-  // while I test https://jira.nyu.edu/jira/browse/AWDL-207
-  //$bundle = 'dlts_book';
-  //$indexer_table = apachesolr_get_indexer_table($type);
-  //$id = 810;
-  // https://jira.nyu.edu/jira/browse/DLTSVIEWER-60
-  // http://stage-dl-pa.home.nyu.edu/viewer/books/brill_awdl000003/1  
-  //$id = 2836;
-  //db_merge($indexer_table)->key(array('entity_type' => $type, 'entity_id' => $id))
-    //->insertFields(array('entity_type' => $type, 'entity_id' => $id, 'bundle' => $bundle, 'status' => 1))
-    //->fields(array('changed' => REQUEST_TIME))
-    //->execute();
-  //$id = 8091;    
-  //db_merge($indexer_table)->key(array('entity_type' => $type, 'entity_id' => $id))
-    //->insertFields(array('entity_type' => $type, 'entity_id' => $id, 'bundle' => $bundle, 'status' => 1))
-    //->fields(array('changed' => REQUEST_TIME))
-    //->execute();
-  //$id = 2840;    
-  //db_merge($indexer_table)->key(array('entity_type' => $type, 'entity_id' => $id))
-    //->insertFields(array('entity_type' => $type, 'entity_id' => $id, 'bundle' => $bundle, 'status' => 1))
-    //->fields(array('changed' => REQUEST_TIME))
-    //->execute();        
-}
-
 function dlts_solr_node_update($node) {
 	$bundle = 'dlts_book';
   if ($node->type == $bundle && $node->language != 'en') {
@@ -90,13 +58,6 @@ function dlts_solr_apachesolr_index_document_build(ApacheSolrDocument $document,
     	/** pass the document as reference */
       dlts_solr_index_book($document, $entity, $entity_type, $env_id);
       break;
-    case 'dlts_series' :
-    	/** load utils */
-    	module_load_include('inc', 'dlts_solr', 'inc/series');
-    	/** pass the document as reference */
-      dlts_solr_index_series($document, $entity, $entity_type, $env_id);
-      break;
-      
   }
 }
 
@@ -177,6 +138,16 @@ function seems_utf8( $str ) {
 }
 
 /**
+*cleanup for arabic characters
+*/
+function dlts_solr_remove_special_cahrs($string) {
+        //remove modified letter turn comma
+                 $string=preg_replace('/[\x{02BB}-\x{02BD}]+/u','',$string);
+               //remove special characters
+                 $string=preg_replace('/(\,|\[|]|\.|}|\{)/','',$string);
+                return $string;
+}
+/**
  * Taken from: https://core.trac.wordpress.org/browser/tags/4.4.2/src/wp-includes/formatting.php
  * Converts all accent characters to ASCII characters.
  *
@@ -188,6 +159,11 @@ function seems_utf8( $str ) {
  * @return string Filtered string with replaced "nice" characters.
  */
 function dlts_solr_remove_accents($string) {
+
+        //remove modified letter turn comma
+                 $string=preg_replace('/[\x{02BB}-\x{02BD}]+/u','',$string);
+               //remove special characters
+                 $string=preg_replace('/(\,|\[|]|\.|}|\{)/','',$string);
 	if ( !preg_match('/[\x80-\xff]/', $string) )
 		return $string;
 
@@ -395,6 +371,8 @@ function dlts_solr_remove_accents($string) {
                //remove combined diacritics
                  $string=preg_replace('/[\x{0300}-\x{036f}]+/u','',$string);
                //remove modified letter turn comma
-                 $string=preg_replace('/\x{02BB}+/u','',$string);
+                 $string=preg_replace('/[\x{02BB}-\x{02BD}]+/u','',$string);
+               //remove special characters
+                 $string=preg_replace('/(\,|\[|]|\.|}|\{)/','',$string);
 	return $string;
 }
