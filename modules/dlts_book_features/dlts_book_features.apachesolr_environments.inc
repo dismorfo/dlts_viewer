@@ -26,8 +26,11 @@ function dlts_book_features_apachesolr_environments() {
       0 => 'dlts_book',
       1 => 'dlts_collection',
       2 => 'dlts_map',
-      3 => 'dlts_partner',
-      4 => 'dlts_series',
+      3 => 'dlts_multivol',
+      4 => 'dlts_multivol_book',
+      5 => 'dlts_partner',
+      6 => 'dlts_series',
+      7 => 'dlts_series_book',
     ),
   );
   $export['solr'] = $environment;
