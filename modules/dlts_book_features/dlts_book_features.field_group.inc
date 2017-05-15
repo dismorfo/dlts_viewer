@@ -70,7 +70,7 @@ function dlts_book_features_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Descriptive Metadata',
-    'weight' => '41',
+    'weight' => '42',
     'children' => array(
       0 => 'field_creator',
       1 => 'field_description',
@@ -80,7 +80,6 @@ function dlts_book_features_field_group_info() {
       5 => 'field_read_order',
       6 => 'field_scan_date',
       7 => 'field_scan_order',
-      8 => 'field_scanning_notes',
     ),
     'format_type' => 'html-element',
     'format_settings' => array(
@@ -188,7 +187,7 @@ function dlts_book_features_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Structural Metadata',
-    'weight' => '39',
+    'weight' => '40',
     'children' => array(
       0 => 'group_essence',
     ),
@@ -245,7 +244,7 @@ function dlts_book_features_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Technical Metadata',
-    'weight' => '40',
+    'weight' => '41',
     'children' => array(),
     'format_type' => 'html-element',
     'format_settings' => array(
