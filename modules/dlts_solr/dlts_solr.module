@@ -372,6 +372,8 @@ function dlts_solr_remove_accents($string) {
                  $string=preg_replace('/[\x{0300}-\x{036f}]+/u','',$string);
                //remove modified letter turn comma
                  $string=preg_replace('/[\x{02BB}-\x{02BD}]+/u','',$string);
+               //remove additional diacritics - enough with that need to do all this in solr 
+                 $string=preg_replace('/[\x{1E25}]+/u','h',$string);
                //remove special characters
                  $string=preg_replace('/(\,|\[|]|\.|}|\{)/','',$string);
 	return $string;
