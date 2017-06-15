@@ -530,10 +530,10 @@ function dlts_book_api_book_metadata($book) {
                        );
         if( array_key_exists($name,$raw_values)) {
           if( in_array($value,$raw_values) ) {
-            $value='1';
+            $value='0';
           }
           else {
-            $value='0';
+            $value='1';
           }
         }
     }
