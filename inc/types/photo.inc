@@ -24,9 +24,6 @@ function dlts_viewer_full_photo_view(&$entity) {
         'levels' => $entity->args['levels'],
         'dwtLevels' => $entity->args['dwtLevels'],
         'compositingLayerCount' => $entity->args['compositingLayerCount'],
-        'thumbnails-url' => $entity->thumbnailsURL,
-        'thumbnails-rows' => $entity->thumbnailsRows,
-        'thumbnails-page' => $entity->thumbnailsPage,
     );
     $vars = array(
         'compositingLayerCount' => $entity->args['compositingLayerCount'],
@@ -35,9 +32,6 @@ function dlts_viewer_full_photo_view(&$entity) {
         'height' => $entity->args['height'],
         'identifier' => $entity->identifier,
         'levels' => $entity->args['levels'],
-        'thumbnailsPage' => $entity->thumbnailsPage,
-        'thumbnailsRows' => $entity->thumbnailsRows,
-        'thumbnailsURL' => $entity->thumbnailsURL,
         'title' => $entity->title,
         'uri' => $entity->args['uri'],
         'width' => $entity->args['width'],
@@ -71,9 +65,6 @@ function dlts_viewer_pjax_photo_view(&$entity) {
         'levels' => $entity->book_page_data['levels'],
         'sequence' => $entity->sequence,
         'sequence_count' => $entity->sequence_count,
-        'thumbnailsPage' => $entity->thumbnailsPage,
-        'thumbnailsRows' => $entity->thumbnailsRows,
-        'thumbnailsURL' => $entity->thumbnailsURL,
         'title' => $entity->title,
         'uri' => $entity->book_page_data['uri'],
         'width' => $entity->book_page_data['width'],
@@ -92,56 +83,26 @@ function dlts_viewer_photo_set_view(&$entity)
     drupal_add_js($module_path . '/js/crossframe.js', $js_common_config);
     drupal_add_js($module_path . '/js/ui.keyboard.yui.js', $js_common_config);
 
-    /** Load helpers */
-    module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
-    // check request type
-    $is_pjax = dlts_viewer_is_pjax();
-    // get query parameters
-    $query_parameters = drupal_get_query_parameters();
 
     drupal_set_title($entity->title);
-    // wrapp book entity with Entity API wrapper
-    $set_wrapper = entity_metadata_wrapper('node', $entity);
-    // book identifier
-    $identifier = $set_wrapper->field_identifier->value();
-    // set $identifier so that .tpl.php can use it
-    $entity->identifier = $identifier;
-    // book URL
-    $set_url = url('photos/' . $entity->identifier , array('absolute' => TRUE));
-    // set $url so that .tpl.php can use it
-    $entity->url = $set_url;
-    /** hold query arguments */
 
-    // start page
-    $page = $query_parameters["page"];
-    // default amount of items to request
-    $per_page = 1;
-
-    // request thumbnails from MondoDB
-    $thumbnails = dlts_viewer_mongodb_load_thumbnails($identifier, $page, $per_page,'dlts_photo','photos');
-    // no need to continue if request does not have items.
-    if ($thumbnails) {
         // count of thumbnails
-        $count = $thumbnails['count'];
+        $count = $entity->count;
         // Items
-        $items = $thumbnails['items'];
+        //$items = $entity->items;
+        $rows = $entity->rows;
         // Initialise the pager
-        $current_page = pager_default_initialize($count, $per_page);
+        $current_page = pager_default_initialize($count, $rows.length);
         // Pager
         $pager = theme('thumbnails_pager', array('quantity' => $count));
-        $placeholder = $GLOBALS['base_url'] . '/' . drupal_get_path('module', 'dlts_viewer') . '/images/loadhold.png';
+
         $output = theme('dlts_viewer_set', array(
-                'items' => $items,
                 'pager' => $pager,
-                'sequence' => 4,
-                'placeholder' => $placeholder,
-                //'element' => ,
                 'current_page' => $current_page,
+                'rows'=> $rows
             )
         );
         return $output;
-    }
-
 }
 
 function dlts_viewer_photo_dispatcher($entity,$arg) {
@@ -164,11 +125,37 @@ function dlts_viewer_photo_dispatcher($entity,$arg) {
     $entity->url = $set_url;
 
     // check for type of request: 1) book page or 2) display pane
-    if (!is_array($arg) ) { //&& $arg == 'set') {
+    if (!is_array($arg)) { //&& $arg == 'set') {
 
-            $display_type = 'photo_set';
+        /** Load helpers */
+        module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
+        // check request type
 
-        //return $output;
+        $page = $query_parameters["page"];
+        if(!isset($page)) {
+            $page=0;
+        }
+        // default number of rows per page
+        $rows_per_page=2;
+        // default amount of items to request
+        $per_page = 12;
+        // request thumbnails from MondoDB
+        $thumbnails = dlts_viewer_mongodb_load_thumbnails($identifier, $page, $per_page,'dlts_photo','photos');
+        // no need to continue if request does not have items.
+        if ($thumbnails) {
+            // count of thumbnails
+            $count = $thumbnails['count'];
+            // Items
+            $items = $thumbnails['items'];
+            //slice items into rows
+            $rows =array_chunk($items,$rows_per_page);
+
+            $entity->count=$count;
+            $entity->rows=$rows;
+        }
+        $display_type = 'photo_set';
+
+
     }
     else {
         // type of request
