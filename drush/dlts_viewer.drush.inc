@@ -21,18 +21,50 @@
  * @return
  *   An associative array describing your command(s).
  */
+
 function dlts_viewer_drush_command() {
   $items = array();
+    $items['import-photo1'] = array(
+        'callback' => 'dlts_viewer_import_photo',
+        'description' => dt('Import photo from a JSON document.'),
+        'options' => array(
+            'source' => dt('JSON document filepath.'),
+        ),
+    );
   $items['import-book'] = array(
-    'callback' => 'dlts_viewer_import_book',
-    'description' => dt('Import book from a JSON document.'),
-    'options' => array(
-      'source' => dt('JSON document filepath.'),
-      'pages' => dt('Create pages.'),
-      'legacy' => dt('Create book using legacy JSON documents.'),
-    ),
-  );
-  return $items;
+        'callback' => 'dlts_viewer_import_book1',
+        'description' => dt('Import book from a JSON document.'),
+        'options' => array(
+            'source' => dt('JSON document filepath.'),
+            'pages' => dt('Create pages.'),
+            'legacy' => dt('Create book using legacy JSON documents.'),
+        ),
+    );
+    $items['git-pull-books'] = array(
+        'callback' => 'dlts_viewer_pull_books_from_git_repo',
+        'description' => dt('Import book from a git repository'),
+        'options' => array(
+            'git-dir' => dt('Git repo directory path'),
+            'git-worktree' => dt('Git repo directory  work tree'),
+            'git-branch' => dt('Project branch'), // @TODO: not implemented
+        ),
+    );
+    $items['import-add-book-queue'] = array(
+        'callback' => 'dlts_viewer_add_json_documents_queue',
+        'description' => dt('Something nice will be here'),
+        'options' => array(
+            'source' => dt('Book source'),
+            'legacy' => dt('Create book using legacy JSON documents.'),
+        ),
+    );
+    $items['import-free-queue'] = array(
+        'callback' => 'dlts_viewer_free_json_documents_queue',
+        'description' => dt('Import book from a git repository'),
+        'options' => array(
+            'pages' => dt('Create pages.'),
+        ),
+    );
+    return $items;
 }
 
 /**
@@ -53,6 +85,26 @@ function dlts_viewer_drush_help($section) {
       return dt("Some day someone will document this module");
       break;
   }
+}
+
+function dlts_viewer_import_photo($source = NULL) {
+    include_once(__DIR__ . '/inc/common.inc');
+    include_once(__DIR__ . '/inc/datasource.inc');
+    include_once(__DIR__ . '/inc/create.inc');
+    if (!$source) {
+        $source = drush_get_option('source', NULL);
+        if (!$source) {
+            drush_log('No source to import 1', 'error');
+            return;
+        }
+    }
+    drush_log('we are here');
+    if (is_dir($source)) {
+        create_dlts_photo_from_json(file_scan_directory($source, '/(.*)\.json$/', array('recurse' => FALSE)));
+    }
+    else {
+        return create_dlts_photo_from_json(array((object) array('uri' => $source)));
+    }
 }
 
 function dlts_viewer_import_book($source = NULL, $create_pages = FALSE) {

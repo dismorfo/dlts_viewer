@@ -10,7 +10,7 @@
  */
 function dlts_viewer_djatoka_request($file) {
 	$file = (object) $file;
-  $service_url = variable_get('dlts_viewer_djatoka_service', 'http://dl-imgdev.home.nyu.edu/adore-djatoka');
+  $service_url = variable_get('dlts_viewer_djatoka_service', 'http://dl-img.home.nyu.edu/adore-djatoka');
   $rft_id = file_create_url($file->uri);
   // aof; here for now.
   //if (isset($file->timestamp)) {
@@ -36,7 +36,7 @@ function dlts_viewer_djatoka_request($file) {
 }
 
 function dlts_viewer_djatoka_url($file) {
-	$service = variable_get('dlts_viewer_djatoka_service', 'http://dl-imgdev.home.nyu.edu/adore-djatoka');
+	$service = variable_get('dlts_viewer_djatoka_service', 'http://dl-img.home.nyu.edu/adore-djatoka');
 	$arguments = array(
 	  'url_ver' => 'Z39.88-2004',
 		'svc_id' => 'info:lanl-repo/svc/getRegion',

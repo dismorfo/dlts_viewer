@@ -8,6 +8,147 @@
 /**
  * Themes functions
  */
+/**
+ * Implements hook_custom_theme().
+ * http://api.drupal.org/api/drupal/modules--system--system.api.php/function/hook_custom_theme/7
+ */
+
+
+
+function dlts_viewer_theme() {
+    return array(
+        'dlts_viewer_pager_button' => array(
+            'variables' => array(),
+        ),
+        'thumbnails_pager' => array(
+            'variables' => array(
+                'tags' => array(),
+                'limit' => 10,
+                'element' => 0,
+                'parameters' => array(),
+                'quantity' => 9
+            ),
+        ),
+        'dlts_viewer_openlayers_image' => array(
+            'variables' => array(),
+        ),
+        'dlts_viewer_navbar_item' => array(
+            'variables' => array(),
+        ),
+        'dlts_viewer_loading' => array(
+            'template' => 'templates/components/component--loading',
+            'variables' => array(
+                'sequence_number' => 0,
+            ),
+        ),
+        'dlts_viewer_slider' => array(
+            'template' => 'templates/components/component--slider',
+            'variables' => array(
+                'slider_id' => 'slider',
+                'uri' => base_path(),
+                'lang_dir' => 'rtl',
+                'sequence_number' => 0,
+                'sequence_count' => 0,
+            ),
+        ),
+        'dlts_viewer_navbar' => array(
+            'template' => 'templates/components/component--navbar',
+            'variables' => array(),
+        ),
+        'dlts_viewer_thumbnails' => array(
+            'template' => 'templates/components/component--thumbnails',
+            'variables' => array(),
+        ),
+        'dlts_viewer_set' => array(
+            'template' => 'templates/set',
+            'variables' => array(),
+        ),
+        'dlts_viewer_controlpanel' => array(
+            'template' => 'templates/components/component--control_panel',
+            'variables' => NULL,
+        ),
+        'viewer' => array(
+            'template' => 'templates/components/component--viewer',
+            'variables' => array(),
+        ),
+        'viewer_page' => array(
+            'template' => 'templates/components/component--bookpage',
+            'variables' => array(),
+        ),
+        'viewer_map' => array(
+            'template' => 'templates/components/component--map',
+            'variables' => array(),
+        ),
+        'viewer_display' => array(
+            'template' => 'templates/components/component--display',
+            'variables' => array(),
+        ),
+        'dlts_viewer_oembed' => array(
+            'template' => 'templates/components/component--oembed',
+            'variables' => array(),
+        ),
+        'dlts_viewer_top' => array(
+            'template' => 'templates/components/component--top',
+            'variables' => array(),
+        ),
+        'html__viewer' => array(
+            'render element' => 'content',
+            'base hook' => 'page',
+            'template' => 'templates/html',
+        ),
+        'html__viewer_pjax' => array(
+            'render element' => 'content',
+            'base hook' => 'page',
+            'template' => 'templates/html.pjax',
+        ),
+        'page__viewer' => array(
+            'render element' => 'content',
+            'base hook' => 'page',
+            'template' => 'templates/page',
+        ),
+        'page__viewer_pjax' => array(
+            'render element' => 'content',
+            'base hook' => 'page',
+            'template' => 'templates/page.pjax',
+        ),
+        'ds_1col__node_metadata' => array(
+            'render element' => 'content',
+            'base hook' => 'page',
+            'template' => 'templates/ds-1col--node-metadata',
+        ),
+        'node__display' => array(
+            'render element' => 'content',
+            'base hook' => 'node',
+            'template' => 'templates/display',
+        ),
+        'block__content' => array(
+            'render element' => 'content',
+            'base hook' => 'page',
+            'template' => 'templates/block',
+        ),
+        'region__content' => array(
+            'render element' => 'content',
+            'base hook' => 'page',
+            'template' => 'templates/region',
+        ),
+        'node__dlts_book' => array(
+            'render element' => 'content',
+            'base hook' => 'page',
+            'template' => 'templates/node',
+        ),
+        'node__dlts_book_pjax' => array(
+            'render element' => 'content',
+            'base hook' => 'page',
+            'template' => 'templates/node.pjax',
+        ),
+    );
+}
+function dlts_viewer_theme_registry_alter(&$theme_registry) {
+    if (!empty($theme_registry['field'])) {
+        $theme_registry['field']['function'] = 'dlts_viewer_theme_field';
+    }
+}
+
 function theme_dlts_viewer_pager_button($variables) {
 
 	$classes = array('paging');
@@ -77,7 +218,7 @@ function theme_dlts_viewer_openlayers_image($variables) {
   }
   
   $openlayers_options = array(
-    'service' => variable_get('dlts_viewer_djatoka_service', 'http://dl-imgdev.home.nyu.edu/adore-djatoka'),
+    'service' => variable_get('dlts_viewer_djatoka_service', 'http://dl-img.home.nyu.edu/adore-djatoka'),
     'imgMetadata' => array(
       'width' => $file['width'],
       'height' => $file['height'],
@@ -136,6 +277,7 @@ function theme_dlts_viewer_openlayers_image($variables) {
  * (theme_item_list() in particular).
  */
 function theme_thumbnails_pager($vars) {
+    print_r($vars);
 	$tags = $vars['tags'];
 	$element = $vars['element'];
 	$parameters = $vars['parameters'];

@@ -31,6 +31,13 @@ function dlts_viewer_mongodb_new_sequence($arguments, $collection_name = 'dlts_b
 	return dlts_viewer_mongodb_update_sequence($arguments, $collection_name);
 }
 
+function dlts_viewer_mongodb_load_by_identifier($identifier, $collection_name) {
+    $query = (object) array('identifier' => $identifier);
+    $cursor = mongodb_collection($collection_name);
+    $result = $cursor->findOne($query);
+    return $result;
+}
+
 function dlts_viewer_mongodb_load_sequence($sequence, $isPartOf, $collection_name = 'dlts_books_page') {
 	// make sure we have a number
 	$sequence = (int) $sequence;
@@ -41,12 +48,11 @@ function dlts_viewer_mongodb_load_sequence($sequence, $isPartOf, $collection_nam
 	return $result;
 }
 
-function dlts_viewer_mongodb_load_thumbnails($isPartOf, $page = 0, $per_page = 10) {
+function dlts_viewer_mongodb_load_thumbnails($isPartOf, $page = 0, $per_page = 10, $collection_name, $content_type) {
 	/**
 	 * Load helpers
 	 */
 	module_load_include('inc', 'dlts_viewer', 'inc/djatoka');
-	$collection_name = 'dlts_books_page';
 	$items = array();
 	$query = (object) array('isPartOf' => $isPartOf);
 	$cursor = mongodb_collection($collection_name)->find($query);
@@ -66,7 +72,7 @@ function dlts_viewer_mongodb_load_thumbnails($isPartOf, $page = 0, $per_page = 1
 			if (is_array($thumbnail['sequence'])) {
 				$thumbnail['sequence'] = min($thumbnail['sequence']);
 			}
-			$thumbnail['url'] = url('books/' . $isPartOf . '/' . $thumbnail['sequence'], array('absolute' => TRUE));
+            $thumbnail['url'] = url($content_type.'/' . $isPartOf . '/' . $thumbnail['sequence'], array('absolute' => TRUE));
 			$thumbnail['imageServeURI'] = dlts_viewer_djatoka_url($thumbnail['cm']);
 			$items[] = $thumbnail;
 		}
