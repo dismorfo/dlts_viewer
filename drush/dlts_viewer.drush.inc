@@ -24,7 +24,7 @@
 
 function dlts_viewer_drush_command() {
   $items = array();
-    $items['import-photo1'] = array(
+    $items['import-photo'] = array(
         'callback' => 'dlts_viewer_import_photo',
         'description' => dt('Import photo from a JSON document.'),
         'options' => array(
@@ -94,16 +94,16 @@ function dlts_viewer_import_photo($source = NULL) {
     if (!$source) {
         $source = drush_get_option('source', NULL);
         if (!$source) {
-            drush_log('No source to import 1', 'error');
+            drush_log('No source to import ', 'error');
             return;
         }
     }
     drush_log('we are here');
     if (is_dir($source)) {
-        create_dlts_photo_from_json(file_scan_directory($source, '/(.*)\.json$/', array('recurse' => FALSE)));
+        create_dlts_photo_set_from_json(file_scan_directory($source, '/(.*)\.json$/', array('recurse' => FALSE)));
     }
     else {
-        return create_dlts_photo_from_json(array((object) array('uri' => $source)));
+        return create_dlts_photo_set_from_json(array((object) array('uri' => $source)));
     }
 }
 

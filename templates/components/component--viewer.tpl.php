@@ -28,7 +28,7 @@
             </div>
         <?php endif; ?>
     </div>
-<?php if (isset($slider)) : ?>
+<?php if (isset($slider)&&!isset($off)) : ?>
     <div id="pager" dir="<?php print $language_dir ?>" class="pane pager">
         <?php print $slider ?>
     </div>

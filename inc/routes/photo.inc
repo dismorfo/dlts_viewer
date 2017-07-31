@@ -6,7 +6,6 @@ function _dlts_viewer_menu_photo() {
             'title' => 'Photo page',
             'access arguments' => array('access content'),
             'page callback' => 'dlts_viewer_photo_dispatcher',
-            //'page callback' => 'test',
             'page arguments' => array(1,2),
             'delivery callback' => 'drupal_deliver_html_page',
             'type' => MENU_CALLBACK,
@@ -15,7 +14,7 @@ function _dlts_viewer_menu_photo() {
         'photos/%dlts_photo_set' => array(
             'title' => 'Book metadata display',
             'access arguments' => array('access content'),
-            'page callback' => 'dlts_viewer_dispatch_photo_thumbnails',
+            'page callback' => 'dlts_viewer_photo_dispatcher',
             'page arguments' => array(1),
             'delivery callback' => 'drupal_deliver_html_page',
             'type' => MENU_CALLBACK,

@@ -24,6 +24,9 @@ function dlts_viewer_full_photo_view(&$entity) {
         'levels' => $entity->args['levels'],
         'dwtLevels' => $entity->args['dwtLevels'],
         'compositingLayerCount' => $entity->args['compositingLayerCount'],
+        'thumbnails-url' => $entity->thumbnailsURL,
+		'thumbnails-rows' => $entity->thumbnailsRows,
+		'thumbnails-page' => $entity->thumbnailsPage,
     );
     $vars = array(
         'compositingLayerCount' => $entity->args['compositingLayerCount'],
@@ -89,10 +92,12 @@ function dlts_viewer_photo_set_view(&$entity)
         // count of thumbnails
         $count = $entity->count;
         // Items
-        //$items = $entity->items;
+        //items, splited in rows
         $rows = $entity->rows;
+        //$items = $entity->items;
+        $per_page = $entity->per_page;
         // Initialise the pager
-        $current_page = pager_default_initialize($count, $rows.length);
+        $current_page = pager_default_initialize($count, $per_page);
         // Pager
         $pager = theme('thumbnails_pager', array('quantity' => $count));
 
@@ -125,7 +130,7 @@ function dlts_viewer_photo_dispatcher($entity,$arg) {
     $entity->url = $set_url;
 
     // check for type of request: 1) book page or 2) display pane
-    if (!is_array($arg)) { //&& $arg == 'set') {
+    if (!is_array($arg)) {
 
         /** Load helpers */
         module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
@@ -136,7 +141,7 @@ function dlts_viewer_photo_dispatcher($entity,$arg) {
             $page=0;
         }
         // default number of rows per page
-        $rows_per_page=2;
+        $items_in_row=6;
         // default amount of items to request
         $per_page = 12;
         // request thumbnails from MondoDB
@@ -148,14 +153,12 @@ function dlts_viewer_photo_dispatcher($entity,$arg) {
             // Items
             $items = $thumbnails['items'];
             //slice items into rows
-            $rows =array_chunk($items,$rows_per_page);
+            $rows =array_chunk($items, ceil($count/$items_in_row));
 
             $entity->count=$count;
             $entity->rows=$rows;
         }
         $display_type = 'photo_set';
-
-
     }
     else {
         // type of request
@@ -164,7 +167,7 @@ function dlts_viewer_photo_dispatcher($entity,$arg) {
             $display_type = 'photo_page_pjax';
         }
 
-        $thumbnails_rows_per_page = 1;
+        $thumbnails_rows_per_page = 6;
         $sequence = $arg['sequence'];
         if (isset($query_parameters['rows'])) {
             $thumbnails_rows_per_page = filter_xss($query_parameters['rows']);
@@ -218,7 +221,7 @@ function dlts_viewer_photo_dispatcher($entity,$arg) {
         );
         $button_fullscreen_options = array(
             'title' => t('Toggle fullscreen'),
-            'path' => 'photos/' . $entity->identifier.'/' .$page,
+            'path' => 'photos/' . $entity->identifier.'/1', //.$page,
             'attributes' => array(
                 'data-title' => t('Toggle fullscreen'),
                 'title' => t('Toggle fullscreen'),
@@ -236,7 +239,7 @@ function dlts_viewer_photo_dispatcher($entity,$arg) {
                 'class' => array('button', 'thumbnails', 'off'),
                 'id' => array('button-thumbnails')
             ),
-            'fragment' => 'thumbnails',
+            //'fragment' => 'thumbnails',
         );
         $button_previous = theme('dlts_viewer_pager_button', $button_previous_options);
         $button_next = theme('dlts_viewer_pager_button', $button_next_options);
@@ -305,59 +308,6 @@ function dlts_viewer_photo_dispatcher($entity,$arg) {
     }
 }
 
-function dlts_viewer_dispatch_photo_thumbnails($entity) {
-    /** Load helpers */
-    module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
-    // check request type
-    $is_pjax = dlts_viewer_is_pjax();
-    // get query parameters
-    $query_parameters = drupal_get_query_parameters();
-
-    drupal_set_title($entity->title);
-    // wrapp book entity with Entity API wrapper
-    $set_wrapper = entity_metadata_wrapper('node', $entity);
-    // book identifier
-    $identifier = $set_wrapper->field_identifier->value();
-    // set $identifier so that .tpl.php can use it
-    $entity->identifier = $identifier;
-    // book URL
-    $set_url = url('photos/' . $entity->identifier , array('absolute' => TRUE));
-    // set $url so that .tpl.php can use it
-    $entity->url = $set_url;
-    /** hold query arguments */
-
-    // start page
-    $page = 0;
-    // default amount of items to request
-    $per_page = 4;
-
-    // request thumbnails from MondoDB
-    $thumbnails = dlts_viewer_mongodb_load_thumbnails($identifier, $page, $per_page,'dlts_photo','photos');
-    // no need to continue if request does not have items.
-    if ($thumbnails) {
-        // count of thumbnails
-        $count = $thumbnails['count'];
-        // Items
-        $items = $thumbnails['items'];
-        // Initialise the pager
-        $current_page = pager_default_initialize($count, $per_page);
-        // Pager
-        $pager = theme('thumbnails_pager', array('quantity' => $count));
-        $placeholder = $GLOBALS['base_url'] . '/' . drupal_get_path('module', 'dlts_viewer') . '/images/loadhold.png';
-        $output = theme('dlts_viewer_thumbnails', array(
-                'items' => $items,
-                'pager' => $pager,
-                //'sequence' => 4,
-                'placeholder' => $placeholder,
-                'current_page' => $current_page,
-            )
-        );
-        return $output;
-    }
-    else {
-        drupal_exit();
-    }
-}
 
 function dlts_viewer_preprocess_html_photos(&$vars) {
     dlts_viewer_preprocess_html_photo($vars);

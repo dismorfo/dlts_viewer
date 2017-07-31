@@ -22,21 +22,38 @@ YUI().use(
   var display = Y.one('#display');
   var pager = Y.one('#pager');
   var displayData = display.getData();
-  var land_dir = pager.get('dir');
+  var land_dir;
+  /** this is just temporary fix- the problem when there is no slider fullscreen function can't get land_dir
+   * and throws errors **/
+
   var bookUrl = displayData['url'];
   var sequenceCount = parseInt(displayData['sequence-count'] , 10);
   var sequence = parseInt(displayData['sequence'] , 10);
   var slider_datasource = Y.one('#slider_value');
   /** slider object */
-  var slider = new Y.Slider({
-    axis: 'x',
-    min: 1,
-    dir: land_dir,
-    clickableRail: false,
-    max: sequenceCount,
-    value: sequence,
-    length:(Y.one('#pager').get('offsetWidth') - 120) + 'px'
-  });
+  if(pager!=null) {
+      var land_dir = pager.get('dir');
+
+      var slider = new Y.Slider({
+          axis: 'x',
+          min: 1,
+          dir: land_dir,
+          clickableRail: false,
+          max: sequenceCount,
+          value: sequence,
+          length: (Y.one('#pager').get('offsetWidth') - 120) + 'px'
+      })
+  } else {
+      var slider = new Y.Slider({
+          axis: 'x',
+          min: 1,
+          dir: land_dir,
+          clickableRail: false,
+          max: sequenceCount,
+          value: sequence,
+          length:  '120 px'
+      })
+  };
   /** nodes */
 
     function on_toggle_language(e) {
@@ -502,9 +519,10 @@ YUI().use(
     slider.after('slideEnd', slide_end, slider);
 
     Y.on('pjax:load:available', onPjaxLoadAvailable);
-
-    Y.one('.pane.pager').delegate('submit', pager_form, 'form', slider_datasource);
-
+    /** temporary - because of fullscreen problems, need real solution */
+    if(pager != null) {
+        Y.one('.pane.pager').delegate('submit', pager_form, 'form', slider_datasource);
+    }
     /**
      * Pjax object to request new book pages; the content from
      * successful requests will be appended to "display" pane

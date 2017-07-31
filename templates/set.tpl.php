@@ -4,8 +4,9 @@
         <?php print $pager ?>
     <?php endif; ?>
 </div>
-<div  class="views-g pane " >
+
     <?php if (isset($rows)) : ?>
+<div  class="views-g pane thumbnails" >
         <?php foreach ($rows as $row) : ?>
     <div>
             <?php foreach ($row as $thumbnail) : ?>
@@ -19,5 +20,6 @@
             <?php endforeach ?>
     </div>
         <?php endforeach ?>
-    <?php endif ?>
+
 </div>
+    <?php endif ?>
