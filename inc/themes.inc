@@ -71,6 +71,10 @@ function dlts_viewer_theme() {
             'template' => 'templates/components/component--viewer',
             'variables' => array(),
         ),
+        'photo' => array(
+            'template' => 'templates/components/component--photo',
+            'variables' => array(),
+        ),
         'viewer_page' => array(
             'template' => 'templates/components/component--bookpage',
             'variables' => array(),
@@ -277,7 +281,6 @@ function theme_dlts_viewer_openlayers_image($variables) {
  * (theme_item_list() in particular).
  */
 function theme_thumbnails_pager($vars) {
-    print_r($vars);
 	$tags = $vars['tags'];
 	$element = $vars['element'];
 	$parameters = $vars['parameters'];

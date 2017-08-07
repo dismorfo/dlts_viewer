@@ -1639,3 +1639,6 @@ body.openlayers-loading .olLayerDiv {
   margin-left: inherit;
   margin-right: inherit;
 }
+#pager[dir="rtl"] {
+  direction: rtl;
+}

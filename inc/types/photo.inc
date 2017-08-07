@@ -11,7 +11,7 @@ function dlts_viewer_full_photo_view(&$entity) {
     drupal_add_js('http://yui.yahooapis.com/3.18.1/build/yui/yui-min.js', 'external', array('group' => JS_LIBRARY, 'weight' => -100));
     drupal_add_js($module_path . '/js/crossframe.js', $js_common_config);
     drupal_add_js($module_path . '/js/ui.keyboard.yui.js', $js_common_config);
-    drupal_add_js($module_path . '/js/ui.components.yui.js', $js_common_config);
+    drupal_add_js($module_path . '/js/ui.photo.components.yui.js', $js_common_config);
     drupal_add_js(variable_get('dlts_viewer_openlayers_source', 'sites/all/libraries/openlayers/build/OpenLayers.js'), array('group' => JS_LIBRARY));
     $data_attributes = array(
         'uri' => $entity->args['uri'],
@@ -42,7 +42,6 @@ function dlts_viewer_full_photo_view(&$entity) {
         'data_attributes' => $data_attributes,
     );
     $viewer = array(
-        //'slider' => $entity->slider,
         'book_page' => $entity->map,
         'map' => theme('viewer_map', $vars),
         'language_dir' => $entity->lang_dir,
@@ -59,7 +58,6 @@ function dlts_viewer_pjax_photo_view(&$entity) {
     $vars = array(
         'button_next' => $entity->button_next,
         'button_previous' => $entity->button_previous,
-        'button_togglepage' => $entity->button_togglepage,
         'compositingLayerCount' => $entity->book_page_data['compositingLayerCount'],
         'dwtLevels' => $entity->book_page_data['dwtLevels'],
         'fid' => $entity->book_page_data['fid'],
@@ -85,29 +83,26 @@ function dlts_viewer_photo_set_view(&$entity)
     drupal_add_js('http://yui.yahooapis.com/3.18.1/build/yui/yui-min.js', 'external', array('group' => JS_LIBRARY, 'weight' => -100));
     drupal_add_js($module_path . '/js/crossframe.js', $js_common_config);
     drupal_add_js($module_path . '/js/ui.keyboard.yui.js', $js_common_config);
-
-
+    drupal_add_js($module_path . '/js/ui.photo.components.yui.js', $js_common_config);
     drupal_set_title($entity->title);
-
-        // count of thumbnails
-        $count = $entity->count;
-        // Items
-        //items, splited in rows
-        $rows = $entity->rows;
-        //$items = $entity->items;
-        $per_page = $entity->per_page;
-        // Initialise the pager
-        $current_page = pager_default_initialize($count, $per_page);
-        // Pager
-        $pager = theme('thumbnails_pager', array('quantity' => $count));
-
-        $output = theme('dlts_viewer_set', array(
-                'pager' => $pager,
-                'current_page' => $current_page,
-                'rows'=> $rows
-            )
-        );
-        return $output;
+    // count of thumbnails
+    $count = $entity->count;
+    // Items
+    //items, splited in rows
+    $rows = $entity->rows;
+    //$items = $entity->items;
+    $per_page = $entity->per_page;
+    // Initialise the pager
+    $current_page = pager_default_initialize($count, $per_page);
+    // Pager
+    $pager = theme('thumbnails_pager', array('quantity' => $count));
+    $output = theme('dlts_viewer_set', array(
+            'pager' => $pager,
+            'current_page' => $current_page,
+            'rows'=> $rows
+        )
+    );
+    return $output;
 }
 
 function dlts_viewer_photo_dispatcher($entity,$arg) {
@@ -140,10 +135,9 @@ function dlts_viewer_photo_dispatcher($entity,$arg) {
         if(!isset($page)) {
             $page=0;
         }
-        // default number of rows per page
-        $items_in_row=6;
+
         // default amount of items to request
-        $per_page = 12;
+        $per_page = 10;
         // request thumbnails from MondoDB
         $thumbnails = dlts_viewer_mongodb_load_thumbnails($identifier, $page, $per_page,'dlts_photo','photos');
         // no need to continue if request does not have items.
@@ -151,12 +145,13 @@ function dlts_viewer_photo_dispatcher($entity,$arg) {
             // count of thumbnails
             $count = $thumbnails['count'];
             // Items
-            $items = $thumbnails['items'];
-            //slice items into rows
-            $rows =array_chunk($items, ceil($count/$items_in_row));
+            $rows =$thumbnails['items'];
 
             $entity->count=$count;
             $entity->rows=$rows;
+            $entity->per_page=$per_page;
+            $entity->page=$page;
+
         }
         $display_type = 'photo_set';
     }
@@ -167,7 +162,8 @@ function dlts_viewer_photo_dispatcher($entity,$arg) {
             $display_type = 'photo_page_pjax';
         }
 
-        $thumbnails_rows_per_page = 6;
+        $thumbnails_rows_per_page = 10;
+
         $sequence = $arg['sequence'];
         if (isset($query_parameters['rows'])) {
             $thumbnails_rows_per_page = filter_xss($query_parameters['rows']);
@@ -221,7 +217,7 @@ function dlts_viewer_photo_dispatcher($entity,$arg) {
         );
         $button_fullscreen_options = array(
             'title' => t('Toggle fullscreen'),
-            'path' => 'photos/' . $entity->identifier.'/1', //.$page,
+            'path' => 'photos/' . $entity->identifier.'/'.$page,
             'attributes' => array(
                 'data-title' => t('Toggle fullscreen'),
                 'title' => t('Toggle fullscreen'),
@@ -273,13 +269,6 @@ function dlts_viewer_photo_dispatcher($entity,$arg) {
         $entity->loading = theme('dlts_viewer_loading', $loading_options);
         $entity->sequence = $page;
         $entity->sequence_count = $sequence_count;
-        $slider_options = array(
-            'slider_id' => 'slider',
-            'uri' => $set_url,
-            'lang_dir' => $entity->read_order,
-            'sequence_number' => $page,
-            'sequence_count' => $sequence_count
-        );
         $entity->thumbnailsPage = ceil($page / $thumbnails_rows_per_page) - 1;
         $entity->thumbnailsRows = $thumbnails_rows_per_page;
         $entity->thumbnailsURL = $set_url . '/set';
@@ -292,7 +281,7 @@ function dlts_viewer_photo_dispatcher($entity,$arg) {
             'file' => $arg
         );
         $entity->map = theme('dlts_viewer_openlayers_image', $book_page_options);
-        $entity->slider = theme('dlts_viewer_slider', $slider_options);
+
     }
     // types of returns
     switch ($display_type) {
