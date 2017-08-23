@@ -4,7 +4,7 @@
         <?php print $pager ?>
     <?php endif; ?>
 </div>
-<div  class="views-g pane thumbnails-container " id="display" >
+<div  class="views-g pane thumbnails-container photoset-thumbs" id="display" >
 <?php if (isset($rows)) : ?>
 
         <?php foreach ($rows as $thumbnail) : ?>

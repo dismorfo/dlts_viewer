@@ -4,3 +4,13 @@
     margin-right: inherit;
   }
 }
+
+.photoset-thumbs {
+  padding: 10px;
+  .thumbHolder {
+    padding: 20px 20px 0;
+    a {
+      display: block;
+    }
+  }
+}
