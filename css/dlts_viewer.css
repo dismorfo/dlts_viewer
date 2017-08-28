@@ -1,4 +1,4 @@
-/* line 5, ../../../../.rvm/gems/ruby-2.1.4/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 5, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -20,45 +20,45 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* line 22, ../../../../.rvm/gems/ruby-2.1.4/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 html {
   line-height: 1;
 }
 
-/* line 24, ../../../../.rvm/gems/ruby-2.1.4/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 24, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 26, ../../../../.rvm/gems/ruby-2.1.4/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 26, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 28, ../../../../.rvm/gems/ruby-2.1.4/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 28, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 30, ../../../../.rvm/gems/ruby-2.1.4/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 30, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none;
 }
-/* line 103, ../../../../.rvm/gems/ruby-2.1.4/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 103, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
   content: none;
 }
 
-/* line 32, ../../../../.rvm/gems/ruby-2.1.4/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 32, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
 
-/* line 116, ../../../../.rvm/gems/ruby-2.1.4/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+/* line 116, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
   display: block;
 }
@@ -70,6 +70,7 @@ Licensed under the BSD License.
 https://github.com/yahoo/pure/blob/master/LICENSE.md
 */
 /*!
+
 /* ==========================================================================
    Pure Base Extras
    ========================================================================== */
@@ -107,23 +108,29 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
   /* IE < 8: collapse white-space between units */
   text-rendering: optimizespeed;
   /* Webkit: fixes text-rendering: optimizeLegibility */
-  /*
-  Sets the font stack to fonts known to work properly with the above letter
-  and word spacings. See: https://github.com/yahoo/pure/issues/41/
-  The following font stack makes Pure Grids work on all known environments.
-  * FreeSans: Ships with many Linux distros, including Ubuntu
-  * Arimo: Ships with Chrome OS. Arimo has to be defined before Helvetica and
-    Arial to get picked up by the browser, even though neither is available
-    in Chrome OS.
-  * Droid Sans: Ships with all versions of Android.
-  * Helvetica, Arial, sans-serif: Common font stack on OS X and Windows.
-  */
+    /*
+    Sets the font stack to fonts known to work properly with the above letter
+    and word spacings. See: https://github.com/yahoo/pure/issues/41/
+
+    The following font stack makes Pure Grids work on all known environments.
+
+    * FreeSans: Ships with many Linux distros, including Ubuntu
+
+    * Arimo: Ships with Chrome OS. Arimo has to be defined before Helvetica and
+      Arial to get picked up by the browser, even though neither is available
+      in Chrome OS.
+
+    * Droid Sans: Ships with all versions of Android.
+
+    * Helvetica, Arial, sans-serif: Common font stack on OS X and Windows.
+    */
   font-family: FreeSans, Arimo, "Droid Sans", Helvetica, Arial, sans-serif;
-  /*
-  Use flexbox when possible to avoid `letter-spacing` side-effects.
-  NOTE: Firefox(as of 25) does not currently support flex-wrap, so the
-  `-moz-` prefix version is omitted.
-  */
+    /*
+    Use flexbox when possible to avoid `letter-spacing` side-effects.
+
+    NOTE: Firefox(as of 25) does not currently support flex-wrap, so the
+    `-moz-` prefix version is omitted.
+    */
   display: -webkit-flex;
   -webkit-flex-flow: row wrap;
   /* IE10 uses display: flexbox */
@@ -521,8 +528,8 @@ strong {
 
 @font-face {
   font-family: "book-viewer";
-  src: url('../fonts/book-viewer.eot?1450294295');
-  src: url('../fonts/book-viewer.eot?&1450294295#iefix') format('embedded-opentype'), url('../fonts/book-viewer.woff?1450294295') format('woff'), url('../fonts/book-viewer.ttf?1450294295') format('truetype');
+  src: url('../fonts/book-viewer.eot?1484342166');
+  src: url('../fonts/book-viewer.eot?&1484342166#iefix') format('embedded-opentype'), url('../fonts/book-viewer.woff?1484342166') format('woff'), url('../fonts/book-viewer.ttf?1484342166') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -540,23 +547,23 @@ html a {
   text-decoration: none;
   color: #952c2f;
 }
-/* line 4, ../../../../.rvm/gems/ruby-2.1.4/gems/compass-core-1.0.3/stylesheets/compass/typography/links/_hover-link.scss */
+/* line 4, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/typography/links/_hover-link.scss */
 html a:hover, html a:focus {
   text-decoration: underline;
 }
-/* line 18, ../../../../.rvm/gems/ruby-2.1.4/gems/compass-core-1.0.3/stylesheets/compass/typography/links/_link-colors.scss */
+/* line 18, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/typography/links/_link-colors.scss */
 html a:visited {
   color: #823f41;
 }
-/* line 21, ../../../../.rvm/gems/ruby-2.1.4/gems/compass-core-1.0.3/stylesheets/compass/typography/links/_link-colors.scss */
+/* line 21, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/typography/links/_link-colors.scss */
 html a:focus {
   color: #9f2226;
 }
-/* line 24, ../../../../.rvm/gems/ruby-2.1.4/gems/compass-core-1.0.3/stylesheets/compass/typography/links/_link-colors.scss */
+/* line 24, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/typography/links/_link-colors.scss */
 html a:hover {
   color: #9f2226;
 }
-/* line 27, ../../../../.rvm/gems/ruby-2.1.4/gems/compass-core-1.0.3/stylesheets/compass/typography/links/_link-colors.scss */
+/* line 27, ../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets/compass/typography/links/_link-colors.scss */
 html a:active {
   color: #9f2226;
 }
@@ -1052,7 +1059,7 @@ body .display {
   height: inherit;
   float: left;
   /**
-   * https://jira.nyu.edu/browse/DLTSVIEWER-9
+   * https://jira.nyu.edu/browse/DLTSVIEWER-9 
    */
 }
 /* line 29, ../sass/partials/book/panes/_pane-display.scss */
@@ -1634,11 +1641,9 @@ body.openlayers-loading .olLayerDiv {
 #pager[dir="rtl"] ~ .thumbnails .view-book-thumbnails {
   direction: rtl;
 }
+
 /* line 2, ../sass/partials/photo/_base.scss */
 .photo .display {
   margin-left: inherit;
   margin-right: inherit;
-}
-#pager[dir="rtl"] {
-  direction: rtl;
 }

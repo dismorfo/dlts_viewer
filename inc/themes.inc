@@ -145,6 +145,16 @@ function dlts_viewer_theme() {
             'base hook' => 'page',
             'template' => 'templates/node.pjax',
         ),
+        'node__dlts_map' => array(
+            'render element' => 'content',
+            'base hook' => 'page',
+            'template' => 'templates/node',
+        ),
+        'node__dlts_map_pjax' => array(
+            'render element' => 'content',
+            'base hook' => 'page',
+            'template' => 'templates/node.pjax',
+        ),
     );
 }
 function dlts_viewer_theme_registry_alter(&$theme_registry) {

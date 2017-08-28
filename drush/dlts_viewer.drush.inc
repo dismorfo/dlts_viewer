@@ -31,6 +31,13 @@ function dlts_viewer_drush_command() {
             'source' => dt('JSON document filepath.'),
         ),
     );
+    $items['import-map'] = array(
+        'callback' => 'dlts_viewer_import_map',
+        'description' => dt('Import photo from a JSON document.'),
+        'options' => array(
+            'source' => dt('JSON document filepath.'),
+        ),
+    );
   $items['import-book'] = array(
         'callback' => 'dlts_viewer_import_book1',
         'description' => dt('Import book from a JSON document.'),
@@ -104,6 +111,26 @@ function dlts_viewer_import_photo($source = NULL) {
     }
     else {
         return create_dlts_photo_set_from_json(array((object) array('uri' => $source)));
+    }
+}
+
+function dlts_viewer_import_map($source = NULL) {
+    include_once(__DIR__ . '/inc/common.inc');
+    include_once(__DIR__ . '/inc/datasource.inc');
+    include_once(__DIR__ . '/inc/create.inc');
+    if (!$source) {
+        $source = drush_get_option('source', NULL);
+        if (!$source) {
+            drush_log('No source to import ', 'error');
+            return;
+        }
+    }
+    drush_log('we are here');
+    if (is_dir($source)) {
+        create_dlts_map_from_json(file_scan_directory($source, '/(.*)\.json$/', array('recurse' => FALSE)));
+    }
+    else {
+        return create_dlts_map_from_json(array((object) array('uri' => $source)));
     }
 }
 
