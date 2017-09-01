@@ -1,5 +1,5 @@
 
-<div id="book-navbar">
+<div id="book-navbar" class="book-navbar-photos">
     <?php if (isset($pager)) : ?>
         <?php print $pager ?>
     <?php endif; ?>
