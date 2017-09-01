@@ -1649,14 +1649,81 @@ body.openlayers-loading .olLayerDiv {
 }
 
 /* line 8, ../sass/partials/photo/_base.scss */
-.photoset-thumbs {
-  padding: 10px;
+#book-navbar.book-navbar-photos .pager {
+  padding: 0 20px;
 }
 /* line 10, ../sass/partials/photo/_base.scss */
-.photoset-thumbs .thumbHolder {
-  padding: 20px 20px 0;
+#book-navbar.book-navbar-photos .pager li {
+  width: auto;
+  height: 2.3rem;
+  margin-top: 10px;
 }
-/* line 12, ../sass/partials/photo/_base.scss */
+/* line 16, ../sass/partials/photo/_base.scss */
+#book-navbar.book-navbar-photos .pager ul.links li a:link,
+#book-navbar.book-navbar-photos .pager ul.links li a:hover,
+#book-navbar.book-navbar-photos .pager ul.links li a:visited {
+  color: white;
+}
+/* line 21, ../sass/partials/photo/_base.scss */
+#book-navbar.book-navbar-photos .pager ul.links li a,
+#book-navbar.book-navbar-photos .pager ul.links li span {
+  font-size: 1rem;
+  display: block;
+  width: 44px;
+  line-height: 2rem;
+  text-align: center;
+  height: auto;
+}
+/* line 30, ../sass/partials/photo/_base.scss */
+#book-navbar.book-navbar-photos .pager ul.links li span {
+  vertical-align: text-top;
+}
+
+/* line 36, ../sass/partials/photo/_base.scss */
+.photoset-thumbs {
+  margin: 3px 3px 0 0;
+  padding: 20px;
+  overflow: auto;
+}
+/* line 41, ../sass/partials/photo/_base.scss */
+.photoset-thumbs .thumbHolder {
+  padding: 10px;
+}
+/* line 43, ../sass/partials/photo/_base.scss */
 .photoset-thumbs .thumbHolder a {
   display: block;
+  line-height: 1;
+}
+
+@media (max-width: 700px) {
+  /* line 51, ../sass/partials/photo/_base.scss */
+  .facet_sidebar {
+    display: none;
+  }
+
+  /* line 54, ../sass/partials/photo/_base.scss */
+  .photoset-thumbs {
+    justify-content: center;
+  }
+  /* line 56, ../sass/partials/photo/_base.scss */
+  .photoset-thumbs .thumbHolder {
+    flex: 0 1 45%;
+  }
+  /* line 58, ../sass/partials/photo/_base.scss */
+  .photoset-thumbs .thumbHolder img {
+    width: 100%;
+    height: auto;
+  }
+}
+/* line 66, ../sass/partials/photo/_base.scss */
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 10px;
+}
+
+/* line 71, ../sass/partials/photo/_base.scss */
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
