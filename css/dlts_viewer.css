@@ -70,6 +70,7 @@ Licensed under the BSD License.
 https://github.com/yahoo/pure/blob/master/LICENSE.md
 */
 /*!
+
 /* ==========================================================================
    Pure Base Extras
    ========================================================================== */
@@ -107,23 +108,29 @@ https://github.com/yahoo/pure/blob/master/LICENSE.md
   /* IE < 8: collapse white-space between units */
   text-rendering: optimizespeed;
   /* Webkit: fixes text-rendering: optimizeLegibility */
-  /*
-  Sets the font stack to fonts known to work properly with the above letter
-  and word spacings. See: https://github.com/yahoo/pure/issues/41/
-  The following font stack makes Pure Grids work on all known environments.
-  * FreeSans: Ships with many Linux distros, including Ubuntu
-  * Arimo: Ships with Chrome OS. Arimo has to be defined before Helvetica and
-    Arial to get picked up by the browser, even though neither is available
-    in Chrome OS.
-  * Droid Sans: Ships with all versions of Android.
-  * Helvetica, Arial, sans-serif: Common font stack on OS X and Windows.
-  */
+    /*
+    Sets the font stack to fonts known to work properly with the above letter
+    and word spacings. See: https://github.com/yahoo/pure/issues/41/
+
+    The following font stack makes Pure Grids work on all known environments.
+
+    * FreeSans: Ships with many Linux distros, including Ubuntu
+
+    * Arimo: Ships with Chrome OS. Arimo has to be defined before Helvetica and
+      Arial to get picked up by the browser, even though neither is available
+      in Chrome OS.
+
+    * Droid Sans: Ships with all versions of Android.
+
+    * Helvetica, Arial, sans-serif: Common font stack on OS X and Windows.
+    */
   font-family: FreeSans, Arimo, "Droid Sans", Helvetica, Arial, sans-serif;
-  /*
-  Use flexbox when possible to avoid `letter-spacing` side-effects.
-  NOTE: Firefox(as of 25) does not currently support flex-wrap, so the
-  `-moz-` prefix version is omitted.
-  */
+    /*
+    Use flexbox when possible to avoid `letter-spacing` side-effects.
+
+    NOTE: Firefox(as of 25) does not currently support flex-wrap, so the
+    `-moz-` prefix version is omitted.
+    */
   display: -webkit-flex;
   -webkit-flex-flow: row wrap;
   /* IE10 uses display: flexbox */
@@ -521,8 +528,8 @@ strong {
 
 @font-face {
   font-family: "book-viewer";
-  src: url('../fonts/book-viewer.eot?1450294295');
-  src: url('../fonts/book-viewer.eot?&1450294295#iefix') format('embedded-opentype'), url('../fonts/book-viewer.woff?1450294295') format('woff'), url('../fonts/book-viewer.ttf?1450294295') format('truetype');
+  src: url('../fonts/book-viewer.eot?1503001775');
+  src: url('../fonts/book-viewer.eot?&1503001775#iefix') format('embedded-opentype'), url('../fonts/book-viewer.woff?1503001775') format('woff'), url('../fonts/book-viewer.ttf?1503001775') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -1052,7 +1059,7 @@ body .display {
   height: inherit;
   float: left;
   /**
-   * https://jira.nyu.edu/browse/DLTSVIEWER-9
+   * https://jira.nyu.edu/browse/DLTSVIEWER-9 
    */
 }
 /* line 29, ../sass/partials/book/panes/_pane-display.scss */
@@ -1634,11 +1641,89 @@ body.openlayers-loading .olLayerDiv {
 #pager[dir="rtl"] ~ .thumbnails .view-book-thumbnails {
   direction: rtl;
 }
+
 /* line 2, ../sass/partials/photo/_base.scss */
 .photo .display {
   margin-left: inherit;
   margin-right: inherit;
 }
-#pager[dir="rtl"] {
-  direction: rtl;
+
+/* line 8, ../sass/partials/photo/_base.scss */
+#book-navbar.book-navbar-photos .pager {
+  padding: 0 20px;
+}
+/* line 10, ../sass/partials/photo/_base.scss */
+#book-navbar.book-navbar-photos .pager li {
+  width: auto;
+  height: 2.3rem;
+  margin-top: 10px;
+}
+/* line 16, ../sass/partials/photo/_base.scss */
+#book-navbar.book-navbar-photos .pager ul.links li a:link,
+#book-navbar.book-navbar-photos .pager ul.links li a:hover,
+#book-navbar.book-navbar-photos .pager ul.links li a:visited {
+  color: white;
+}
+/* line 21, ../sass/partials/photo/_base.scss */
+#book-navbar.book-navbar-photos .pager ul.links li a,
+#book-navbar.book-navbar-photos .pager ul.links li span {
+  font-size: 1rem;
+  display: block;
+  width: 44px;
+  line-height: 2rem;
+  text-align: center;
+  height: auto;
+}
+/* line 30, ../sass/partials/photo/_base.scss */
+#book-navbar.book-navbar-photos .pager ul.links li span {
+  vertical-align: text-top;
+}
+
+/* line 36, ../sass/partials/photo/_base.scss */
+.photoset-thumbs {
+  margin: 3px 3px 0 0;
+  padding: 20px;
+  overflow: auto;
+}
+/* line 41, ../sass/partials/photo/_base.scss */
+.photoset-thumbs .thumbHolder {
+  padding: 10px;
+}
+/* line 43, ../sass/partials/photo/_base.scss */
+.photoset-thumbs .thumbHolder a {
+  display: block;
+  line-height: 1;
+}
+
+@media (max-width: 700px) {
+  /* line 51, ../sass/partials/photo/_base.scss */
+  .facet_sidebar {
+    display: none;
+  }
+
+  /* line 54, ../sass/partials/photo/_base.scss */
+  .photoset-thumbs {
+    justify-content: center;
+  }
+  /* line 56, ../sass/partials/photo/_base.scss */
+  .photoset-thumbs .thumbHolder {
+    flex: 0 1 45%;
+  }
+  /* line 58, ../sass/partials/photo/_base.scss */
+  .photoset-thumbs .thumbHolder img {
+    width: 100%;
+    height: auto;
+  }
+}
+/* line 66, ../sass/partials/photo/_base.scss */
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 10px;
+}
+
+/* line 71, ../sass/partials/photo/_base.scss */
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }

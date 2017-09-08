@@ -1,4 +1,4 @@
-<div id="top" class="pane top views-g">
+<div id="top" class="pane top">
     <div class="views-u-1">
         <?php if ($is_admin && $messages) : ?>
             <?php print $messages; ?>
