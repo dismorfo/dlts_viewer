@@ -132,7 +132,7 @@ function dlts_viewer_map_dispatcher($entity, $arg) {
             'nav_buttons_right' => array($button_fullscreen),
             'control_panel' => $controlpanel_button,
         );
-        $loading_options = array('sequence_number' => $page);
+        $loading_options = array('sequence_number' =>1);
         $entity->navbar = theme('dlts_viewer_navbar', $navbar_options);
         $entity->book_page_data = $arg;
         $entity->button_metadata = $button_metadata;

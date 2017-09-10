@@ -398,7 +398,7 @@ function _dlts_viewer_book_edit_redirect($node) {
     drupal_not_found();
 }
 function dlts_viewer_book_metadata_display($node) {
-    return node_view($node , 'metadata' , $book->language);
+    return node_view($node , 'metadata' , $node->language);
 }
 /**
  * Menu callback; prints the loaded structure of the current node/user.

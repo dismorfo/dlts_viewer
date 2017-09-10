@@ -230,7 +230,7 @@ function theme_dlts_viewer_openlayers_image($variables) {
   if (isset($file['timestamp'])) {
   	$file_uri = $file_uri . '?v=' . $file['timestamp'];
   }
-  
+
   $openlayers_options = array(
     'service' => variable_get('dlts_viewer_djatoka_service', 'http://dl-img.home.nyu.edu/adore-djatoka'),
     'imgMetadata' => array(
@@ -250,7 +250,17 @@ function theme_dlts_viewer_openlayers_image($variables) {
   $js_options = array('group' => JS_DEFAULT, 'type' => 'inline', 'every_page' => FALSE, 'weight' => 5, 'scope' => 'footer', 'cache' => TRUE, 'defer' => TRUE);
 
   drupal_add_js($js_inline, $js_options);
-  
+
+  if(!isset($file['thumbnailsUrl'])) {
+      $file['thumbnailsUrl'] = 'undefined';
+  }
+  if(!isset($file['thumbnailsRows'])) {
+        $file['thumbnailsRows'] = 0;
+  }
+  if(!isset($file['thumbnailsPage'])) {
+        $file['thumbnailsPage'] = 0;
+  }
+
   $options = array(
     '@id' => $fid,
     '@uri' => $file_uri,

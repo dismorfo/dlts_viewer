@@ -21,7 +21,7 @@ function save_dlts_map($node, $language = 'en') {
         $node_language = 'en';
     }
 
-    $map_exist = book_nid($node['identifier'], $node_language);
+    $map_exist = map_nid($node['identifier'], $node_language);
 
     if ($map_exist) {
         // Load the node by NID
@@ -44,7 +44,7 @@ function save_dlts_map($node, $language = 'en') {
         }
         if ($node_language != 'en') {
             // find if the English version of this map exist
-            $tnid = book_nid($node['identifier'], 'en');
+            $tnid = map_nid($node['identifier'], 'en');
             if ($tnid) {
                 // make sure the language exists
                 $enabled_language = add_language($node_language);
@@ -343,6 +343,12 @@ function save_dlts_map($node, $language = 'en') {
     if (!empty($node['rights'])) {
         $ewrapper->field_rights->set($node['rights']);
     }
+    if (!empty($node['physical_description'])) {
+        $ewrapper->field_physical_description->set($node['physical_description']);
+    }
+    if (!empty($node['notes'])) {
+        $ewrapper->field_notes_field->set($node['notes']);
+    }
     $saved = $ewrapper->save();
 
     return $entity;
@@ -357,6 +363,7 @@ function create_dlts_map_from_json($maps, $cretePages = FALSE, $legacy = FALSE) 
         $json_document = $value->uri;
         $json_filename = $value->filename;
         $dimensions =
+        $physical_description =
         $number =
         $scanning_notes =
         $volume =
@@ -384,11 +391,13 @@ function create_dlts_map_from_json($maps, $cretePages = FALSE, $legacy = FALSE) 
         $language_codes =
         $ocr_text_files =
         $subjects =
+        $notes =
         $series = array();
         $json_string = file_get_contents($value->uri);
         $json_string = str_replace(array('\r', '\n'), '', $json_string);
         $data = json_decode($json_string);
         $entity_title = $data->entity_title;
+
 
         drush_log(dt('Importing @title from JSON document @document',array('@title'=>$entity_title, '@document'=>basename ($value->uri))), 'ok');
 
@@ -518,6 +527,10 @@ function create_dlts_map_from_json($maps, $cretePages = FALSE, $legacy = FALSE) 
         if (isset($metadata->publication_date_text) && !empty($metadata->publication_date_text->value)) {
             $publication_date_text = $metadata->publication_date_text->value[0];
         }
+        if (isset($metadata->physical_description) && !empty($metadata->physical_description->value)) {
+            $physical_description = $metadata->physical_description->value[0];
+
+        }
         if (isset($metadata->representative_image) && !empty($metadata->representative_image)) {
             if (!$legacy) {
                 $representative_image = array(
@@ -589,6 +602,11 @@ function create_dlts_map_from_json($maps, $cretePages = FALSE, $legacy = FALSE) 
         if (isset($metadata->subject) && !empty($metadata->subject->value)) {
             foreach ($metadata->subject->value as $subject) {
                 $subjects[] = $subject;
+            }
+        }
+        if (isset($metadata->notes) && !empty($metadata->notes->value)) {
+            foreach ($metadata->notes->value as $note) {
+                $notes[] = $note;
             }
         }
         if (isset($metadata->pdf_file)) {
@@ -673,9 +691,11 @@ function create_dlts_map_from_json($maps, $cretePages = FALSE, $legacy = FALSE) 
             'publisher' => $publishers,
             'subject' => $subjects,
             'pdf_files' => $pdf_files,
+            'notes'=> $notes,
+            'physical_description'=> $physical_description
         );
 
-        $created = save_dlts_book($node);
+        $created = save_dlts_map($node);
 
         $filesdir = drupal_realpath('public://') . '/json/' . $json_filename;
 
