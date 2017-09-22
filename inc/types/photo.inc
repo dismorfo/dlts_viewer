@@ -14,37 +14,37 @@ function dlts_viewer_full_photo_view(&$entity) {
     drupal_add_js($module_path . '/js/ui.photo.components.yui.js', $js_common_config);
     drupal_add_js(variable_get('dlts_viewer_openlayers_source', 'sites/all/libraries/openlayers/build/OpenLayers.js'), array('group' => JS_LIBRARY));
     $data_attributes = array(
-        'uri' => $entity->args['uri'],
+        'uri' => $entity->book_page_data['uri'],
         'pageView' => 'single',
         'sequenceCount' => $entity->sequence_count,
         'sequence' => $entity->sequence,
         'title' => $entity->title,
-        'width' => $entity->args['width'],
-        'height' => $entity->args['height'],
-        'levels' => $entity->args['levels'],
-        'dwtLevels' => $entity->args['dwtLevels'],
-        'compositingLayerCount' => $entity->args['compositingLayerCount'],
+        'width' => $entity->book_page_data['width'],
+        'height' => $entity->book_page_data['height'],
+        'levels' => $entity->book_page_data['levels'],
+        'dwtLevels' => $entity->book_page_data['dwtLevels'],
+        'compositingLayerCount' => $entity->book_page_data['compositingLayerCount'],
         'thumbnails-url' => $entity->thumbnailsURL,
 		'thumbnails-rows' => $entity->thumbnailsRows,
 		'thumbnails-page' => $entity->thumbnailsPage,
     );
     $vars = array(
-        'compositingLayerCount' => $entity->args['compositingLayerCount'],
-        'dwtLevels' => $entity->args['dwtLevels'],
-        'fid' => $entity->args['identifier'],
-        'height' => $entity->args['height'],
+        'compositingLayerCount' => $entity->book_page_data['compositingLayerCount'],
+        'dwtLevels' => $entity->book_page_data['dwtLevels'],
+        'fid' => $entity->identifier,
+        'height' => $entity->book_page_data['height'],
         'identifier' => $entity->identifier,
-        'levels' => $entity->args['levels'],
+        'levels' => $entity->book_page_data['levels'],
         'title' => $entity->title,
-        'uri' => $entity->args['uri'],
-        'width' => $entity->args['width'],
+        'uri' => $entity->book_page_data['uri'],
+        'width' => $entity->book_page_data['width'],
         'pageView' => 'single',
         'data_attributes' => $data_attributes,
     );
     $viewer = array(
         'book_page' => $entity->map,
         'map' => theme('viewer_map', $vars),
-        'language_dir' => $entity->lang_dir,
+        'language_dir' => "ltr",
         'pagemeta' => NULL,
         'navbar' => $entity->navbar,
         'url' => $entity->url,
@@ -105,7 +105,7 @@ function dlts_viewer_photo_set_view(&$entity)
     return $output;
 }
 
-function dlts_viewer_photo_dispatcher($entity,$arg) {
+function dlts_viewer_photo_dispatcher($entity,$arg,$arg1) {
 
     // check request type
     $is_pjax = dlts_viewer_is_pjax();
@@ -125,13 +125,14 @@ function dlts_viewer_photo_dispatcher($entity,$arg) {
     $entity->url = $set_url;
 
     // check for type of request: 1) book page or 2) display pane
-    if (!is_array($arg)) {
+    if (!isset($arg)||!is_array($arg)) {
 
         /** Load helpers */
         module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
         // check request type
 
         $page = $query_parameters["page"];
+
         if(!isset($page)) {
             $page=0;
         }
@@ -226,16 +227,19 @@ function dlts_viewer_photo_dispatcher($entity,$arg) {
             ),
             'fragment' => 'fullscreen',
         );
+        $thumbnail_path='photos/' . $entity->identifier.'/set';
+        if(dlts_viewer_is_embed()) {
+           $thumbnail_path=url( $thumbnail_path, array('absolute' => true, 'query' => array('embed' => 'true')));
+        }
         $button_thumbnails_options = array(
             'title' => t('Pages'),
-            'path' => 'photos/' . $entity->identifier.'/set',
+            'path' => $thumbnail_path,
             'attributes' => array(
                 'data-title' => t('Select page'),
                 'title' => t('Select page'),
                 'class' => array('button', 'thumbnails', 'off'),
                 'id' => array('button-thumbnails')
             ),
-            //'fragment' => 'thumbnails',
         );
         $button_previous = theme('dlts_viewer_pager_button', $button_previous_options);
         $button_next = theme('dlts_viewer_pager_button', $button_next_options);
@@ -277,6 +281,7 @@ function dlts_viewer_photo_dispatcher($entity,$arg) {
         $arg['thumbnailsUrl'] = $entity->thumbnailsURL;
         $arg['thumbnailsRows'] = $entity->thumbnailsRows;
         $arg['thumbnailsPage'] = $entity->thumbnailsPage;
+        $arg['oembed'] = $entity->embed;
         $book_page_options = array(
             'file' => $arg
         );
@@ -304,3 +309,42 @@ function dlts_viewer_preprocess_html_photos(&$vars) {
 function dlts_viewer_preprocess_html_photo(&$vars) {
     $vars['classes_array'][] = 'photo';
 }
+
+function dlts_viewer_photo_embed_redirect($entity,$arg)
+{
+    if (is_object($entity)) {
+        $set_wrapper = entity_metadata_wrapper('node', $entity);
+        // book identifier
+        $identifier = $set_wrapper->field_identifier->value();
+        $path = 'photos/' . $identifier;
+        $options = array('query' => array('embed' => 'true'));
+        if ($path) {
+            drupal_goto($path, $options);
+        }
+
+    }
+}
+
+ function dlts_viewer_photo_thumb($entity)
+ {
+     if (is_object($entity)) {
+
+         $set_wrapper = entity_metadata_wrapper('node', $entity);
+         // book identifier
+         $identifier = $set_wrapper->field_identifier->value();
+
+         print($identifier);
+
+         $thumbnails = dlts_viewer_mongodb_load_thumbnails($identifier, 0, 1,'dlts_photo','photos');
+
+        $items=$thumbnails["items"];
+
+       $image_url=reset($items)["imageServeURI"];
+
+            drupal_goto( $image_url);
+
+         //print_r($img_url);
+     //drupal_goto('cnn.com');
+     }
+ }
+

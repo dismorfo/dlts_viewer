@@ -73,6 +73,9 @@ function dlts_viewer_mongodb_load_thumbnails($isPartOf, $page = 0, $per_page = 1
 				$thumbnail['sequence'] = min($thumbnail['sequence']);
 			}
             $thumbnail['url'] = url($content_type.'/' . $isPartOf . '/' . $thumbnail['sequence'], array('absolute' => TRUE));
+			if(dlts_viewer_is_embed() && $collection_name=='dlts_photo') {
+               $thumbnail['url'] = url($thumbnail['url'], array('query' => array('embed' => 'true')));
+            }
 			$thumbnail['imageServeURI'] = dlts_viewer_djatoka_url($thumbnail['cm']);
 			$items[] = $thumbnail;
 		}
