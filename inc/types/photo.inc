@@ -132,6 +132,9 @@ function dlts_viewer_photo_dispatcher($entity,$arg,$arg1) {
         // check request type
 
         $page = $query_parameters["page"];
+        if(dlts_viewer_is_embed()) {
+            $query_parameters["embed"]='true';
+        }
 
         if(!isset($page)) {
             $page=0;
@@ -335,7 +338,7 @@ function dlts_viewer_photo_embed_redirect($entity,$arg)
 
          print($identifier);
 
-         $thumbnails = dlts_viewer_mongodb_load_thumbnails($identifier, 0, 1,'dlts_photo','photos');
+         $thumbnails = dlts_viewer_mongodb_load_thumbnails($identifier, 0, 1,'dlts_photo','photos',true);
 
         $items=$thumbnails["items"];
 

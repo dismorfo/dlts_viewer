@@ -35,7 +35,7 @@ function dlts_viewer_djatoka_request($file) {
   }
 }
 
-function dlts_viewer_djatoka_url($file) {
+function dlts_viewer_djatoka_url($file, $embeded_tumb=false) {
 	$service = variable_get('dlts_viewer_djatoka_service', 'http://dl-img.home.nyu.edu/adore-djatoka');
 	$arguments = array(
 	  'url_ver' => 'Z39.88-2004',
@@ -44,14 +44,18 @@ function dlts_viewer_djatoka_url($file) {
 		'svc.format' => 'image/jpeg',
 		'rft_id' => file_create_url($file['uri']),
 	);
-	if (isset($file['image_style'])) {
-	  $dimmensions = explode("x", $file['image_style']);
-	  if (count($dimmensions) == 2 && is_numeric($dimmensions[1])) {
-	  	$arguments['svc.scale'] = $dimmensions[1];
-	  }
-	}
-	else {
-		$arguments['svc.scale'] = '230';
-	}
+    if($embeded_tumb) {
+        $arguments['svc.scale'] = '100';
+    } else {
+        if (isset($file['image_style'])) {
+            $dimmensions = explode("x", $file['image_style']);
+            if (count($dimmensions) == 2 && is_numeric($dimmensions[1])) {
+                $arguments['svc.scale'] = $dimmensions[1];
+            }
+        } else {
+            $arguments['svc.scale'] = '230';
+        }
+    }
+
 	return url($service . '/resolver', array('external' => true, 'query' => $arguments));
 }
