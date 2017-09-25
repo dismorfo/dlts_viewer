@@ -328,7 +328,7 @@ function dlts_viewer_photo_embed_redirect($entity,$arg)
     }
 }
 
- function dlts_viewer_photo_thumb($entity)
+ function dlts_viewer_photo_thumb($entity,$page)
  {
      if (is_object($entity)) {
 
@@ -336,9 +336,9 @@ function dlts_viewer_photo_embed_redirect($entity,$arg)
          // book identifier
          $identifier = $set_wrapper->field_identifier->value();
 
-         print($identifier);
+         $sequence = $page['sequence'];
 
-         $thumbnails = dlts_viewer_mongodb_load_thumbnails($identifier, 0, 1,'dlts_photo','photos',true);
+         $thumbnails = dlts_viewer_mongodb_load_thumbnails($identifier, reset($sequence)-1, 1,'dlts_photo','photos',true);
 
         $items=$thumbnails["items"];
 
@@ -346,8 +346,7 @@ function dlts_viewer_photo_embed_redirect($entity,$arg)
 
             drupal_goto( $image_url);
 
-         //print_r($img_url);
-     //drupal_goto('cnn.com');
+
      }
  }
 
