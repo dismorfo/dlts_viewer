@@ -342,7 +342,8 @@ function dlts_viewer_photo_embed_redirect($entity,$arg)
 
         $items=$thumbnails["items"];
 
-       $image_url=reset($items)["imageServeURI"];
+       $image_data=reset($items);
+         $image_url=$image_data["imageServeURI"];
 
             drupal_goto( $image_url);
 
