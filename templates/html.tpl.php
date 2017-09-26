@@ -6,7 +6,7 @@
     <?php print $styles ?>
     <?php print $scripts ?>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <base target="_self">
+    <base target="content-frame">
 </head>
 <body class="pane-body">
 <?php print $page_top ?>
