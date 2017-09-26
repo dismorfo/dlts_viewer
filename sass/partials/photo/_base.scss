@@ -11,6 +11,9 @@
     width: auto;
     height: 2.3rem;
     margin-top: 10px;
+    &.last.close {
+      display: none;
+    }
   }
   ul.links li {
     a:link,
