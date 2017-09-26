@@ -225,7 +225,10 @@ function dlts_viewer_dispatcher($entity, $arg) {
             $is_single_page = TRUE;
         }
         $sequence_count = $book_wrapper->field_sequence_count->value();
-        $int_read_order = $book_wrapper->field_read_order->value();
+        $int_read_order = 0;
+        if(isset($book_wrapper->field_read_order)) {
+            $int_read_order = $book_wrapper->field_read_order->value();
+        }
         $entity->read_order = ($int_read_order == 1) ? 'rtl' : 'ltr';
         $next_page = $sequence_max + 1;
         $previous_page = $sequence_min - 1;
@@ -395,7 +398,7 @@ function _dlts_viewer_book_edit_redirect($node) {
     drupal_not_found();
 }
 function dlts_viewer_book_metadata_display($node) {
-    return node_view($node , 'metadata' , $book->language);
+    return node_view($node , 'metadata' , $node->language);
 }
 /**
  * Menu callback; prints the loaded structure of the current node/user.

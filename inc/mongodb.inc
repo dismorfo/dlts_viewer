@@ -48,7 +48,7 @@ function dlts_viewer_mongodb_load_sequence($sequence, $isPartOf, $collection_nam
 	return $result;
 }
 
-function dlts_viewer_mongodb_load_thumbnails($isPartOf, $page = 0, $per_page = 10, $collection_name, $content_type) {
+function dlts_viewer_mongodb_load_thumbnails($isPartOf, $page = 0, $per_page = 10, $collection_name, $content_type, $embeded_thumb=false) {
 	/**
 	 * Load helpers
 	 */
@@ -73,7 +73,10 @@ function dlts_viewer_mongodb_load_thumbnails($isPartOf, $page = 0, $per_page = 1
 				$thumbnail['sequence'] = min($thumbnail['sequence']);
 			}
             $thumbnail['url'] = url($content_type.'/' . $isPartOf . '/' . $thumbnail['sequence'], array('absolute' => TRUE));
-			$thumbnail['imageServeURI'] = dlts_viewer_djatoka_url($thumbnail['cm']);
+			if(dlts_viewer_is_embed() && $collection_name=='dlts_photo') {
+               $thumbnail['url'] = url($thumbnail['url'], array('query' => array('embed' => 'true')));
+            }
+			$thumbnail['imageServeURI'] = dlts_viewer_djatoka_url($thumbnail['cm'],$embeded_thumb );
 			$items[] = $thumbnail;
 		}
     return array('count' => $count, 'items' => $items);

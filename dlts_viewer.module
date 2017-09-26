@@ -57,7 +57,7 @@ function dlts_viewer_init() {
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_theme/7
  */
 function dlts_viewer_custom_theme() {
-    if (arg(0) == 'books' || arg(0) == 'photos') {
+    if (arg(0) == 'books' || arg(0) == 'photos' || arg(0) == 'maps') {
         return 'tao';
     }
 }

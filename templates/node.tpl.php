@@ -9,8 +9,8 @@
     </div>
     <div id="display" class="pane display" data-url="<?php print $url ?>" data-identifier="<?php print $identifier ?>" data-sequence-count="<?php print $sequence_count ?>" data-sequence="<?php print $book_page_sequence_number ?>" data-title="<?php print $title ?>">
         <?php print $book_page ?>
-        <?php print $button_previous ?>
-        <?php print $button_next ?>
+        <?php if (isset($button_previous)) : print $button_previous ; endif; ?>
+        <?php if (isset($button_previous)) : print $button_next ; endif; ?>
     </div>
     <div class="pane load loading"><?php if (isset($loading)) print $loading; ?></div>
 </div>
