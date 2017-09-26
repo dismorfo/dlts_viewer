@@ -12,7 +12,9 @@
 }
 
 .pager {
-  background: $dark-background;
+ // background: $dark-background;
+  background: #333333;
+  
   li {
     display: inline;
     float: left;
