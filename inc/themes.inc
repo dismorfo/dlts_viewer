@@ -310,7 +310,8 @@ function theme_thumbnails_pager($vars) {
 	$links['pager-first'] = theme('pager_first', array(
 			'text' => (isset($tags[0]) ? $tags[0] : t('First')),
 			'element' => $element,
-			'parameters' => $parameters
+			'parameters' => $parameters,
+            'attributes' => array('target'=>'_self')
 	));
 	$links['pager-previous'] = theme('pager_previous', array(
 			'text' => (isset($tags[1]) ? $tags[1] : t('Prev')),
