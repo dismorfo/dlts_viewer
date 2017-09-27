@@ -111,17 +111,21 @@ function dlts_viewer_import_photo($source = NULL) {
         drush_log("file option: $file is specified and must exist","error");
         return;
     }
-    drush_print('we are in photo import');
     if (is_dir($source) && is_null($file)) {
         create_dlts_photo_set_from_json(file_scan_directory($source, '/(.*)\.json$/', array('recurse' => FALSE)));
     }
     elseif (is_dir($source) && (!empty($file))) {
-       $handle = @fopen($file, "r") or exit("unable to open file ($file)"); 
+       $handle = @fopen($file, "r") or exit("unable to open file ($file)");
        if ($handle) {
-          while (($line = fgets($handle, 4096)) !== false) { 
+          while (($line = fgets($handle, 4096)) !== false) {
             $fn = trim($line);
             $full_file = "$source/$fn";
-            create_dlts_photo_set_from_json(array((object) array('uri' => $full_file)));
+            if (file_exists($full_file)) {
+              create_dlts_photo_set_from_json(array((object) array('uri' => $full_file)));
+            }
+            elseif (!file_exists($full_file)){
+              drush_log("file listed in $file: $full_file, does not exist","error");
+            }
           }
       }
     }
