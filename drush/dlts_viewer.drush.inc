@@ -26,14 +26,15 @@ function dlts_viewer_drush_command() {
   $items = array();
     $items['import-photo'] = array(
         'callback' => 'dlts_viewer_import_photo',
-        'description' => dt('Import photo from a JSON document.'),
+        'description' => dt('Import photo from JSON document.'),
         'options' => array(
             'source' => dt('JSON document filepath.'),
+            'file' => dt('list of JSON files.'),
         ),
     );
     $items['import-map'] = array(
         'callback' => 'dlts_viewer_import_map',
-        'description' => dt('Import photo from a JSON document.'),
+        'description' => dt('Import map from a JSON document.'),
         'options' => array(
             'source' => dt('JSON document filepath.'),
         ),
@@ -105,14 +106,34 @@ function dlts_viewer_import_photo($source = NULL) {
             return;
         }
     }
-    drush_log('we are here');
-    if (is_dir($source)) {
+    $file = drush_get_option('file');
+    if (!empty($file) && (!file_exists($file))) {
+        drush_log("file option: $file is specified and must exist","error");
+        return;
+    }
+    if (is_dir($source) && is_null($file)) {
         create_dlts_photo_set_from_json(file_scan_directory($source, '/(.*)\.json$/', array('recurse' => FALSE)));
+    }
+    elseif (is_dir($source) && (!empty($file))) {
+       $handle = @fopen($file, "r") or exit("unable to open file ($file)");
+       if ($handle) {
+          while (($line = fgets($handle, 4096)) !== false) {
+            $fn = trim($line);
+            $full_file = "$source/$fn";
+            if (file_exists($full_file)) {
+              create_dlts_photo_set_from_json(array((object) array('uri' => $full_file)));
+            }
+            elseif (!file_exists($full_file)){
+              drush_log("file listed in $file: $full_file, does not exist","error");
+            }
+          }
+      }
     }
     else {
         return create_dlts_photo_set_from_json(array((object) array('uri' => $source)));
     }
 }
+
 
 function dlts_viewer_import_map($source = NULL) {
     include_once(__DIR__ . '/inc/common.inc');
