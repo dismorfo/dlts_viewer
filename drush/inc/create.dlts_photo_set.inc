@@ -152,7 +152,8 @@ function create_dlts_photo_set_from_json($photo_sets, $cretePhotos = FALSE) {
         $collections=array();
         $title=
         $page_count=
-        $sequence_count=null;
+        $sequence_count=
+        $handle=null;
 
         drush_log(dt('hyi'));
 
@@ -209,6 +210,7 @@ function create_dlts_photo_set_from_json($photo_sets, $cretePhotos = FALSE) {
             'collections' => $collections,
             'title' => $title,
             'page_count' => $page_count,
+            'handle' => $handle,
             'sequence_count' => $sequence_count,
         );
          save_dlts_photo_set($node);

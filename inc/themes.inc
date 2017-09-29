@@ -310,8 +310,7 @@ function theme_thumbnails_pager($vars) {
 	$links['pager-first'] = theme('pager_first', array(
 			'text' => (isset($tags[0]) ? $tags[0] : t('First')),
 			'element' => $element,
-			'parameters' => $parameters,
-            'attributes' => array('target'=>'_self')
+			'parameters' => $parameters
 	));
 	$links['pager-previous'] = theme('pager_previous', array(
 			'text' => (isset($tags[1]) ? $tags[1] : t('Prev')),
@@ -339,5 +338,65 @@ function theme_thumbnails_pager($vars) {
 	if ($pager_list) {
 		return '<div class="pager clearfix">' . $pager_list . ' ' . $pager_links . '</div>';
 	}
+}
+
+
+function theme_thumbnails_photo_pager($vars) {
+    $tags = $vars['tags'];
+    $element = $vars['element'];
+    $parameters = $vars['parameters'];
+    $quantity = $vars['quantity'];
+    $pager_list = theme('pager_list', $vars);
+    $current_page = $parameters['page'];
+    $links = array();
+    for($i=0; $i < $quantity; $i++) {
+        $links[''.$i] = theme('pager_link', array(
+            'text' => (isset($tags[0]) ? $tags[0] : t(''.($i))),
+            'element' => $element,
+            'parameters' => array('page'=>$i-1),
+            'attributes' => array('target'=> '_self'),
+            'page_new' => $vars['url']
+        ));
+    }
+    if($current_page>0) {
+        $links['pager-first'] = theme('pager_link', array(
+            'text' => (isset($tags[0]) ? $tags[0] : t('First')),
+            'element' => $element,
+            'parameters' => array('page' => 0),
+            'attributes' => array('target' => '_self'),
+            'page_new' => $vars['url']
+        ));
+        $links['pager-previous'] = theme('pager_link', array(
+            'text' => (isset($tags[1]) ? $tags[1] : t('Prev')),
+            'element' => $element,
+            'parameters' => array('page' => $current_page - 1),
+            'attributes' => array('target' => '_self'),
+            'page_new' => $vars['url']
+        ));
+    }
+    if($current_page<$i-2) {
+        $links['pager-next'] = theme('pager_link', array(
+            'text' => (isset($tags[3]) ? $tags[3] : t('Next')),
+            'element' => $element,
+            'parameters' => array('page' => $current_page + 1),
+            'attributes' => array('target' => '_self'),
+            'page_new' => $vars['url']
+        ));
+        $links['pager-last'] = theme('pager_link', array(
+            'text' => (isset($tags[4]) ? $tags[4] : t('Last')),
+            'element' => $element,
+            'parameters' => array('page' => $i - 2),
+            'attributes' => array('target' => '_self'),
+            'page_new' => $vars['url']
+        ));
+    }
+    $links = array_filter($links);
+    $pager_links = theme('links', array(
+        'links' => $links,
+        'attributes' => array('class' => 'links pager pager-links')
+    ));
+    if ($pager_links) {
+        return '<div class="pager clearfix">' . $pager_links . '</div>';
+    }
 }
 
