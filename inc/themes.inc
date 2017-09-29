@@ -358,14 +358,15 @@ function theme_thumbnails_photo_pager($vars) {
     $quantity = $vars['quantity'];
     $pager_count=ceil($quantity/10);
     $current_page = $vars['current_page'];
+    $url = $vars['url'];
     $links = array();
-    for($i=0; $i < $pager_count-1; $i++) {
+    for($i=0; $i < $pager_count; $i++) {
         $links[''.$i] = theme('pager_link', array(
             'text' => (isset($tags[0]) ? $tags[0] : t(''.($i+1))),
             'element' => $element,
             'parameters' => array('page'=>$i),
             'attributes' => array('target'=> '_self'),
-            'page_new' => $vars['url']
+            'page_new' => $url
         ));
     }
     if($current_page>0) {
@@ -374,14 +375,14 @@ function theme_thumbnails_photo_pager($vars) {
             'element' => $element,
             'parameters' => array('page' => 0),
             'attributes' => array('target' => '_self'),
-            'page_new' => $vars['url']
+            'page_new' => $url
         ));
         $links['pager-previous'] = theme('pager_link', array(
             'text' => (isset($tags[1]) ? $tags[1] : t('Prev')),
             'element' => $element,
             'parameters' => array('page' => $current_page - 1),
             'attributes' => array('target' => '_self'),
-            'page_new' => $vars['url']
+            'page_new' => $url
         ));
     }
     if($current_page<$i-1) {
@@ -390,14 +391,14 @@ function theme_thumbnails_photo_pager($vars) {
             'element' => $element,
             'parameters' => array('page' => $current_page + 1),
             'attributes' => array('target' => '_self'),
-            'page_new' => $vars['url']
+            'page_new' => $url
         ));
         $links['pager-last'] = theme('pager_link', array(
             'text' => (isset($tags[4]) ? $tags[4] : t('Last')),
             'element' => $element,
             'parameters' => array('page' => $i - 1),
             'attributes' => array('target' => '_self'),
-            'page_new' => $vars['url']
+            'page_new' => $url
         ));
     }
     $links = array_filter($links);
