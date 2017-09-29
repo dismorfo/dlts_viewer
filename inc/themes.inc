@@ -355,14 +355,17 @@ function theme_thumbnails_photo_pager($vars) {
     $element = $vars['element'];
     $parameters = $vars['parameters'];
     $quantity = $vars['quantity'];
-    $pager_list = theme('pager_list', $vars);
-    $current_page = $parameters['page'];
+    $pager_count=ceil($quantity/10)+1;
+    $current_page = 0;
+    if(isset($parameters['page'])) {
+        $current_page = $parameters['page'];
+    }
     $links = array();
-    for($i=0; $i < $quantity; $i++) {
+    for($i=0; $i < $pager_count; $i++) {
         $links[''.$i] = theme('pager_link', array(
-            'text' => (isset($tags[0]) ? $tags[0] : t(''.($i))),
+            'text' => (isset($tags[0]) ? $tags[0] : t(''.($i+1))),
             'element' => $element,
-            'parameters' => array('page'=>$i-1),
+            'parameters' => array('page'=>$i+1),
             'attributes' => array('target'=> '_self'),
             'page_new' => $vars['url']
         ));
