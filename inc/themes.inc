@@ -29,6 +29,15 @@ function dlts_viewer_theme() {
                 'quantity' => 9
             ),
         ),
+        'thumbnails_photo_pager' => array(
+            'variables' => array(
+                'tags' => array(),
+                'limit' => 10,
+                'element' => 0,
+                'parameters' => array(),
+                'quantity' => 9
+            ),
+        ),
         'dlts_viewer_openlayers_image' => array(
             'variables' => array(),
         ),
