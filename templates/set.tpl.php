@@ -9,7 +9,7 @@
 
         <?php foreach ($rows as $thumbnail) : ?>
             <div class="thumbHolder" data-uri="<?php print $thumbnail['cm']['uri'] ?>" data-sequence="<?php print $thumbnail['sequence'] ?>" data-width="<?php print $thumbnail['cm']['width'] ?>" data-height="<?php print $thumbnail['cm']['height'] ?>" data-levels="<?php print $thumbnail['cm']['levels'] ?>" data-dwtLevels="<?php print $thumbnail['cm']['dwtLevels'] ?>" data-compositingLayerCount="<?php print $thumbnail['cm']['compositingLayerCount'] ?>">
-                    <a href="<?php print $thumbnail['url'] ?>" >
+                    <a href="<?php print $thumbnail['url'] ?>" target="_self">
                         <img class="thumbItem"  src="<?php print $thumbnail['imageServeURI'] ?>"  />
                     </a>
               
