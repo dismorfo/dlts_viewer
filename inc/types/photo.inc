@@ -95,7 +95,7 @@ function dlts_viewer_photo_set_view(&$entity)
     // Initialise the pager
     $current_page = pager_default_initialize($count, $per_page);
     // Pager
-    $pager = theme('thumbnails_photo_pager', array('quantity' => $count));
+    $pager = theme('thumbnails_photo_pager', array('quantity' => $count,'current_page'=>$current_page));
     $output = theme('dlts_viewer_set', array(
             'pager' => $pager,
             'current_page' => $current_page,

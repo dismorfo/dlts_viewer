@@ -34,6 +34,7 @@ function dlts_viewer_theme() {
                 'tags' => array(),
                 'limit' => 10,
                 'element' => 0,
+                'current_page'=> 0,
                 'parameters' => array(),
                 'quantity' => 9
             ),
@@ -355,17 +356,14 @@ function theme_thumbnails_photo_pager($vars) {
     $element = $vars['element'];
     $parameters = $vars['parameters'];
     $quantity = $vars['quantity'];
-    $pager_count=ceil($quantity/10)+1;
-    $current_page = 0;
-    if(isset($parameters['page'])) {
-        $current_page = $parameters['page'];
-    }
+    $pager_count=ceil($quantity/10);
+    $current_page = $vars['current_page'];
     $links = array();
-    for($i=0; $i < $pager_count; $i++) {
+    for($i=0; $i < $pager_count-1; $i++) {
         $links[''.$i] = theme('pager_link', array(
             'text' => (isset($tags[0]) ? $tags[0] : t(''.($i+1))),
             'element' => $element,
-            'parameters' => array('page'=>$i+1),
+            'parameters' => array('page'=>$i),
             'attributes' => array('target'=> '_self'),
             'page_new' => $vars['url']
         ));
@@ -386,7 +384,7 @@ function theme_thumbnails_photo_pager($vars) {
             'page_new' => $vars['url']
         ));
     }
-    if($current_page<$i-2) {
+    if($current_page<$i-1) {
         $links['pager-next'] = theme('pager_link', array(
             'text' => (isset($tags[3]) ? $tags[3] : t('Next')),
             'element' => $element,
@@ -397,7 +395,7 @@ function theme_thumbnails_photo_pager($vars) {
         $links['pager-last'] = theme('pager_link', array(
             'text' => (isset($tags[4]) ? $tags[4] : t('Last')),
             'element' => $element,
-            'parameters' => array('page' => $i - 2),
+            'parameters' => array('page' => $i - 1),
             'attributes' => array('target' => '_self'),
             'page_new' => $vars['url']
         ));
