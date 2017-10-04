@@ -131,6 +131,8 @@ function dlts_solr_index_book_partners($items = array(), &$document, &$entity, &
 			$document->addField('sm_' . $prefix . 'provider_label', $label);
 		}
 		if ($language == 'en') {
+			$document->addField('sm_sprovider_label', strtolower($label));
+			$document->addField('tum_provider_label', $label);
 		  $document->addField('zm_partner',json_encode(array('name'=>$label,'code' => $code, 'nid' => $item->nid)));
 		  $document->addField('zm_provider',json_encode(array('name'=>$label,'code' => $code, 'nid' => $item->nid)));
 		}
@@ -385,11 +387,9 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   if (!empty($authors)) {
 	  foreach ($authors as $index => $author) {
   		$searchableFields[] = $author;
-  		$searchableFields[] = dlts_solr_remove_accents($author);
 		  if ($index == 0) {
-			  //$document->addField('ss_sauthor', dlts_solr_remove_accents(strtolower($author)));
 			  $document->addField('ss_sauthor', strtolower(dlts_solr_remove_accents($author)));
-			  $document->addField('iass_author', dlts_solr_remove_accents(strtolower($author)));
+			  $document->addField('iass_author', $author);
 		  }
   		$document->addField('sm_author', $author);
   	}
@@ -434,8 +434,8 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   $publishers = $wrapper->field_publisher->value();
   if (!empty($publishers)) {
   	foreach ($publishers as $publisher) {
-  		$document->addField('sm_publisher', $publisher);
-  		$searchableFields[] =  dlts_solr_remove_accents($publisher);
+  		$document->addField('sm_publisher',  $publisher);
+  		$searchableFields[] =  $publisher;
   	}
   }
   unset($publishers);
@@ -443,6 +443,7 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   /** Publication date (field_publication_date) */
   /** single-value field */
   $publication_date = $wrapper->field_publication_date->value();
+  $publication_date_text = $wrapper->field_publication_date_text->value();
   if (!empty($publication_date) && !empty($publication_date['value'])) {
   	/** convert ISO format into UNIX  timestamp */
   	$timestamp = strtotime($publication_date['value']);
@@ -453,27 +454,45 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   		$document->addField('sort_pubyear', $publication_year);
   		$document->addField('iass_pubyear', $publication_year);
   		$document->addField('iass_timestamp', $timestamp);
-  	}
+  	} else {
+        if (!empty($publication_date_text)) {
+            $publication_date_text_norm=preg_replace('(u|?)','0',$publication_date_text);
+            preg_match_all('\b\d{4}\b', $publication_date_text_norm, $years);
+            if(!empty($years)) {
+                foreach ($years as $index => $publication_year) {
+                    $searchableFields[] = $publication_year;
+                    if ($index == 0) {
+                        $document->addField('sort_pubyear', $publication_year);
+                        $document->addField('iass_pubyear', $publication_year);
+                    }
+                    $document->addField('dm_pubyear', date('Y-m-d\TG:i:s', strtotime($publication_year)));
+                }
+            }
+        }
+
+      }
   }
   unset($publication_date);
+  unset($publication_year);
   /** Publication date (field_publication_date) */
   /** single-value field */
-  $publication_date_text = $wrapper->field_publication_date_text->value();
+
   if (!empty($publication_date_text)) {
   	/** @TODO: Find the right field for this field */
   	$document->addField('ss_publication_date_text', $publication_date_text);
   	$document->addField('ss_pubdate', $publication_date_text); // remove this?
   	$document->addField('ss_spubdate', strtolower($publication_date_text));
+  } else {
+
   }
   unset($publication_date_text);
   /** Publication location (field_publication_location) */
   /** single-value field */
   $publication_location = $wrapper->field_publication_location->value();
   if (!empty($publication_location)) {
-  	$searchableFields[] = dlts_solr_remove_accents($publication_location);
+  	$searchableFields[] = $publication_location;
   	$document->addField('ss_publication_location', $publication_location);
-  	$document->addField('ss_publocation',dlts_solr_remove_accents($publication_location)); // remove this? @kate- when search options are fixed
-  	$document->addField('ss_spublocation', dlts_solr_remove_accents($publication_location));
+  	$document->addField('ss_publocation', $publication_location); // remove this? @kate- when search options are fixed
   }
   unset($publication_location);
   /** Subject (field_subject) */
@@ -482,10 +501,9 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   if (!empty($subjects)) {
   	foreach ($subjects as $index=>$subject) {
   		$document->addField('sm_subject_label', $subject->name);
-  		$searchableFields[] = dlts_solr_remove_accents($subject->name);
+  		$searchableFields[] = $subject->name;
 		if ($index == 0) {
-	                $document->addField('ss_ssubject', strtolower(dlts_solr_remove_accents($subject->name)));
-			$document->addField('iass_subject', strtolower(dlts_solr_remove_accents($subject->name)));
+			$document->addField('iass_subject', $subject->name);
 		}
   		$document->addField('zm_subject',json_encode(array('name'=>$subject->name,'tid' => $subject->tid, 'vid' => $subject->vid)));
   	}
@@ -525,7 +543,6 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   unset($language);
 
   /** Single value fields */
-  //Remove combining diacritics
   $document->addField('ss_title', $book_field_title);
   // Strip HTML Tags
   $title_sort = strip_tags($book_field_title);

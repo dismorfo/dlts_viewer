@@ -9,13 +9,14 @@ function dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $
         $node = node_load($translation->nid);
         $language = $node->language;
         $prefix = '_' . $language;
-        // wrapp entity with Entity API wrapper
+        // wrapp entity with Entity API wrapper:
         $wrapper = entity_metadata_wrapper('node', $node);
 
         /** Title (field_title) */
         /** single-value field */
         $title_long = $wrapper->field_title->value();
-        if (isset($entity->solr_multivolume)) {
+        if(!empty($title_long)) {
+          if (isset($entity->solr_multivolume)) {
         	$multivolume = $entity->solr_multivolume;
         	$volume = '';
         	// volume_number_str can be empty, if so, try volume_number
@@ -26,15 +27,15 @@ function dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $
         		$volume = t('Vol.') . ' ' .  $multivolume['volume_number'];
         	}
         	$title_long = $title_long . ' ' . $volume;
-        }
+          }
 
-        $title_long = trim($title_long);
+          $title_long = trim($title_long);
         /** Added temporarily to accomodate search options should be removed later-@ekate */
-        $document->addField('ss' . $prefix . '_title', dlts_solr_remove_accents(strtolower($title_long)));
-        $document->addField('ss' . $prefix . '_stitle', dlts_solr_remove_accents(strtolower($title_long)));
-        $document->addField('iass' . $prefix . '_longlabel',  dlts_solr_remove_accents(strtolower($title_long)));
-        $document->addField('ss' . $prefix . '_title_long', $title_long);
-        $searchableFields[] = $title_long;
+          $document->addField('ss' . $prefix . '_title', $title_long);
+          $document->addField('ss' . $prefix . '_title_long', $title_long);
+          $document->addField('iass' . $prefix . '_longlabel',  $title_long);
+          $searchableFields[] = $title_long;
+        }
         unset($title_long);
         /** multi-value field */
         dlts_solr_index_book_collection($wrapper->field_collection->value(), $document, $node, $searchableFields);
@@ -48,7 +49,7 @@ function dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $
         		$searchableFields[] = $author;
         		if ($index == 0) {
         		  $document->addField('ss' . $prefix . '_sauthor', dlts_solr_remove_accents(strtolower($author)));
-        		  $document->addField('iass' . $prefix . '_author', dlts_solr_remove_accents(strtolower($author)));
+        		  $document->addField('iass' . $prefix . '_author', strtolower(dlts_solr_remove_accents($author)));
         		}
         		$document->addField('sm' . $prefix . '_author', $author);
         	}
@@ -94,6 +95,7 @@ function dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $
         if (!empty($publishers)) {
         	foreach ($publishers as $publisher) {
         		$document->addField('sm' . $prefix . '_publisher', $publisher);
+        		$document->addField('sm' . $prefix . '_spublisher', strtolower( dlts_solr_remove_special_cahrs($publisher)));
         		$searchableFields[] =  $publisher;
         	}
         }
@@ -105,9 +107,8 @@ function dlts_solr_index_book_translations(&$document, &$entity, $entity_type, $
         if (!empty($publication_location)) {
         	$searchableFields[] = $publication_location;
         	$document->addField('ss' . $prefix . '_publication_location', $publication_location);
-        	$document->addField('ss' . $prefix . '_spublocation', dlts_solr_remove_accents(strtolower($publication_location)));
             /** add temporarily to accomodate current search options will remove later- @ekate */
-            $document->addField('ss' . $prefix . '_publocation', dlts_solr_remove_accents(strtolower($publication_location)));
+            $document->addField('ss' . $prefix . '_publocation', $publication_location);
         }
         unset($publication_location);
       }
