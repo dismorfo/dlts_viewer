@@ -1,0 +1,75 @@
+.photo {
+  .display {
+    margin-left: inherit;
+    margin-right: inherit;
+  }
+}
+
+#book-navbar.book-navbar-photos .pager {
+  padding: 0 20px;
+  li {
+    width: auto;
+    height: 2.3rem;
+    margin-top: 10px;
+  }
+  ul.links li {
+    a:link,
+    a:hover,
+    a:visited {
+      color: white;
+    }
+    a,
+    span {
+      font-size: 1rem;
+      display: block;
+      width: 44px;
+      line-height: 2rem;
+      text-align: center;
+      height: auto;
+    }
+    span {
+      vertical-align: text-top;
+    }
+  }
+}
+
+.photoset-thumbs {
+  margin: 3px 3px 0 0;
+  padding: 20px;
+  overflow: auto;
+
+  .thumbHolder {
+    padding: 10px;
+    a {
+      display: block;
+      line-height: 1;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .facet_sidebar {
+    display: none;
+  }
+  .photoset-thumbs {
+  justify-content: center;
+    .thumbHolder {
+      flex: 0 1 45%;
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}

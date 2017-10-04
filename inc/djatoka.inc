@@ -10,7 +10,7 @@
  */
 function dlts_viewer_djatoka_request($file) {
 	$file = (object) $file;
-  $service_url = variable_get('dlts_viewer_djatoka_service', 'http://dl-imgdev.home.nyu.edu/adore-djatoka');
+  $service_url = variable_get('dlts_viewer_djatoka_service', 'http://dl-img.home.nyu.edu/adore-djatoka');
   $rft_id = file_create_url($file->uri);
   // aof; here for now.
   //if (isset($file->timestamp)) {
@@ -35,8 +35,8 @@ function dlts_viewer_djatoka_request($file) {
   }
 }
 
-function dlts_viewer_djatoka_url($file) {
-	$service = variable_get('dlts_viewer_djatoka_service', 'http://dl-imgdev.home.nyu.edu/adore-djatoka');
+function dlts_viewer_djatoka_url($file, $embeded_tumb=false) {
+	$service = variable_get('dlts_viewer_djatoka_service', 'http://dl-img.home.nyu.edu/adore-djatoka');
 	$arguments = array(
 	  'url_ver' => 'Z39.88-2004',
 		'svc_id' => 'info:lanl-repo/svc/getRegion',
@@ -44,14 +44,18 @@ function dlts_viewer_djatoka_url($file) {
 		'svc.format' => 'image/jpeg',
 		'rft_id' => file_create_url($file['uri']),
 	);
-	if (isset($file['image_style'])) {
-	  $dimmensions = explode("x", $file['image_style']);
-	  if (count($dimmensions) == 2 && is_numeric($dimmensions[1])) {
-	  	$arguments['svc.scale'] = $dimmensions[1];
-	  }
-	}
-	else {
-		$arguments['svc.scale'] = '230';
-	}
+    if($embeded_tumb) {
+        $arguments['svc.scale'] = '100';
+    } else {
+        if (isset($file['image_style'])) {
+            $dimmensions = explode("x", $file['image_style']);
+            if (count($dimmensions) == 2 && is_numeric($dimmensions[1])) {
+                $arguments['svc.scale'] = $dimmensions[1];
+            }
+        } else {
+            $arguments['svc.scale'] = '230';
+        }
+    }
+
 	return url($service . '/resolver', array('external' => true, 'query' => $arguments));
 }

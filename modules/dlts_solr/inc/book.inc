@@ -378,6 +378,7 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   		$ri = dlts_viewer_djatoka_url($representative_image);
   	}
   	$document->addField('ss_representative_image', $ri);
+        $document->addField('ss_site_image', pathinfo($pathinfo['dirname'])['basename'].'/'.$pathinfo['filename']);
   }
   unset($ri);
   unset($representative_image);
