@@ -318,6 +318,7 @@ YUI().use(
     }
 
     function change_page(config) {
+
       var map;
       var service;
       var zoom;
@@ -553,7 +554,7 @@ YUI().use(
         window.location.replace(url);
       }
       else {
-        Y.CrossFrame.postMessage('parent', JSON.stringify({ fire: 'change:option:multivolume', data }));
+        Y.CrossFrame.postMessage('parent', JSON.stringify({ fire: 'change:option:multivolume', data: $data }));
       }
     }
 
