@@ -200,26 +200,25 @@ function theme_dlts_viewer_pager_button($variables) {
   return drupal_render($render_array);
 }
 
-function theme_dlts_viewer_navbar_item($variables) {
-  $parts = array('html' => TRUE);
-  if (isset($variables['fragment'])) {
-    $parts = array_merge($parts, array('fragment' => $variables['fragment']));
-  }
-  if (isset($variables['attributes'])) {
-    $parts = array_merge($parts, array('attributes' => $variables['attributes']));
-  }
-  if (isset($variables['query'])) {
-    $parts = array_merge($parts, array('query' => $variables['query']));
-  }
-  if (empty($variables['url'])) {
-    $url = $variables['path'];
-  }
-  else {
-    $url = $variables['url'];
-  }
-  return '<li class="navbar-item">' . l(t('<span>@title</span>', array('@title' => $variables['title'])), $url, $parts) . '</li>';
+function theme_dlts_viewer_navbar_item($variables)
+{
+    $parts = array('html' => TRUE);
+    if (isset($variables['fragment'])) {
+        $parts = array_merge($parts, array('fragment' => $variables['fragment']));
+    }
+    if (isset($variables['attributes'])) {
+        $parts = array_merge($parts, array('attributes' => $variables['attributes']));
+    }
+    if (isset($variables['query'])) {
+        $parts = array_merge($parts, array('query' => $variables['query']));
+    }
+    if (empty($variables['url'])) {
+        $url = $variables['path'];
+    } else {
+        $url = $variables['url'];
+    }
+    return '<li class="navbar-item">' . l(t('<span>@title</span>', array('@title' => $variables['title'])), $url,$parts);
 }
-
 /**
  * Returns HTML for a high-resolution JPEG 2000 image.
  *
@@ -358,16 +357,21 @@ function theme_thumbnails_photo_pager($vars) {
     $quantity = $vars['quantity'];
     $pager_count=ceil($quantity/10);
     $current_page = $vars['current_page'];
-    $url = $vars['url'];
+    //$url = $vars['path'];
     $links = array();
     for($i=0; $i < $pager_count; $i++) {
-        $links[''.$i] = theme('pager_link', array(
-            'text' => (isset($tags[0]) ? $tags[0] : t(''.($i+1))),
-            'element' => $element,
-            'parameters' => array('page'=>$i),
-            'attributes' => array('target'=> '_self'),
-            'page_new' => $url
-        ));
+      $attributes = array('target'=> '_self');
+      if($i== $current_page) {
+          $links[''.$i] =  array('title' => ''.$i+1);
+      } else {
+          $links['' . $i] = theme('pager_link', array(
+              'text' => (isset($tags[0]) ? $tags[0] : t('' . ($i + 1))),
+              'element' => $element,
+              'parameters' => array('page' => $i),
+              'attributes' => $attributes,
+              'page_new' => '/'
+          ));
+      }
     }
     if($current_page>0) {
         $links['pager-first'] = theme('pager_link', array(
@@ -375,14 +379,14 @@ function theme_thumbnails_photo_pager($vars) {
             'element' => $element,
             'parameters' => array('page' => 0),
             'attributes' => array('target' => '_self'),
-            'page_new' => $url
+            'page_new' => '/'
         ));
         $links['pager-previous'] = theme('pager_link', array(
             'text' => (isset($tags[1]) ? $tags[1] : t('Prev')),
             'element' => $element,
             'parameters' => array('page' => $current_page - 1),
             'attributes' => array('target' => '_self'),
-            'page_new' => $url
+            'page_new' => '/'
         ));
     }
     if($current_page<$i-1) {
@@ -391,14 +395,14 @@ function theme_thumbnails_photo_pager($vars) {
             'element' => $element,
             'parameters' => array('page' => $current_page + 1),
             'attributes' => array('target' => '_self'),
-            'page_new' => $url
+            'page_new' => '/'
         ));
         $links['pager-last'] = theme('pager_link', array(
             'text' => (isset($tags[4]) ? $tags[4] : t('Last')),
             'element' => $element,
             'parameters' => array('page' => $i - 1),
             'attributes' => array('target' => '_self'),
-            'page_new' => $url
+            'page_new' => '/'
         ));
     }
     $links = array_filter($links);
