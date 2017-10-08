@@ -40,7 +40,7 @@ function dlts_viewer_drush_command() {
         ),
     );
   $items['import-book'] = array(
-        'callback' => 'dlts_viewer_import_book1',
+        'callback' => 'dlts_viewer_import_book',
         'description' => dt('Import book from a JSON document.'),
         'options' => array(
             'source' => dt('JSON document filepath.'),

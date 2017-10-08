@@ -90,18 +90,19 @@ function dlts_viewer_photo_set_view(&$entity)
     // Items
     //items, splited in rows
     $rows = $entity->rows;
-    //$items = $entity->items;
+
     $per_page = $entity->per_page;
     // Initialise the pager
     $current_page = pager_default_initialize($count, $per_page);
     // Pager
-    $pager = theme('thumbnails_photo_pager', array('quantity' => $count,'current_page'=>$current_page));
-    $output = theme('dlts_viewer_set', array(
-            'pager' => $pager,
-            'current_page' => $current_page,
-            'rows'=> $rows
-        )
-    );
+    $set_parameters = array('current_page' => $current_page, 'rows'=> $rows );
+
+        if($count>1) {
+            $pager = theme('thumbnails_photo_pager', array('quantity' => $count,'current_page'=>$current_page));
+            $set_parameters['pager'] = $pager;
+        }
+
+    $output = theme('dlts_viewer_set',$set_parameters);
     return $output;
 }
 
@@ -124,19 +125,15 @@ function dlts_viewer_photo_dispatcher($entity,$arg,$arg1) {
     // set $url so that .tpl.php can use it
     $entity->url = $set_url;
 
-    // check for type of request: 1) book page or 2) display pane
+    // check for type of request: 1) photo page or 2) display pane
     if (!isset($arg)||!is_array($arg)) {
 
         /** Load helpers */
         module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
         // check request type
-
-        $page = $query_parameters["page"];
-        if(dlts_viewer_is_embed()) {
-            $query_parameters["embed"]='true';
-        }
-
-        if(!isset($page)) {
+        if(array_key_exists("page", $query_parameters)) {
+            $page = $query_parameters["page"];
+        } else {
             $page=0;
         }
 
@@ -155,7 +152,6 @@ function dlts_viewer_photo_dispatcher($entity,$arg,$arg1) {
             $entity->rows=$rows;
             $entity->per_page=$per_page;
             $entity->page=$page;
-
         }
         $display_type = 'photo_set';
     }
@@ -230,10 +226,12 @@ function dlts_viewer_photo_dispatcher($entity,$arg,$arg1) {
             ),
             'fragment' => 'fullscreen',
         );
-        $thumbnail_path='photos/' . $entity->identifier.'/set';
         if(dlts_viewer_is_embed()) {
-           $thumbnail_path=url( $thumbnail_path, array('absolute' => true, 'query' => array('embed' => 'true')));
+            $thumbnail_path = 'photos/' . $entity->identifier . '/mode/embed';
+        } else {
+            $thumbnail_path = 'photos/' . $entity->identifier;
         }
+
         $button_thumbnails_options = array(
             'title' => t('Pages'),
             'path' => $thumbnail_path,
@@ -278,13 +276,16 @@ function dlts_viewer_photo_dispatcher($entity,$arg,$arg1) {
         $entity->sequence_count = $sequence_count;
         $entity->thumbnailsPage = ceil($page / $thumbnails_rows_per_page) - 1;
         $entity->thumbnailsRows = $thumbnails_rows_per_page;
-        $entity->thumbnailsURL = $set_url . '/set';
+        if(dlts_viewer_is_embed()) {
+            $entity->thumbnailsURL = $set_url . '/set/mode/embed';
+        } else {
+            $entity->thumbnailsURL = $set_url .'/set';
+        }
         $entity->pageView =  'single';
         $arg['pageView'] = $entity->pageView;
         $arg['thumbnailsUrl'] = $entity->thumbnailsURL;
         $arg['thumbnailsRows'] = $entity->thumbnailsRows;
         $arg['thumbnailsPage'] = $entity->thumbnailsPage;
-        $arg['oembed'] = $entity->embed;
         $book_page_options = array(
             'file' => $arg
         );
