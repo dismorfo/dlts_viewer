@@ -92,12 +92,14 @@ function dlts_viewer_photo_set_view(&$entity)
     $rows = $entity->rows;
 
     $per_page = $entity->per_page;
+    $thumbnails_row_per_page=$entity->thumbnailsRows;
     // Initialise the pager
     $current_page = pager_default_initialize($count, $per_page);
     // Pager
     $set_parameters = array('current_page' => $current_page, 'rows'=> $rows );
 
-        if($count>1) {
+
+        if(($count/$thumbnails_row_per_page)>1) {
             $pager = theme('thumbnails_photo_pager', array('quantity' => $count,'current_page'=>$current_page));
             $set_parameters['pager'] = $pager;
         }
@@ -120,6 +122,9 @@ function dlts_viewer_photo_dispatcher($entity,$arg,$arg1) {
     $identifier = $set_wrapper->field_identifier->value();
     // set $identifier so that .tpl.php can use it
     $entity->identifier = $identifier;
+    //number of thumbnails on photo set view
+    $thumbnails_rows_per_page = 10;
+    $entity->thumbnailsRows = $thumbnails_rows_per_page;
     // book URL
     $set_url = url('photos/' . $entity->identifier , array('absolute' => TRUE));
     // set $url so that .tpl.php can use it
@@ -161,8 +166,6 @@ function dlts_viewer_photo_dispatcher($entity,$arg,$arg1) {
         if ($is_pjax) {
             $display_type = 'photo_page_pjax';
         }
-
-        $thumbnails_rows_per_page = 10;
 
         $sequence = $arg['sequence'];
         if (isset($query_parameters['rows'])) {
