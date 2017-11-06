@@ -386,6 +386,9 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   	$document->addField('ss_site_image', $site_image);
   }
   unset($ri);
+  unset($dirname);
+  unset($dir_path);
+  unset($base_name);
   unset($site_image);
   unset($representative_image);
   /** Author (field_author) */
