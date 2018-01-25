@@ -464,6 +464,7 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   		$document->addField('sort_pubyear', $publication_year);
   		$document->addField('iass_pubyear', $publication_year);
   		$document->addField('iass_timestamp', $timestamp);
+                $document->addField('ds_timestamp', date('Y-m-d\TG:i:s\Z', strtotime($publication_date['value'])));
   	} else {
         if (!empty($publication_date_text)) {
             $publication_date_text_norm=preg_replace('(u|?)','0',$publication_date_text);
