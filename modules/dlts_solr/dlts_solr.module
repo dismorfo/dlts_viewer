@@ -58,6 +58,12 @@ function dlts_solr_apachesolr_index_document_build(ApacheSolrDocument $document,
     	/** pass the document as reference */
       dlts_solr_index_book($document, $entity, $entity_type, $env_id);
       break;
+      case 'dlts_series' :
+    	/** load utils */
+    	module_load_include('inc', 'dlts_solr', 'inc/series');
+    	/** pass the document as reference */
+      dlts_solr_index_series($document, $entity, $entity_type, $env_id);
+      break;
   }
 }
 
