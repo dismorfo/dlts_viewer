@@ -318,6 +318,7 @@ YUI().use(
     }
 
     function change_page(config) {
+
       var map;
       var service;
       var zoom;

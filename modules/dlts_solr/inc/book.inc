@@ -377,9 +377,16 @@ function dlts_solr_index_book(&$document, &$entity, $entity_type, $env_id) {
   	elseif ($pathinfo['extension'] == 'jp2') {
   		$ri = dlts_viewer_djatoka_url($representative_image);
   	}
+      $dirname = $pathinfo['dirname'];
+      $dir_path = pathinfo($dirname);
+      $basename = $dir_path['basename'];
+      $site_image = $basename.'/'.$pathinfo['filename'];
+
   	$document->addField('ss_representative_image', $ri);
+  	$document->addField('ss_site_image', $site_image);
   }
   unset($ri);
+  unset($site_image);
   unset($representative_image);
   /** Author (field_author) */
   /** multi-value field */
