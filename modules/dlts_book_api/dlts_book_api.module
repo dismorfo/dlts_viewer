@@ -1,0 +1,1004 @@
+<?php
+
+/**
+ * Implements hook_custom_theme().
+ * http://api.drupal.org/api/drupal/modules--system--system.api.php/function/hook_custom_theme/7
+ */
+function dlts_book_api_custom_theme() {
+
+  $arg = arg();
+
+  // no longer in use?
+  if ( isset($_GET['oembed'])) {
+    return 'dlts_book_oembed';
+  }
+
+  // in case we want to see this site with other theme
+  else if ( isset($_GET['ctheme']) ) {
+    return filter_xss($_GET['ctheme']);
+  }
+
+  // DLTS book theme does not have a user page design
+  else if ( $arg[0] == 'user' ) {
+    return variable_get('admin_theme', 0);
+  }
+
+}
+
+/**
+ * Implementation of hook_views_pre_build().
+ * https://api.drupal.org/api/views/views.api.php/function/hook_views_pre_build/7
+ */
+function dlts_book_api_views_pre_build(&$view) {
+
+  // Make sure this is only for the specific view you want to modified
+  if ($view->name == 'book_thumbnails') {
+
+    // Get the x-y value.
+	$query_parameters = drupal_get_query_parameters();
+
+	if (
+	  isset($query_parameters['pager_count']) // request requested a pager count overwrite
+	  && // AND
+	  is_numeric($query_parameters['pager_count']) // requested pager count is a number (so we won't destroy our view)
+	) {
+      // Now lets set the pager item to what ever out count is.
+      $view->items_per_page = $query_parameters['pager_count'];
+	}
+  }
+
+}
+
+function dlts_book_api_permission() {
+  return array(
+    'request oembed' => array(
+      'title' => t('Request oEmbed'),
+      'description' => t('Allow http request to oEmbed resources.'),
+    ),
+    'request book metadata' => array(
+      'title' => t('Allow request to book metadata'),
+      'description' => t('Allow http request to books metadata.'),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function dlts_book_api_theme() {
+  return array(
+    'dlts_book_api_oembed' => array(
+      'arguments' => array(
+        'url' => NULL,
+        'width' => NULL,
+        'height' => NULL,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function dlts_book_api_menu() {
+  return array(
+
+    'books/%dlts_book/edit' => array(
+      'title' => 'Edit book',
+      'access arguments' => array('edit any dlts_book content'),
+      'page callback' => 'dlts_book_api_book_edit_redirect',
+      'page arguments' => array(1),
+    ),
+
+    'books/%/%/edit' => array(
+      'title' => 'Edit book page',
+      'access arguments' => array('edit any dlts_book_page content'),
+      'page callback' => 'dlts_book_api_book_page_edit_redirect',
+      'page arguments' => array(0, 1, 2),
+    ),
+
+    /**
+     * @TODO: Work out the author displaying.
+     */
+    'books/%dlts_book/metadata1' => array(
+      'title' => 'Book metadata',
+      'access arguments' => array('request book metadata'),
+      'page callback' => 'dlts_book_api_book_metadata',
+      'page arguments' => array(1),
+      'delivery callback' => 'dlts_utilities_deliver_json',
+      'type' => MENU_CALLBACK,
+    ),
+
+    'books/%dlts_book/metadata1.json' => array(
+      'title' => 'Book metadata',
+      'access arguments' => array('request book metadata'),
+      'page callback' => 'dlts_book_api_book_metadata',
+      'delivery callback' => 'dlts_utilities_deliver_json',
+      'page arguments' => array(1),
+      'type' => MENU_CALLBACK,
+    ),
+
+    'books/%dlts_book/book.json' => array(
+      'title' => 'Book pages',
+      'access arguments' => array('request book metadata'),
+      'page callback' => 'dlts_book_api_book',
+      'delivery callback' => 'dlts_utilities_deliver_json',
+      'page arguments' => array(1),
+      'type' => MENU_CALLBACK,
+    ),
+
+    'books.json' => array(
+      'title' => 'All books in JSON format',
+      'access arguments' => array('request book metadata'),
+      'page callback' => 'dlts_book_api_books',
+      'delivery callback' => 'dlts_utilities_deliver_json',
+    ),
+
+    'books/%dlts_book/display' => array(
+      'title' => 'Book metadata',
+      'access arguments' => array('request book metadata'),
+      'page callback' => 'dlts_book_api_book_metadata_display',
+      'page arguments' => array(1),
+      'delivery callback' => 'drupal_deliver_html_page',
+      'type' => MENU_CALLBACK,
+    ),
+
+    'books/%dlts_book/pages.json' => array(
+      'title' => 'Book pages',
+      'access arguments'   => array('request book metadata'),
+      'page callback' => 'dlts_book_api_book_pages',
+      'delivery callback' => 'dlts_utilities_deliver_json',
+      'page arguments' => array(1),
+      'type' => MENU_CALLBACK,
+    ),
+
+     'books/%dlts_book/mode/embed' => array(
+        'title' => 'Embed',
+        'access arguments' => array('request oembed'),
+        'page arguments' => array(1),
+        'page callback' => 'dlts_book_api_embed_using_id',
+        'delivery callback' => 'dlts_utilities_deliver_json',
+    ),
+
+     'sources/content-types' => array(
+        'title' => 'Cotent types',
+        'access arguments' => array('request book metadata'),
+        'page callback' => 'dlts_book_api_content_types',
+        'delivery callback' => 'dlts_utilities_deliver_json',
+    ),
+
+     'sources/field/%' => array(
+        'title' => 'Cotent types',
+        'access arguments' => array('request book metadata'),
+        'page callback' => 'dlts_book_api_content_by_field',
+        'delivery callback' => 'dlts_utilities_deliver_json',
+        'page arguments' => array(2),
+    ),
+
+     'sources/discovery' => array(
+        'title' => 'Cotent types',
+        'access arguments' => array('request book metadata'),
+        'page callback' => 'dlts_book_api_discovery_enviorment',
+        'delivery callback' => 'dlts_utilities_deliver_json',
+    ),
+  );
+}
+
+/**
+ * A wildcard loader for dlts_book nodes, using the book identifier.
+ *
+ * @parameter $identifier
+ *  The value of field_identifier for a dtls_book node.
+ *
+ * @return
+ * A node object with the given value for field_identifier.
+ *
+ * @todo
+ * field_identifier is supposed to be unique across all books, but we do
+ * no checking of this assumption.
+ * @todo
+ * Does the query need to be tagged as node_access? We're checking node_access
+ * via the menu system, but since the loader is called before access is
+ * checked, adding a check here might save an entity_load if the user's not
+ * going to have access anyway, at the cost of an extra JOIN here.
+ */
+function dlts_book_load1($identifier, $language = 'en') {
+
+  $query_parameters = drupal_get_query_parameters();
+
+  if (isset($query_parameters['lang'])) {
+    $language = filter_xss($query_parameters['lang']);
+  }
+
+  $query = new EntityFieldQuery;
+
+  $identifier = filter_xss($identifier);
+
+  $result = $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'dlts_book')
+    ->propertyCondition('status', 1)
+    ->propertyCondition('language', $language)
+    ->fieldCondition('field_identifier', 'value', $identifier, '=')
+    ->execute();
+
+  if (!empty($result['node'])) {
+
+    $keys = array_keys( $result['node'] );
+
+    return node_load( array_pop( $keys ) );
+
+  } else {
+    /** If the query returns no result, there's no book with the given identifier. */
+    return filter_xss($identifier);
+  }
+}
+
+function dlts_book_api_books($start = 0, $length = 25) {
+
+  global $language;
+
+  $request_uri = drupal_parse_url(request_uri());
+
+  if ( isset($request_uri['query']) ) {
+    if ( isset($request_uri['query']['rows']) && is_numeric($request_uri['query']['rows']) ) {
+      $length = $request_uri['query']['rows'];
+    }
+    if ( isset($request_uri['query']['start']) && is_numeric($request_uri['query']['start']) ) {
+      $start = $request_uri['query']['start'];
+    }
+  }
+
+  $countQuery = new EntityFieldQuery();
+
+  $entitiesQuery = new EntityFieldQuery();
+
+  $count = $countQuery->entityCondition('entity_type', 'node')
+                      ->entityCondition('bundle', 'dlts_book')
+                      ->propertyCondition('status', 1)
+                      ->count()
+                      ->execute();
+
+  $entities = $entitiesQuery->entityCondition('entity_type', 'node')
+                            ->entityCondition('bundle', 'dlts_book')
+                            ->propertyCondition('status', 1)
+                            ->range($start, $length)
+                            ->execute();
+
+  $keys = array_keys($entities['node']);
+
+  $nodes = entity_load('node', $keys);
+
+  // try to mimic Solr response
+  $response = array(
+    'response' => array(
+      'numFound' => $count,
+      'start' => $start,
+      'docs' => array()
+    )
+  );
+
+  foreach ( (array) $nodes as $node) {
+    $response['response']['docs'][] = dlts_book_api_book( $node, FALSE);
+  }
+
+  return $response;
+
+}
+
+
+/**
+ * Generate metadata about the first five pages in a DLTS Book.
+ *
+ * @param $dlts_book
+ * A DLTS Book node object.
+ * @return
+ * A keyed array to be converted into JSON.
+ */
+function dlts_book_api_book_pages($book, $start = 0, $length = 25) {
+
+  global $language;
+  
+  module_load_include('inc', 'dlts_utilities', 'inc/dlts_utilities.book');
+  module_load_include('inc', 'dlts_utilities', 'inc/dlts_utilities.book_page');
+
+  $pages = array(
+    'pages' => array( 'page' => array() )
+  );
+
+  if (!is_object($book) || !isset($book->nid)) {
+    return MENU_NOT_FOUND;
+  }
+
+  $field = dlts_utilities_field_get_first_item('node', $book, 'field_identifier');
+
+  if (!isset($field)) {
+    return MENU_NOT_FOUND;
+  }
+
+  if (isset($_GET['limit']) && is_numeric($_GET['limit'])) {
+    $length = $_GET['limit'];
+  }
+
+  if (isset($_GET['start']) && is_numeric($_GET['start'])) {
+    $start = $_GET['start'];
+  }
+
+  $identifier = $field['safe_value'];
+
+  $query = new EntityFieldQuery();
+
+  $entities = $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'dlts_book_page')
+    ->propertyCondition('status', 1)
+    ->fieldCondition('field_is_part_of', 'value', $identifier, '=')
+    ->fieldCondition('field_visible', 'value', 1, '=');
+
+  if ($length != 0) {
+    $entities->range($start, $length);
+  }
+
+  $que = $entities->execute();
+
+  $nodes = entity_load('node', array_keys($que['node']));
+
+  foreach ((array) $nodes as $node) {
+
+    $master = dlts_utilities_book_page_get_master_file($node);
+
+    $service_image = dlts_utilities_book_page_get_services_image_fullpath($node);
+
+    $pages['pages']['page'][] = array (
+      'sequence' => dlts_utilities_book_page_get_sequence_number($node),
+      'page' => dlts_utilities_book_page_get_real_number($node),
+      'image' => $master['full_path'],
+    	'uri' => $master['uri'],
+    	'timestamp' => $master['timestamp'],
+        'service' => dlts_utilities_book_page_get_services_image_fullpath($node),
+        'hand_side' => dlts_utilities_book_page_get_hand_side($node),
+        'read_order' => dlts_utilities_book_page_get_read_order($node),
+        'page_type' => dlts_utilities_book_page_get_page_type($node),
+        'visible' => dlts_utilities_book_page_get_visible($node),
+        'metadata' => array(
+          'width' => (isset($master['djakota_width']) ? $master['djakota_width'] : NULL ),
+          'height' => (isset($master['djakota_height']) ? $master['djakota_height'] : NULL ),
+          'levels' => (isset($master['djakota_levels']) ? $master['djakota_levels'] : NULL ),
+          'dwtLevels' => (isset($master['djakota_dwtLevels']) ? $master['djakota_dwtLevels'] : NULL ),
+          'compositingLayerCount' => (isset($master['djakota_compositingLayerCount']) ? $master['djakota_compositingLayerCount'] : NULL ),
+      ),
+
+    );
+
+  }
+
+  return $pages;
+}
+
+/**
+ * Supports the 'Services' style embed
+ */
+function dlts_book_api_embed_using_uri() {
+  $lookup_results = dlts_book_api_oembed_lookup();
+  if ( $lookup_results['code'] !== 200 ) {
+    return $lookup_results;
+  }
+  $nid = $lookup_results['nid'];
+  $bnode = node_load($nid);
+  return dlts_book_api_embed_response( $bnode, $lookup_results );
+}
+
+/**
+ * Supports the REST style embed
+ */
+function dlts_book_api_embed_using_id( $dlts_book ) {
+  if ( is_object($dlts_book) ) {
+    $bnode = $dlts_book;
+  }
+  else {
+    return MENU_NOT_FOUND;
+  }
+  return dlts_book_api_embed_response( $bnode );
+}
+
+/**
+ * Generate a response to a client oEmbed request.
+ *
+ * @return
+ *   A keyed array to be converted into JSON
+ *
+ * @todo Test oembed_node for whether it's actually a node
+ */
+function dlts_book_api_embed_response( $dlts_book, $pre_response = array() ) {
+
+  /*
+   * Invoke the URL that was passed as if it was its own request.
+   */
+  $node = $dlts_book;
+
+  if ( !$node ) {
+    watchdog('dlts_book_api', 'An Unexpected Error Has Occurred. The given path: :path does not exist.', array(':path' => $pre_response['node_path']), WATCHDOG_ERROR);
+    return array(
+      'code' => MENU_NOT_FOUND,
+      'msg' => t('An Unexpected Error Has Occurred. The given path does not exist.' ),
+    );
+  }
+
+  switch ($node->type) {
+    case 'dlts_book':
+      $book = $node;
+      break;
+
+    case 'dlts_book_page':
+    case 'dlts_book_stitched_page':
+         $page = $node;
+
+      /*
+       * TODO: Fix assumption that all pages have a relationship with a book.
+       */
+      $field_book = field_get_items( 'node', $page, 'field_book' );
+      $book = node_load($field_book[0]['nid']);
+      break;
+  }
+
+  $argument_defaults = array(
+    'format' => 'JSON',
+    'width' => 480,
+    'height' => 640,
+    'callback' => '',
+    'iframe' => TRUE,
+    'mode' => 'single_page',
+  );
+
+  $arguments = array_merge($argument_defaults, $pre_response);
+
+  /*
+   * Get book title
+   * field is required
+   */
+
+  $field_title = field_get_items( 'node', $book, 'field_title' );
+  $title = $field_title[0]['safe_value'];
+
+  /*
+   * Get book creators
+   * @TODO: fix this, same as metadata
+   */
+
+  $authors = array();
+  $author  = '';
+
+  foreach ( (array) field_get_items( 'node', $book, 'field_author' ) as $author) {
+    if ( isset($author['safe_value']) ) {
+      $authors[] = $author['safe_value'];
+    }
+  } if ( !empty( $authors ) ) {
+    $author = implode(', ', $authors);
+  } else {
+    $author = t('undefined');
+  }
+
+  /*
+   * Author URL is not part of our collections, for now 'undefined'.
+   */
+  $author_url = t('undefined');
+
+  /*
+   * Get book representitive image
+   */
+
+  $field_representitive_image = field_get_items( 'node', $book, 'field_representative_image' );
+  $thumbnail_url = file_create_url( $field_representitive_image[0]['uri'] );
+
+
+  if ( !empty($arguments['uri']['modified']) ) {
+    $url = url( $arguments['uri']['modified'], array('query' => array ('oembed' => 'true'), 'absolute' => TRUE));
+  } else {
+    $url = url( $arguments['uri']['request'], array('query' => array ('oembed' => 'true')));
+  }
+
+  $response = array(
+    'type' => 'rich',
+    'version' => '1.0',
+    'title' => $title,
+    'author_name' => $author,
+    'author_url' => $author_url,
+    'provider_name' => t('NYU Digital Library Technology Services'),
+    'provider_url' => t('http://dlib.nyu.edu/dlts/projects'),
+    'cache_age' => 86400,
+    'thumbnail_url' => $thumbnail_url,
+    'thumbnail_width' => 100,
+    'thumbnail_height' => 154,
+    'width' => (int) $arguments['width'],
+    'height' => (int) $arguments['height'],
+  );
+
+  if ( $arguments['iframe'] ) {
+    $response['html'] = theme('dlts_book_api_oembed', array(
+      'url' => $url,
+      'width' => $arguments['width'],
+      'height' => $arguments['height'],
+    ));
+  }
+  return $response;
+}
+
+function dlts_book_api_book1( $node, $listPages = TRUE) {
+
+  $book = dlts_book_api_book_metadata( $node );
+
+  if ( $listPages ) {
+
+    $book =  array_merge( (array) $book, (array) dlts_book_api_book_pages( $node ) ) ;
+
+  }
+  return $book;
+
+}
+
+/**
+ * Generate metadata about a book.
+ *
+ * @param $dlts_book
+ * A dlts_book node object
+ * @return
+ * A keyed array to be converted into JSON
+ *
+ */
+function dlts_book_api_book_metadata1($book) {
+
+  module_load_include('inc', 'dlts_utilities', 'inc/dlts_utilities.book');
+  module_load_include('inc', 'dlts_utilities', 'inc/dlts_utilities.book_page');
+  module_load_include('inc', 'dlts_utilities', 'inc/dlts_utilities.collection');
+
+  $type = dlts_utilities_content_types_type( $book->type );
+
+  $fields = array();
+
+  if (!is_object($book)) {
+    return array(
+      'argument' => $book,
+      'code' => 1,
+      'message' => t('Invalid book'),
+      'status' =>t('fail'),
+    );
+  }
+
+  $metadata = $subjects = $collections = array();
+
+  $base_url = url('', array('absolute' => TRUE));
+
+  $ewrapper = entity_metadata_wrapper('node', $book);
+
+  foreach ( $type['fields'] as $field ) {
+
+    $name = str_replace('field_', '', $field['field_name']);
+
+    $raw_value = $ewrapper->$field['field_name']->value();
+
+    if ( $field['type'] == 'options_buttons' ) {
+      $value = $field['settings']['allowed_values'][$raw_value];
+    }
+
+    else if ( $field['type'] == 'link_field' && isset( $raw_value['url'] ) ) {
+
+      $value = $raw_value['url'];
+
+    }
+
+    else if ( $field['type'] == 'file_generic' ) {
+
+      $value = array();
+
+      foreach ( (array) $raw_value as $pdf_file) {
+        $value[] = file_create_url($pdf_file['uri']);
+      }
+
+    }
+
+    else if ( $field['type'] == 'date_text' ) {
+      $raw_value['value'];
+    }
+
+    else if ( $field['type'] == 'image_image' ) {
+      $value = file_create_url($raw_value['uri']);
+    }
+
+    else if ( $field['type'] == 'taxonomy_autocomplete' ) {
+
+      $value = array();
+
+      foreach ($raw_value as $taxonomy) {
+        $value[] = $taxonomy->name;
+      }
+
+    }
+
+    else {
+      $value = $raw_value;
+    }
+
+    $fields[$name] = array (
+      'label' => $field['label'],
+      'value' => (array) $value,
+      // 'raw_value' => $raw_value,
+       'type' => $field['type'],
+       'machine_name' => $field['field_name'],
+    );
+
+  }
+
+  $identifier = $fields['identifier']['value'][0];
+
+  return array(
+    'entity_title' => !empty($title) ? $title : $book->title,
+    'identifier' => $identifier,
+    'entity_language' => $book->language,
+    'entity_status' => $book->status,
+    'entity_type' => $book->type,
+    'metadata' => $fields,
+  );
+
+}
+
+/*
+ * Themes functions
+ */
+
+function theme_dlts_book_api_oembed( $arguments ) {
+  return '<iframe id="book-viewer" src="' . $arguments['url'] .'" width="' . $arguments['width'] .'" height="' . $arguments['height'] .'"><p>' . t('Your browser does not support iframes.') . '</p></iframe>';
+}
+
+function dlts_book_sequence_path($sequence, $type) {
+  if ($nid = dlts_book_sequence_lookup($sequence, $type)) {
+    return array(
+      'nid' => $nid,
+      'node_path' => drupal_lookup_path( 'alias', 'node/' . $nid ),
+    );
+  }
+  return FALSE;
+}
+
+function dlts_book_sequence_lookup($sequence, $type) {
+  $sequences = preg_split('/-/', $sequence);
+
+  if ( isset($sequences[0]) && !empty($sequences[0]) ) {
+    $sequence = (int) $sequences[0];
+  } else {
+    watchdog('dlts_book_api', 'Bad Request: Error finding book by sequence page.');
+    return $sequence;
+  }
+
+  $types = array('dlts_book_page', 'dlts_book_stitched_page');
+
+  if ( in_array( $type, $types ) ) {
+    $query = "
+      SELECT n.nid
+        FROM {node} n
+        LEFT JOIN {field_data_field_sequence_number_left} l ON n.nid = l.entity_id
+        LEFT JOIN {field_data_field_sequence_number_right} r ON n.nid = r.entity_id
+        WHERE n.status = :status
+        AND n.type = :type
+        AND ( l.field_sequence_number_left_value = :sequence OR r.field_sequence_number_right_value = :sequence )
+        LIMIT 1";
+
+    $result =  db_query($query, array(':status' => 1, ':type' => $type, ':sequence' => $sequence ));
+
+    /*
+     * We just need the first one
+     * Look for a better way to do this
+     */
+    foreach ($result as $record) {
+      return $record->nid;
+    }
+  }
+}
+
+function dlts_book_api_oembed_lookup1() {
+  global $base_url;
+  $request_uri = drupal_parse_url(request_uri());
+  $modified = FALSE;
+
+  if ( array_key_exists('url', $request_uri['query']) && valid_url($request_uri['query']['url'], TRUE) ) {
+    $host = parse_url( $base_url );
+    $oembed = parse_url($request_uri['query']['url']);
+    $path = '';
+
+    /*
+     * Don't look in DB if the requested URL does not match a valid oembed request
+     */
+    if ( $oembed['host'] != $host['host'] ) {
+      watchdog('dlts_book_api', 'Bad Request: Client has issued a illegal request. URL requested is not part of this collection.');
+      return array(
+        'msg' => t('Bad Request: Client has issued a illegal request. URL requested is not part of this collection.'),
+        'code' => 403,
+      );
+    }
+
+    /*
+     * Match legal request books/%identifier/%page
+     * TODO: refacto
+     */
+
+    if ( preg_match( '/\/books\/(\w+)\/([\-0-9]+)\/?$/', $request_uri['query']['url'], $matches ) || preg_match( '/\/books\/(\w+)\/?$/', $request_uri['query']['url'], $matches ) ) {
+
+      /*
+       * Double page request
+       */
+
+      if ( array_key_exists('mode', $request_uri['query']) && $request_uri['query']['mode'] == 'double_page' ) {
+        if ( $sequence_path = dlts_book_sequence_path( $matches[2], 'dlts_book_stitched_page') ) {
+          $modified = TRUE;
+          $path = $sequence_path['node_path'];
+          $nid = $sequence_path['nid'];
+        }
+      }
+
+      /*
+       * Single page request
+       */
+
+      else {
+        $path = drupal_lookup_path( 'source', 'books/' . $matches[1] . ( isset( $matches[2] ) ? '/' . $matches[2] : '' ) );
+        $nid = preg_replace( array('/\D/'), '', $path);
+      }
+
+      if (!empty($path) ) {
+        $response = array(
+          'msg' => 'ok',
+          'code' => 200,
+          'nid' => $nid,
+          'node_path' => $path,
+          'uri' => array(
+            'request' => $request_uri['query']['url'],
+            'modified' => FALSE,
+          )
+        );
+        if ( $modified ) {
+          $response['uri']['modified'] = $path;
+        }
+      }
+      else {
+        watchdog('dlts_book_api', 'Bad Request: Client has issued an illegal request.');
+        $response = array(
+          'msg' => t('Bad Request: Client has issued an illegal request.'),
+          'code' => 403,
+        );
+      }
+
+    }
+
+    /**
+     * Request does not conform books URL structure
+     */
+
+    else {
+      watchdog('dlts_book_api', 'Bad Request: Client has issued a malformed or illegal request.');
+      $response = array(
+        'msg' => t('Bad Request: Request does not conform books URL structure.'),
+        'code' => 403,
+      );
+    }
+  }
+
+  /**
+   * User request does not include URL
+   */
+  else {
+    watchdog('dlts_book_api', 'Bad Request: Client has issued a malformed request. Please make sure the request include the URL parameter.');
+    $response = array(
+      'msg' => t('Bad Request: Client has issued a malformed request. Please make sure the request include the URL parameter.'),
+      'code' => 400,
+    );
+  }
+  return $response;
+}
+
+function dlts_book_api_book_edit_redirect( $arg ) {
+
+  if ( is_object ( $arg ) && isset ( $arg->type ) && $arg->type == 'dlts_book' ) {
+    module_load_include('inc', 'dlts_utilities', 'inc/dlts_utilities.book');
+    if ( $identifier = dlts_utilities_book_get_identifier( $arg ) ) $path = drupal_lookup_path( 'source', 'books/' . $identifier );
+  }
+
+  else {
+    $path = drupal_lookup_path('source', 'books/' . $arg);
+  }
+
+  if ( !$path ) drupal_not_found();
+
+  else drupal_goto($path . '/edit');
+
+}
+
+function dlts_book_api_book_page_edit_redirect($arg1, $arg2, $arg3) {
+
+  $path = drupal_lookup_path('source', $arg1 . '/' . $arg2 . '/' . $arg3);
+
+  drupal_goto($path . '/edit');
+
+}
+
+function dlts_book_api_book_metadata_display($book) {
+
+  $node = node_view($book, 'metadata', $book->language);
+
+  return $node;
+}
+
+function dlts_book_api_discovery_enviorment ( $field_name ) {
+
+  $discovery = array();
+
+  if ( module_exists ( 'apachesolr' ) ) {
+
+    $environment = apachesolr_default_environment();
+
+    $environments = apachesolr_load_all_environments();
+
+    $discovery = array(
+      'name' => $environments[$environment]['name'],
+      'url' => $environments[$environment]['url'] . '/select',
+    );
+
+  }
+
+  return $discovery;
+
+}
+
+function dlts_book_api_content_by_field ( $field_name ) {
+
+  $out = array();
+
+  $field_name = filter_xss ( $field_name );
+
+  $info = field_info_field( $field_name );
+
+  $query_parameters = drupal_get_query_parameters();
+
+  if ( $info ) {
+
+    $m = array_keys( $info['storage']['details']['sql']['FIELD_LOAD_CURRENT'] );
+
+    $table = $m[0];
+
+    $c = array_keys( $info['columns'] );
+
+    $columns = $c[0];
+
+    if  ( $columns == 'fid' ) return array();
+
+    $seek = $field_name . '_' . $columns;
+
+    $table = 'field_data_' . $field_name;
+
+    $query = 'SELECT DISTINCT ' . $seek . ' AS value FROM {' . $table . '}';
+
+    $result = db_query($query);
+
+    foreach ( $result as $record ) {
+
+      if ( $columns == 'nid' ) {
+
+        $node = node_load( $record->value );
+
+        $raw_value = $record->value;
+
+        $value = $node->title;
+
+      }
+
+      elseif ( $columns == 'tid' ) {
+
+        $term = taxonomy_term_load( $record->value );
+
+        $raw_value = $record->value;
+
+        $value = $term->name;
+
+      }
+
+      else {
+          $raw_value = $value = $record->value;
+      }
+
+      $out[] = array(
+        'value' => $value,
+        'raw_value' => $raw_value,
+      );
+    }
+
+  }
+
+  return $out;
+
+}
+
+function dlts_book_api_content_types() {
+
+  $fields = $out = array();
+
+  // I can make a admin interface for this
+  $field_exclude_list = array(
+    'field_body',
+    'body',
+    'field_image',
+    'field_stitch_image',
+    'field_service_copy',
+    'field_cropped_master',
+    'field_representative_image',
+    'field_ocr_text',
+    'field_description',
+    'field_handle',
+    'field_other_version',
+    'field_pdf_file',
+  );
+
+  $field_list = $field_exclude_list;
+
+  $types = node_type_get_types();
+
+  foreach ( $types as $bundle_name => $entity_type ) {
+
+    $field_info_instances = field_info_instances('node', $bundle_name);
+
+    foreach ( $field_info_instances as $field_name => $field_info_instance ) {
+
+      if ( !in_array( $field_name, $field_list ) ) {
+
+        $field_list[] = $field_name;
+
+        $info = field_info_field( $field_name );
+
+        $fields[] = array(
+          'label' => $field_info_instance['label'],
+          'field_name' => $field_info_instance['field_name'],
+          'type' => $field_info_instance['widget']['type'],
+          'cardinality' => (string) $info['cardinality'],
+          'settings' => array(
+            'allowed_values' => isset ( $info['settings']['allowed_values'] ) ? $info['settings']['allowed_values'] : null
+          ),
+        );
+      }
+
+      $out['types'][$bundle_name] = array(
+        'name' => $entity_type->name,
+        'type' => $entity_type->type,
+      );
+
+    }
+
+  }
+
+  // $fields_sorted = array_msort( $fields, array('label' => SORT_ASC));
+
+  $out['fields'] = $fields;
+
+  return $out;
+
+}
+
+function array_msort($array, $cols)
+{
+    $colarr = array();
+    foreach ($cols as $col => $order) {
+        $colarr[$col] = array();
+        foreach ($array as $k => $row) { $colarr[$col]['_'.$k] = strtolower($row[$col]); }
+    }
+    $eval = 'array_multisort(';
+    foreach ($cols as $col => $order) {
+        $eval .= '$colarr[\''.$col.'\'],'.$order.',';
+    }
+    $eval = substr($eval,0,-1).');';
+    eval($eval);
+    $ret = array();
+    foreach ($colarr as $col => $arr) {
+        foreach ($arr as $k => $v) {
+            $k = substr($k,1);
+            if (!isset($ret[$k])) $ret[$k] = $array[$k];
+            $ret[$k][$col] = $array[$k][$col];
+        }
+    }
+    return $ret;
+
+}

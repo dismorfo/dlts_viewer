@@ -1,0 +1,9 @@
+name = DLTS Book API
+description = DLTS Book API implementation
+package = DLTS
+
+core = 7.x
+version = 7.x-1.6
+
+dependencies[] = dlts_utilities
+dependencies[] = entity
