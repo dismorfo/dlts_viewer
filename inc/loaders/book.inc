@@ -27,7 +27,7 @@ function dlts_book_load($identifier) {
     $language = array('en', LANGUAGE_NONE);
     $query_parameters = drupal_get_query_parameters();
     if (isset($query_parameters['lang'])) {
-        $language = array(filter_xss($query_parameters['lang']));
+      $language = array(filter_xss($query_parameters['lang']));
     }
     $query = new EntityFieldQuery;
     $identifier = filter_xss($identifier);
@@ -54,105 +54,42 @@ function dlts_book_load($identifier) {
  * @return object MongoDB book page object
  */
 function dlts_book_page_load($sequence) {
-
-    /**
-     * Load MongoDB helper
-     */
-    module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
-
-    // I don't like this. Can we find a better solution for this?
-    // investigate a way to pass this from hook_menu
-    // @TODO: Make it so that it can be call as API
-    $isPartOf = arg(1);
-
-    // view modes, we map the views with their machine names in MongoDB
-    $collections = array(
-        'single' => 'dlts_books_page',
-        'double' => 'dlts_stitched_books_page',
-    );
-    // viewer defaults to single page view
-    $collection_name = 'dlts_books_page';
-
-    // user can requests a view modes, get query parameters and
-    // check if page_view is set
-    $query_parameters = drupal_get_query_parameters();
-
-    if (isset($query_parameters['page_view'])) {
-        // check if the requested view mode is valid
-        if (array_key_exists($query_parameters['page_view'], $collections)) {
-            $collection_name = $collections[$query_parameters['page_view']];
-        }
+  /**
+   * Load MongoDB helper
+   */
+  module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
+  // find by isPartOf
+  $isPartOf = filter_xss(arg(1));
+  // viewer defaults page view
+  $collection_name = 'dlts_books_x';
+  // user can requests a view modes, get query parameters and
+  // check if page_view is set
+  $query_parameters = drupal_get_query_parameters();
+  try {
+    // view request?
+    if (isset($query_parameters['page_view']) && $query_parameters['page_view'] == 'double') {
+      $sequence = array($sequence, (($sequence % 2) === 1) ? ($sequence + 1) : ($sequence - 1));
+      $result = dlts_viewer_mongodb_load_double($sequence, $isPartOf, $collection_name);
     }
-
-    $result = dlts_viewer_mongodb_load_sequence($sequence, $isPartOf, $collection_name);
-
-    if ($result && isset($result['cm']) && !empty($result['cm']['uri'])) {
-        /**
-         * Sequence exist in MongoDB but we need to request metadata from image server
-         */
-        if (empty($result['cm']['levels'])) {
-            /**
-             * Load connector
-             */
-            module_load_include('inc', 'dlts_viewer', 'inc/djatoka');
-            /**
-             * Pass over $result['cm'] as $file argument
-             */
-            $djatoka = dlts_viewer_djatoka_request($result['cm']);
-            /**
-             * No error, update MongoDB record
-             * @TODO: Consider using Drupal queue to update the record.
-             * See: https://api.drupal.org/api/drupal/modules!system!system.queue.inc/class/DrupalQueue/7
-             */
-            if (!isset($djatoka['error'])) {
-                /**
-                 * Update $result reference with Image Server requested metadata
-                 */
-                $result['cm'] = array_merge($result['cm'], $djatoka);
-                /**
-                 * Update sequence record
-                 */
-                dlts_viewer_mongodb_update_sequence($result, $collection_name);
-                /**
-                 * Return sequence object
-                 */
-                return array(
-                    'fid' => (string) $result['_id'],
-                    'sequence' => $result['sequence'],
-                    'uri' => file_create_url($result['cm']['uri']),
-                    'width' => $djatoka['width'],
-                    'height' => $djatoka['height'],
-                    'levels' => $djatoka['levels'],
-                    'dwtLevels' => $djatoka['dwtLevels'],
-                    'compositingLayerCount' => $djatoka['compositingLayerCount'],
-                    'timestamp' => $result['cm']['timestamp']
-                );
-            }
-            /**
-             * Request failed.
-             */
-            else {
-            }
-        }
-        else {
-            return array(
-                'fid' => (string) $result['_id'],
-                'sequence' => $result['sequence'],
-                'uri' => file_create_url($result['cm']['uri']),
-                'width' => $result['cm']['width'],
-                'height' => $result['cm']['height'],
-                'levels' => $result['cm']['levels'],
-                'dwtLevels' => $result['cm']['dwtLevels'],
-                'compositingLayerCount' => $result['cm']['compositingLayerCount'],
-                'timestamp' => $result['cm']['timestamp'],
-            );
-        }
+    else {
+      $result = dlts_viewer_mongodb_load_sequence($sequence, $isPartOf, $collection_name);
     }
+    if ($result) {
+      return $result;
+    }
+    else {
+      /**
+       * Log not found
+       * @TODO: Admin option to show errors if debug mode TRUE?
+       */
+      drupal_set_message(t('<em>DLTS Viewer</em>: Sequence page <strong>@sequence</strong> from book identify by identifier <strong>@identifier</strong> not found.', array('@sequence' => $sequence, '@identifier' => $isPartOf)), 'error');
+      watchdog('MongoDB sequence not found', 'Unable to find book sequence page <strong>%sequence</strong> from book <strong>%identifier</strong>.', array('%identifier' => $isPartOf, '%sequence' => $sequence), WATCHDOG_NOTICE);
+    }
+  } catch (Exception $e) {
+    watchdog('MongoDB exception', $e->getMessage(), array(), WATCHDOG_ERROR);
+  }
 
-    drupal_set_message(t('<em>DLTS Viewer</em>: Sequence page <strong>@sequence</strong> from book identify by identifier <strong>@identifier</strong> not found.', array('@sequence' => $sequence, '@identifier' => $isPartOf)), 'error');
+  // if $result is empty, retrun FALSE so that hook_menu can 404 redirect
+  return FALSE;  
 
-    watchdog('MongoDB sequence not found', 'Unable to find book sequence page <strong>%sequence</strong> from book <strong>%identifier</strong>.', array('%identifier' => $isPartOf, '%sequence' => $sequence), WATCHDOG_NOTICE);
-
-    // if $result is empty, retrun FALSE so that hook_menu can 404 redirect
-    return FALSE;
 }

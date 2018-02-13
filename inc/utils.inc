@@ -1,4 +1,5 @@
 <?php
+
 function dlts_viewer_content_by_field($field_name) {
     $out = array();
     $field_name = filter_xss($field_name);
@@ -87,8 +88,8 @@ function dlts_viewer_deliver_json($page_callback_result) {
     }
 }
 function dlts_viewer_is_pjax() {
-    $is_pjax = &drupal_static('is_pjax');
-    if (!isset($is_pjax) && function_exists('getallheaders')) {
+  $is_pjax = &drupal_static('is_pjax');
+  if (!isset($is_pjax) && function_exists('getallheaders')) {
         $headers = getallheaders();
         if (isset($headers['X-Pjax']) || isset($headers['X-PJAX'])) {
             drupal_add_http_header('uri', request_uri());
@@ -169,31 +170,9 @@ function return_nodeid_json($dlts_id, $lang_code = NULL) {
     die;
 }
 function return_page_nodeids_json($dlts_id) {
-    // @TODO: broken, we no longer have this content types
-    return;
-    $page_types = array('dlts_book_page', 'dlts_book_stitched_page');
-    $query = new EntityFieldQuery();
-    $query->entityCondition('entity_type', 'node')
-        ->propertyCondition('type', $page_types, 'IN')
-        ->fieldCondition('field_is_part_of', 'value', $dlts_id, '=');
-    $result = $query->execute();
-    $nodeids = array();
-    if (isset($result['node'])) {
-        $nodes = node_load_multiple(array_keys($result['node']));
-        foreach ($nodes as $node) {
-            if ($node->type == 'dlts_book_page') {
-                $sequence_number = field_get_items('node',
-                    $node, 'field_sequence_number');
-                $key = $sequence_number[0]['value'];
-            }
-            else {
-                $left_seqnum_value = field_get_items('node', $node, 'field_sequence_number_left');
-                $right_seqnum_value = field_get_items('node', $node, 'field_sequence_number_right');
-                $key = $left_seqnum_value[0]['value'] . "-" . $right_seqnum_value[0]['value'];
-            }
-            $nodeids[$key] = $node->nid;
-        }
-    }
-    drupal_json_output((object) $nodeids);
-    exit;
+  // @TODO: broken, we no longer have this content types
+  // return error 
+  return;
+  echo drupal_json_output((object) $nodeids);
+  exit;
 }

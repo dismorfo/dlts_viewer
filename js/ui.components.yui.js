@@ -108,6 +108,7 @@ YUI().use(
       }
       Y.fire(event_prefix + ':toggle', e);
     }
+    
     /** TODO: I don't like this, find a more elegant solution */
     function pager_form(e) {
       e.preventDefault();

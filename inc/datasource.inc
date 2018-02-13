@@ -34,26 +34,16 @@ function dlts_viewer_is_multivolume_book($entity) {
 }
 
 function dlts_viewer_is_series_book(&$entity) {
-  
-	$is_part_of = array();
-	
-	$entity->isSeriesBook = false;
-	
-	$entity_type = 'node';
-	
-	$bundle = 'dlts_series_book';
-	
-	$book_nid = $entity->nid;
-	
-	$book_entity = $entity;
-	
-	$book_wrapper = entity_metadata_wrapper($entity_type, $entity);
-	
-	$book_long_title = $book_wrapper->field_title->value();
-	
-	$collections = $book_wrapper->field_collection->value(); // multi-value field
-	
-	foreach ($collections as $key => $collection) {
+  $is_part_of = array();	
+  $entity->isSeriesBook = FALSE;
+  $entity_type = 'node';	
+  $bundle = 'dlts_series_book';	
+  $book_nid = $entity->nid;	
+  $book_entity = $entity;	
+  $book_wrapper = entity_metadata_wrapper($entity_type, $entity);	
+  $book_long_title = $book_wrapper->field_title->value();	
+  $collections = $book_wrapper->field_collection->value(); // multi-value field
+  foreach ($collections as $key => $collection) {
 		$collection_wrapper = entity_metadata_wrapper($entity_type, $collection);
 		$collection_label = $collection_wrapper->field_name->value(); // single-value field
 		$collection_code = $collection_wrapper->field_code->value(); // single-value field
@@ -107,15 +97,15 @@ function dlts_viewer_is_series_book(&$entity) {
 }
 
 function dlts_viewer_series_book($nid) {
-	$query = new EntityFieldQuery;
-	$result = $query
+  $query = new EntityFieldQuery;
+  $result = $query
 	->entityCondition('entity_type', 'node')
 	->entityCondition('bundle', 'dlts_series_book')
 	->fieldCondition('field_book', 'nid', $nid, '=')
 	->execute();
-	if (empty($result['node'])) {
-		return FALSE;
-	}
-	$keys = array_keys($result['node']);
-	return node_load_multiple($keys);
+  if (empty($result['node'])) {
+    return FALSE;
+  }
+  $keys = array_keys($result['node']);
+  return node_load_multiple($keys);
 }

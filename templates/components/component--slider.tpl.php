@@ -1,1 +1,6 @@
-<span id="<?php print $slider_id ?>"></span> <form><input id="slider_value" value="<?php print $sequence_number ?>"/></form> <span>/</span> <span class="sequence_count"><?php print $sequence_count ?></span>
+<div class="slider-wrapper">
+  <label for="slider">
+    <span id="slider_value"><?php print $sequence_number ?><span>/</span> <span class="sequence_count"><?php print $sequence_count ?></span>
+  </label>
+  <input id="slider" type="range" min="1" value="<?php print $sequence_number ?>" max="<?php print $sequence_count ?>">
+<div>

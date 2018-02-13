@@ -8,75 +8,76 @@
 /**
  * Themes functions
  */
+
 /**
  * Implements hook_custom_theme().
  * http://api.drupal.org/api/drupal/modules--system--system.api.php/function/hook_custom_theme/7
  */
-
-
-
 function dlts_viewer_theme() {
-    return array(
-        'dlts_viewer_pager_button' => array(
-            'variables' => array(),
-        ),
-        'thumbnails_pager' => array(
-            'variables' => array(
-                'tags' => array(),
-                'limit' => 10,
-                'element' => 0,
-                'parameters' => array(),
-                'quantity' => 9
-            ),
-        ),
-        'thumbnails_photo_pager' => array(
-            'variables' => array(
-                'tags' => array(),
-                'limit' => 10,
-                'element' => 0,
-                'current_page'=> 0,
-                'parameters' => array(),
-                'quantity' => 9
-            ),
-        ),
-        'dlts_viewer_openlayers_image' => array(
-            'variables' => array(),
-        ),
-        'dlts_viewer_navbar_item' => array(
-            'variables' => array(),
-        ),
-        'dlts_viewer_loading' => array(
-            'template' => 'templates/components/component--loading',
-            'variables' => array(
-                'sequence_number' => 0,
-            ),
-        ),
-        'dlts_viewer_slider' => array(
-            'template' => 'templates/components/component--slider',
-            'variables' => array(
-                'slider_id' => 'slider',
-                'uri' => base_path(),
-                'lang_dir' => 'rtl',
-                'sequence_number' => 0,
-                'sequence_count' => 0,
-            ),
-        ),
-        'dlts_viewer_navbar' => array(
-            'template' => 'templates/components/component--navbar',
-            'variables' => array(),
-        ),
-        'dlts_viewer_thumbnails' => array(
-            'template' => 'templates/components/component--thumbnails',
-            'variables' => array(),
-        ),
-        'dlts_viewer_set' => array(
-            'template' => 'templates/set',
-            'variables' => array(),
-        ),
-        'dlts_viewer_controlpanel' => array(
-            'template' => 'templates/components/component--control_panel',
-            'variables' => NULL,
-        ),
+  return array(
+    'dlts_viewer_pager_button' => array(
+      'variables' => array(),
+    ),
+    'thumbnails_pager' => array(
+      'variables' => array(
+        'tags' => array(),
+        'limit' => 10,
+        'element' => 0,
+        'parameters' => array(),
+        'quantity' => 9
+      ),
+    ),
+    'thumbnails_photo_pager' => array(
+      'variables' => array(
+        'tags' => array(),
+        'limit' => 10,
+        'element' => 0,
+        'current_page'=> 0,
+        'parameters' => array(),
+        'quantity' => 9
+      ),
+    ),
+    'dlts_viewer_openlayers_image' => array(
+      'variables' => array(),
+    ),
+    'dlts_viewer_openseadragon_image' => array(
+      'variables' => array(),
+    ),
+    'dlts_viewer_navbar_item' => array(
+      'variables' => array(),
+    ),        
+    'dlts_viewer_loading' => array(
+      'template' => 'templates/components/component--loading',
+      'variables' => array(
+        'sequence_number' => 0,
+      ),
+    ),
+    'dlts_viewer_dragon' => array(
+      'template' => 'templates/components/component--dragon',
+      'variables' => array(),
+    ),    
+    'dlts_viewer_slider' => array(
+      'template' => 'templates/components/component--slider',
+      'variables' => array(
+        'slider_id' => 'slider',
+        'uri' => base_path(),
+        'lang_dir' => 'rtl',
+        'sequence_number' => 0,
+        'sequence_count' => 0,
+      ),
+    ),
+    'dlts_viewer_navbar' => array(
+      'template' => 'templates/components/component--navbar',
+      'variables' => array(),
+    ),
+    'dlts_viewer_thumbnails' => array(
+      'template' => 'templates/components/component--thumbnails',
+      'variables' => array(),
+    ),
+    'dlts_viewer_set' => array(
+      'template' => 'templates/set',
+      'variables' => array(),
+    ),
         'viewer' => array(
             'template' => 'templates/components/component--viewer',
             'variables' => array(),
@@ -167,58 +168,65 @@ function dlts_viewer_theme() {
         ),
     );
 }
+
 function dlts_viewer_theme_registry_alter(&$theme_registry) {
-    if (!empty($theme_registry['field'])) {
-        $theme_registry['field']['function'] = 'dlts_viewer_theme_field';
-    }
+  if (!empty($theme_registry['field'])) {
+    $theme_registry['field']['function'] = 'dlts_viewer_theme_field';
+  }
 }
 
 function theme_dlts_viewer_pager_button($variables) {
-
-	$classes = array('paging');
-
-  if (isset($variables['classes'])) {
-    $classes = array_merge($classes, $variables['classes']);
+  $parts = array('html' => TRUE);
+  $variables['attributes']['class'][] = 'paging';
+  $variables['attributes']['class'][] = 'button';
+  if (isset($variables['fragment'])) {
+    $parts = array_merge($parts, array('fragment' => $variables['fragment']));
   }
-
-  if (dlts_viewer_is_pjax()) {
-    $classes[] = 'pjax';
+  if (isset($variables['attributes'])) {
+    if (isset($variables['events'])) {
+      foreach ($variables['events'] as $type => $events) {
+        $variables['attributes']['data-' . $type] = array();
+        foreach ($events as $event) {
+          $variables['attributes']['data-' . $type][] = $event;
+        }
+      }
+    }
+    $parts = array_merge($parts, array('attributes' => $variables['attributes']));
   }
-
-  $render_array = array(
-    'markup' => array(
-      '#theme' => 'html_tag',
-      '#tag' => 'a',
-      '#value' => '<span>' . $variables['text'] . '</span>',
-      '#attributes' => array(
-        'title' => $variables['text'],
-        'href' => $variables['url'],
-        'class' =>  $classes,
-      ),
-    ),
-  );
-  return drupal_render($render_array);
+  if (isset($variables['query'])) {
+    $parts = array_merge($parts, array('query' => $variables['query']));
+  }
+  return l(t('<span>@title</span>', array('@title' => $variables['title'])), $variables['attributes']['href'], $parts);
 }
 
-function theme_dlts_viewer_navbar_item($variables)
-{
-    $parts = array('html' => TRUE);
-    if (isset($variables['fragment'])) {
-        $parts = array_merge($parts, array('fragment' => $variables['fragment']));
+function theme_dlts_viewer_navbar_item($variables) {
+  $parts = array('html' => TRUE);
+  if (isset($variables['fragment'])) {
+    $parts = array_merge($parts, array('fragment' => $variables['fragment']));
+  }
+  if (isset($variables['attributes'])) {
+    if (isset($variables['events'])) {
+      foreach ($variables['events'] as $type => $events) {
+        $variables['attributes']['data-' . $type] = array();
+        foreach ($events as $event) {
+          $variables['attributes']['data-' . $type][] = $event;
+        }
+      }
     }
-    if (isset($variables['attributes'])) {
-        $parts = array_merge($parts, array('attributes' => $variables['attributes']));
-    }
-    if (isset($variables['query'])) {
-        $parts = array_merge($parts, array('query' => $variables['query']));
-    }
-    if (empty($variables['url'])) {
-        $url = $variables['path'];
-    } else {
-        $url = $variables['url'];
-    }
-    return '<li class="navbar-item">' . l(t('<span>@title</span>', array('@title' => $variables['title'])), $url,$parts);
+    $parts = array_merge($parts, array('attributes' => $variables['attributes']));
+  }
+  if (isset($variables['query'])) {
+    $parts = array_merge($parts, array('query' => $variables['query']));
+  }
+  if (empty($variables['url'])) {
+    $url = $variables['path'];
+  } 
+  else {
+    $url = $variables['url'];
+  }
+  return '<li class="navbar-item">' . l(t('<span>@title</span>', array('@title' => $variables['title'])), $url, $parts);
 }
+
 /**
  * Returns HTML for a high-resolution JPEG 2000 image.
  *
@@ -228,7 +236,7 @@ function theme_dlts_viewer_navbar_item($variables)
  *
  * @ingroup themable
  */
-function theme_dlts_viewer_openlayers_image($variables) {
+function dlts_viewer_openseadragon_image($variables) {
 
   $file = $variables['file'];
 
@@ -239,67 +247,70 @@ function theme_dlts_viewer_openlayers_image($variables) {
   if (isset($file['timestamp'])) {
   	$file_uri = $file_uri . '?v=' . $file['timestamp'];
   }
-
-  $openlayers_options = array(
-    'service' => variable_get('dlts_viewer_djatoka_service', 'http://dl-img.home.nyu.edu/adore-djatoka'),
-    'imgMetadata' => array(
-      'width' => $file['width'],
-      'height' => $file['height'],
-      'levels' => $file['levels'],
-      'dwtLevels' => $file['dwtLevels'],
-      'compositingLayerCount' => $file['compositingLayerCount'],
-    ),
-    'zoom' => isset($file['zoom']) ? $file['zoom'] : 1,
-  );
-  
-  $json_data = json_encode($openlayers_options);
-
-  $js_inline = '(function(O){O.DLTS.Page("' . $fid . '","' .  $file_uri . '",' . $json_data . ')})(OpenLayers);';
-
-  $js_options = array('group' => JS_DEFAULT, 'type' => 'inline', 'every_page' => FALSE, 'weight' => 5, 'scope' => 'footer', 'cache' => TRUE, 'defer' => TRUE);
-
-  drupal_add_js($js_inline, $js_options);
-
   if(!isset($file['thumbnailsUrl'])) {
-      $file['thumbnailsUrl'] = 'undefined';
+    $file['thumbnailsUrl'] = 'undefined';
   }
   if(!isset($file['thumbnailsRows'])) {
-        $file['thumbnailsRows'] = 0;
+    $file['thumbnailsRows'] = 0;
   }
   if(!isset($file['thumbnailsPage'])) {
-        $file['thumbnailsPage'] = 0;
+    $file['thumbnailsPage'] = 0;
   }
+  
+  $identifier = "princeton_aco000319";
+
+  $template = "{{=it.loris}}/{{=it.identifier}}_n{{=it.sequence}}_d.jp2/info.json";
+  
+  $loris = "http://localhost:9080/loris";
+  
+  $sequence = "1";
+  
+  $sequenceCount = "10";
+  
+  $sequenceMode = "true";
+  
+  $preserveViewport = "true";
+  
+  $rotation = "true";
+  
+  $degrees = "0";
+  
+  $fid = 'dragon';
 
   $options = array(
     '@id' => $fid,
-    '@uri' => $file_uri,
-    '@width' => $file['width'],
-    '@height' => $file['height'],
-    '@levels' => $file['levels'],
-    '@dwtLevels' => $file['dwtLevels'],
-    '@layer' => $file['compositingLayerCount'],
-  	'@sequence' => array_shift($file['sequence']),
-  	'@thumbnailsUrl' => $file['thumbnailsUrl'],
+    '@identifier' => $identifier,
+    '@template' => $template,
+    '@class' => 'dlts_image_map dlts_viewer_map',
+    '@loris' => $loris,
+    '@sequence' => $sequence,
+    '@sequenceCount' => $sequenceCount,
+    '@sequenceMode' => $sequenceMode,
+    '@preserveViewport' => $preserveViewport,
+    '@rotation' => $rotation,
+    '@degrees' => $degrees,
+    '@thumbnailsUrl' => $file['thumbnailsUrl'],
     '@thumbnailsRows' => $file['thumbnailsRows'],
     '@thumbnailsPage' => $file['thumbnailsPage'],
   	'@pageView' => 'single',
   );
 
   return t('<div 
-    id="@id" 
-    class="dlts_image_map dlts_viewer_map" 
-    data-sequence="@sequence" 
-    data-pageView="@pageView" 
-    data-uri="@uri" 
-    data-width="@width" 
-    data-height="@height" 
-    data-levels="@levels" 
-    data-dwtLevels="@dwtLevels" 
-    data-compositing-layer="@layer"
-    data-thumbnails-url="@thumbnailsUrl"
-    data-thumbnails-rows="@thumbnailsRows"
-    data-thumbnails-page="@thumbnailsPage"
-  ></div>', $options);
+              id="@id" 
+              class="@class" 
+              data-identifier="@identifier" 
+              data-template="@template" 
+              data-loris="@loris" 
+              data-sequence="@sequence" 
+              data-sequence-count="@sequenceCount" 
+              data-sequence-mode="@sequenceMode" 
+              data-preserve-viewport="@preserveViewport" 
+              data-rotation="@rotation" 
+              data-degrees="@degrees"        
+              data-thumbnails-url="@thumbnailsUrl" 
+              data-thumbnails-rows="@thumbnailsRows" 
+              data-thumbnails-page="@thumbnailsPage">
+            </div>', $options);
 }
 
 /**
@@ -349,22 +360,21 @@ function theme_thumbnails_pager($vars) {
 	}
 }
 
-
 function theme_thumbnails_photo_pager($vars) {
-    $tags = $vars['tags'];
-    $element = $vars['element'];
-    $parameters = $vars['parameters'];
-    $quantity = $vars['quantity'];
-    $pager_count=ceil($quantity/10);
-    $current_page = $vars['current_page'];
-    //$url = $vars['path'];
-    $links = array();
-    for($i=0; $i < $pager_count; $i++) {
-      $attributes = array('target'=> '_self');
-      if($i== $current_page) {
-          $links[''.$i] =  array('title' => ''.$i+1);
-      } else {
-          $links['' . $i] = theme('pager_link', array(
+  $tags = $vars['tags'];
+  $element = $vars['element'];
+  $parameters = $vars['parameters'];
+  $quantity = $vars['quantity'];
+  $pager_count=ceil($quantity/10);
+  $current_page = $vars['current_page'];
+  $links = array();
+  for ($i=0; $i < $pager_count; $i++) {
+    $attributes = array('target'=> '_self');
+    if ($i== $current_page) {
+      $links[''.$i] =  array('title' => ''.$i+1);
+    } 
+    else {
+      $links['' . $i] = theme('pager_link', array(
               'text' => (isset($tags[0]) ? $tags[0] : t('' . ($i + 1))),
               'element' => $element,
               'parameters' => array('page' => $i),
@@ -415,3 +425,23 @@ function theme_thumbnails_photo_pager($vars) {
     }
 }
 
+function dlts_viewer_theme_field($variables) {
+	$dir = dlts_viewer_viewer_language((array)$variables['element']['#object']);
+	$output = '';
+	// Render the label, if it's not hidden.
+	if (!$variables['label_hidden']) {
+		$lang_language = $variables['element']['#object']->language;
+		$label = locale($variables['label'], NULL, $lang_language);
+		$output .= '<div dir="'. $dir .'" class="field-label"' . $variables['title_attributes'] . '>' . $label . ':&nbsp;</div>';
+	}
+	// Render the items.
+	$output .= '<div dir="'. $dir .'" class="field-items"' . $variables['content_attributes'] . '>';
+	foreach ($variables['items'] as $delta => $item) {
+		$classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
+		$output .= '<div dir="'. $dir .'" class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>' . drupal_render($item) . '</div>';
+	}
+	$output .= '</div>';
+	// Render the top-level DIV.
+	$output = '<div dir="'. $dir .'" class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
+	return $output;
+}

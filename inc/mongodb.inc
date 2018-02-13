@@ -4,6 +4,7 @@
  * @file
  * MongoDB.inc
  */
+
 // $collection_name: dlts_book_page OR dlts_book_stitched_page
 function dlts_viewer_mongodb_update_sequence($arguments, $collection_name = 'dlts_books_page') {
   $cursor = mongodb_collection($collection_name);
@@ -27,25 +28,50 @@ function dlts_viewer_mongodb_update_sequence($arguments, $collection_name = 'dlt
 }
 
 function dlts_viewer_mongodb_new_sequence($arguments, $collection_name = 'dlts_books_page') {
-	// We use findAndModify with new flag to avoid record duplication (at cost of operation time)
-	return dlts_viewer_mongodb_update_sequence($arguments, $collection_name);
+  // We use findAndModify with new flag to avoid record duplication (at cost of operation time)
+  return dlts_viewer_mongodb_update_sequence($arguments, $collection_name);
 }
 
 function dlts_viewer_mongodb_load_by_identifier($identifier, $collection_name) {
-    $query = (object) array('identifier' => $identifier);
-    $cursor = mongodb_collection($collection_name);
-    $result = $cursor->findOne($query);
-    return $result;
+  $query = (object) array('identifier' => $identifier);
+  $cursor = mongodb_collection($collection_name);
+  $result = $cursor->findOne($query);
+  return $result;
+}
+
+function dlts_viewer_mongodb_load_double($sequence, $isPartOf, $collection_name) {
+  // prepare query
+  $query = (object) array(
+    'isPartOf' => $isPartOf,
+    'sequence' => array(
+      '$gt' => min($sequence) - 1,
+      '$lt' => max($sequence) + 1,
+    ),
+  );
+
+  $cursor = mongodb_collection($collection_name)->find($query);
+
+  $cursor->sort(array('sequence' => 1));
+
+  $data = array('records' => array());
+
+  foreach ($cursor as $item) {
+    $data['records'][] = $item;
+  }
+
+  return $data;
+
 }
 
 function dlts_viewer_mongodb_load_sequence($sequence, $isPartOf, $collection_name = 'dlts_books_page') {
-	// make sure we have a number
-	$sequence = (int) $sequence;
-	// prepare query
-	$query = (object) array('isPartOf' => $isPartOf, 'sequence' => $sequence);
-	$cursor = mongodb_collection($collection_name);
-	$result = $cursor->findOne($query);
-	return $result;
+  // make sure we have a number
+  $sequence = (int) $sequence;
+  // prepare query
+  $query = (object) array('isPartOf' => $isPartOf, 'sequence' => $sequence);
+  $cursor = mongodb_collection($collection_name);
+  $record = $cursor->findOne($query);
+  $data = array('records' => array($record));
+  return $data;
 }
 
 function dlts_viewer_mongodb_load_thumbnails($isPartOf, $page = 0, $per_page = 10, $collection_name, $content_type, $embeded_thumb=false) {

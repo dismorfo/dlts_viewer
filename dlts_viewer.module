@@ -1,7 +1,5 @@
 <?php
 
-// https://api.drupal.org/api/examples/batch_example!batch_example.module/7
-
 /**
  * @file
  * DLTS Viewer module
@@ -47,9 +45,21 @@ include_once 'inc/utils.inc';
  */
 include_once 'inc/themes.inc';
 
+/**
+ * more theme functions
+ */
+include_once 'inc/openlayers.themes.inc';
 
 function dlts_viewer_init() {
+
   drupal_add_http_header('Access-Control-Allow-Origin', '*');
+  
+  $settings = array(
+    'path' => base_path() . drupal_get_path('module', 'dlts_viewer'),
+  );
+
+  drupal_add_js(array('dlts_viewer' => $settings), 'setting');
+
 }
 
 /**
@@ -57,15 +67,13 @@ function dlts_viewer_init() {
  * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_theme/7
  */
 function dlts_viewer_custom_theme() {
-    if (arg(0) == 'books' || arg(0) == 'photos' || arg(0) == 'maps') {
-        return 'tao';
-    }
+  switch (arg(0)) {
+    case 'books':  
+    case 'photos':  
+    case 'maps':  
+      return 'tao';
+  }
 }
-
-/**
- * Implements hook_menu().
- * https://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_menu/7
- */
 
 /**
  * Implements hook_permission().
@@ -76,7 +84,7 @@ function dlts_viewer_permission() {
       'title' => t('administer fileserver'),
       'description' => t('Administer the settings for the fileServer.'),
     ),
-  ) ;
+  );
 }
 
 /**
@@ -95,64 +103,63 @@ function dlts_viewer_entity_info_alter(&$entity_info) {
  * https://api.drupal.org/api/drupal/includes%21theme.inc/function/template_preprocess_html/7
  */
 function dlts_viewer_preprocess_html(&$vars) {
-    /** The Viewer sets language direction in the markup */
-    $vars['language_dir'] = dlts_viewer_viewer_language($vars);
-    /**
-     * The X-Frame-Options HTTP response header can be used to indicate whether or not a
-     * browser should be allowed to render a page in a <frame>, <iframe> or <object> .
-     * Sites can use this to avoid clickjacking attacks, by ensuring that their content is
-     * not embedded into other sites.
-     *
-     * The added security is only provided if the user accessing the document is using a
-     * browser supporting X-Frame-Options.
-     *
-     * As of Drupal 7.50, Drupal core sets X-Frame-Options by default to prevent the site
-     * from being embedded in an iframe on another domain. We want our sites to be
-     * embedded; we need to remove this header.
-     *
-     * See: https://www.drupal.org/node/2735873
-     * See: https://www.owasp.org/index.php/Clickjacking
-     * See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
-     *
-     */
-    header_remove('X-Frame-Options');
-    /** default Viewer HTML template */
-    $vars['theme_hook_suggestions'][] = 'html__viewer';
-    /** Check if this is a PJAX request */
-    if (dlts_viewer_is_pjax()) {
-        /** default Viewer PJAX HTML template */
-        $vars['theme_hook_suggestions'][] = 'html__viewer_pjax';
-    }
+  /** The Viewer sets language direction in the markup */
+  $vars['language_dir'] = dlts_viewer_viewer_language($vars);
+  /**
+   * The X-Frame-Options HTTP response header can be used to indicate whether or not a
+   * browser should be allowed to render a page in a <frame>, <iframe> or <object> .
+   * Sites can use this to avoid clickjacking attacks, by ensuring that their content is
+   * not embedded into other sites.
+   *
+   * The added security is only provided if the user accessing the document is using a
+   * browser supporting X-Frame-Options.
+   *
+   * As of Drupal 7.50, Drupal core sets X-Frame-Options by default to prevent the site
+   * from being embedded in an iframe on another domain. We want our sites to be
+   * embedded; we need to remove this header.
+   *
+   * See: https://www.drupal.org/node/2735873
+   * See: https://www.owasp.org/index.php/Clickjacking
+   * See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
+   *
+   */
+  header_remove('X-Frame-Options');
+  /** default Viewer HTML template */
+  $vars['theme_hook_suggestions'][] = 'html__viewer';
+  /** Check if this is a PJAX request */
+  if (dlts_viewer_is_pjax()) {
+    /** default Viewer PJAX HTML template */
+    $vars['theme_hook_suggestions'][] = 'html__viewer_pjax';
+  }
 
-    $vars['classes_array'][] = 'yui3-skin-sam';
+  $vars['classes_array'][] = 'yui3-skin-sam';
 
-    /**
-     * We use Drupal to render objects from MongoDB that don't have a record register
-     * in Drupal's database. We don't want Drupal to manage this records. We need a
-     * way to "HOOK" in different stages when the objects it's being render. In this
-     * case we want to allowed changes to hook_preprocess_html
-     */
-    $call_suggestion = array_shift($vars['theme_hook_suggestions']);
-    if ($call_suggestion) {
-        $call_suggestion = str_replace('html__', '', $call_suggestion);
-        $function_to_call = __FUNCTION__ . '_' . $call_suggestion;
-        if (function_exists($function_to_call)) {
-            $function_to_call($vars);
-        }
+  /**
+   * We use Drupal to render objects from MongoDB that don't have a record register
+   * in Drupal's database. We don't want Drupal to manage this records. We need a
+   * way to "HOOK" in different stages when the objects it's being render. In this
+   * case we want to allowed changes to hook_preprocess_html
+   */
+  $call_suggestion = array_shift($vars['theme_hook_suggestions']);
+  if ($call_suggestion) {
+    $call_suggestion = str_replace('html__', '', $call_suggestion);
+    $function_to_call = __FUNCTION__ . '_' . $call_suggestion;
+    if (function_exists($function_to_call)) {
+      $function_to_call($vars);
     }
+  }
 }
-
 
 /**
  * Implements hook_process_HOOK
  * https://api.drupal.org/api/drupal/modules%21system%21theme.api.php/function/hook_process_HOOK/7.x
  */
 function dlts_viewer_process_node(&$vars) {
-    $function_to_call = __FUNCTION__ . '_' . $vars['node']->type;
-    /** Call hook_process_node_TYPE if exist */
-    if (function_exists($function_to_call)) {
-        $function_to_call($vars);
-    }
+  $function_to_call = __FUNCTION__ . '_' . $vars['node']->type;
+  /** Call hook_process_node_TYPE if exist */
+  if (function_exists($function_to_call)) {
+    $function_to_call($vars);
+  }
 }
 
 /**
@@ -160,13 +167,12 @@ function dlts_viewer_process_node(&$vars) {
  * https://api.drupal.org/api/drupal/modules%21node%21node.module/function/template_preprocess_node/7
  */
 function dlts_viewer_preprocess_node(&$vars) {
-    $function_to_call = __FUNCTION__ . '_' . $vars['node']->type;
-    /** Call hook_process_node_TYPE if exist */
-    if (function_exists($function_to_call)) {
-        $function_to_call($vars);
-    }
+  $function_to_call = __FUNCTION__ . '_' . $vars['node']->type;
+  /** Call hook_process_node_TYPE if exist */
+  if (function_exists($function_to_call)) {
+    $function_to_call($vars);
+  }
 }
-
 
 /**
  * Implements template_preprocess_page
@@ -184,37 +190,29 @@ function dlts_viewer_preprocess_page(&$vars) {
  * https://api.drupal.org/api/drupal/includes%21theme.inc/function/template_process_page/7
  */
 function dlts_viewer_process_page(&$vars) {
-    $is_embed = dlts_viewer_is_embed();
-
-    $is_pjax = dlts_viewer_is_pjax();
-
-    $vars['theme_hook_suggestions'][] = 'page__viewer';
-
-    $vars['language_dir'] = dlts_viewer_viewer_language($vars);
-
-    $vars['is_embed'] = $is_embed;
-
-    if ($is_pjax) {
-        $vars['theme_hook_suggestions'][] = 'page__viewer_pjax';
-    }
-
-    // check if this is a embed request. Don't show title if is embeded
-    if (!$is_embed) {
-        $top_options = array(
-            'is_admin' => $vars['is_admin'],
-            'tabs' => render($vars['tabs']),
-            'messages' => $vars['messages'],
-            'title' => $vars['title'],
-            'action_links' => render($vars['action_links']),
-            'title_prefix' => render($vars['title_prefix']),
-            'title_suffix' => render($vars['title_suffix']),
-            'help' => render($vars['page']['help']),
-        );
-        $vars['top'] = theme('dlts_viewer_top', $top_options);
-    }
-
+  $is_embed = dlts_viewer_is_embed();
+  $is_pjax = dlts_viewer_is_pjax();
+  $vars['theme_hook_suggestions'][] = 'page__viewer';
+  $vars['language_dir'] = dlts_viewer_viewer_language($vars);
+  $vars['is_embed'] = $is_embed;
+  if ($is_pjax) {
+    $vars['theme_hook_suggestions'][] = 'page__viewer_pjax';
+  }
+  // check if this is a embed request. Don't show title if is embeded
+  if (!$is_embed) {
+    $top_options = array(
+      'is_admin' => $vars['is_admin'],
+      'tabs' => render($vars['tabs']),
+      'messages' => $vars['messages'],
+      'title' => $vars['title'],
+      'action_links' => render($vars['action_links']),
+      'title_prefix' => render($vars['title_prefix']),
+      'title_suffix' => render($vars['title_suffix']),
+      'help' => render($vars['page']['help']),
+    );
+    $vars['top'] = theme('dlts_viewer_top', $top_options);
+  }
 }
-
 
 /**
  * Implements hook_stream_wrappers().
@@ -267,28 +265,6 @@ function dlts_viewer_flush_caches() {
 	t('Vol.');
 }
 
-
-function dlts_viewer_theme_field($variables) {
-	$dir = dlts_viewer_viewer_language((array)$variables['element']['#object']);
-	$output = '';
-	// Render the label, if it's not hidden.
-	if (!$variables['label_hidden']) {
-		$lang_language = $variables['element']['#object']->language;
-		$label = locale($variables['label'], NULL, $lang_language);
-		$output .= '<div dir="'. $dir .'" class="field-label"' . $variables['title_attributes'] . '>' . $label . ':&nbsp;</div>';
-	}
-	// Render the items.
-	$output .= '<div dir="'. $dir .'" class="field-items"' . $variables['content_attributes'] . '>';
-	foreach ($variables['items'] as $delta => $item) {
-		$classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
-		$output .= '<div dir="'. $dir .'" class="' . $classes . '"' . $variables['item_attributes'][$delta] . '>' . drupal_render($item) . '</div>';
-	}
-	$output .= '</div>';
-	// Render the top-level DIV.
-	$output = '<div dir="'. $dir .'" class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
-	return $output;
-}
-
 // here we need to make sure we delete the record from Apache Solr
 function dlts_viewer_node_delete($node) {
   $records = db_query("SELECT document from {dlts_viewer_books_json} WHERE nid = :nid", array(":nid" => $node->nid));
@@ -299,28 +275,3 @@ function dlts_viewer_node_delete($node) {
   }
   db_delete('dlts_viewer_books_json')->condition('nid', $node->nid)->execute();
 }
-
-
-//function dlts_viewer_cron_queue_info() {}
-
-/**
- * http://api.drupal.org/api/drupal/modules--aggregator--aggregator.module/function/aggregator_cron/7
- */
-//function dlts_viewer_cron() {}
-
-/**
- * http://api.drupal.org/api/drupal/modules--system--system.queue.inc/group/queue/7
- * http://api.drupal.org/api/drupal/modules--system--system.api.php/function/hook_cron_queue_info/7
- */
-//function dlts_viewer_document_processor() {
-  // drupal_set_message(t('dlts_solr_cron_queue_info'));
-  // $queue = DrupalQueue::get('dlts_book_ocr_text');
-  // $queue->createQueue();  // There is no harm in trying to recreate existing.
-  // $items = array();
-  // while ($item = $queue->claimItem() ) {
-  //   $items[] = $item;
-  // }
-  // foreach ($items as $item) {
-  //   $queue->releaseItem($item);
-	// }
-//}

@@ -669,7 +669,9 @@ html body.admin-menu {
 #navbar .navbar-item a,
 #navbar .navbar-item a.active,
 #navbar .navbar-item span,
+#control-zoom-in,
 #navbar .navbar-item .olControlDLTSZoomInItemInactive,
+#control-zoom-out,
 #navbar .navbar-item .olControlDLTSZoomOutItemInactive {
   display: block;
   margin: 0 auto;
@@ -704,6 +706,12 @@ html body.admin-menu {
 #navbar .navbar-item a.active:visited,
 #navbar .navbar-item span:focus,
 #navbar .navbar-item span:visited,
+
+#control-zoom-in:focus,
+#control-zoom-in:visited,
+#control-zoom-out:focus,
+#control-zoom-out:visited,
+
 #navbar .navbar-item .olControlDLTSZoomInItemInactive:focus,
 #navbar .navbar-item .olControlDLTSZoomInItemInactive:visited,
 #navbar .navbar-item .olControlDLTSZoomOutItemInactive:focus,
@@ -720,6 +728,10 @@ html body.admin-menu {
 #navbar .navbar-item a:hover,
 #navbar .navbar-item a.active:hover,
 #navbar .navbar-item span:hover,
+
+#control-zoom-in:hover,
+#control-zoom-out:hover,
+
 #navbar .navbar-item .olControlDLTSZoomInItemInactive:hover,
 #navbar .navbar-item .olControlDLTSZoomOutItemInactive:hover {
   opacity: 1;
@@ -734,6 +746,10 @@ html body.admin-menu {
 #navbar .navbar-item a.on,
 #navbar .navbar-item a.active.on,
 #navbar .navbar-item span.on,
+
+#control-zoom-in.on,
+#control-zoom-out.on,
+
 #navbar .navbar-item .olControlDLTSZoomInItemInactive.on,
 #navbar .navbar-item .olControlDLTSZoomOutItemInactive.on {
   border: none;
@@ -748,6 +764,10 @@ html body.admin-menu {
 #navbar .navbar-item a:before,
 #navbar .navbar-item a.active:before,
 #navbar .navbar-item span:before,
+
+#control-zoom-in:before,
+#control-zoom-out:before,
+
 #navbar .navbar-item .olControlDLTSZoomInItemInactive:before,
 #navbar .navbar-item .olControlDLTSZoomOutItemInactive:before {
   font-family: "book-viewer";
@@ -827,10 +847,14 @@ html body.admin-menu {
   content: "\e003";
 }
 /* line 156, ../sass/partials/book/panes/_pane-navbar.scss */
+
+#control-zoom-in:before,
 #navbar .navbar-item .olControlDLTSZoomInItemInactive:before {
   content: "\e00b";
 }
+
 /* line 161, ../sass/partials/book/panes/_pane-navbar.scss */
+#control-zoom-out:before,
 #navbar .navbar-item .olControlDLTSZoomOutItemInactive:before {
   content: "\e00c";
 }
@@ -1726,4 +1750,26 @@ body.openlayers-loading .olLayerDiv {
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.5);
   box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+#dragon, .dlts_viewer_map {
+  width: inherit;
+  height: inherit;
+  background-color: white;
+}
+
+main { 
+  overflow: inherit;
+  height: inherit;
+  width: inherit;
+}
+
+.slider-wrapper {
+  display: inline-block;
+  padding: 0;
+}
+
+.slider-wrapper #slider {
+  width: inherit;
+  margin: 0;
 }
