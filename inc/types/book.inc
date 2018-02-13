@@ -31,8 +31,9 @@ function dlts_viewer_dispatch_thumbnails($identifier) {
     module_load_include('inc', 'dlts_viewer', 'inc/mongodb');
     /** hold query arguments */
     $query_parameters = drupal_get_query_parameters();
+    $sequence = 1;
     if (isset($query_parameters['sequence'])) {
-        $sequence = $query_parameters['sequence'];
+      $sequence = $query_parameters['sequence'];
     }
     // start page
     $page = 0;
@@ -40,7 +41,7 @@ function dlts_viewer_dispatch_thumbnails($identifier) {
     $per_page = 10;
     // page number can be part of the query parameter
     if (isset($query_parameters['page'])) {
-        $page = filter_xss($query_parameters['page']);
+      $page = filter_xss($query_parameters['page']);
     }
     // app can overwrite the amount of items to display
     if (isset($query_parameters['rows'])) {
@@ -50,26 +51,26 @@ function dlts_viewer_dispatch_thumbnails($identifier) {
     $thumbnails = dlts_viewer_mongodb_load_thumbnails($identifier, $page, $per_page, "dlts_books_page","books");
     // no need to continue if request does not have items.
     if ($thumbnails) {
-        // count of thumbnails
-        $count = $thumbnails['count'];
-        // Items
-        $items = $thumbnails['items'];
-        // Initialise the pager
-        $current_page = pager_default_initialize($count, $per_page);
-        // Pager
-        $pager = theme('thumbnails_pager', array('quantity' => $count));
-        $placeholder = $GLOBALS['base_url'] . '/' . drupal_get_path('module', 'dlts_viewer') . '/images/loadhold.png';
-        $output = theme('dlts_viewer_thumbnails', array(
-                'items' => $items,
-                'pager' => $pager,
-                'sequence' => $sequence,
-                'placeholder' => $placeholder,
-            )
-        );
-        return $output;
+      // count of thumbnails
+      $count = $thumbnails['count'];
+      // Items
+      $items = $thumbnails['items'];
+      // Initialise the pager
+      $current_page = pager_default_initialize($count, $per_page);
+      // Pager
+      $pager = theme('thumbnails_pager', array('quantity' => $count));
+      $placeholder = $GLOBALS['base_url'] . '/' . drupal_get_path('module', 'dlts_viewer') . '/images/loadhold.png';
+      $output = theme('dlts_viewer_thumbnails', array(
+          'items' => $items,
+          'pager' => $pager,
+          'sequence' => $sequence,
+          'placeholder' => $placeholder,
+        )
+      );
+      return $output;
     }
     else {
-        drupal_exit();
+      drupal_exit();
     }
 }
 
@@ -164,12 +165,13 @@ function dlts_viewer_dispatcher_book_page(&$entity, &$arg) {
   }
 
   // IIIF rotation support
-  $entity->roatation = FALSE;
+  $entity->rotation = FALSE;
   $entity->degrees = 0;
+  
   // We check for "iiif-degrees"
   if (isset($query_parameters['iiif-degrees'])) {
     // rotate image
-    $entity->roatation = true;
+    $entity->rotation = TRUE;
     // degrees
     $entity->degrees = (int) filter_xss($query_parameters['iiif-degrees']);
   }

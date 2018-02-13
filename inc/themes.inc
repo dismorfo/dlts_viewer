@@ -196,7 +196,7 @@ function theme_dlts_viewer_pager_button($variables) {
   if (isset($variables['query'])) {
     $parts = array_merge($parts, array('query' => $variables['query']));
   }
-  return l(t('<span>@title</span>', array('@title' => $variables['title'])), $variables['attributes']['href'], $parts);
+  return l(t('<span>@title</span>', array('@title' => $variables['attributes']['title'])), $variables['attributes']['href'], $parts);
 }
 
 function theme_dlts_viewer_navbar_item($variables) {
