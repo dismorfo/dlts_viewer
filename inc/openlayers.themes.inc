@@ -16,6 +16,7 @@ function theme_dlts_viewer_openlayers_image($variables) {
     'js/doT.min.js',
     'js/EventEmitter.min.js',
     'js/lodash.js',
+    'js/mutation-summary/src/mutation-summary.js',
     'js/app.js',
   );
 
@@ -23,8 +24,8 @@ function theme_dlts_viewer_openlayers_image($variables) {
     drupal_add_js($module . '/' . $file, 'file');
   }
 
-  if (!isset($file['thumbnailsUrl'])) {
-    $variables['thumbnailsUrl'] = 'undefined';
+  if (!isset($variables['thumbnailsUrl'])) {
+    $variables['thumbnailsUrl'] = NULL;
   }
 
   if (!isset($variables['thumbnailsRows'])) {

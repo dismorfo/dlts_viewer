@@ -152,7 +152,7 @@ function dlts_viewer_dispatcher_book_page(&$entity, &$arg) {
 
   // book URL
   // set $url so that .tpl.php can use it
-  $entity->book_url = $entity->url = url('node/' . $entity->nid , array('absolute' => TRUE));    
+  $entity->book_url = $entity->url = url('node/' . $entity->nid , array('absolute' => TRUE));
 
   $entity->pane_metadata_hidden = FALSE;  
     
@@ -378,11 +378,22 @@ function dlts_viewer_dispatcher_book_page(&$entity, &$arg) {
   /** 
    * thumbnails button 
    */
+  $entity->thumbnailsUrl = url('books/' . $entity->identifier . '/thumbnails', array(
+      'absolute' => TRUE,
+      'query' => array(
+        'page' => $entity->thumbnailsPage,
+        'rows' => $entity->thumbnailsRows,
+        'sequence' => $page,
+      ),
+    )
+  );
+
   $entity->button_thumbnails = theme('dlts_viewer_navbar_item', array(
     'title' => t('Pager'),
-    'path' => $entity->book_url  . '/thumbnails',
+    'path' => $entity->thumbnailsUrl,
     'attributes' => array(
       'data-title' => t('Select page'),
+      'data-state' => 'off',
       'title' => t('Select page'),
       'class' => array('button', 'thumbnails', 'off'),
       'id' => array('button-thumbnails')
@@ -443,14 +454,12 @@ function dlts_viewer_dispatcher_book_page(&$entity, &$arg) {
 
   $entity->thumbnailsRows = $thumbnails_rows_per_page;
 
-  $entity->thumbnailsURL = $entity->book_url . '/thumbnails';
-
   $merge = array(
     'sequence' => $page,
     'title' => $entity->title,
     'tiles' => $entity->tiles,
     'pageView' => $entity->pageView,
-    'thumbnailsUrl' => $entity->thumbnailsURL,
+    'thumbnailsUrl' => $entity->thumbnailsUrl,
     'thumbnailsRows' => $entity->thumbnailsRows,
     'thumbnailsPage' => $entity->thumbnailsPage,
     'identifier' => $entity->identifier,

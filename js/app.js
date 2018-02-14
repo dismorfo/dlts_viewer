@@ -1,10 +1,14 @@
-"use strict";
+'use strict';
+
+// https://github.com/rafaelw/mutation-summary
+// https://github.com/rafaelw/mutation-summary/blob/master/APIReference.md
+// https://github.com/rafaelw/mutation-summary/blob/master/Tutorial.md
 
 $(document).ready(() => {
 
-  const settings = Drupal.settings.dlts_viewer
-
   let App = {}
+
+  const settings = Drupal.settings.dlts_viewer
 
   const ee = new EventEmitter()
 
@@ -24,7 +28,32 @@ $(document).ready(() => {
   })
 
   ee.addListener('viewer-thumbnails', () => {
-    console.log('viewer-thumbnails')
+    const $elem = $('#navbar .button.thumbnails')
+    const $map = $('.dlts_viewer_map')
+    const $thumbnails = $('#thumbnails')
+    const state = $elem.attr('data-state') ==  'on' ? 'off' : 'on'
+    $elem.attr('data-state', state)
+    if (state === 'on') {
+      OpenSeadragon.makeAjaxRequest({
+        url: $map.attr('data-thumbnails-url'),
+        success: (request) => {
+          if ($thumbnails.length) {
+            $thumbnails.removeClass('hidden')
+              .addClass('active')
+              .html(request.response)
+          }   
+        },
+        error: onAjaxRequestError,
+        headers: {
+          'X-PJAX': true
+        }
+      })
+    }
+    else {
+      $thumbnails.removeClass('active')
+        .addClass('hidden')
+        .html('')
+    }
   })
 
   ee.addListener('viewer-toggle', () => {
@@ -114,6 +143,7 @@ $(document).ready(() => {
     }
   })
 
+  // http://openseadragon.github.io/docs/OpenSeadragon.html#.Options
   function newPage () {
     const $dragon = $('.dlts_viewer_map')
     const context = _.assign(settings, $dragon.data())
@@ -153,6 +183,8 @@ $(document).ready(() => {
     }
 
     if (App.viewer) {
+      // localConfiguration.defaultZoomLevel = App.viewer.viewport.getZoom()
+      localConfiguration.degrees = App.viewer.viewport.getRotation()
       App.viewer.destroy()
       window.history.pushState(
         null, 
@@ -182,8 +214,10 @@ $(document).ready(() => {
   $("body").delegate('.button', 'click', function (event) {
     event.preventDefault()
     const $this = $(this)
-    $this.toggleClass('on')
-    ee.emitEvent($this.attr('data-emmit'), this)
+    // if (!$this.hasClass('inactive')) {
+      $this.toggleClass('on')
+      ee.emitEvent($this.attr('data-emmit'), this)
+    // }
   })
 
   newPage()
@@ -192,39 +226,3 @@ $(document).ready(() => {
 
 // slider
 // length:(Y.one('#pager').get('offsetWidth') - 120) + 'px'
-
-/** don't waste time if the button is inactive */
-// if (current_target.hasClass('inactive')) return;
-
-/**
- * 
-function onButtonThumbnailsOn(e) {
-  e.halt();
-  var map = Y.one('.dlts_viewer_map').getData();
-  Y.io(map['thumbnails-url'], {
-    data: 'page=' + map['thumbnails-page'] + '&rows=' + map['thumbnails-rows'] + '&sequence=' + map['sequence'],
-    on: {
-      start: onButtonThumbnailsOnIOStart,
-      complete: onThumbnailsOnSuccess }
-    }
-  );
-}
-
-function onButtonThumbnailsOff(e) {
-  var thumbnails = Y.one('#thumbnails');
-  var button = Y.one('#button-thumbnails');
-  var currentPage = false;
-  // in case event was triggered by other means
-  if (button.hasClass('on')) {
-    button.removeClass('on');
-  }
-  if (thumbnails) {
-    thumbnails.addClass('hidden');
-    currentPage = thumbnails.one('.current-page');
-    if (currentPage) {
-      currentPage.removeClass('current-page');
-    }
-  }
-} 
-*
-*/
