@@ -68,9 +68,23 @@ function dlts_viewer_init() {
  */
 function dlts_viewer_custom_theme() {
   switch (arg(0)) {
-    case 'books':  
-    case 'photos':  
-    case 'maps':  
+    case 'books':
+    case 'photos':
+    case 'maps':
+      $module = drupal_get_path('module', 'dlts_viewer');
+      drupal_add_css($module . '/css/dlts_viewer.css', array('group' => CSS_DEFAULT, 'every_page' => TRUE));
+      $files = array(
+        'js/jquery-3.3.1.min.js',
+        'js/jquery/jquery.once.js',
+        'js/openseadragon-bin-2.3.1/openseadragon.js',
+        'js/doT.min.js',
+        'js/EventEmitter.min.js',
+        'js/lodash.js',
+        'js/app.js',
+      );
+      foreach ($files as $file) {
+        drupal_add_js($module . '/' . $file, 'file');
+      }      
       return 'tao';
   }
 }

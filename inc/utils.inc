@@ -1,41 +1,43 @@
 <?php
 
 function dlts_viewer_content_by_field($field_name) {
-    $out = array();
-    $field_name = filter_xss($field_name);
-    $info = field_info_field($field_name);
-    $query_parameters = drupal_get_query_parameters();
-    if ($info) {
-        $m = array_keys($info['storage']['details']['sql']['FIELD_LOAD_CURRENT']);
-        $table = $m[0];
-        $c = array_keys( $info['columns'] );
-        $columns = $c[0];
-        if  ( $columns == 'fid' ) return array();
-        $seek = $field_name . '_' . $columns;
-        $table = 'field_data_' . $field_name;
-        $query = 'SELECT DISTINCT ' . $seek . ' AS value FROM {' . $table . '}';
-        $result = db_query($query);
-        foreach ( $result as $record ) {
-            if ( $columns == 'nid' ) {
-                $node = node_load( $record->value );
-                $raw_value = $record->value;
-                $value = $node->title;
-            }
-            elseif ( $columns == 'tid' ) {
-                $term = taxonomy_term_load( $record->value );
-                $raw_value = $record->value;
-                $value = $term->name;
-            }
-            else {
-                $raw_value = $value = $record->value;
-            }
-            $out[] = array(
-                'value' => $value,
-                'raw_value' => $raw_value,
-            );
-        }
+  $out = array();
+  $field_name = filter_xss($field_name);
+  $info = field_info_field($field_name);
+  $query_parameters = drupal_get_query_parameters();
+  if ($info) {
+    $m = array_keys($info['storage']['details']['sql']['FIELD_LOAD_CURRENT']);
+    $table = $m[0];
+    $c = array_keys( $info['columns'] );
+    $columns = $c[0];
+    if ($columns == 'fid') {
+      return array();
     }
-    return $out;
+    $seek = $field_name . '_' . $columns;
+    $table = 'field_data_' . $field_name;
+    $query = 'SELECT DISTINCT ' . $seek . ' AS value FROM {' . $table . '}';
+    $result = db_query($query);
+    foreach ($result as $record) {
+      if ( $columns == 'nid' ) {
+        $node = node_load( $record->value );
+        $raw_value = $record->value;
+        $value = $node->title;
+      }
+      elseif ( $columns == 'tid' ) {
+        $term = taxonomy_term_load( $record->value );
+        $raw_value = $record->value;
+        $value = $term->name;
+      }
+      else {
+        $raw_value = $value = $record->value;
+      }
+      $out[] = array(
+        'value' => $value,
+        'raw_value' => $raw_value,
+      );
+    }
+  }
+  return $out;
 }
 /**
  * Package and send page callback as JSON/JSONP.
@@ -153,26 +155,20 @@ function dlts_viewer_viewer_language($vars = NULL) {
     }
     return $viewer_language;
 }
+
 function return_nodeid_json($dlts_id, $lang_code = NULL) {
-    $langs = $lang_code ? array($lang_code) : array('und', 'en');
-    $query = new EntityFieldQuery();
-    $query->entityCondition('entity_type', 'node', '=')
-        ->propertyCondition('language', $langs, 'IN')
-        ->fieldCondition('field_identifier', 'value', $dlts_id, '=');
-    $result = $query->execute();
-    $nodeids = array();
-    if (isset($result['node'])) {
-        foreach ($result['node'] as $node) {
-            $nodeids[] = $node->nid;
-        }
+  $langs = $lang_code ? array($lang_code) : array('und', 'en');
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node', '=')
+    ->propertyCondition('language', $langs, 'IN')
+    ->fieldCondition('field_identifier', 'value', $dlts_id, '=');
+  $result = $query->execute();
+  $nodeids = array();
+  if (isset($result['node'])) {
+    foreach ($result['node'] as $node) {
+      $nodeids[] = $node->nid;
     }
-    echo drupal_json_encode($nodeids);
-    die;
-}
-function return_page_nodeids_json($dlts_id) {
-  // @TODO: broken, we no longer have this content types
-  // return error 
-  return;
-  echo drupal_json_output((object) $nodeids);
-  exit;
+  }
+  echo drupal_json_encode($nodeids);
+  die;
 }

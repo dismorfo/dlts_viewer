@@ -807,6 +807,10 @@ html body.admin-menu {
   content: "\e016";
 }
 /* line 112, ../sass/partials/book/panes/_pane-navbar.scss */
+#navbar .navbar-item .rotate:before {
+  content: "\e001";
+}
+
 #navbar .navbar-item .fullscreen:before {
   content: "\e006";
 }
