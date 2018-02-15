@@ -455,11 +455,7 @@ function dlts_viewer_dispatcher_book_page(&$entity, &$arg) {
     )
   );
 
-  $loading_options = array('sequence_number' => $page);
-
   $entity->book_page_data = $sequenceRecord;
-
-  $entity->loading = theme('dlts_viewer_loading', $loading_options);
 
   $entity->sequence = $page;
 

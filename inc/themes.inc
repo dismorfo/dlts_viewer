@@ -40,17 +40,8 @@ function dlts_viewer_theme() {
     'dlts_viewer_openlayers_image' => array(
       'variables' => array(),
     ),
-    'dlts_viewer_openseadragon_image' => array(
-      'variables' => array(),
-    ),
     'dlts_viewer_navbar_item' => array(
       'variables' => array(),
-    ),        
-    'dlts_viewer_loading' => array(
-      'template' => 'templates/components/component--loading',
-      'variables' => array(
-        'sequence_number' => 0,
-      ),
     ),
     'dlts_viewer_dragon' => array(
       'template' => 'templates/components/component--dragon',
@@ -78,95 +69,95 @@ function dlts_viewer_theme() {
       'template' => 'templates/set',
       'variables' => array(),
     ),
-        'viewer' => array(
-            'template' => 'templates/components/component--viewer',
-            'variables' => array(),
-        ),
-        'photo' => array(
-            'template' => 'templates/components/component--photo',
-            'variables' => array(),
-        ),
-        'viewer_page' => array(
-            'template' => 'templates/components/component--bookpage',
-            'variables' => array(),
-        ),
-        'viewer_map' => array(
-            'template' => 'templates/components/component--map',
-            'variables' => array(),
-        ),
-        'viewer_display' => array(
-            'template' => 'templates/components/component--display',
-            'variables' => array(),
-        ),
-        'dlts_viewer_oembed' => array(
-            'template' => 'templates/components/component--oembed',
-            'variables' => array(),
-        ),
-        'dlts_viewer_top' => array(
-            'template' => 'templates/components/component--top',
-            'variables' => array(),
-        ),
-        'html__viewer' => array(
-            'render element' => 'content',
-            'base hook' => 'page',
-            'template' => 'templates/html',
-        ),
-        'html__viewer_pjax' => array(
-            'render element' => 'content',
-            'base hook' => 'page',
-            'template' => 'templates/html.pjax',
-        ),
-        'page__viewer' => array(
-            'render element' => 'content',
-            'base hook' => 'page',
-            'template' => 'templates/page',
-        ),
-        'page__viewer_pjax' => array(
-            'render element' => 'content',
-            'base hook' => 'page',
-            'template' => 'templates/page.pjax',
-        ),
-        'ds_1col__node_metadata' => array(
-            'render element' => 'content',
-            'base hook' => 'page',
-            'template' => 'templates/ds-1col--node-metadata',
-        ),
-        'node__display' => array(
-            'render element' => 'content',
-            'base hook' => 'node',
-            'template' => 'templates/display',
-        ),
-        'block__content' => array(
-            'render element' => 'content',
-            'base hook' => 'page',
-            'template' => 'templates/block',
-        ),
-        'region__content' => array(
-            'render element' => 'content',
-            'base hook' => 'page',
-            'template' => 'templates/region',
-        ),
-        'node__dlts_book' => array(
-            'render element' => 'content',
-            'base hook' => 'page',
-            'template' => 'templates/node',
-        ),
-        'node__dlts_book_pjax' => array(
-            'render element' => 'content',
-            'base hook' => 'page',
-            'template' => 'templates/node.pjax',
-        ),
-        'node__dlts_map' => array(
-            'render element' => 'content',
-            'base hook' => 'page',
-            'template' => 'templates/node',
-        ),
-        'node__dlts_map_pjax' => array(
-            'render element' => 'content',
-            'base hook' => 'page',
-            'template' => 'templates/node.pjax',
-        ),
-    );
+    'viewer' => array(
+      'template' => 'templates/components/component--viewer',
+      'variables' => array(),
+    ),
+    'photo' => array(
+      'template' => 'templates/components/component--photo',
+      'variables' => array(),
+    ),
+    'viewer_page' => array(
+      'template' => 'templates/components/component--bookpage',
+      'variables' => array(),
+    ),
+    'viewer_map' => array(
+      'template' => 'templates/components/component--map',
+      'variables' => array(),
+    ),
+    'viewer_display' => array(
+      'template' => 'templates/components/component--display',
+      'variables' => array(),
+    ),
+    'dlts_viewer_oembed' => array(
+      'template' => 'templates/components/component--oembed',
+      'variables' => array(),
+    ),
+    'dlts_viewer_top' => array(
+      'template' => 'templates/components/component--top',
+      'variables' => array(),
+    ),
+    'html__viewer' => array(
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/html',
+    ),
+    'html__viewer_pjax' => array(
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/html.pjax',
+    ),
+    'page__viewer' => array(
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/page',
+    ),
+    'page__viewer_pjax' => array(
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/page.pjax',
+    ),
+    'ds_1col__node_metadata' => array(
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/ds-1col--node-metadata',
+    ),
+    'node__display' => array(
+      'render element' => 'content',
+      'base hook' => 'node',
+      'template' => 'templates/display',
+    ),
+    'block__content' => array(
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/block',
+    ),
+    'region__content' => array(
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/region',
+    ),
+    'node__dlts_book' => array(
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/node',
+    ),
+    'node__dlts_book_pjax' => array(
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/node.pjax',
+    ),
+    'node__dlts_map' => array(
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/node',
+    ),
+    'node__dlts_map_pjax' => array(
+      'render element' => 'content',
+      'base hook' => 'page',
+      'template' => 'templates/node.pjax',
+    ),
+  );
 }
 
 function dlts_viewer_theme_registry_alter(&$theme_registry) {
@@ -225,92 +216,6 @@ function theme_dlts_viewer_navbar_item($variables) {
     $url = $variables['url'];
   }
   return '<li class="navbar-item">' . l(t('<span>@title</span>', array('@title' => $variables['title'])), $url, $parts);
-}
-
-/**
- * Returns HTML for a high-resolution JPEG 2000 image.
- *
- * This function returns the necessary HTML elements, and sets certain
- * JavaScript settings for the file being displayed. The given elements are
- * then replaced by OpenLayers with a zoomable version of the image.
- *
- * @ingroup themable
- */
-function dlts_viewer_openseadragon_image($variables) {
-
-  $file = $variables['file'];
-
-  $fid = 'id-' . $file['fid'];
-
-  $file_uri = file_create_url($file['uri']);
-
-  if (isset($file['timestamp'])) {
-  	$file_uri = $file_uri . '?v=' . $file['timestamp'];
-  }
-  if(!isset($file['thumbnailsUrl'])) {
-    $file['thumbnailsUrl'] = 'undefined';
-  }
-  if(!isset($file['thumbnailsRows'])) {
-    $file['thumbnailsRows'] = 0;
-  }
-  if(!isset($file['thumbnailsPage'])) {
-    $file['thumbnailsPage'] = 0;
-  }
-  
-  $identifier = "princeton_aco000319";
-
-  $template = "{{=it.loris}}/{{=it.identifier}}_n{{=it.sequence}}_d.jp2/info.json";
-  
-  $loris = "http://localhost:9080/loris";
-  
-  $sequence = "1";
-  
-  $sequenceCount = "10";
-  
-  $sequenceMode = "true";
-  
-  $preserveViewport = "true";
-  
-  $rotation = "true";
-  
-  $degrees = "0";
-  
-  $fid = 'dragon';
-
-  $options = array(
-    '@id' => $fid,
-    '@identifier' => $identifier,
-    '@template' => $template,
-    '@class' => 'dlts_image_map dlts_viewer_map',
-    '@loris' => $loris,
-    '@sequence' => $sequence,
-    '@sequenceCount' => $sequenceCount,
-    '@sequenceMode' => $sequenceMode,
-    '@preserveViewport' => $preserveViewport,
-    '@rotation' => $rotation,
-    '@degrees' => $degrees,
-    '@thumbnailsUrl' => $file['thumbnailsUrl'],
-    '@thumbnailsRows' => $file['thumbnailsRows'],
-    '@thumbnailsPage' => $file['thumbnailsPage'],
-  	'@pageView' => 'single',
-  );
-
-  return t('<div 
-              id="@id" 
-              class="@class" 
-              data-identifier="@identifier" 
-              data-template="@template" 
-              data-loris="@loris" 
-              data-sequence="@sequence" 
-              data-sequence-count="@sequenceCount" 
-              data-sequence-mode="@sequenceMode" 
-              data-preserve-viewport="@preserveViewport" 
-              data-rotation="@rotation" 
-              data-degrees="@degrees"        
-              data-thumbnails-url="@thumbnailsUrl" 
-              data-thumbnails-rows="@thumbnailsRows" 
-              data-thumbnails-page="@thumbnailsPage">
-            </div>', $options);
 }
 
 /**
@@ -444,4 +349,38 @@ function dlts_viewer_theme_field($variables) {
 	// Render the top-level DIV.
 	$output = '<div dir="'. $dir .'" class="' . $variables['classes'] . '"' . $variables['attributes'] . '>' . $output . '</div>';
 	return $output;
+}
+
+function theme_dlts_viewer_openlayers_image($variables) {
+  $defaults = $variables += array(
+    'thumbnailsUrl' => '',
+    'thumbnailsRows' => 0,
+    'thumbnailsPage' => 0,
+    'rotation' => 0,
+    'preserveViewport' => 0,
+    'degrees' => 0,
+    'sequenceMode' => 'false',
+  );
+  return theme('dlts_viewer_dragon', 
+    array(
+      'dragon' => 
+        array(
+          'id' => 'id-' . $variables['_id'],
+          'class' => 'dlts_viewer_map',
+          'data-title' => $defaults['title'],
+          'data-identifier' => $defaults['isPartOf'],
+          'data-tiles' => drupal_json_encode($defaults['tiles']),
+          'data-pagev-view' => $defaults['pageView'],
+          'data-sequence-count' => $defaults['sequenceCount'],
+          'data-sequence' => $defaults['sequence'],
+          'data-sequence-mode' => $defaults['sequenceMode'],
+          'data-preserve-viewport' => $defaults['preserveViewport'],
+          'data-rotation' => $defaults['rotation'],
+          'data-degrees' => $defaults['degrees'],
+          'data-thumbnails-url' => $defaults['thumbnailsUrl'],
+          'data-thumbnails-rows' => $defaults['thumbnailsRows'],
+          'data-thumbnails-page' => $defaults['thumbnailsPage'],
+      )
+    )
+  );
 }
