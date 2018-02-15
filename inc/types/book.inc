@@ -147,9 +147,6 @@ function dlts_viewer_dispatcher_book_page(&$entity, &$arg) {
   // set $entity->identifier so that .tpl.php can use it
   $entity->identifier = $wrapper->field_identifier->value();
 
-  // set language
-  _language_field($entity);  
-
   // book URL
   // set $url so that .tpl.php can use it
   $entity->book_url = $entity->url = url('node/' . $entity->nid , array('absolute' => TRUE));
@@ -396,6 +393,11 @@ function dlts_viewer_dispatcher_book_page(&$entity, &$arg) {
   /** 
    * thumbnails button 
    */
+
+  $entity->thumbnailsPage = ceil($page / $thumbnails_rows_per_page) - 1;
+
+  $entity->thumbnailsRows = $thumbnails_rows_per_page;
+   
   $entity->thumbnailsUrl = url('books/' . $entity->identifier . '/thumbnails', array(
       'absolute' => TRUE,
       'query' => array(
@@ -469,10 +471,6 @@ function dlts_viewer_dispatcher_book_page(&$entity, &$arg) {
     'sequence_count' => $entity->sequence_count
   );
 
-  $entity->thumbnailsPage = ceil($page / $thumbnails_rows_per_page) - 1;
-
-  $entity->thumbnailsRows = $thumbnails_rows_per_page;
-
   $merge = array(
     'sequence' => $page,
     'title' => $entity->title,
@@ -520,15 +518,17 @@ function dlts_viewer_dispatcher($entity, $arg) {
   else {
     $type = (!$is_pjax) ? 'book_page' : 'book_page_pjax';
   }
+  // set language
+  _language_field($entity); 
   // types of returns
   switch ($type) {
-    case 'book_page':
+    case 'book_page' :
       return dlts_viewer_full_book_view($entity, $arg);
-    case 'book_page_pjax':
+    case 'book_page_pjax' :
       return dlts_viewer_pjax_book_view($entity, $arg);
-    case 'book_metadata':
+    case 'book_metadata' :
       return dlts_viewer_full_book_view($entity, $arg);
-    case 'book_metadata_pjax':
+    case 'book_metadata_pjax' :
       return dlts_viewer_book_metadata_view($entity, $arg);
   }
 }
