@@ -601,7 +601,7 @@ function dlts_viewer_load_object($type, $object, $name = NULL) {
     }
     $out .= theme('table', array('header' => $header, 'rows' => $rows));
   }
-  
+  // remove duplication -- check ...
   $multivol_book = dlts_viewer_is_multivolume_book($object);
 
   if (!empty($multivol_book)) {
