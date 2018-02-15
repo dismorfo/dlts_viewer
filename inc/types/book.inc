@@ -272,6 +272,24 @@ function dlts_viewer_dispatcher_book_page(&$entity, &$arg) {
     ),
   ));  
 
+    /** 
+   * rotate button 
+   */
+  $entity->button_rotate = theme('dlts_viewer_navbar_item', array(
+    'title' => t('Rotate'),
+    'path' => 'node/' . $entity->nid,
+    'attributes' => array(
+      'id' => array('control-rotate'),
+      'title' => t('Rotate'),
+      'data-title' => t('Rotate'),
+      'class' => array('button', 'rotate'),      
+    ),
+    'fragment' => 'rotate',
+    'events' => array(
+      'emmit' => array('viewer-rotate'),
+    ),
+  )); 
+
   /** 
    * previous button 
    */
@@ -430,6 +448,7 @@ function dlts_viewer_dispatcher_book_page(&$entity, &$arg) {
       'control_panel' => array(
         $entity->button_zoomin,
         $entity->button_zoomout,
+        $entity->button_rotate,
       ),
     )
   );
@@ -582,7 +601,9 @@ function dlts_viewer_load_object($type, $object, $name = NULL) {
     }
     $out .= theme('table', array('header' => $header, 'rows' => $rows));
   }
-  $multivol_book = dlts_viewer_multivolume_book($object->nid);
+  
+  $multivol_book = dlts_viewer_is_multivolume_book($object);
+
   if (!empty($multivol_book)) {
     $out .= '<h1>' . t('Multi Volume book') . '</h1>';
     $header = array('Node Id', 'Title', 'Is part of', 'Collections is part of');
