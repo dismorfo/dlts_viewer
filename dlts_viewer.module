@@ -45,21 +45,12 @@ include_once 'inc/utils.inc';
  */
 include_once 'inc/themes.inc';
 
-/**
- * more theme functions
- */
-include_once 'inc/openlayers.themes.inc';
-
 function dlts_viewer_init() {
-
   drupal_add_http_header('Access-Control-Allow-Origin', '*');
-  
   $settings = array(
     'path' => base_path() . drupal_get_path('module', 'dlts_viewer'),
   );
-
   drupal_add_js(array('dlts_viewer' => $settings), 'setting');
-
 }
 
 /**
@@ -74,10 +65,7 @@ function dlts_viewer_custom_theme() {
       $module = drupal_get_path('module', 'dlts_viewer');
       drupal_add_css($module . '/css/dlts_viewer.css', array('group' => CSS_DEFAULT, 'every_page' => TRUE));
       $files = array(
-        'js/jquery-3.3.1.min.js',
-        'js/jquery/jquery.once.js',
         'js/openseadragon-bin-2.3.1/openseadragon.js',
-        'js/doT.min.js',
         'js/EventEmitter.min.js',
         'js/lodash.js',
         'js/app.js',
@@ -145,9 +133,6 @@ function dlts_viewer_preprocess_html(&$vars) {
     /** default Viewer PJAX HTML template */
     $vars['theme_hook_suggestions'][] = 'html__viewer_pjax';
   }
-
-  $vars['classes_array'][] = 'yui3-skin-sam';
-
   /**
    * We use Drupal to render objects from MongoDB that don't have a record register
    * in Drupal's database. We don't want Drupal to manage this records. We need a

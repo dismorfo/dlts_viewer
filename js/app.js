@@ -1,6 +1,6 @@
 'use strict';
 
-$(document).ready(() => {
+jQuery(document).ready(($) => {
 
   let App = {}
 
