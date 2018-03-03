@@ -1,0 +1,66 @@
+{
+  "examples": [
+    {
+      "label": "Book example",
+      "src": "books/princeton_aco000001/1"      
+    }
+  ],
+  "entities": [
+    { "type": "books", "isPartOf" : "princeton_aco000001", "data" : { "profile" : [ 	"http://iiif.io/api/image/2/level2.json", 	{ 	"supports" : [ 	"canonicalLinkHeader", 	"profileLinkHeader", 	"mirroring", 	"rotationArbitrary", 	"regionSquare", 	"sizeAboveFull" ], 	"qualities" : [ 	"default", 	"bitonal", 	"gray", 	"color" ], 	"formats" : [ 	"jpg", 	"png", 	"gif", 	"webp" ] } ], "tiles" : [ 	{ 	"width" : 2123, 	"scaleFactors" : [ 	1, 	2, 	4, 	8, 	16, 	32 ], 	"height" : 3233 } ], "protocol" : "http://iiif.io/api/image", "sizes" : [ 	{ 	"width" : 67, 	"height" : 102 }, 	{ 	"width" : 133, 	"height" : 203 }, 	{ 	"width" : 266, 	"height" : 405 }, 	{ 	"width" : 531, 	"height" : 809 }, 	{ 	"width" : 1062, 	"height" : 1617 }, 	{ 	"width" : 2123, 	"height" : 3233 } ], "height" : 3233, "width" : 2123, "@context" : "http://iiif.io/api/image/2/context.json", "@id" : "http://localhost:9080/loris/books/princeton_aco000001/princeton_aco000319_n000001_d.jp2" }, "sequence" : [ 1 ], "realPageNumber" : 1, "timestamp" : "1456432994" },
+    { "type": "books", "isPartOf" : "princeton_aco000001", "data" : { "profile" : [ 	"http://iiif.io/api/image/2/level2.json", 	{ 	"supports" : [ 	"canonicalLinkHeader", 	"profileLinkHeader", 	"mirroring", 	"rotationArbitrary", 	"regionSquare", 	"sizeAboveFull" ], 	"qualities" : [ 	"default", 	"bitonal", 	"gray", 	"color" ], 	"formats" : [ 	"jpg", 	"png", 	"gif", 	"webp" ] } ], "tiles" : [ 	{ 	"width" : 2095, 	"scaleFactors" : [ 	1, 	2, 	4, 	8, 	16, 	32 ], 	"height" : 3229 } ], "protocol" : "http://iiif.io/api/image", "sizes" : [ 	{ 	"width" : 66, 	"height" : 101 }, 	{ 	"width" : 131, 	"height" : 202 }, 	{ 	"width" : 262, 	"height" : 404 }, 	{ 	"width" : 524, 	"height" : 808 }, 	{ 	"width" : 1048, 	"height" : 1615 }, 	{ 	"width" : 2095, 	"height" : 3229 } ], "height" : 3229, "width" : 2095, "@context" : "http://iiif.io/api/image/2/context.json", "@id" : "http://localhost:9080/loris/books/princeton_aco000001/princeton_aco000319_n000002_d.jp2" }, "sequence" : [ 2 ], "realPageNumber" : 2, "timestamp" : "1456432994" },
+    { "type": "books", "isPartOf" : "princeton_aco000001", "data" : { "profile" : [ 	"http://iiif.io/api/image/2/level2.json", 	{ 	"supports" : [ 	"canonicalLinkHeader", 	"profileLinkHeader", 	"mirroring", 	"rotationArbitrary", 	"regionSquare", 	"sizeAboveFull" ], 	"qualities" : [ 	"default", 	"bitonal", 	"gray", 	"color" ], 	"formats" : [ 	"jpg", 	"png", 	"gif", 	"webp" ] } ], "tiles" : [ 	{ 	"width" : 2120, 	"scaleFactors" : [ 	1, 	2, 	4, 	8, 	16, 	32 ], 	"height" : 3233 } ], "protocol" : "http://iiif.io/api/image", "sizes" : [ 	{ 	"width" : 67, 	"height" : 102 }, 	{ 	"width" : 133, 	"height" : 203 }, 	{ 	"width" : 265, 	"height" : 405 }, 	{ 	"width" : 530, 	"height" : 809 }, 	{ 	"width" : 1060, 	"height" : 1617 }, 	{ 	"width" : 2120, 	"height" : 3233 } ], "height" : 3233, "width" : 2120, "@context" : "http://iiif.io/api/image/2/context.json", "@id" : "http://localhost:9080/loris/books/princeton_aco000001/princeton_aco000319_n000003_d.jp2" }, "sequence" : [ 3 ], "realPageNumber" : 3, "timestamp" : "1456432994" },
+    { "type": "books", "isPartOf" : "princeton_aco000001", "data" : { "profile" : [ 	"http://iiif.io/api/image/2/level2.json", 	{ 	"supports" : [ 	"canonicalLinkHeader", 	"profileLinkHeader", 	"mirroring", 	"rotationArbitrary", 	"regionSquare", 	"sizeAboveFull" ], 	"qualities" : [ 	"default", 	"bitonal", 	"gray", 	"color" ], 	"formats" : [ 	"jpg", 	"png", 	"gif", 	"webp" ] } ], "tiles" : [ 	{ 	"width" : 2087, 	"scaleFactors" : [ 	1, 	2, 	4, 	8, 	16, 	32 ], 	"height" : 3229 } ], "protocol" : "http://iiif.io/api/image", "sizes" : [ 	{ 	"width" : 66, 	"height" : 101 }, 	{ 	"width" : 131, 	"height" : 202 }, 	{ 	"width" : 261, 	"height" : 404 }, 	{ 	"width" : 522, 	"height" : 808 }, 	{ 	"width" : 1044, 	"height" : 1615 }, 	{ 	"width" : 2087, 	"height" : 3229 } ], "height" : 3229, "width" : 2087, "@context" : "http://iiif.io/api/image/2/context.json", "@id" : "http://localhost:9080/loris/books/princeton_aco000001/princeton_aco000319_n000004_d.jp2" }, "sequence" : [ 4 ], "realPageNumber" : 4, "timestamp" : "1456432994" },
+    { "type": "books", "isPartOf" : "princeton_aco000001", "data" : { "profile" : [ 	"http://iiif.io/api/image/2/level2.json", 	{ 	"supports" : [ 	"canonicalLinkHeader", 	"profileLinkHeader", 	"mirroring", 	"rotationArbitrary", 	"regionSquare", 	"sizeAboveFull" ], 	"qualities" : [ 	"default", 	"bitonal", 	"gray", 	"color" ], 	"formats" : [ 	"jpg", 	"png", 	"gif", 	"webp" ] } ], "tiles" : [ 	{ 	"width" : 2112, 	"scaleFactors" : [ 	1, 	2, 	4, 	8, 	16, 	32 ], 	"height" : 3237 } ], "protocol" : "http://iiif.io/api/image", "sizes" : [ 	{ 	"width" : 66, 	"height" : 102 }, 	{ 	"width" : 132, 	"height" : 203 }, 	{ 	"width" : 264, 	"height" : 405 }, 	{ 	"width" : 528, 	"height" : 810 }, 	{ 	"width" : 1056, 	"height" : 1619 }, 	{ 	"width" : 2112, 	"height" : 3237 } ], "height" : 3237, "width" : 2112, "@context" : "http://iiif.io/api/image/2/context.json", "@id" : "http://localhost:9080/loris/books/princeton_aco000001/princeton_aco000319_n000005_d.jp2" }, "sequence" : [ 5 ], "realPageNumber" : 5, "timestamp" : "1456432994" },
+    { "type": "books", "isPartOf" : "princeton_aco000001", "data" : { "profile" : [ 	"http://iiif.io/api/image/2/level2.json", 	{ 	"supports" : [ 	"canonicalLinkHeader", 	"profileLinkHeader", 	"mirroring", 	"rotationArbitrary", 	"regionSquare", 	"sizeAboveFull" ], 	"qualities" : [ 	"default", 	"bitonal", 	"gray", 	"color" ], 	"formats" : [ 	"jpg", 	"png", 	"gif", 	"webp" ] } ], "tiles" : [ 	{ 	"width" : 2099, 	"scaleFactors" : [ 	1, 	2, 	4, 	8, 	16, 	32 ], 	"height" : 3221 } ], "protocol" : "http://iiif.io/api/image", "sizes" : [ 	{ 	"width" : 66, 	"height" : 101 }, 	{ 	"width" : 132, 	"height" : 202 }, 	{ 	"width" : 263, 	"height" : 403 }, 	{ 	"width" : 525, 	"height" : 806 }, 	{ 	"width" : 1050, 	"height" : 1611 }, 	{ 	"width" : 2099, 	"height" : 3221 } ], "height" : 3221, "width" : 2099, "@context" : "http://iiif.io/api/image/2/context.json", "@id" : "http://localhost:9080/loris/books/princeton_aco000001/princeton_aco000319_n000006_d.jp2" }, "sequence" : [ 6 ], "realPageNumber" : 6, "timestamp" : "1456432994" },
+    { "type": "books", "isPartOf" : "princeton_aco000001", "data" : { "profile" : [ 	"http://iiif.io/api/image/2/level2.json", 	{ 	"supports" : [ 	"canonicalLinkHeader", 	"profileLinkHeader", 	"mirroring", 	"rotationArbitrary", 	"regionSquare", 	"sizeAboveFull" ], 	"qualities" : [ 	"default", 	"bitonal", 	"gray", 	"color" ], 	"formats" : [ 	"jpg", 	"png", 	"gif", 	"webp" ] } ], "tiles" : [ 	{ 	"width" : 2100, 	"scaleFactors" : [ 	1, 	2, 	4, 	8, 	16, 	32 ], 	"height" : 3237 } ], "protocol" : "http://iiif.io/api/image", "sizes" : [ 	{ 	"width" : 66, 	"height" : 102 }, 	{ 	"width" : 132, 	"height" : 203 }, 	{ 	"width" : 263, 	"height" : 405 }, 	{ 	"width" : 525, 	"height" : 810 }, 	{ 	"width" : 1050, 	"height" : 1619 }, 	{ 	"width" : 2100, 	"height" : 3237 } ], "height" : 3237, "width" : 2100, "@context" : "http://iiif.io/api/image/2/context.json", "@id" : "http://localhost:9080/loris/books/princeton_aco000001/princeton_aco000319_n000007_d.jp2" }, "sequence" : [ 7 ], "realPageNumber" : 7, "timestamp" : "1456432994" },
+    { "type": "books", "isPartOf" : "princeton_aco000001", "data" : { "profile" : [ 	"http://iiif.io/api/image/2/level2.json", 	{ 	"supports" : [ 	"canonicalLinkHeader", 	"profileLinkHeader", 	"mirroring", 	"rotationArbitrary", 	"regionSquare", 	"sizeAboveFull" ], 	"qualities" : [ 	"default", 	"bitonal", 	"gray", 	"color" ], 	"formats" : [ 	"jpg", 	"png", 	"gif", 	"webp" ] } ], "tiles" : [ 	{ 	"width" : 2091, 	"scaleFactors" : [ 	1, 	2, 	4, 	8, 	16, 	32 ], 	"height" : 3229 } ], "protocol" : "http://iiif.io/api/image", "sizes" : [ 	{ 	"width" : 66, 	"height" : 101 }, 	{ 	"width" : 131, 	"height" : 202 }, 	{ 	"width" : 262, 	"height" : 404 }, 	{ 	"width" : 523, 	"height" : 808 }, 	{ 	"width" : 1046, 	"height" : 1615 }, 	{ 	"width" : 2091, 	"height" : 3229 } ], "height" : 3229, "width" : 2091, "@context" : "http://iiif.io/api/image/2/context.json", "@id" : "http://localhost:9080/loris/books/princeton_aco000001/princeton_aco000319_n000008_d.jp2" }, "sequence" : [ 8 ], "realPageNumber" : 8, "timestamp" : "1456432994" },
+    { "type": "books", "isPartOf" : "princeton_aco000001", "data" : { "profile" : [ 	"http://iiif.io/api/image/2/level2.json", 	{ 	"supports" : [ 	"canonicalLinkHeader", 	"profileLinkHeader", 	"mirroring", 	"rotationArbitrary", 	"regionSquare", 	"sizeAboveFull" ], 	"qualities" : [ 	"default", 	"bitonal", 	"gray", 	"color" ], 	"formats" : [ 	"jpg", 	"png", 	"gif", 	"webp" ] } ], "tiles" : [ 	{ 	"width" : 2106, 	"scaleFactors" : [ 	1, 	2, 	4, 	8, 	16, 	32 ], 	"height" : 3233 } ], "protocol" : "http://iiif.io/api/image", "sizes" : [ 	{ 	"width" : 66, 	"height" : 102 }, 	{ 	"width" : 132, 	"height" : 203 }, 	{ 	"width" : 264, 	"height" : 405 }, 	{ 	"width" : 527, 	"height" : 809 }, 	{ 	"width" : 1053, 	"height" : 1617 }, 	{ 	"width" : 2106, 	"height" : 3233 } ], "height" : 3233, "width" : 2106, "@context" : "http://iiif.io/api/image/2/context.json", "@id" : "http://localhost:9080/loris/books/princeton_aco000001/princeton_aco000319_n000009_d.jp2" }, "sequence" : [ 9 ], "realPageNumber" : 9, "timestamp" : "1456432994" },
+    { "type": "books", "isPartOf" : "princeton_aco000001", "data" : { "profile" : [ 	"http://iiif.io/api/image/2/level2.json", 	{ 	"supports" : [ 	"canonicalLinkHeader", 	"profileLinkHeader", 	"mirroring", 	"rotationArbitrary", 	"regionSquare", 	"sizeAboveFull" ], 	"qualities" : [ 	"default", 	"bitonal", 	"gray", 	"color" ], 	"formats" : [ 	"jpg", 	"png", 	"gif", 	"webp" ] } ], "tiles" : [ 	{ 	"width" : 2075, 	"scaleFactors" : [ 	1, 	2, 	4, 	8, 	16, 	32 ], 	"height" : 3225 } ], "protocol" : "http://iiif.io/api/image", "sizes" : [ 	{ 	"width" : 65, 	"height" : 101 }, 	{ 	"width" : 130, 	"height" : 202 }, 	{ 	"width" : 260, 	"height" : 404 }, 	{ 	"width" : 519, 	"height" : 807 }, 	{ 	"width" : 1038, 	"height" : 1613 }, 	{ 	"width" : 2075, 	"height" : 3225 } ], "height" : 3225, "width" : 2075, "@context" : "http://iiif.io/api/image/2/context.json", "@id" : "http://localhost:9080/loris/books/princeton_aco000001/princeton_aco000319_n000010_d.jp2" }, "sequence" : [ 10 ], "realPageNumber" : 10, "timestamp" : "1456432994" }
+  ],
+  "books": [
+    {
+      "identifier": "princeton_aco000001",
+      "sequenceConut": 10,
+      "language": [
+        {
+          "code": "en",
+          "direction": "rtl",
+          "default": true
+        }, 
+        {
+          "code": "ar",
+          "direction": "ltr",
+          "default": false
+        }
+      ],
+      "metadata" : {
+        "en": [
+          { "label": "title", "value": "Asās al-naḥw" },
+          { "label": "Author/Contributor", "value": "Bahbahānī, ʻAlī." },
+          { "label": "Place of Publication", "value": "Tehran" },
+          { "label": "Publisher", "value": "Maktabat al-Ṣadūq" },
+          { "label": "Date of Publication", "value": "1385 [1965]" },
+          { "label": "Subject", "value": [ "Arabic language -- Grammar" ] },
+          { "label": "Collection", "value": [ "Arabic Collections Online"] },
+          { "label": "Language", "value": "Arabic" },
+          { "label": "Provider", "value": [ "Princeton University Libraries" ] },
+          { "label": "Permanent Link", "value": "http://hdl.handle.net/2333.1/x95x6f20" },
+          { "label": "Notes", "value": "NYU believes the materials displayed on this site are all in the public domain. However, if you believe that you are the copyright owner of any material displayed here, please see our takedown policy: http://dlib.nyu.edu/aco/takedownpolicy/" }
+        ],
+        "ar": [
+          { "label": "title", "value": "Asās al-naḥw" },
+          { "label": "Author/Contributor", "value": "Bahbahānī, ʻAlī." },
+          { "label": "Place of Publication", "value": "Tehran" },
+          { "label": "Publisher", "value": "Maktabat al-Ṣadūq" },
+          { "label": "Date of Publication", "value": "1385 [1965]" },
+          { "label": "Subject", "value": [ "Arabic language -- Grammar" ] },
+          { "label": "Collection", "value": [ "Arabic Collections Online"] },
+          { "label": "Language", "value": "Arabic" },
+          { "label": "Provider", "value": [ "Princeton University Libraries" ] },
+          { "label": "Permanent Link", "value": "http://hdl.handle.net/2333.1/x95x6f20" },
+          { "label": "Notes", "value": "NYU believes the materials displayed on this site are all in the public domain. However, if you believe that you are the copyright owner of any material displayed here, please see our takedown policy: http://dlib.nyu.edu/aco/takedownpolicy/" }
+        ]
+      }
+    }
+  ]
+}

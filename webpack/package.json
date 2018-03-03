@@ -1,0 +1,35 @@
+{
+  "name": "dlts-viewer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "webpack --watch",
+    "start": "webpack && node ./bin/www",
+    "server": "node ./bin/www",
+    "build": "webpack"
+  },
+  "keywords": [],
+  "author": "Alberto Ortiz Flores <aortiz@nyu.edu>",
+  "license": "ISC",
+  "devDependencies": {
+    "EventEmitter": "^1.0.0",
+    "body-parser": "~1.18.2",
+    "bulma": "^0.6.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "^4.16.2",
+    "express-bulma": "^1.0.1",
+    "hbs": "~4.0.1",
+    "jquery": "^3.3.1",
+    "jquery-once": "^2.2.0",
+    "lodash": "^4.17.5",
+    "lowdb": "^1.0.0",
+    "morgan": "~1.9.0",
+    "openseadragon": "^2.3.1",
+    "serve-favicon": "~2.4.5",
+    "webpack": "^4.0.1",
+    "webpack-cli": "^2.0.9"
+  },
+  "dependencies": {}
+}
