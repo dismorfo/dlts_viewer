@@ -162,14 +162,16 @@ function field_fileserver_field_validate($entity_type, $entity, $field, $instanc
           'error' => 'field_fileserver_invalid',
           'message' => t('Invalid scheme, make sure the URI include valid scheme (e.g., fileserver://example.jpg'),
         );
-    	}
+			}
+			
     	// check that the URI is not bigger than the allowed MySQL size for varchar with index
     	if (strlen($item['uri']) > 255) {
     		$errors[$field['field_name']][$langcode][$delta][] = array(
     			'error' => 'field_fileserver_invalid',
     			'message' => t('URI bigger than 255 character'),
     		);
-    	}
+			}
+			
     	// check that the URI contain a file extension
     	if (!$ext) {
     		$errors[$field['field_name']][$langcode][$delta][] = array(
@@ -206,7 +208,8 @@ function field_fileserver_field_validate($entity_type, $entity, $field, $instanc
     		  	}
     			  break;
     	  }
-    	}
+			}
+
     }
 	}
 }
@@ -292,7 +295,8 @@ function field_fileserver_field_formatter_view($entity_type, $entity, $field, $i
     		);
     	}
     	break;
-    case 'field_fileserver_image':
+		case 'field_fileserver_image':
+		  // aof1
     	foreach ($items as $delta => $item) {
     		$element[$delta] = theme('fileserver_image', $item);
     	}
@@ -350,7 +354,8 @@ function field_fileserver_field_presave($entity_type, $entity, $field, $instance
 		  		$new_data['uri'] = $items[$key]['uri'];
 		  		$new_data['label'] = $items[$key]['label'];
 		  		break;
-		    case 'field_fileserver_image':
+				case 'field_fileserver_image':
+				  dpm('field_fileserver_image');
 		      // valid JP2 or TIFF file extentions
 		      $valid_hires_extensions = array('jp2', 'tiff', 'jpg'); // test assumptions that our image server can read all JPG images
 		      // valid web-safe extentions
@@ -388,13 +393,13 @@ function field_fileserver_field_presave($entity_type, $entity, $field, $instance
  *
  */
 function field_fileserver_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+	dpm(__FUNCTION__);
 	$uri_value = isset($items[$delta]['uri']) ? trim($items[$delta]['uri']) : '';
 	$data_value = isset($items[$delta]['data']) ? unserialize($items[$delta]['data']) : null;
 	$uri_widget = $element;
 	$data_widget = $element;
   $widget['#delta'] = $delta;
   $label = (!empty($items[$delta]['label'])) ? $items[$delta]['label'] : '';
-
   $label_widget = array(
     '#title' => 'Label',
   	'#suffix' => '<div class="field-fileserver-label"></div>',
@@ -405,7 +410,6 @@ function field_fileserver_field_widget_form(&$form, &$form_state, $field, $insta
   	'#maxlength' => 255,
   	'#description' => t('File label or title'),
   );
-
   $uri_widget += array(
     '#title' => 'File identifier',
   	'#suffix' => '<div class="field-fileserver-uri"></div>',
@@ -416,16 +420,13 @@ function field_fileserver_field_widget_form(&$form, &$form_state, $field, $insta
   	'#maxlength' => 255,
   	'#description' => t('File identifier (e.g., @identifier)', array(' @identifier' => 'fileserver://exmple.jpg')),
   );
-
   $data_widget += array(
     '#type' => 'hidden',
     '#default_value' => $data_value
   );
-
   $element['label'] = $label_widget;
   $element['uri'] = $uri_widget;
-  $element['data'] = $data_widget;
-
+	$element['data'] = $data_widget;
   switch ($instance['widget']['type']) {
     case 'field_fileserver_image':
     	$options = array();
@@ -492,6 +493,7 @@ function field_fileserver_field_widget_error($element, $error, $form, &$form_sta
  * @ingroup themeable
  */
 function theme_fileserver_image($variables) {
+	dpm(__FUNCTION__);
   $data = unserialize($variables['data']);
   $attributes = array();
   $attributes['src'] = $data['url'];

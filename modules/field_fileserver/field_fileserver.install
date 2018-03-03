@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Install, update, and uninstall functions for the field_example module.
@@ -46,9 +47,3 @@ function field_fileserver_field_schema($field) {
   );
 }
 
-/**
- * Implements hook_requirements().
- *
- * Display information about getting upload progress bars working.
- */
-// function file_requirements($phase) {}
